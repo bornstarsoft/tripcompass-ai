@@ -1,0 +1,17 @@
+{{ define "main" }}
+<article class="page-shell">
+  <header class="page-hero">
+    <p class="eyebrow">{{ .Params.eyebrow | default "TripCompass AI" }}</p>
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p>{{ . }}</p>{{ end }}
+  </header>
+  <div class="content-wrap prose">
+    {{ .Content }}
+  </div>
+  {{ if ne .Params.disclaimer false }}
+  <aside class="trust-note" aria-label="Travel planning disclaimer">
+    <strong>Before booking:</strong> {{ .Site.Params.disclaimer }}
+  </aside>
+  {{ end }}
+</article>
+{{ end }}

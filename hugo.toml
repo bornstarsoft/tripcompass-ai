@@ -1,0 +1,14 @@
+baseURL = "https://tripcompass.ai/"
+languageCode = "en-us"
+defaultContentLanguage = "en"
+title = "TripCompass AI"
+summaryLength = 24
+disableHugoGeneratorInject = true
+
+[params]
+description = "TripCompass AI helps travelers choose destinations, plan short trips, and compare booking options with clear, practical guidance."
+tagline = "Find where to go, plan what to do, compare what to book."
+disclaimer = "TripCompass AI provides planning suggestions. Always check current prices, opening hours, visa rules, availability, and booking terms before booking."
+
+[pagination]
+pagerSize = 12

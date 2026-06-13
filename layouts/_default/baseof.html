@@ -1,0 +1,43 @@
+{{- $description := .Params.description | default .Site.Params.description -}}
+<!doctype html>
+<html lang="{{ .Params.htmlLang | default .Site.Language.Lang }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ if .IsHome }}{{ .Site.Title }} | {{ .Site.Params.tagline }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+    <meta name="description" content="{{ $description }}">
+    <link rel="canonical" href="{{ .Permalink }}">
+    <link rel="stylesheet" href="{{ "css/styles.css" | relURL }}">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="{{ "/" | relURL }}" aria-label="TripCompass AI home">TripCompass AI</a>
+        <nav class="site-nav" aria-label="Primary navigation">
+          <a href="{{ "/destination-finder/" | relURL }}">Finder</a>
+          <a href="{{ "/trip-planner/" | relURL }}">Planner</a>
+          <a href="{{ "/compare/" | relURL }}">Compare</a>
+          <a href="{{ "/from-seoul/" | relURL }}">From Seoul</a>
+          <a href="{{ "/ko/" | relURL }}">KO</a>
+        </nav>
+      </div>
+    </header>
+    <main id="main">
+      {{ block "main" . }}{{ end }}
+    </main>
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <p><strong>TripCompass AI</strong> helps you narrow down travel choices before you book.</p>
+        <p class="fine-print">{{ .Site.Params.disclaimer }}</p>
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <a href="{{ "/about/" | relURL }}">About</a>
+          <a href="{{ "/contact/" | relURL }}">Contact</a>
+          <a href="{{ "/privacy/" | relURL }}">Privacy</a>
+          <a href="{{ "/terms/" | relURL }}">Terms</a>
+          <a href="{{ "/affiliate-disclosure/" | relURL }}">Affiliate disclosure</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

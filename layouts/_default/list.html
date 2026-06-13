@@ -1,0 +1,27 @@
+{{ define "main" }}
+<section class="page-shell">
+  <header class="page-hero">
+    <p class="eyebrow">{{ .Params.eyebrow | default "TripCompass AI" }}</p>
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p>{{ . }}</p>{{ end }}
+  </header>
+  <div class="content-wrap prose">
+    {{ .Content }}
+  </div>
+  {{ if .Pages }}
+  <div class="link-grid" aria-label="Related pages">
+    {{ range .Pages.ByWeight }}
+    <article class="link-card">
+      <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
+      {{ with .Description }}<p>{{ . }}</p>{{ else }}<p>{{ .Summary }}</p>{{ end }}
+    </article>
+    {{ end }}
+  </div>
+  {{ end }}
+  {{ if ne .Params.disclaimer false }}
+  <aside class="trust-note" aria-label="Travel planning disclaimer">
+    <strong>Before booking:</strong> {{ .Site.Params.disclaimer }}
+  </aside>
+  {{ end }}
+</section>
+{{ end }}

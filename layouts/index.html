@@ -1,0 +1,176 @@
+{{ define "main" }}
+<section class="hero" aria-labelledby="home-title">
+  <img src="{{ "img/tripcompass-hero.png" | relURL }}" alt="Travel planning desk with a map, phone, and short trip essentials">
+  <div class="hero__overlay" aria-hidden="true"></div>
+  <div class="hero__content">
+    <p class="eyebrow">AI destination finder and trip planner</p>
+    <h1 id="home-title">TripCompass AI</h1>
+    <p class="hero__tagline">Find where to go, plan what to do, compare what to book.</p>
+    <div class="hero__actions" aria-label="Primary actions">
+      <a class="button button--primary" href="#destination-finder">Start with the finder</a>
+      <a class="button button--light" href="{{ "/compare/" | relURL }}">Compare destinations</a>
+    </div>
+  </div>
+</section>
+
+<section class="finder-band" id="destination-finder" aria-labelledby="finder-title">
+  <div class="section-inner finder-layout">
+    <div>
+      <p class="eyebrow">Static MVP preview</p>
+      <h2 id="finder-title">AI destination finder</h2>
+      <p class="section-lead">Choose a starting point, trip length, timing, and travel style. Phase 1 shows sample recommendations only; live AI recommendations come later.</p>
+    </div>
+    <form class="finder-form" action="{{ "/destination-finder/" | relURL }}" method="get">
+      <div class="form-grid">
+        <label>
+          <span>Leaving from</span>
+          <select name="from">
+            <option>Seoul</option>
+            <option>Busan</option>
+            <option>Incheon</option>
+          </select>
+        </label>
+        <label>
+          <span>Trip length</span>
+          <select name="days">
+            <option>3 days</option>
+            <option>4 days</option>
+            <option>5 days</option>
+          </select>
+        </label>
+        <label>
+          <span>Travel month</span>
+          <select name="month">
+            <option>March to May</option>
+            <option>June to August</option>
+            <option>September to November</option>
+            <option>December to February</option>
+          </select>
+        </label>
+        <label>
+          <span>Budget style</span>
+          <select name="budget">
+            <option>Balanced</option>
+            <option>Save more</option>
+            <option>Comfort first</option>
+          </select>
+        </label>
+      </div>
+      <fieldset>
+        <legend>Travel style</legend>
+        <label><input type="checkbox" name="style" value="food" checked> Food</label>
+        <label><input type="checkbox" name="style" value="first-time"> First-time friendly</label>
+        <label><input type="checkbox" name="style" value="family"> Family</label>
+        <label><input type="checkbox" name="style" value="shopping"> Shopping</label>
+      </fieldset>
+      <button class="button button--primary" type="submit">View sample matches</button>
+    </form>
+  </div>
+</section>
+
+<section class="results-section" aria-labelledby="results-title">
+  <div class="section-inner">
+    <div class="section-heading">
+      <p class="eyebrow">Sample recommendations</p>
+      <h2 id="results-title">Mock result cards for short trips from Korea</h2>
+      <p>These cards are static examples for Phase 1 and do not use live prices or availability.</p>
+    </div>
+    <div class="destination-grid">
+      <article class="destination-card">
+        <div class="card-topline">
+          <span class="badge">Food and easy transit</span>
+          <span>3 days</span>
+        </div>
+        <h3>Fukuoka</h3>
+        <p>Compact, relaxed, and strong for ramen, shopping, and first Japan trips from Korea.</p>
+        <ul>
+          <li>Best for a low-friction weekend.</li>
+          <li>Good fit for food-focused travelers.</li>
+          <li>Pair with cafes, markets, and an onsen day.</li>
+        </ul>
+        <div class="card-actions">
+          <a href="{{ "/go/hotel?destination=fukuoka" | relURL }}">Search hotels</a>
+          <a href="{{ "/go/flight?from=seoul&to=fukuoka" | relURL }}">Search flights</a>
+          <a href="{{ "/go/esim?country=japan" | relURL }}">Check eSIM</a>
+        </div>
+      </article>
+
+      <article class="destination-card">
+        <div class="card-topline">
+          <span class="badge">Food and day trips</span>
+          <span>4 days</span>
+        </div>
+        <h3>Osaka</h3>
+        <p>Busy, practical, and great when you want food, nightlife, shopping, and Kyoto or Nara nearby.</p>
+        <ul>
+          <li>Best for variety over a long weekend.</li>
+          <li>Good fit for groups with mixed interests.</li>
+          <li>Easy to extend into Kansai day trips.</li>
+        </ul>
+        <div class="card-actions">
+          <a href="{{ "/go/flight?from=seoul&to=osaka" | relURL }}">Search flights</a>
+          <a href="{{ "/go/hotel?destination=osaka" | relURL }}">Search hotels</a>
+          <a href="{{ "/go/activity?destination=osaka" | relURL }}">Find activities</a>
+        </div>
+      </article>
+
+      <article class="destination-card">
+        <div class="card-topline">
+          <span class="badge">First-time Japan</span>
+          <span>3 to 5 days</span>
+        </div>
+        <h3>Tokyo</h3>
+        <p>Best when you want the largest choice of neighborhoods, dining, shopping, museums, and pop culture.</p>
+        <ul>
+          <li>Best for first-time travelers who want range.</li>
+          <li>Good fit for food, design, anime, and shopping.</li>
+          <li>Needs more planning to avoid backtracking.</li>
+        </ul>
+        <div class="card-actions">
+          <a href="{{ "/go/activity?destination=tokyo" | relURL }}">Find activities</a>
+          <a href="{{ "/go/hotel?destination=tokyo" | relURL }}">Search hotels</a>
+          <a href="{{ "/go/flight?from=seoul&to=tokyo" | relURL }}">Search flights</a>
+        </div>
+      </article>
+
+      <article class="destination-card">
+        <div class="card-topline">
+          <span class="badge">Beach and family</span>
+          <span>4 days</span>
+        </div>
+        <h3>Da Nang</h3>
+        <p>A relaxed beach base with resort options, family-friendly pacing, and easy access to Hoi An.</p>
+        <ul>
+          <li>Best for sun, slower days, and resort value.</li>
+          <li>Good fit for families and couples.</li>
+          <li>Check seasonal rain and flight timing.</li>
+        </ul>
+        <div class="card-actions">
+          <a href="{{ "/go/esim?country=vietnam" | relURL }}">Check eSIM</a>
+          <a href="{{ "/go/hotel?destination=da-nang" | relURL }}">Search hotels</a>
+          <a href="{{ "/go/flight?from=seoul&to=da-nang" | relURL }}">Search flights</a>
+        </div>
+      </article>
+    </div>
+    <aside class="trust-note" aria-label="AI result disclaimer">
+      <strong>Important:</strong> {{ .Site.Params.disclaimer }}
+    </aside>
+  </div>
+</section>
+
+<section class="planning-section" aria-labelledby="planning-title">
+  <div class="section-inner split-layout">
+    <div>
+      <p class="eyebrow">Next planning steps</p>
+      <h2 id="planning-title">Compare first, then plan the days</h2>
+      <p>TripCompass AI is built around destination choice, practical itineraries, and booking-ready checks. Start with a comparison, then use an itinerary page once the destination feels right.</p>
+    </div>
+    <div class="quick-links" aria-label="Featured planning links">
+      <a href="{{ "/compare/tokyo-vs-osaka/" | relURL }}">Tokyo vs Osaka</a>
+      <a href="{{ "/compare/fukuoka-vs-osaka/" | relURL }}">Fukuoka vs Osaka</a>
+      <a href="{{ "/itinerary/tokyo-3-days/" | relURL }}">Tokyo 3 day itinerary</a>
+      <a href="{{ "/from-seoul/japan-3-day-trips/" | relURL }}">Japan 3 day trips from Seoul</a>
+    </div>
+  </div>
+</section>
+{{ end }}
