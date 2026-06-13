@@ -16,54 +16,72 @@
 <section class="finder-band" id="destination-finder" aria-labelledby="finder-title">
   <div class="section-inner finder-layout">
     <div>
-      <p class="eyebrow">Static MVP preview</p>
+      <p class="eyebrow">Mock API preview</p>
       <h2 id="finder-title">AI destination finder</h2>
-      <p class="section-lead">Choose a starting point, trip length, timing, and travel style. Phase 1 shows sample recommendations only; live AI recommendations come later.</p>
+      <p class="section-lead">Choose a starting point, trip length, timing, and travel style. The MVP returns mock recommendations now; live AI recommendations come later.</p>
     </div>
-    <form class="finder-form" action="{{ "/destination-finder/" | relURL }}" method="get">
+    <form class="finder-form" action="{{ "/destination-finder/" | relURL }}" method="get" data-recommend-form>
       <div class="form-grid">
         <label>
           <span>Leaving from</span>
-          <select name="from">
-            <option>Seoul</option>
-            <option>Busan</option>
-            <option>Incheon</option>
+          <select name="departureCity">
+            <option value="Seoul">Seoul</option>
+            <option value="Busan">Busan</option>
+            <option value="Incheon">Incheon</option>
           </select>
         </label>
         <label>
           <span>Trip length</span>
-          <select name="days">
-            <option>3 days</option>
-            <option>4 days</option>
-            <option>5 days</option>
+          <select name="tripLength">
+            <option value="3 days">3 days</option>
+            <option value="4 days">4 days</option>
+            <option value="5 days">5 days</option>
           </select>
         </label>
         <label>
           <span>Travel month</span>
-          <select name="month">
-            <option>March to May</option>
-            <option>June to August</option>
-            <option>September to November</option>
-            <option>December to February</option>
+          <select name="travelMonth">
+            <option value="March to May">March to May</option>
+            <option value="June to August">June to August</option>
+            <option value="September to November">September to November</option>
+            <option value="December to February">December to February</option>
           </select>
         </label>
         <label>
           <span>Budget style</span>
           <select name="budget">
-            <option>Balanced</option>
-            <option>Save more</option>
-            <option>Comfort first</option>
+            <option value="Balanced">Balanced</option>
+            <option value="Save more">Save more</option>
+            <option value="Comfort first">Comfort first</option>
+          </select>
+        </label>
+        <label>
+          <span>Travelers</span>
+          <select name="travelers">
+            <option value="2 adults">2 adults</option>
+            <option value="Solo traveler">Solo traveler</option>
+            <option value="Family with kids">Family with kids</option>
+            <option value="Friends group">Friends group</option>
+          </select>
+        </label>
+        <label>
+          <span>Preferred region</span>
+          <select name="preferredRegion">
+            <option value="Japan">Japan</option>
+            <option value="Southeast Asia">Southeast Asia</option>
+            <option value="Taiwan or Hong Kong">Taiwan or Hong Kong</option>
+            <option value="Guam or Saipan">Guam or Saipan</option>
           </select>
         </label>
       </div>
       <fieldset>
         <legend>Travel style</legend>
-        <label><input type="checkbox" name="style" value="food" checked> Food</label>
-        <label><input type="checkbox" name="style" value="first-time"> First-time friendly</label>
-        <label><input type="checkbox" name="style" value="family"> Family</label>
-        <label><input type="checkbox" name="style" value="shopping"> Shopping</label>
+        <label><input type="checkbox" name="travelStyle" value="Food" checked> Food</label>
+        <label><input type="checkbox" name="travelStyle" value="First-time friendly"> First-time friendly</label>
+        <label><input type="checkbox" name="travelStyle" value="Family"> Family</label>
+        <label><input type="checkbox" name="travelStyle" value="Shopping"> Shopping</label>
       </fieldset>
-      <button class="button button--primary" type="submit">View sample matches</button>
+      <button class="button button--primary" type="submit" data-submit-label="View sample matches">View sample matches</button>
     </form>
   </div>
 </section>
@@ -75,7 +93,9 @@
       <h2 id="results-title">Mock result cards for short trips from Korea</h2>
       <p>These cards are static examples for Phase 1 and do not use live prices or availability.</p>
     </div>
-    <div class="destination-grid">
+    <p class="result-status" data-result-status aria-live="polite" hidden></p>
+    <div class="destination-grid dynamic-results" data-dynamic-results hidden></div>
+    <div class="destination-grid" data-static-results>
       <article class="destination-card">
         <div class="card-topline">
           <span class="badge">Food and easy transit</span>
@@ -173,4 +193,5 @@
     </div>
   </div>
 </section>
+<script src="{{ "js/destination-finder.js" | relURL }}" defer></script>
 {{ end }}

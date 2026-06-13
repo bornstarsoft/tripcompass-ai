@@ -328,6 +328,27 @@ input[type="checkbox"] {
   gap: 1rem;
 }
 
+.dynamic-results {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 1rem;
+}
+
+.result-status {
+  margin: 0 0 1rem;
+  padding: 0.8rem 1rem;
+  background: var(--mint);
+  border: 1px solid #b8dfd1;
+  border-radius: 8px;
+  color: var(--teal-dark);
+  font-weight: 750;
+}
+
+.result-status[data-state="error"] {
+  background: var(--cream);
+  border-color: #eadfbd;
+  color: #7c4a24;
+}
+
 .destination-card,
 .link-card {
   display: flex;
@@ -350,6 +371,17 @@ input[type="checkbox"] {
 .destination-card li,
 .link-card p {
   color: var(--muted);
+}
+
+.card-meta,
+.card-caution {
+  margin-top: 0;
+  font-size: 0.95rem;
+}
+
+.card-caution {
+  padding-top: 0.35rem;
+  color: #6b5141;
 }
 
 .destination-card ul {
