@@ -1,5 +1,19 @@
 const FALLBACK_URL = "https://tripcompass.ai/";
 const SEARCH_BASE_URL = "https://www.google.com/search";
+const INSERT_CLICK_SQL = `
+  INSERT INTO clicks (
+    type,
+    destination,
+    country,
+    from_city,
+    to_city,
+    language,
+    referrer,
+    user_agent,
+    created_at
+  )
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+`;
 
 function routePath(params, requestUrl) {
   if (Array.isArray(params?.path)) {
@@ -29,6 +43,10 @@ function normalizeParam(searchParams, name, fallback) {
     .slice(0, 80);
 
   return cleaned || fallback;
+}
+
+function nullableParam(searchParams, name) {
+  return normalizeParam(searchParams, name, "") || null;
 }
 
 function searchRedirect(query, preservedParams = {}) {
@@ -64,12 +82,39 @@ function destinationSearch(type, searchParams) {
   return FALLBACK_URL;
 }
 
+function destinationDetails(type, searchParams) {
+  const destination = normalizeParam(searchParams, "destination", "travel destination");
+
+  return {
+    type,
+    destination,
+    country: null,
+    fromCity: null,
+    toCity: null,
+    location: destinationSearch(type, searchParams)
+  };
+}
+
 function flightSearch(searchParams) {
   const fromCity = normalizeParam(searchParams, "from", "seoul");
   const toCity = normalizeParam(searchParams, "to", "destination");
 
   // Future affiliate flight deep links can replace this generic search URL after partner approval.
   return searchRedirect(`flights from ${fromCity} to ${toCity}`, { from: fromCity, to: toCity });
+}
+
+function flightDetails(searchParams) {
+  const fromCity = normalizeParam(searchParams, "from", "seoul");
+  const toCity = normalizeParam(searchParams, "to", "destination");
+
+  return {
+    type: "flight",
+    destination: null,
+    country: null,
+    fromCity,
+    toCity,
+    location: flightSearch(searchParams)
+  };
 }
 
 function esimSearch(searchParams) {
@@ -79,28 +124,110 @@ function esimSearch(searchParams) {
   return searchRedirect(`${country} travel esim`, { country });
 }
 
-function locationForRequest(request, params = {}) {
+function esimDetails(searchParams) {
+  const country = normalizeParam(searchParams, "country", "travel destination");
+
+  return {
+    type: "esim",
+    destination: null,
+    country,
+    fromCity: null,
+    toCity: null,
+    location: esimSearch(searchParams)
+  };
+}
+
+function detailsForRequest(request, params = {}) {
   const url = new URL(request.url);
   const type = normalizeRouteType(routePath(params, request.url));
 
   if (type === "hotel" || type === "activity") {
-    return destinationSearch(type, url.searchParams);
+    return destinationDetails(type, url.searchParams);
   }
 
   if (type === "flight") {
-    return flightSearch(url.searchParams);
+    return flightDetails(url.searchParams);
   }
 
   if (type === "esim") {
-    return esimSearch(url.searchParams);
+    return esimDetails(url.searchParams);
   }
 
-  return FALLBACK_URL;
+  return {
+    type: type || "unknown",
+    destination: nullableParam(url.searchParams, "destination"),
+    country: nullableParam(url.searchParams, "country"),
+    fromCity: nullableParam(url.searchParams, "from"),
+    toCity: nullableParam(url.searchParams, "to"),
+    location: FALLBACK_URL
+  };
 }
 
-export function onRequest({ request, params }) {
+function headerValue(request, name) {
+  const value = request.headers.get(name);
+  return value && value.trim() ? value.trim().slice(0, 500) : null;
+}
+
+function clickRecord(request, details) {
+  return {
+    type: details.type,
+    destination: details.destination,
+    country: details.country,
+    fromCity: details.fromCity,
+    toCity: details.toCity,
+    language: headerValue(request, "accept-language"),
+    referrer: headerValue(request, "referer") || headerValue(request, "referrer"),
+    userAgent: headerValue(request, "user-agent"),
+    createdAt: new Date().toISOString()
+  };
+}
+
+async function logClick(db, record) {
+  if (!db || typeof db.prepare !== "function") {
+    return;
+  }
+
+  await db
+    .prepare(INSERT_CLICK_SQL)
+    .bind(
+      record.type,
+      record.destination,
+      record.country,
+      record.fromCity,
+      record.toCity,
+      record.language,
+      record.referrer,
+      record.userAgent,
+      record.createdAt
+    )
+    .run();
+}
+
+function scheduleClickLog(context, record) {
+  const db = context?.env?.DB;
+
+  if (!db) {
+    return;
+  }
+
+  const logPromise = logClick(db, record).catch(() => {});
+
   try {
-    return redirectResponse(locationForRequest(request, params));
+    if (typeof context.waitUntil === "function") {
+      context.waitUntil(logPromise);
+      return;
+    }
+  } catch {}
+
+  logPromise.catch(() => {});
+}
+
+export function onRequest(context) {
+  try {
+    const details = detailsForRequest(context.request, context.params);
+    scheduleClickLog(context, clickRecord(context.request, details));
+
+    return redirectResponse(details.location);
   } catch {
     return redirectResponse(FALLBACK_URL);
   }

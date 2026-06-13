@@ -12,4 +12,5 @@ CREATE TABLE IF NOT EXISTS clicks (
 );
 
 CREATE INDEX IF NOT EXISTS idx_clicks_created_at ON clicks (created_at);
-CREATE INDEX IF NOT EXISTS idx_clicks_type ON clicks (type);
+CREATE INDEX IF NOT EXISTS idx_clicks_type_created_at ON clicks (type, created_at);
+CREATE INDEX IF NOT EXISTS idx_clicks_destination_created_at ON clicks (destination, created_at);
