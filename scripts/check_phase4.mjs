@@ -44,6 +44,7 @@ async function callRouter(path, query = "", options = {}) {
   const pending = [];
   const response = onRequest({
     request: new Request(`https://tripcompass.ai/go/${path}${query}`, {
+      method: options.method || "GET",
       headers: {
         "accept-language": "ko-KR,ko;q=0.9,en;q=0.8",
         referer: "https://tripcompass.ai/from-seoul/",
@@ -78,6 +79,13 @@ assert.deepEqual(hotelDb.calls[0].binds.slice(0, 6), ["hotel", "fukuoka", null, 
 assert.equal(hotelDb.calls[0].binds[6], "https://tripcompass.ai/from-seoul/");
 assert.equal(hotelDb.calls[0].binds[7], "TripCompass Phase 4 Check");
 assert.ok(Date.parse(hotelDb.calls[0].binds[8]));
+
+const headDb = createMockDb();
+const headResult = await callRouter("hotel", "?destination=fukuoka", { env: { DB: headDb }, method: "HEAD" });
+assertRedirect(headResult.response);
+assert.equal(headResult.response.headers.get("location"), hotelResult.response.headers.get("location"));
+assert.equal(headResult.pendingCount, 0);
+assert.equal(headDb.calls.length, 0);
 
 const flightDb = createMockDb();
 const flightResult = await callRouter("flight", "?from=seoul&to=fukuoka", { env: { DB: flightDb } });

@@ -225,7 +225,10 @@ function scheduleClickLog(context, record) {
 export function onRequest(context) {
   try {
     const details = detailsForRequest(context.request, context.params);
-    scheduleClickLog(context, clickRecord(context.request, details));
+
+    if (context.request.method === "GET") {
+      scheduleClickLog(context, clickRecord(context.request, details));
+    }
 
     return redirectResponse(details.location);
   } catch {
