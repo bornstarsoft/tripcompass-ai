@@ -276,6 +276,95 @@ const seoPages = [
       /\/go\/flight\?from=seoul&amp;to=fukuoka&amp;country=japan&amp;lang=en/,
       /\/go\/hotel\?destination=osaka&amp;country=japan&amp;lang=en/
     ]
+  },
+  {
+    path: ["from-seoul", "seoul-to-fukuoka-weekend-trip", "index.html"],
+    url: "https://tripcompass.ai/from-seoul/seoul-to-fukuoka-weekend-trip/",
+    koreanUrl: "https://tripcompass.ai/ko/from-seoul/seoul-to-fukuoka-weekend-trip/",
+    title: /Seoul to Fukuoka Weekend Trip/,
+    links: [
+      /\/#destination-finder/,
+      /\/compare\/fukuoka-vs-osaka\//,
+      /\/from-seoul\/japan-3-day-trips\//,
+      /\/from-seoul\/japan-travel-budget\//,
+      /\/from-seoul\/best-japan-cities-first-time-travelers\//
+    ],
+    goLinks: [
+      /\/go\/hotel\?destination=fukuoka&amp;country=japan&amp;lang=en/,
+      /\/go\/flight\?from=seoul&amp;to=fukuoka&amp;country=japan&amp;lang=en/
+    ]
+  },
+  {
+    path: ["itinerary", "seoul-to-osaka-4-day-itinerary", "index.html"],
+    url: "https://tripcompass.ai/itinerary/seoul-to-osaka-4-day-itinerary/",
+    koreanUrl: "https://tripcompass.ai/ko/itinerary/seoul-to-osaka-4-day-itinerary/",
+    title: /Seoul to Osaka 4 Day Itinerary/,
+    links: [
+      /\/#destination-finder/,
+      /\/compare\/tokyo-vs-osaka\//,
+      /\/compare\/fukuoka-vs-osaka\//,
+      /\/from-seoul\/japan-travel-budget\//,
+      /\/from-seoul\/seoul-to-fukuoka-weekend-trip\//
+    ],
+    goLinks: [
+      /\/go\/hotel\?destination=osaka&amp;country=japan&amp;lang=en/,
+      /\/go\/flight\?from=seoul&amp;to=osaka&amp;country=japan&amp;lang=en/,
+      /\/go\/activity\?destination=osaka&amp;country=japan&amp;lang=en/
+    ]
+  },
+  {
+    path: ["itinerary", "seoul-to-tokyo-4-day-itinerary", "index.html"],
+    url: "https://tripcompass.ai/itinerary/seoul-to-tokyo-4-day-itinerary/",
+    koreanUrl: "https://tripcompass.ai/ko/itinerary/seoul-to-tokyo-4-day-itinerary/",
+    title: /Seoul to Tokyo 4 Day Itinerary/,
+    links: [
+      /\/#destination-finder/,
+      /\/compare\/tokyo-vs-osaka\//,
+      /\/from-seoul\/best-japan-cities-first-time-travelers\//,
+      /\/from-seoul\/japan-travel-budget\//,
+      /\/best-short-trips-from-korea\//
+    ],
+    goLinks: [
+      /\/go\/hotel\?destination=tokyo&amp;country=japan&amp;lang=en/,
+      /\/go\/flight\?from=seoul&amp;to=tokyo&amp;country=japan&amp;lang=en/,
+      /\/go\/activity\?destination=tokyo&amp;country=japan&amp;lang=en/
+    ]
+  },
+  {
+    path: ["from-seoul", "best-japan-cities-first-time-travelers", "index.html"],
+    url: "https://tripcompass.ai/from-seoul/best-japan-cities-first-time-travelers/",
+    koreanUrl: "https://tripcompass.ai/ko/from-seoul/best-japan-cities-first-time-travelers/",
+    title: /Best Japan Cities for First-Time Travelers From Korea/,
+    links: [
+      /\/#destination-finder/,
+      /\/compare\/tokyo-vs-osaka\//,
+      /\/compare\/fukuoka-vs-osaka\//,
+      /\/from-seoul\/japan-3-day-trips\//,
+      /\/itinerary\/seoul-to-tokyo-4-day-itinerary\//
+    ],
+    goLinks: [
+      /\/go\/hotel\?destination=tokyo&amp;country=japan&amp;lang=en/,
+      /\/go\/hotel\?destination=fukuoka&amp;country=japan&amp;lang=en/,
+      /\/go\/esim\?country=japan&amp;lang=en/
+    ]
+  },
+  {
+    path: ["best-short-family-trips-from-korea", "index.html"],
+    url: "https://tripcompass.ai/best-short-family-trips-from-korea/",
+    koreanUrl: "https://tripcompass.ai/ko/best-short-family-trips-from-korea/",
+    title: /Short Family Trips From Korea/,
+    links: [
+      /\/#destination-finder/,
+      /\/best-short-trips-from-korea\//,
+      /\/from-seoul\/japan-3-day-trips\//,
+      /\/from-seoul\/japan-travel-budget\//,
+      /\/itinerary\/seoul-to-osaka-4-day-itinerary\//
+    ],
+    goLinks: [
+      /\/go\/hotel\?destination=da-nang&amp;country=vietnam&amp;lang=en/,
+      /\/go\/flight\?from=seoul&amp;to=da-nang&amp;country=vietnam&amp;lang=en/,
+      /\/go\/esim\?country=vietnam&amp;lang=en/
+    ]
   }
 ];
 
@@ -379,6 +468,95 @@ const koreanSeoPages = [
     goLinks: [
       /\/go\/flight\?from=seoul&amp;to=fukuoka&amp;country=japan&amp;lang=ko/,
       /\/go\/hotel\?destination=osaka&amp;country=japan&amp;lang=ko/
+    ]
+  },
+  {
+    path: ["ko", "from-seoul", "seoul-to-fukuoka-weekend-trip", "index.html"],
+    url: "https://tripcompass.ai/ko/from-seoul/seoul-to-fukuoka-weekend-trip/",
+    englishUrl: "https://tripcompass.ai/from-seoul/seoul-to-fukuoka-weekend-trip/",
+    title: /서울 출발 후쿠오카 주말여행/,
+    links: [
+      /\/ko\/#destination-finder/,
+      /\/ko\/compare\/fukuoka-vs-osaka\//,
+      /\/ko\/from-seoul\/japan-3-day-trips\//,
+      /\/ko\/from-seoul\/japan-travel-budget\//,
+      /\/ko\/from-seoul\/best-japan-cities-first-time-travelers\//
+    ],
+    goLinks: [
+      /\/go\/hotel\?destination=fukuoka&amp;country=japan&amp;lang=ko/,
+      /\/go\/flight\?from=seoul&amp;to=fukuoka&amp;country=japan&amp;lang=ko/
+    ]
+  },
+  {
+    path: ["ko", "itinerary", "seoul-to-osaka-4-day-itinerary", "index.html"],
+    url: "https://tripcompass.ai/ko/itinerary/seoul-to-osaka-4-day-itinerary/",
+    englishUrl: "https://tripcompass.ai/itinerary/seoul-to-osaka-4-day-itinerary/",
+    title: /서울 출발 오사카 4일 일정/,
+    links: [
+      /\/ko\/#destination-finder/,
+      /\/ko\/compare\/tokyo-vs-osaka\//,
+      /\/ko\/compare\/fukuoka-vs-osaka\//,
+      /\/ko\/from-seoul\/japan-travel-budget\//,
+      /\/ko\/from-seoul\/seoul-to-fukuoka-weekend-trip\//
+    ],
+    goLinks: [
+      /\/go\/hotel\?destination=osaka&amp;country=japan&amp;lang=ko/,
+      /\/go\/flight\?from=seoul&amp;to=osaka&amp;country=japan&amp;lang=ko/,
+      /\/go\/activity\?destination=osaka&amp;country=japan&amp;lang=ko/
+    ]
+  },
+  {
+    path: ["ko", "itinerary", "seoul-to-tokyo-4-day-itinerary", "index.html"],
+    url: "https://tripcompass.ai/ko/itinerary/seoul-to-tokyo-4-day-itinerary/",
+    englishUrl: "https://tripcompass.ai/itinerary/seoul-to-tokyo-4-day-itinerary/",
+    title: /서울 출발 도쿄 4일 일정/,
+    links: [
+      /\/ko\/#destination-finder/,
+      /\/ko\/compare\/tokyo-vs-osaka\//,
+      /\/ko\/from-seoul\/best-japan-cities-first-time-travelers\//,
+      /\/ko\/from-seoul\/japan-travel-budget\//,
+      /\/ko\/best-short-trips-from-korea\//
+    ],
+    goLinks: [
+      /\/go\/hotel\?destination=tokyo&amp;country=japan&amp;lang=ko/,
+      /\/go\/flight\?from=seoul&amp;to=tokyo&amp;country=japan&amp;lang=ko/,
+      /\/go\/activity\?destination=tokyo&amp;country=japan&amp;lang=ko/
+    ]
+  },
+  {
+    path: ["ko", "from-seoul", "best-japan-cities-first-time-travelers", "index.html"],
+    url: "https://tripcompass.ai/ko/from-seoul/best-japan-cities-first-time-travelers/",
+    englishUrl: "https://tripcompass.ai/from-seoul/best-japan-cities-first-time-travelers/",
+    title: /한국 출발 첫 일본 여행 도시 추천/,
+    links: [
+      /\/ko\/#destination-finder/,
+      /\/ko\/compare\/tokyo-vs-osaka\//,
+      /\/ko\/compare\/fukuoka-vs-osaka\//,
+      /\/ko\/from-seoul\/japan-3-day-trips\//,
+      /\/ko\/itinerary\/seoul-to-tokyo-4-day-itinerary\//
+    ],
+    goLinks: [
+      /\/go\/hotel\?destination=tokyo&amp;country=japan&amp;lang=ko/,
+      /\/go\/hotel\?destination=fukuoka&amp;country=japan&amp;lang=ko/,
+      /\/go\/esim\?country=japan&amp;lang=ko/
+    ]
+  },
+  {
+    path: ["ko", "best-short-family-trips-from-korea", "index.html"],
+    url: "https://tripcompass.ai/ko/best-short-family-trips-from-korea/",
+    englishUrl: "https://tripcompass.ai/best-short-family-trips-from-korea/",
+    title: /한국에서 가기 좋은 짧은 가족 해외여행/,
+    links: [
+      /\/ko\/#destination-finder/,
+      /\/ko\/best-short-trips-from-korea\//,
+      /\/ko\/from-seoul\/japan-3-day-trips\//,
+      /\/ko\/from-seoul\/japan-travel-budget\//,
+      /\/ko\/itinerary\/seoul-to-osaka-4-day-itinerary\//
+    ],
+    goLinks: [
+      /\/go\/hotel\?destination=da-nang&amp;country=vietnam&amp;lang=ko/,
+      /\/go\/flight\?from=seoul&amp;to=da-nang&amp;country=vietnam&amp;lang=ko/,
+      /\/go\/esim\?country=vietnam&amp;lang=ko/
     ]
   }
 ];
