@@ -163,7 +163,7 @@ const englishFetch = createFetchMock((call) => {
   assert.equal(call.url, "https://api.openai.com/v1/responses");
   assert.equal(call.init.headers.Authorization, "Bearer test-openai-key");
   assert.doesNotMatch(call.init.body, /test-openai-key/);
-  assert.equal(call.body.model, "gpt-5.5");
+  assert.equal(call.body.model, "gpt-5.4-mini");
   assert.equal(call.body.text.format.type, "json_schema");
   assert.match(JSON.stringify(call.body.input), /English/);
   assert.doesNotMatch(JSON.stringify(call.body.input), /translate/i);
@@ -183,6 +183,21 @@ assert.match(englishJson.disclaimer, /Always check current prices/i);
 for (const item of englishJson.recommendations) {
   assertRecommendationShape(item, "en");
 }
+
+const overrideModelFetch = createFetchMock((call) => {
+  assert.equal(call.body.model, "gpt-5.4");
+  return responseJson(recommendationSet("en"));
+});
+const overrideModelResponse = await postRecommend(basePayload, {
+  env: {
+    OPENAI_API_KEY: "test-openai-key",
+    OPENAI_MODEL: "gpt-5.4"
+  },
+  fetch: overrideModelFetch
+});
+const overrideModelJson = await overrideModelResponse.json();
+assert.equal(overrideModelJson.source, "openai");
+assert.equal(overrideModelFetch.calls.length, 1);
 
 const koreanFetch = createFetchMock((call) => {
   assert.match(JSON.stringify(call.body.input), /Korean/);

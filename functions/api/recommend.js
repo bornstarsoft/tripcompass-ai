@@ -1,5 +1,6 @@
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
-const OPENAI_MODEL = "gpt-5.5";
+// GPT-5.4 mini is the default cost-efficient MVP model; OPENAI_MODEL can override it in the Cloudflare environment.
+const DEFAULT_OPENAI_MODEL = "gpt-5.4-mini";
 const SUPPORTED_LANGUAGES = new Set(["en", "ko"]);
 const ENGLISH_DISCLAIMER =
   "TripCompass AI provides planning suggestions. Always check current prices, opening hours, visa rules, availability, and booking terms before booking.";
@@ -368,9 +369,9 @@ function openAIUserPrompt(input) {
   });
 }
 
-function openAIRequestBody(input) {
+function openAIRequestBody(input, model) {
   return {
-    model: OPENAI_MODEL,
+    model,
     input: [
       {
         role: "system",
@@ -395,6 +396,10 @@ function openAIRequestBody(input) {
 
 function apiKeyFromEnv(env = {}) {
   return typeof env.OPENAI_API_KEY === "string" && env.OPENAI_API_KEY.trim() ? env.OPENAI_API_KEY.trim() : "";
+}
+
+function modelFromEnv(env = {}) {
+  return typeof env.OPENAI_MODEL === "string" && env.OPENAI_MODEL.trim() ? env.OPENAI_MODEL.trim() : DEFAULT_OPENAI_MODEL;
 }
 
 function extractOutputText(openAIJson) {
@@ -490,7 +495,7 @@ async function fetchOpenAIRecommendations(input, env, fetcher) {
         Authorization: `Bearer ${apiKey}`,
         "content-type": "application/json"
       },
-      body: JSON.stringify(openAIRequestBody(input))
+      body: JSON.stringify(openAIRequestBody(input, modelFromEnv(env)))
     });
 
     if (!response.ok) {
