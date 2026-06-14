@@ -188,6 +188,7 @@ const noKeyResponse = await postRecommend(basePayload, { env: {}, fetch: noKeyFe
 assert.equal(noKeyResponse.status, 200);
 const noKeyJson = await noKeyResponse.json();
 assert.equal(noKeyJson.source, "mock");
+assert.equal(noKeyJson.fallbackReason, "missing_openai_key");
 assert.equal(noKeyJson.input.language, "en");
 assert.equal(noKeyFetch.calls.length, 0);
 assert.equal(noKeyJson.recommendations[0].slug, "fukuoka");
@@ -209,10 +210,10 @@ const tooLongResponse = await postRecommend(
     fetch: tooLongFetch
   }
 );
-assert.equal(tooLongResponse.status, 400);
+assert.equal(tooLongResponse.status, 200);
 const tooLongJson = await tooLongResponse.json();
-assert.equal(tooLongJson.error, "Invalid recommendation request");
-assert.match(tooLongJson.message, /too long/i);
+assert.equal(tooLongJson.source, "mock");
+assert.equal(tooLongJson.fallbackReason, "input_validation_failed");
 assert.equal(tooLongFetch.calls.length, 0);
 assert.equal(tooLongCache.getCalls.length, 0);
 
@@ -322,18 +323,37 @@ const cachedPayload = JSON.parse(cacheMissCache.putCalls[0].value);
 assert.equal(cachedPayload.recommendations.length, 3);
 assert.equal(cachedPayload.recommendations[0].slug, "fukuoka");
 
-const failingCacheFetch = createFetchMock(() => responseJson(recommendationSet("en")));
-const failingCache = createCacheMock({ throwOnGet: true, throwOnPut: true });
-const failingCacheResponse = await postRecommend(basePayload, {
+const cacheReadFailureFetch = createFetchMock(() => responseJson(recommendationSet("en")));
+const cacheReadFailureCache = createCacheMock({ throwOnGet: true });
+const cacheReadFailureResponse = await postRecommend(basePayload, {
   env: {
     OPENAI_API_KEY: "test-openai-key",
-    CACHE: failingCache
+    CACHE: cacheReadFailureCache
   },
-  fetch: failingCacheFetch
+  fetch: cacheReadFailureFetch
 });
-const failingCacheJson = await failingCacheResponse.json();
-assert.equal(failingCacheJson.source, "openai");
-assert.equal(failingCacheFetch.calls.length, 1);
+const cacheReadFailureJson = await cacheReadFailureResponse.json();
+assert.equal(cacheReadFailureJson.source, "openai");
+assert.equal(cacheReadFailureFetch.calls.length, 1);
+assert.equal(cacheReadFailureCache.getCalls.length, 1);
+assert.equal(cacheReadFailureCache.putCalls.length, 1);
+assert.equal(cacheReadFailureJson.fallbackReason, undefined);
+
+const cacheWriteFailureFetch = createFetchMock(() => responseJson(recommendationSet("en")));
+const cacheWriteFailureCache = createCacheMock({ throwOnPut: true });
+const cacheWriteFailureResponse = await postRecommend(basePayload, {
+  env: {
+    OPENAI_API_KEY: "test-openai-key",
+    CACHE: cacheWriteFailureCache
+  },
+  fetch: cacheWriteFailureFetch
+});
+const cacheWriteFailureJson = await cacheWriteFailureResponse.json();
+assert.equal(cacheWriteFailureJson.source, "openai");
+assert.equal(cacheWriteFailureFetch.calls.length, 1);
+assert.equal(cacheWriteFailureCache.getCalls.length, 1);
+assert.equal(cacheWriteFailureCache.putCalls.length, 1);
+assert.equal(cacheWriteFailureJson.fallbackReason, undefined);
 
 const koreanFetch = createFetchMock((call) => {
   assert.match(JSON.stringify(call.body.input), /Korean/);
@@ -374,6 +394,7 @@ const failedResponse = await postRecommend({ ...basePayload, language: "ko" }, {
 });
 const failedJson = await failedResponse.json();
 assert.equal(failedJson.source, "mock");
+assert.equal(failedJson.fallbackReason, "openai_fetch_failed");
 assert.equal(failedJson.input.language, "ko");
 assert.equal(failedJson.recommendations[0].name, "후쿠오카");
 
@@ -384,6 +405,7 @@ const invalidJsonResponse = await postRecommend(basePayload, {
 });
 const invalidJson = await invalidJsonResponse.json();
 assert.equal(invalidJson.source, "mock");
+assert.equal(invalidJson.fallbackReason, "openai_invalid_json");
 
 const invalidValidationFetch = createFetchMock(() => responseJson([
   {
@@ -403,6 +425,7 @@ const invalidValidationResponse = await postRecommend(basePayload, {
 });
 const invalidValidationJson = await invalidValidationResponse.json();
 assert.equal(invalidValidationJson.source, "mock");
+assert.equal(invalidValidationJson.fallbackReason, "openai_validation_failed");
 
 assert.equal(englishFetch.calls.length, 1);
 assert.equal(koreanFetch.calls.length, 1);

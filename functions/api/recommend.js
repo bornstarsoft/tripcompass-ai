@@ -83,6 +83,7 @@ function normalizeLimitedText(payload, name, fallback, limit, errors) {
 
   if (typeof raw === "string" && raw.length > limit) {
     errors.push(name);
+    return fallback;
   }
 
   const cleaned = compactText(raw);
@@ -101,6 +102,7 @@ function normalizeLimitedList(payload, name, fallback, itemLimit, totalLimit, er
 
     if (item.length > itemLimit) {
       errors.push(name);
+      continue;
     }
 
     const value = compactText(item);
@@ -112,6 +114,7 @@ function normalizeLimitedList(payload, name, fallback, itemLimit, totalLimit, er
   const normalized = cleaned.length ? Array.from(new Set(cleaned)).sort() : fallback;
   if (normalized.join(",").length > totalLimit) {
     errors.push(name);
+    return fallback;
   }
 
   return normalized;
@@ -144,6 +147,7 @@ function normalizeInputPayload(payload) {
 
   if (errors.length) {
     return {
+      input,
       error: {
         fields: Array.from(new Set(errors))
       }
@@ -548,12 +552,18 @@ function validateOpenAIRecommendations(value, input) {
 async function fetchOpenAIRecommendations(input, env, fetcher) {
   const apiKey = apiKeyFromEnv(env);
 
-  if (!apiKey || typeof fetcher !== "function") {
-    return null;
+  if (!apiKey) {
+    return { recommendations: null, fallbackReason: "missing_openai_key" };
   }
 
+  if (typeof fetcher !== "function") {
+    return { recommendations: null, fallbackReason: "openai_fetch_failed" };
+  }
+
+  let response;
+
   try {
-    const response = await fetcher(OPENAI_RESPONSES_URL, {
+    response = await fetcher(OPENAI_RESPONSES_URL, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`,
@@ -561,28 +571,47 @@ async function fetchOpenAIRecommendations(input, env, fetcher) {
       },
       body: JSON.stringify(openAIRequestBody(input, modelFromEnv(env)))
     });
-
-    if (!response.ok) {
-      return null;
-    }
-
-    const openAIJson = await response.json();
-    const outputText = extractOutputText(openAIJson);
-    const parsed = JSON.parse(outputText);
-    return validateOpenAIRecommendations(parsed, input);
   } catch {
-    return null;
+    return { recommendations: null, fallbackReason: "openai_fetch_failed" };
   }
+
+  if (!response.ok) {
+    return { recommendations: null, fallbackReason: "openai_fetch_failed" };
+  }
+
+  let openAIJson;
+  let parsed;
+
+  try {
+    openAIJson = await response.json();
+    const outputText = extractOutputText(openAIJson);
+    parsed = JSON.parse(outputText);
+  } catch {
+    return { recommendations: null, fallbackReason: "openai_invalid_json" };
+  }
+
+  const recommendations = validateOpenAIRecommendations(parsed, input);
+  if (!recommendations) {
+    return { recommendations: null, fallbackReason: "openai_validation_failed" };
+  }
+
+  return { recommendations };
 }
 
-function responsePayload(source, input, recommendations) {
-  return {
+function responsePayload(source, input, recommendations, fallbackReason) {
+  const payload = {
     source,
     generatedAt: new Date().toISOString(),
     input,
     recommendations,
     disclaimer: disclaimerFor(input.language)
   };
+
+  if (source === "mock") {
+    payload.fallbackReason = fallbackReason || "unknown";
+  }
+
+  return payload;
 }
 
 function cacheBinding(env = {}) {
@@ -606,25 +635,28 @@ function cacheKeyFor(input) {
 
 async function readCachedRecommendations(cache, key, input) {
   if (!cache) {
-    return null;
+    return { recommendations: null };
   }
 
   try {
     const cached = await cache.get(key, "json");
-    return validateOpenAIRecommendations(cached, input);
+    return { recommendations: validateOpenAIRecommendations(cached, input) };
   } catch {
-    return null;
+    return { recommendations: null, fallbackReason: "cache_read_failed" };
   }
 }
 
 async function writeCachedRecommendations(cache, key, recommendations) {
   if (!cache) {
-    return;
+    return { fallbackReason: null };
   }
 
   try {
     await cache.put(key, JSON.stringify({ recommendations }), { expirationTtl: CACHE_TTL_SECONDS });
-  } catch {}
+    return { fallbackReason: null };
+  } catch {
+    return { fallbackReason: "cache_write_failed" };
+  }
 }
 
 export async function onRequestPost({ request, env = {}, fetch: contextFetch } = {}) {
@@ -652,33 +684,29 @@ export async function onRequestPost({ request, env = {}, fetch: contextFetch } =
   }
 
   const normalized = normalizeInputPayload(payload);
+  const input = normalized.input;
+
   if (normalized.error) {
-    return Response.json(
-      {
-        error: "Invalid recommendation request",
-        message: "One or more recommendation request fields are too long.",
-        fields: normalized.error.fields
-      },
-      { status: 400 }
-    );
+    return Response.json(responsePayload("mock", input, recommendationsFor(input), "input_validation_failed"));
   }
 
-  const input = normalized.input;
   const cache = cacheBinding(env);
   const cacheKey = cacheKeyFor(input);
-  const cachedRecommendations = await readCachedRecommendations(cache, cacheKey, input);
+  const cacheResult = await readCachedRecommendations(cache, cacheKey, input);
 
-  if (cachedRecommendations) {
-    return Response.json(responsePayload("cache", input, cachedRecommendations));
+  if (cacheResult.recommendations) {
+    return Response.json(responsePayload("cache", input, cacheResult.recommendations));
   }
 
   const fetcher = contextFetch || globalThis.fetch;
-  const openAIRecommendations = await fetchOpenAIRecommendations(input, env, fetcher);
+  const openAIResult = await fetchOpenAIRecommendations(input, env, fetcher);
 
-  if (openAIRecommendations) {
-    await writeCachedRecommendations(cache, cacheKey, openAIRecommendations);
-    return Response.json(responsePayload("openai", input, openAIRecommendations));
+  if (openAIResult.recommendations) {
+    await writeCachedRecommendations(cache, cacheKey, openAIResult.recommendations);
+    return Response.json(responsePayload("openai", input, openAIResult.recommendations));
   }
 
-  return Response.json(responsePayload("mock", input, recommendationsFor(input)));
+  return Response.json(
+    responsePayload("mock", input, recommendationsFor(input), openAIResult.fallbackReason || cacheResult.fallbackReason || "unknown")
+  );
 }
