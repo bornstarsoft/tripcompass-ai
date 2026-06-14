@@ -162,12 +162,20 @@ function createCacheMock(options = {}) {
 }
 
 async function postRecommend(payload, options = {}) {
+  const request = new Request("https://tripcompass.ai/api/recommend", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  if (options.cf) {
+    Object.defineProperty(request, "cf", {
+      value: options.cf
+    });
+  }
+
   return recommend({
-    request: new Request("https://tripcompass.ai/api/recommend", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(payload)
-    }),
+    request,
     env: options.env,
     fetch: options.fetch
   });
@@ -345,6 +353,8 @@ const backendSuccessCache = createCacheMock();
 const backendSuccessResponse = await postRecommend({ ...basePayload, language: "ko" }, {
   env: {
     AI_BACKEND_URL: "https://ai-backend.example/recommend",
+    DIRECT_OPENAI_IN_PRODUCTION: "true",
+    CF_PAGES_BRANCH: "main",
     OPENAI_API_KEY: "test-openai-key",
     CACHE: backendSuccessCache
   },
@@ -388,6 +398,42 @@ const missingBackendJson = await missingBackendResponse.json();
 assert.equal(missingBackendJson.source, "mock");
 assert.equal(missingBackendJson.fallbackReason, "missing_ai_backend_url");
 assert.equal(missingBackendFetch.calls.length, 0);
+
+const directProductionWarnCalls = [];
+const originalWarnForDirectProduction = console.warn;
+const directProductionFetch = createFetchMock((call) => {
+  assert.equal(call.url, "https://api.openai.com/v1/responses");
+  assert.equal(call.init.headers.Authorization, "Bearer test-openai-key");
+  return responseJson(recommendationSet("en"));
+});
+console.warn = (...args) => {
+  directProductionWarnCalls.push(args);
+};
+
+let directProductionResponse;
+try {
+  directProductionResponse = await postRecommend(basePayload, {
+    env: {
+      OPENAI_API_KEY: "test-openai-key",
+      CF_PAGES_BRANCH: "main",
+      DIRECT_OPENAI_IN_PRODUCTION: "true"
+    },
+    fetch: directProductionFetch,
+    cf: {
+      colo: "ICN",
+      country: "KR"
+    }
+  });
+} finally {
+  console.warn = originalWarnForDirectProduction;
+}
+
+const directProductionJson = await directProductionResponse.json();
+assert.equal(directProductionJson.source, "openai");
+assert.equal(directProductionFetch.calls.length, 1);
+assert.equal(directProductionWarnCalls.length, 1);
+assert.equal(String(directProductionWarnCalls[0][0]), "tripcompass_direct_openai_production_test colo=ICN country=KR");
+assert.doesNotMatch(JSON.stringify(directProductionJson), /tripcompass_direct_openai_production_test|colo=ICN|country=KR/);
 
 const backendCacheHitFetch = createFetchMock(() => new Error("should not call backend on cache hit"));
 const backendCacheHitCache = createCacheMock({

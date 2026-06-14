@@ -482,6 +482,21 @@ function isProductionEnvironment(env = {}) {
   return values.some((value) => value === "production" || value === "prod") || branch === "main";
 }
 
+function directOpenAIInProductionEnabled(env = {}) {
+  return env.DIRECT_OPENAI_IN_PRODUCTION === "true";
+}
+
+function safePlacementDiagnosticValue(value) {
+  return typeof value === "string" && value.trim() ? value.trim().replace(/\s+/g, "_").slice(0, 32) : "unknown";
+}
+
+function logDirectOpenAIProductionTest(request) {
+  const colo = safePlacementDiagnosticValue(request?.cf?.colo);
+  const country = safePlacementDiagnosticValue(request?.cf?.country);
+
+  console.warn(`tripcompass_direct_openai_production_test colo=${colo} country=${country}`);
+}
+
 function openAIHttpFallbackReason(status) {
   if (status === 400) {
     return "openai_http_400";
@@ -845,7 +860,11 @@ export async function onRequestPost({ request, env = {}, fetch: contextFetch } =
 
   // Direct OpenAI calls are retained for local/preview development when the external backend is not configured.
   if (isProductionEnvironment(env)) {
-    return Response.json(responsePayload("mock", input, recommendationsFor(input), "missing_ai_backend_url"));
+    if (!directOpenAIInProductionEnabled(env)) {
+      return Response.json(responsePayload("mock", input, recommendationsFor(input), "missing_ai_backend_url"));
+    }
+
+    logDirectOpenAIProductionTest(request);
   }
 
   const openAIResult = await fetchOpenAIRecommendations(input, env, fetcher);
