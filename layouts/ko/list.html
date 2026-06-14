@@ -1,0 +1,168 @@
+{{ define "main" }}
+<section class="finder-band" id="destination-finder" aria-labelledby="ko-finder-title">
+  <div class="section-inner finder-layout">
+    <div>
+      <p class="eyebrow">AI 여행지 추천</p>
+      <h1 id="ko-finder-title">한국에서 출발하는 짧은 해외여행 추천</h1>
+      <p class="section-lead">출발지, 일정, 예산, 여행 스타일을 고르면 TripCompass AI가 한국어로 여행지 후보를 제안합니다. 예약 전에는 가격, 영업시간, 비자 규정, 예약 가능 여부, 예약 조건을 반드시 확인하세요.</p>
+    </div>
+    <form class="finder-form" action="{{ "/ko/" | relURL }}" method="get" data-recommend-form>
+      <input type="hidden" name="language" value="ko">
+      <div class="form-grid">
+        <label>
+          <span>출발지</span>
+          <select name="departureCity">
+            <option value="Seoul">서울</option>
+            <option value="Busan">부산</option>
+            <option value="Incheon">인천</option>
+          </select>
+        </label>
+        <label>
+          <span>여행 기간</span>
+          <select name="tripLength">
+            <option value="3 days">3일</option>
+            <option value="4 days">4일</option>
+            <option value="5 days">5일</option>
+          </select>
+        </label>
+        <label>
+          <span>여행 시기</span>
+          <select name="travelMonth">
+            <option value="March to May">3월~5월</option>
+            <option value="June to August">6월~8월</option>
+            <option value="September to November">9월~11월</option>
+            <option value="December to February">12월~2월</option>
+          </select>
+        </label>
+        <label>
+          <span>예산 스타일</span>
+          <select name="budget">
+            <option value="Balanced">균형형</option>
+            <option value="Save more">절약형</option>
+            <option value="Comfort first">편안함 우선</option>
+          </select>
+        </label>
+        <label>
+          <span>여행 인원</span>
+          <select name="travelers">
+            <option value="2 adults">성인 2명</option>
+            <option value="Solo traveler">혼자 여행</option>
+            <option value="Family with kids">아이 동반 가족</option>
+            <option value="Friends group">친구 모임</option>
+          </select>
+        </label>
+        <label>
+          <span>선호 지역</span>
+          <select name="preferredRegion">
+            <option value="Japan">일본</option>
+            <option value="Southeast Asia">동남아시아</option>
+            <option value="Taiwan or Hong Kong">대만 또는 홍콩</option>
+            <option value="Guam or Saipan">괌 또는 사이판</option>
+          </select>
+        </label>
+      </div>
+      <fieldset>
+        <legend>여행 스타일</legend>
+        <label><input type="checkbox" name="travelStyle" value="Food" checked> 음식</label>
+        <label><input type="checkbox" name="travelStyle" value="First-time friendly"> 첫 여행에 쉬움</label>
+        <label><input type="checkbox" name="travelStyle" value="Family"> 가족</label>
+        <label><input type="checkbox" name="travelStyle" value="Shopping"> 쇼핑</label>
+      </fieldset>
+      <button class="button button--primary" type="submit" data-submit-label="AI 추천 받기">AI 추천 받기</button>
+    </form>
+  </div>
+</section>
+
+<section class="results-section" aria-labelledby="ko-results-title">
+  <div class="section-inner">
+    <div class="section-heading">
+      <p class="eyebrow">한국어 추천 결과</p>
+      <h2 id="ko-results-title">짧은 해외여행 후보</h2>
+      <p>AI 추천을 불러오면 이 영역에 한국어 결과가 표시됩니다. 연결이 원활하지 않을 때도 아래 여행지 아이디어를 참고할 수 있으며, 실시간 가격이나 예약 가능 여부를 보장하지 않습니다.</p>
+    </div>
+    <p class="result-status" data-result-status aria-live="polite" hidden></p>
+    <div class="destination-grid dynamic-results" data-dynamic-results hidden></div>
+    <div class="destination-grid" data-static-results>
+      <article class="destination-card">
+        <div class="card-topline">
+          <span class="badge">음식과 쉬운 이동</span>
+          <span>3일</span>
+        </div>
+        <h3>후쿠오카</h3>
+        <p>짧은 일정에도 동선이 단순하고 라멘, 시장, 쇼핑을 편하게 묶기 좋은 일본 여행지입니다.</p>
+        <ul>
+          <li>가벼운 주말여행에 잘 맞습니다.</li>
+          <li>음식 중심 여행자에게 실용적입니다.</li>
+          <li>카페, 시장, 온천 일정을 함께 보기 좋습니다.</li>
+        </ul>
+        <div class="card-actions">
+          <a href="{{ "/go/hotel?destination=fukuoka&country=japan&lang=ko" | relURL }}">호텔 검색</a>
+          <a href="{{ "/go/flight?from=seoul&to=fukuoka&country=japan&lang=ko" | relURL }}">항공권 검색</a>
+          <a href="{{ "/go/esim?country=japan&lang=ko" | relURL }}">eSIM 확인</a>
+        </div>
+      </article>
+
+      <article class="destination-card">
+        <div class="card-topline">
+          <span class="badge">음식과 근교 일정</span>
+          <span>4일</span>
+        </div>
+        <h3>오사카</h3>
+        <p>먹거리, 쇼핑, 야경, 교토나 나라 근교 일정을 한 번에 비교하기 좋은 간사이 거점입니다.</p>
+        <ul>
+          <li>친구나 그룹 여행에 선택지가 넓습니다.</li>
+          <li>4일 일정이면 근교 하루를 넣기 좋습니다.</li>
+          <li>주요 상권은 붐빌 수 있으니 동선을 확인하세요.</li>
+        </ul>
+        <div class="card-actions">
+          <a href="{{ "/go/flight?from=seoul&to=osaka&country=japan&lang=ko" | relURL }}">항공권 검색</a>
+          <a href="{{ "/go/hotel?destination=osaka&country=japan&lang=ko" | relURL }}">호텔 검색</a>
+          <a href="{{ "/go/activity?destination=osaka&country=japan&lang=ko" | relURL }}">액티비티 찾기</a>
+        </div>
+      </article>
+
+      <article class="destination-card">
+        <div class="card-topline">
+          <span class="badge">첫 일본 여행</span>
+          <span>3~5일</span>
+        </div>
+        <h3>도쿄</h3>
+        <p>동네, 쇼핑, 음식, 전시, 대중문화 선택지가 가장 넓어 첫 일본 여행 후보로 비교하기 좋습니다.</p>
+        <ul>
+          <li>다양한 관심사를 가진 여행자에게 적합합니다.</li>
+          <li>지역별로 하루 일정을 묶으면 이동 낭비를 줄일 수 있습니다.</li>
+          <li>짧은 일정에는 우선순위를 정하는 것이 좋습니다.</li>
+        </ul>
+        <div class="card-actions">
+          <a href="{{ "/go/activity?destination=tokyo&country=japan&lang=ko" | relURL }}">액티비티 찾기</a>
+          <a href="{{ "/go/hotel?destination=tokyo&country=japan&lang=ko" | relURL }}">호텔 검색</a>
+          <a href="{{ "/go/flight?from=seoul&to=tokyo&country=japan&lang=ko" | relURL }}">항공권 검색</a>
+        </div>
+      </article>
+
+      <article class="destination-card">
+        <div class="card-topline">
+          <span class="badge">해변과 가족 여행</span>
+          <span>4일</span>
+        </div>
+        <h3>다낭</h3>
+        <p>해변 휴식, 리조트 선택지, 호이안 연계 일정까지 가족이나 커플 여행에 비교하기 좋은 후보입니다.</p>
+        <ul>
+          <li>느린 일정과 리조트 중심 여행에 맞습니다.</li>
+          <li>계절별 비와 항공 시간대를 확인하세요.</li>
+          <li>예약 전 포함 조건과 취소 규정을 확인하세요.</li>
+        </ul>
+        <div class="card-actions">
+          <a href="{{ "/go/esim?country=vietnam&lang=ko" | relURL }}">eSIM 확인</a>
+          <a href="{{ "/go/hotel?destination=da-nang&country=vietnam&lang=ko" | relURL }}">호텔 검색</a>
+          <a href="{{ "/go/flight?from=seoul&to=da-nang&country=vietnam&lang=ko" | relURL }}">항공권 검색</a>
+        </div>
+      </article>
+    </div>
+    <aside class="trust-note" aria-label="예약 전 확인 안내">
+      <strong>예약 전 확인:</strong> TripCompass AI는 여행 계획 제안을 제공합니다. 예약 전 최신 가격, 영업시간, 비자 규정, 예약 가능 여부, 예약 조건을 반드시 확인하세요.
+    </aside>
+  </div>
+</section>
+<script src="{{ "js/destination-finder.js" | relURL }}" defer></script>
+{{ end }}

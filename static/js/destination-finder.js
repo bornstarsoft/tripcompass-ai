@@ -10,8 +10,38 @@
 
   const submitButton = form.querySelector("button[type='submit']");
   const originalSubmitText = submitButton ? submitButton.dataset.submitLabel || submitButton.textContent : "Get AI recommendations";
-  const bookingDisclaimer =
-    "Always check current prices, opening hours, visa rules, availability, and booking terms before booking.";
+  const messages = {
+    en: {
+      bookingDisclaimer: "Always check current prices, opening hours, visa rules, availability, and booking terms before booking.",
+      ready: "AI recommendations are ready.",
+      loading: "Asking TripCompass AI for destination matches...",
+      loadingButton: "Getting AI recommendations...",
+      error: "We could not refresh AI recommendations just now. You can still use the starting ideas below and try again in a moment.",
+      matchLabel: "match",
+      bestFor: "Best for",
+      fallbackSummary: "A practical short-trip match.",
+      cautionPrefix: "Check before booking:",
+      hotel: "Search hotels",
+      flight: "Search flights",
+      activity: "Find activities",
+      esim: "Check eSIM"
+    },
+    ko: {
+      bookingDisclaimer: "예약 전 최신 가격, 영업시간, 비자 규정, 예약 가능 여부, 예약 조건을 반드시 확인하세요.",
+      ready: "AI 추천을 불러왔습니다.",
+      loading: "TripCompass AI가 여행지 추천을 준비하고 있습니다...",
+      loadingButton: "AI 추천 불러오는 중...",
+      error: "지금은 AI 추천을 새로 불러오지 못했습니다. 아래 여행지 아이디어를 참고하고 잠시 후 다시 시도해 주세요.",
+      matchLabel: "추천 적합도",
+      bestFor: "추천 대상",
+      fallbackSummary: "짧은 해외여행에 참고할 수 있는 후보입니다.",
+      cautionPrefix: "예약 전 확인:",
+      hotel: "호텔 검색",
+      flight: "항공권 검색",
+      activity: "액티비티 찾기",
+      esim: "eSIM 확인"
+    }
+  };
 
   function setStatus(message, isError) {
     status.textContent = message;
@@ -31,6 +61,11 @@
   function currentLanguage() {
     const pageLanguage = (document.documentElement.dataset.language || document.documentElement.lang || "en").toLowerCase();
     return pageLanguage.startsWith("ko") || window.location.pathname.startsWith("/ko/") ? "ko" : "en";
+  }
+
+  function uiText(key) {
+    const language = currentLanguage();
+    return messages[language] && messages[language][key] ? messages[language][key] : messages.en[key];
   }
 
   function formPayload() {
@@ -76,7 +111,7 @@
 
     const badge = document.createElement("span");
     badge.className = "badge";
-    badge.textContent = `${item.score}/100 match`;
+    badge.textContent = `${item.score}/100 ${uiText("matchLabel")}`;
 
     const tripLength = document.createElement("span");
     tripLength.textContent = item.suggestedTripLength || "";
@@ -95,19 +130,19 @@
     const bestFor = Array.isArray(item.bestFor) ? item.bestFor.join(", ") : "";
 
     const summary = document.createElement("p");
-    summary.textContent = bestFor ? `Best for ${bestFor}.` : "A practical short-trip match.";
+    summary.textContent = bestFor ? `${uiText("bestFor")} ${bestFor}.` : uiText("fallbackSummary");
 
     const caution = document.createElement("p");
     caution.className = "card-caution";
-    caution.textContent = cautions.length ? `Check before booking: ${cautions.join(" ")}` : "";
+    caution.textContent = cautions.length ? `${uiText("cautionPrefix")} ${cautions.join(" ")}` : "";
 
     const actions = document.createElement("div");
     actions.className = "card-actions";
     const ctaUrls = item.ctaUrls || {};
-    appendCta(actions, ctaUrls.hotel, "Search hotels");
-    appendCta(actions, ctaUrls.flight, "Search flights");
-    appendCta(actions, ctaUrls.activity, "Find activities");
-    appendCta(actions, ctaUrls.esim, "Check eSIM");
+    appendCta(actions, ctaUrls.hotel, uiText("hotel"));
+    appendCta(actions, ctaUrls.flight, uiText("flight"));
+    appendCta(actions, ctaUrls.activity, uiText("activity"));
+    appendCta(actions, ctaUrls.esim, uiText("esim"));
 
     card.append(topLine, title, meta, summary);
     appendTextList(card, why);
@@ -128,7 +163,7 @@
     dynamicResults.replaceChildren(...recommendations.map(recommendationCard));
     dynamicResults.hidden = false;
     staticResults.hidden = true;
-    setStatus(`AI recommendations are ready. ${data.disclaimer || bookingDisclaimer}`, false);
+    setStatus(`${uiText("ready")} ${data.disclaimer || uiText("bookingDisclaimer")}`, false);
   }
 
   async function requestRecommendations() {
@@ -150,17 +185,17 @@
     dynamicResults.hidden = true;
     dynamicResults.replaceChildren();
     staticResults.hidden = false;
-    setStatus("Asking TripCompass AI for destination matches...", false);
+    setStatus(uiText("loading"), false);
 
     if (submitButton) {
       submitButton.disabled = true;
-      submitButton.textContent = "Getting AI recommendations...";
+      submitButton.textContent = uiText("loadingButton");
     }
 
     try {
       renderRecommendations(await requestRecommendations());
     } catch {
-      setStatus("We could not refresh AI recommendations just now. You can still use the starting ideas below and try again in a moment.", true);
+      setStatus(uiText("error"), true);
     } finally {
       if (submitButton) {
         submitButton.disabled = false;
