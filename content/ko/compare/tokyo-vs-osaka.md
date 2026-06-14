@@ -3,6 +3,7 @@ title: "도쿄 vs 오사카: 첫 일본 여행은 어디가 좋을까?"
 description: "첫 일본 여행을 준비하는 한국 출발 여행자를 위해 도쿄와 오사카를 비교합니다."
 eyebrow: "도쿄 vs 오사카"
 htmlLang: "ko"
+alternateEn: "/compare/tokyo-vs-osaka/"
 weight: 10
 ---
 

@@ -2,6 +2,7 @@
 title: "Tokyo vs Osaka: Which Is Better for First-Time Travelers?"
 description: "Compare Tokyo and Osaka for first-time travelers planning a short Japan trip from Korea."
 eyebrow: "Tokyo vs Osaka"
+alternateKo: "/ko/compare/tokyo-vs-osaka/"
 weight: 10
 ---
 

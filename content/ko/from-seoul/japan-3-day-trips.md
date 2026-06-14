@@ -3,6 +3,7 @@ title: "서울 출발 일본 3일 여행지 추천"
 description: "서울에서 출발하는 3일 일본 여행 후보를 후쿠오카, 오사카, 도쿄 중심으로 비교합니다."
 eyebrow: "서울 출발 일본"
 htmlLang: "ko"
+alternateEn: "/from-seoul/japan-3-day-trips/"
 weight: 10
 ---
 

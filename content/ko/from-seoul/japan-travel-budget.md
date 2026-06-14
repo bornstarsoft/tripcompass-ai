@@ -3,6 +3,7 @@ title: "서울 출발 일본 여행 예산"
 description: "서울에서 출발하는 짧은 일본 여행 예산을 항공권, 숙소, 교통, 식비, 액티비티 관점에서 정리합니다."
 eyebrow: "일본 여행 예산"
 htmlLang: "ko"
+alternateEn: "/from-seoul/japan-travel-budget/"
 weight: 20
 ---
 

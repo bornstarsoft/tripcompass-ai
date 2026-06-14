@@ -2,6 +2,7 @@
 title: "Fukuoka vs Osaka: Which Is Better for a Short Food Trip?"
 description: "Compare Fukuoka and Osaka for a short food-focused Japan trip from Korea."
 eyebrow: "Fukuoka vs Osaka"
+alternateKo: "/ko/compare/fukuoka-vs-osaka/"
 weight: 20
 ---
 

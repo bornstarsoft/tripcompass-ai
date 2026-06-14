@@ -3,6 +3,7 @@ title: "후쿠오카 vs 오사카: 짧은 미식 여행은 어디가 좋을까?"
 description: "한국에서 출발하는 짧은 일본 미식 여행 기준으로 후쿠오카와 오사카를 비교합니다."
 eyebrow: "후쿠오카 vs 오사카"
 htmlLang: "ko"
+alternateEn: "/compare/fukuoka-vs-osaka/"
 weight: 20
 ---
 

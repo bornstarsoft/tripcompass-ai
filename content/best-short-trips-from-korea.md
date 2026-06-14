@@ -2,6 +2,7 @@
 title: "Best Short Trips From Korea"
 description: "Compare practical short overseas trip ideas from Korea for Japan, Southeast Asia, Taiwan, Hong Kong, Guam, and Saipan."
 eyebrow: "Short trips from Korea"
+alternateKo: "/ko/best-short-trips-from-korea/"
 weight: 65
 ---
 

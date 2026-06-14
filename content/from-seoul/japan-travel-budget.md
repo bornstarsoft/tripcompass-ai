@@ -2,6 +2,7 @@
 title: "Japan Travel Budget From Seoul"
 description: "Plan practical Japan trip budget categories from Seoul without relying on live price claims."
 eyebrow: "Japan budget from Seoul"
+alternateKo: "/ko/from-seoul/japan-travel-budget/"
 weight: 20
 ---
 

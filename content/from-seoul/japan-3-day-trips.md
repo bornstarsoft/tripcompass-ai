@@ -2,6 +2,7 @@
 title: "Best Japan 3 Day Trips From Seoul"
 description: "Compare practical Japan destinations for a 3 day trip from Seoul."
 eyebrow: "From Seoul"
+alternateKo: "/ko/from-seoul/japan-3-day-trips/"
 weight: 10
 ---
 

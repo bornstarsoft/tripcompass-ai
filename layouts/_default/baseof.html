@@ -2,6 +2,20 @@
 {{- $pageLangRaw := lower (.Params.htmlLang | default .Site.Language.Lang) -}}
 {{- $pageLang := cond (hasPrefix $pageLangRaw "ko") "ko" "en" -}}
 {{- $isKo := eq $pageLang "ko" -}}
+{{- $alternateEnPath := .Params.alternateEn | default "" -}}
+{{- $alternateKoPath := .Params.alternateKo | default "" -}}
+{{- if .IsHome -}}
+  {{- $alternateEnPath = "/" -}}
+  {{- $alternateKoPath = "/ko/" -}}
+{{- else if eq .RelPermalink "/ko/" -}}
+  {{- $alternateEnPath = "/" -}}
+  {{- $alternateKoPath = "/ko/" -}}
+{{- else if and $alternateKoPath (not $alternateEnPath) (not $isKo) -}}
+  {{- $alternateEnPath = .RelPermalink -}}
+{{- else if and $alternateEnPath (not $alternateKoPath) $isKo -}}
+  {{- $alternateKoPath = .RelPermalink -}}
+{{- end -}}
+{{- $hasLanguageAlternates := and $alternateEnPath $alternateKoPath -}}
 <!doctype html>
 <html lang="{{ $pageLang }}" data-language="{{ $pageLang }}">
   <head>
@@ -10,9 +24,11 @@
     <title>{{ if .IsHome }}{{ .Site.Title }} | {{ .Site.Params.tagline }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
     <meta name="description" content="{{ $description }}">
     <link rel="canonical" href="{{ .Permalink }}">
-    <link rel="alternate" hreflang="en" href="{{ "/" | absURL }}">
-    <link rel="alternate" hreflang="ko" href="{{ "/ko/" | absURL }}">
+    {{- if $hasLanguageAlternates }}
+    <link rel="alternate" hreflang="en" href="{{ $alternateEnPath | absURL }}">
+    <link rel="alternate" hreflang="ko" href="{{ $alternateKoPath | absURL }}">
     <link rel="alternate" hreflang="x-default" href="{{ "/" | absURL }}">
+    {{- end }}
     <link rel="stylesheet" href="{{ "css/styles.css" | relURL }}">
   </head>
   <body>

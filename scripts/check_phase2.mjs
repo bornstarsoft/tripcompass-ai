@@ -200,6 +200,8 @@ const oldMockCopyPattern =
 const seoPages = [
   {
     path: ["from-seoul", "japan-3-day-trips", "index.html"],
+    url: "https://tripcompass.ai/from-seoul/japan-3-day-trips/",
+    koreanUrl: "https://tripcompass.ai/ko/from-seoul/japan-3-day-trips/",
     title: /Best Japan 3 Day Trips From Seoul/,
     links: [
       /\/compare\/fukuoka-vs-osaka\//,
@@ -214,6 +216,8 @@ const seoPages = [
   },
   {
     path: ["compare", "fukuoka-vs-osaka", "index.html"],
+    url: "https://tripcompass.ai/compare/fukuoka-vs-osaka/",
+    koreanUrl: "https://tripcompass.ai/ko/compare/fukuoka-vs-osaka/",
     title: /Fukuoka vs Osaka: Which Is Better for a Short Food Trip\?/,
     links: [
       /\/from-seoul\/japan-3-day-trips\//,
@@ -227,6 +231,8 @@ const seoPages = [
   },
   {
     path: ["compare", "tokyo-vs-osaka", "index.html"],
+    url: "https://tripcompass.ai/compare/tokyo-vs-osaka/",
+    koreanUrl: "https://tripcompass.ai/ko/compare/tokyo-vs-osaka/",
     title: /Tokyo vs Osaka: Which Is Better for First-Time Travelers\?/,
     links: [
       /\/from-seoul\/japan-3-day-trips\//,
@@ -240,6 +246,8 @@ const seoPages = [
   },
   {
     path: ["best-short-trips-from-korea", "index.html"],
+    url: "https://tripcompass.ai/best-short-trips-from-korea/",
+    koreanUrl: "https://tripcompass.ai/ko/best-short-trips-from-korea/",
     title: /Best Short Trips From Korea/,
     links: [
       /\/#destination-finder/,
@@ -255,6 +263,8 @@ const seoPages = [
   },
   {
     path: ["from-seoul", "japan-travel-budget", "index.html"],
+    url: "https://tripcompass.ai/from-seoul/japan-travel-budget/",
+    koreanUrl: "https://tripcompass.ai/ko/from-seoul/japan-travel-budget/",
     title: /Japan Travel Budget From Seoul/,
     links: [
       /\/#destination-finder/,
@@ -293,6 +303,8 @@ const oldKoreanPrepPattern = /한국어 섹션 준비|1단계 범위|영어를 �
 const koreanSeoPages = [
   {
     path: ["ko", "from-seoul", "japan-3-day-trips", "index.html"],
+    url: "https://tripcompass.ai/ko/from-seoul/japan-3-day-trips/",
+    englishUrl: "https://tripcompass.ai/from-seoul/japan-3-day-trips/",
     title: /서울 출발 일본 3일 여행지 추천/,
     links: [
       /\/ko\/#destination-finder/,
@@ -308,6 +320,8 @@ const koreanSeoPages = [
   },
   {
     path: ["ko", "compare", "fukuoka-vs-osaka", "index.html"],
+    url: "https://tripcompass.ai/ko/compare/fukuoka-vs-osaka/",
+    englishUrl: "https://tripcompass.ai/compare/fukuoka-vs-osaka/",
     title: /후쿠오카 vs 오사카/,
     links: [
       /\/ko\/from-seoul\/japan-3-day-trips\//,
@@ -321,6 +335,8 @@ const koreanSeoPages = [
   },
   {
     path: ["ko", "compare", "tokyo-vs-osaka", "index.html"],
+    url: "https://tripcompass.ai/ko/compare/tokyo-vs-osaka/",
+    englishUrl: "https://tripcompass.ai/compare/tokyo-vs-osaka/",
     title: /도쿄 vs 오사카/,
     links: [
       /\/ko\/from-seoul\/japan-3-day-trips\//,
@@ -334,6 +350,8 @@ const koreanSeoPages = [
   },
   {
     path: ["ko", "best-short-trips-from-korea", "index.html"],
+    url: "https://tripcompass.ai/ko/best-short-trips-from-korea/",
+    englishUrl: "https://tripcompass.ai/best-short-trips-from-korea/",
     title: /한국에서 가기 좋은 짧은 해외여행/,
     links: [
       /\/ko\/#destination-finder/,
@@ -349,6 +367,8 @@ const koreanSeoPages = [
   },
   {
     path: ["ko", "from-seoul", "japan-travel-budget", "index.html"],
+    url: "https://tripcompass.ai/ko/from-seoul/japan-travel-budget/",
+    englishUrl: "https://tripcompass.ai/from-seoul/japan-travel-budget/",
     title: /서울 출발 일본 여행 예산/,
     links: [
       /\/ko\/#destination-finder/,
@@ -398,4 +418,123 @@ assert.doesNotMatch(koreanCompareIndex, oldKoreanPrepPattern);
 for (const englishPage of seoPages) {
   const html = await readFile(join(outDir, ...englishPage.path), "utf8");
   assert.match(html, englishPage.title);
+}
+
+const sitemap = await readFile(join(outDir, "sitemap.xml"), "utf8");
+for (const page of seoPages) {
+  assert.match(sitemap, new RegExp(`<loc>${page.url}</loc>`));
+}
+for (const page of koreanSeoPages) {
+  assert.match(sitemap, new RegExp(`<loc>${page.url}</loc>`));
+}
+
+const robots = await readFile(join(outDir, "robots.txt"), "utf8");
+assert.match(robots, /User-agent:\s*\*/);
+assert.match(robots, /Allow:\s*\//);
+assert.doesNotMatch(robots, /Disallow:\s*\/(?:ko|compare|from-seoul|best-short-trips-from-korea)/i);
+assert.match(robots, /Sitemap:\s*https:\/\/tripcompass\.ai\/sitemap\.xml/);
+
+function getSingleMatch(html, pattern, label) {
+  const match = html.match(pattern);
+  assert.ok(match, `Missing ${label}`);
+  return match[1];
+}
+
+function assertHeadSeo(html, { canonical, alternateEn, alternateKo, lang, titlePattern, descriptionPattern }) {
+  assert.match(html, new RegExp(`<html lang=${lang}\\b`));
+  assert.match(html, titlePattern);
+  assert.match(html, descriptionPattern);
+  assert.match(html, new RegExp(`<link rel=canonical href=${canonical.replaceAll("/", "\\/")}>`));
+  assert.match(html, new RegExp(`<link rel=alternate hreflang=en href=${alternateEn.replaceAll("/", "\\/")}>`));
+  assert.match(html, new RegExp(`<link rel=alternate hreflang=ko href=${alternateKo.replaceAll("/", "\\/")}>`));
+  assert.match(html, /<link rel=alternate hreflang=x-default href=https:\/\/tripcompass\.ai\/>/);
+}
+
+assertHeadSeo(homepage, {
+  canonical: "https://tripcompass.ai/",
+  alternateEn: "https://tripcompass.ai/",
+  alternateKo: "https://tripcompass.ai/ko/",
+  lang: "en",
+  titlePattern: /<title>TripCompass AI \| Find where to go, plan what to do, compare what to book\.<\/title>/,
+  descriptionPattern: /<meta name=description content="Find where to go, plan what to do, compare what to book with TripCompass AI\.">/
+});
+
+assertHeadSeo(koreanHome, {
+  canonical: "https://tripcompass.ai/ko/",
+  alternateEn: "https://tripcompass.ai/",
+  alternateKo: "https://tripcompass.ai/ko/",
+  lang: "ko",
+  titlePattern: /<title>TripCompass AI 한국어 \| TripCompass AI<\/title>/,
+  descriptionPattern: /<meta name=description content="한국에서 출발하는 짧은 해외여행을 AI 추천으로 비교하세요\.">/
+});
+
+for (const page of seoPages) {
+  const html = await readFile(join(outDir, ...page.path), "utf8");
+  assertHeadSeo(html, {
+    canonical: page.url,
+    alternateEn: page.url,
+    alternateKo: page.koreanUrl,
+    lang: "en",
+    titlePattern: page.title,
+    descriptionPattern: /<meta name=description content="[^"]{40,}">/
+  });
+}
+
+for (const page of koreanSeoPages) {
+  const html = await readFile(join(outDir, ...page.path), "utf8");
+  assertHeadSeo(html, {
+    canonical: page.url,
+    alternateEn: page.englishUrl,
+    alternateKo: page.url,
+    lang: "ko",
+    titlePattern: page.title,
+    descriptionPattern: /<meta name=description content="[^"]{20,}">/
+  });
+}
+
+const seoMetaPages = [
+  { html: homepage, url: "https://tripcompass.ai/" },
+  { html: koreanHome, url: "https://tripcompass.ai/ko/" },
+  ...seoPages.map((page) => ({
+    html: null,
+    url: page.url,
+    path: page.path
+  })),
+  ...koreanSeoPages.map((page) => ({
+    html: null,
+    url: page.url,
+    path: page.path
+  }))
+];
+
+const seenTitles = new Map();
+const seenDescriptions = new Map();
+for (const page of seoMetaPages) {
+  const html = page.html ?? (await readFile(join(outDir, ...page.path), "utf8"));
+  const title = getSingleMatch(html, /<title>([^<]+)<\/title>/, `${page.url} title`);
+  const description = getSingleMatch(html, /<meta name=description content="([^"]+)">/, `${page.url} description`);
+  assert.ok(!seenTitles.has(title), `Duplicate title: ${title}`);
+  assert.ok(!seenDescriptions.has(description), `Duplicate meta description: ${description}`);
+  seenTitles.set(title, page.url);
+  seenDescriptions.set(description, page.url);
+}
+
+for (const expectedLink of [
+  /\/compare\/tokyo-vs-osaka\//,
+  /\/compare\/fukuoka-vs-osaka\//,
+  /\/from-seoul\/japan-3-day-trips\//,
+  /\/from-seoul\/japan-travel-budget\//,
+  /\/best-short-trips-from-korea\//
+]) {
+  assert.match(homepage, expectedLink);
+}
+
+for (const expectedLink of [
+  /\/ko\/compare\/tokyo-vs-osaka\//,
+  /\/ko\/compare\/fukuoka-vs-osaka\//,
+  /\/ko\/from-seoul\/japan-3-day-trips\//,
+  /\/ko\/from-seoul\/japan-travel-budget\//,
+  /\/ko\/best-short-trips-from-korea\//
+]) {
+  assert.match(koreanHome, expectedLink);
 }

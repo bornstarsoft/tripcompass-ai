@@ -3,6 +3,7 @@ title: "한국에서 가기 좋은 짧은 해외여행"
 description: "한국에서 출발하는 짧은 해외여행 후보를 일본, 동남아, 대만, 홍콩, 괌, 사이판 관점에서 비교합니다."
 eyebrow: "짧은 해외여행"
 htmlLang: "ko"
+alternateEn: "/best-short-trips-from-korea/"
 weight: 65
 ---
 
