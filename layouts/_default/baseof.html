@@ -1,6 +1,7 @@
 {{- $description := .Params.description | default .Site.Params.description -}}
 {{- $pageLangRaw := lower (.Params.htmlLang | default .Site.Language.Lang) -}}
 {{- $pageLang := cond (hasPrefix $pageLangRaw "ko") "ko" "en" -}}
+{{- $isKo := eq $pageLang "ko" -}}
 <!doctype html>
 <html lang="{{ $pageLang }}" data-language="{{ $pageLang }}">
   <head>
@@ -21,14 +22,14 @@
         <a class="brand" href="{{ "/" | relURL }}" aria-label="TripCompass AI home">TripCompass AI</a>
         <div class="site-header__actions">
           <nav class="site-nav" aria-label="Primary navigation">
-            <a href="{{ "/destination-finder/" | relURL }}">Finder</a>
-            <a href="{{ "/trip-planner/" | relURL }}">Planner</a>
-            <a href="{{ "/compare/" | relURL }}">Compare</a>
-            <a href="{{ "/from-seoul/" | relURL }}">From Seoul</a>
+            <a href="{{ cond $isKo ("/ko/#destination-finder" | relURL) ("/destination-finder/" | relURL) }}">{{ cond $isKo "추천" "Finder" }}</a>
+            <a href="{{ "/trip-planner/" | relURL }}">{{ cond $isKo "일정" "Planner" }}</a>
+            <a href="{{ "/compare/" | relURL }}">{{ cond $isKo "비교" "Compare" }}</a>
+            <a href="{{ "/from-seoul/" | relURL }}">{{ cond $isKo "한국 출발" "From Seoul" }}</a>
           </nav>
           <nav class="language-switcher" aria-label="Language selector" data-language-switcher>
             {{- range where .Site.Data.locales.locales "active" true }}
-              <a href="{{ .path | relURL }}" lang="{{ .code }}" hreflang="{{ .code }}" data-language-option="{{ .code }}"{{ if eq $pageLang .code }} aria-current="true"{{ end }}>{{ .label }}</a>
+              <a href="{{ .path | relURL }}" lang="{{ .code }}" hreflang="{{ .code }}" data-language-option="{{ .code }}"{{ if eq $pageLang .code }} aria-current="true"{{ end }}>{{ if and $isKo (eq .code "ko") }}한국어{{ else }}{{ .label }}{{ end }}</a>
             {{- end }}
           </nav>
         </div>
@@ -44,14 +45,19 @@
     </main>
     <footer class="site-footer">
       <div class="site-footer__inner">
-        <p><strong>TripCompass AI</strong> helps you narrow down travel choices before you book.</p>
-        <p class="fine-print">{{ .Site.Params.disclaimer }}</p>
+        {{- if $isKo }}
+          <p><strong>TripCompass AI</strong>는 예약 전 여행 선택지를 좁힐 수 있도록 도와드립니다.</p>
+          <p class="fine-print">TripCompass AI는 여행 계획 제안을 제공합니다. 예약 전 최신 가격, 영업시간, 비자 규정, 예약 가능 여부, 예약 조건을 반드시 확인하세요.</p>
+        {{- else }}
+          <p><strong>TripCompass AI</strong> helps you narrow down travel choices before you book.</p>
+          <p class="fine-print">{{ .Site.Params.disclaimer }}</p>
+        {{- end }}
         <nav class="footer-nav" aria-label="Footer navigation">
-          <a href="{{ "/about/" | relURL }}">About</a>
-          <a href="{{ "/contact/" | relURL }}">Contact</a>
-          <a href="{{ "/privacy/" | relURL }}">Privacy</a>
-          <a href="{{ "/terms/" | relURL }}">Terms</a>
-          <a href="{{ "/affiliate-disclosure/" | relURL }}">Affiliate disclosure</a>
+          <a href="{{ "/about/" | relURL }}">{{ cond $isKo "소개" "About" }}</a>
+          <a href="{{ "/contact/" | relURL }}">{{ cond $isKo "문의" "Contact" }}</a>
+          <a href="{{ "/privacy/" | relURL }}">{{ cond $isKo "개인정보" "Privacy" }}</a>
+          <a href="{{ "/terms/" | relURL }}">{{ cond $isKo "이용약관" "Terms" }}</a>
+          <a href="{{ "/affiliate-disclosure/" | relURL }}">{{ cond $isKo "제휴 고지" "Affiliate disclosure" }}</a>
         </nav>
       </div>
     </footer>

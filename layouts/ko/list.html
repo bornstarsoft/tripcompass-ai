@@ -1,4 +1,18 @@
 {{ define "main" }}
+<section class="hero" aria-labelledby="ko-home-title">
+  <img src="{{ "img/tripcompass-hero.png" | relURL }}" alt="지도, 휴대폰, 짧은 여행 준비물이 놓인 여행 계획 장면">
+  <div class="hero__overlay" aria-hidden="true"></div>
+  <div class="hero__content">
+    <p class="eyebrow">AI 여행지 추천 및 여행 계획</p>
+    <h1 id="ko-home-title">TripCompass AI</h1>
+    <p class="hero__tagline">어디로 갈지 고르고, 일정을 계획하고, 예약 전 비교하세요.</p>
+    <div class="hero__actions" aria-label="주요 작업">
+      <a class="button button--primary" href="#destination-finder">AI 추천 시작</a>
+      <a class="button button--light" href="{{ "/compare/" | relURL }}">여행지 비교</a>
+    </div>
+  </div>
+</section>
+
 <section class="finder-band" id="destination-finder" aria-labelledby="ko-finder-title">
   <div class="section-inner finder-layout">
     <div>
