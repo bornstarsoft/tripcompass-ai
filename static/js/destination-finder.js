@@ -9,7 +9,9 @@
   }
 
   const submitButton = form.querySelector("button[type='submit']");
-  const originalSubmitText = submitButton ? submitButton.dataset.submitLabel || submitButton.textContent : "View sample matches";
+  const originalSubmitText = submitButton ? submitButton.dataset.submitLabel || submitButton.textContent : "Get AI recommendations";
+  const bookingDisclaimer =
+    "Always check current prices, opening hours, visa rules, availability, and booking terms before booking.";
 
   function setStatus(message, isError) {
     status.textContent = message;
@@ -126,7 +128,7 @@
     dynamicResults.replaceChildren(...recommendations.map(recommendationCard));
     dynamicResults.hidden = false;
     staticResults.hidden = true;
-    setStatus(data.disclaimer || "", false);
+    setStatus(`AI recommendations are ready. ${data.disclaimer || bookingDisclaimer}`, false);
   }
 
   async function requestRecommendations() {
@@ -148,17 +150,17 @@
     dynamicResults.hidden = true;
     dynamicResults.replaceChildren();
     staticResults.hidden = false;
-    setStatus("Finding mock matches...", false);
+    setStatus("Asking TripCompass AI for destination matches...", false);
 
     if (submitButton) {
       submitButton.disabled = true;
-      submitButton.textContent = "Finding matches...";
+      submitButton.textContent = "Getting AI recommendations...";
     }
 
     try {
       renderRecommendations(await requestRecommendations());
     } catch {
-      setStatus("Mock API results are not available right now. The static sample cards below are still available.", true);
+      setStatus("We could not refresh AI recommendations just now. You can still use the starting ideas below and try again in a moment.", true);
     } finally {
       if (submitButton) {
         submitButton.disabled = false;

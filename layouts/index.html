@@ -16,11 +16,12 @@
 <section class="finder-band" id="destination-finder" aria-labelledby="finder-title">
   <div class="section-inner finder-layout">
     <div>
-      <p class="eyebrow">Mock API preview</p>
+      <p class="eyebrow">Live AI planning assistant</p>
       <h2 id="finder-title">AI destination finder</h2>
-      <p class="section-lead">Choose a starting point, trip length, timing, and travel style. The MVP returns mock recommendations now; live AI recommendations come later.</p>
+      <p class="section-lead">Choose a starting point, trip length, timing, and travel style. TripCompass AI returns planning suggestions to help you compare where to go before you book.</p>
     </div>
     <form class="finder-form" action="{{ "/destination-finder/" | relURL }}" method="get" data-recommend-form>
+      <input type="hidden" name="language" value="en">
       <div class="form-grid">
         <label>
           <span>Leaving from</span>
@@ -81,7 +82,7 @@
         <label><input type="checkbox" name="travelStyle" value="Family"> Family</label>
         <label><input type="checkbox" name="travelStyle" value="Shopping"> Shopping</label>
       </fieldset>
-      <button class="button button--primary" type="submit" data-submit-label="View sample matches">View sample matches</button>
+      <button class="button button--primary" type="submit" data-submit-label="Get AI recommendations">Get AI recommendations</button>
     </form>
   </div>
 </section>
@@ -89,9 +90,9 @@
 <section class="results-section" aria-labelledby="results-title">
   <div class="section-inner">
     <div class="section-heading">
-      <p class="eyebrow">Sample recommendations</p>
-      <h2 id="results-title">Mock result cards for short trips from Korea</h2>
-      <p>These cards are static examples for Phase 1 and do not use live prices or availability.</p>
+      <p class="eyebrow">AI recommendation results</p>
+      <h2 id="results-title">Destination matches for short trips from Korea</h2>
+      <p>Use the finder to get AI planning suggestions. The cards below remain available as starting ideas if the live request cannot complete; they do not include real-time prices or availability.</p>
     </div>
     <p class="result-status" data-result-status aria-live="polite" hidden></p>
     <div class="destination-grid dynamic-results" data-dynamic-results hidden></div>

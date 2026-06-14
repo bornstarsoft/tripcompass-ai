@@ -115,10 +115,16 @@ assert.match(homepage, /js\/language\.js/);
 assert.match(homepage, /data-language="?en"?/);
 assert.match(homepage, /data-dynamic-results/);
 assert.match(homepage, /data-static-results/);
+assert.match(homepage, /Live AI planning assistant/);
+assert.match(homepage, /Get AI recommendations/);
+assert.match(homepage, /AI recommendation results/);
+assert.match(homepage, /Destination matches for short trips from Korea/);
+assert.match(homepage, /name="?language"? value="?en"?/);
 assert.match(homepage, /Fukuoka/);
 assert.match(homepage, /Osaka/);
 assert.match(homepage, /Tokyo/);
 assert.match(homepage, /Da Nang/);
+assert.doesNotMatch(homepage, /MOCK API PREVIEW|Mock API preview|View sample matches|SAMPLE RECOMMENDATIONS|Sample recommendations|Mock result cards|These cards are static examples/i);
 
 const appJs = await readFile(join(outDir, "js", "destination-finder.js"), "utf8");
 assert.match(appJs, /\/api\/recommend/);
@@ -126,6 +132,11 @@ assert.match(appJs, /fetch/);
 assert.match(appJs, /renderRecommendations/);
 assert.match(appJs, /currentLanguage/);
 assert.match(appJs, /language:/);
+assert.match(appJs, /Get AI recommendations/);
+assert.match(appJs, /Asking TripCompass AI for destination matches/);
+assert.match(appJs, /AI recommendations are ready/);
+assert.match(appJs, /could not refresh AI recommendations/);
+assert.doesNotMatch(appJs, /Finding mock matches|Mock API results|fallbackReason/);
 
 const languageJs = await readFile(join(outDir, "js", "language.js"), "utf8");
 assert.match(languageJs, /localStorage/);
