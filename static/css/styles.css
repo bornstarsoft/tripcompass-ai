@@ -93,8 +93,17 @@ a:hover {
   white-space: nowrap;
 }
 
+.site-header__actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.75rem 1rem;
+}
+
 .site-nav,
-.footer-nav {
+.footer-nav,
+.language-switcher {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -102,7 +111,8 @@ a:hover {
 }
 
 .site-nav a,
-.footer-nav a {
+.footer-nav a,
+.language-switcher a {
   color: var(--muted);
   font-size: 0.95rem;
   font-weight: 650;
@@ -110,8 +120,56 @@ a:hover {
 }
 
 .site-nav a:hover,
-.footer-nav a:hover {
+.footer-nav a:hover,
+.language-switcher a:hover {
   color: var(--teal-dark);
+}
+
+.language-switcher {
+  gap: 0.35rem;
+  padding-left: 0.85rem;
+  border-left: 1px solid var(--line);
+}
+
+.language-switcher a {
+  min-height: 2rem;
+  padding: 0.25rem 0.55rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+}
+
+.language-switcher a[aria-current="true"] {
+  background: var(--mint);
+  border-color: #b8dfd1;
+  color: var(--teal-dark);
+}
+
+.language-suggestion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.7rem 1rem;
+  background: var(--cream);
+  border-bottom: 1px solid #eadfbd;
+  color: #4b4535;
+  font-size: 0.95rem;
+}
+
+.language-suggestion[hidden] {
+  display: none;
+}
+
+.language-suggestion a {
+  font-weight: 800;
+}
+
+.language-suggestion button {
+  min-height: 2rem;
+  padding: 0.25rem 0.55rem;
+  background: transparent;
+  border: 1px solid #d9cda9;
+  color: #4b4535;
 }
 
 .hero {
@@ -524,6 +582,15 @@ input[type="checkbox"] {
     padding: 0.85rem 0;
   }
 
+  .site-header__actions {
+    justify-content: flex-start;
+  }
+
+  .language-switcher {
+    padding-left: 0;
+    border-left: 0;
+  }
+
   .hero {
     min-height: 460px;
   }
@@ -557,8 +624,21 @@ input[type="checkbox"] {
     width: 100%;
   }
 
+  .site-header__actions {
+    width: 100%;
+  }
+
   .site-nav a {
     font-size: 0.9rem;
+  }
+
+  .language-suggestion {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .language-suggestion button {
+    width: auto;
   }
 
   .hero {

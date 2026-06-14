@@ -14,7 +14,8 @@ const recommendPayload = {
   travelMonth: "October",
   travelStyle: ["food", "first-time"],
   travelers: "2 adults",
-  preferredRegion: "Japan"
+  preferredRegion: "Japan",
+  language: "en"
 };
 
 const recommendResponse = await recommend({
@@ -31,6 +32,7 @@ assert.match(recommendResponse.headers.get("content-type"), /application\/json/)
 const recommendJson = await recommendResponse.json();
 assert.equal(recommendJson.source, "mock");
 assert.equal(recommendJson.input.departureCity, "Seoul");
+assert.equal(recommendJson.input.language, "en");
 assert.equal(recommendJson.recommendations.length, 3);
 
 for (const item of recommendJson.recommendations) {
@@ -48,9 +50,43 @@ for (const item of recommendJson.recommendations) {
   assert.ok(item.ctaUrls.flight.startsWith("/go/flight?"));
   assert.ok(item.ctaUrls.activity.startsWith("/go/activity?"));
   assert.ok(item.ctaUrls.esim.startsWith("/go/esim?"));
+  assert.match(item.ctaUrls.hotel, /country=/);
+  assert.match(item.ctaUrls.hotel, /lang=en/);
+  assert.match(item.ctaUrls.flight, /lang=en/);
 }
 
 assert.match(recommendJson.disclaimer, /Always check current prices/i);
+
+const defaultLanguageResponse = await recommend({
+  request: new Request("https://tripcompass.ai/api/recommend", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ ...recommendPayload, language: undefined })
+  })
+});
+assert.equal(defaultLanguageResponse.status, 200);
+const defaultLanguageJson = await defaultLanguageResponse.json();
+assert.equal(defaultLanguageJson.input.language, "en");
+assert.equal(defaultLanguageJson.recommendations[0].name, "Fukuoka");
+
+const koreanResponse = await recommend({
+  request: new Request("https://tripcompass.ai/api/recommend", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ ...recommendPayload, language: "ko" })
+  })
+});
+assert.equal(koreanResponse.status, 200);
+const koreanJson = await koreanResponse.json();
+assert.equal(koreanJson.input.language, "ko");
+assert.equal(koreanJson.recommendations.length, 3);
+assert.equal(koreanJson.recommendations[0].name, "후쿠오카");
+assert.equal(koreanJson.recommendations[0].country, "일본");
+assert.match(koreanJson.recommendations[0].why.join(" "), /짧은|음식|일본/);
+assert.match(koreanJson.disclaimer, /예약 전/);
+assert.match(koreanJson.recommendations[0].ctaUrls.hotel, /destination=fukuoka/);
+assert.match(koreanJson.recommendations[0].ctaUrls.hotel, /country=japan/);
+assert.match(koreanJson.recommendations[0].ctaUrls.hotel, /lang=ko/);
 
 const itineraryResponse = await itinerary({
   request: new Request("https://tripcompass.ai/api/itinerary", {
@@ -75,6 +111,8 @@ assert.match(itineraryJson.disclaimer, /verify prices/i);
 
 const homepage = await readFile(join(outDir, "index.html"), "utf8");
 assert.match(homepage, /js\/destination-finder\.js/);
+assert.match(homepage, /js\/language\.js/);
+assert.match(homepage, /data-language="?en"?/);
 assert.match(homepage, /data-dynamic-results/);
 assert.match(homepage, /data-static-results/);
 assert.match(homepage, /Fukuoka/);
@@ -86,3 +124,10 @@ const appJs = await readFile(join(outDir, "js", "destination-finder.js"), "utf8"
 assert.match(appJs, /\/api\/recommend/);
 assert.match(appJs, /fetch/);
 assert.match(appJs, /renderRecommendations/);
+assert.match(appJs, /currentLanguage/);
+assert.match(appJs, /language:/);
+
+const languageJs = await readFile(join(outDir, "js", "language.js"), "utf8");
+assert.match(languageJs, /localStorage/);
+assert.match(languageJs, /data-language-suggestion/);
+assert.match(languageJs, /browserLanguage\.startsWith\("ko"\)/);

@@ -26,6 +26,11 @@
     return Array.from(form.querySelectorAll("input[name='travelStyle']:checked")).map((item) => item.value);
   }
 
+  function currentLanguage() {
+    const pageLanguage = (document.documentElement.dataset.language || document.documentElement.lang || "en").toLowerCase();
+    return pageLanguage.startsWith("ko") || window.location.pathname.startsWith("/ko/") ? "ko" : "en";
+  }
+
   function formPayload() {
     return {
       departureCity: fieldValue("departureCity"),
@@ -34,7 +39,8 @@
       travelMonth: fieldValue("travelMonth"),
       travelStyle: selectedTravelStyles(),
       travelers: fieldValue("travelers"),
-      preferredRegion: fieldValue("preferredRegion")
+      preferredRegion: fieldValue("preferredRegion"),
+      language: currentLanguage()
     };
   }
 

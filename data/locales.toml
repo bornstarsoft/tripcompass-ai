@@ -1,0 +1,41 @@
+[[locales]]
+code = "en"
+label = "English"
+path = "/"
+active = true
+
+[[locales]]
+code = "ko"
+label = "Korean"
+path = "/ko/"
+active = true
+
+[[locales]]
+code = "ja"
+label = "Japanese"
+path = "/"
+active = false
+
+[[locales]]
+code = "zh-tw"
+label = "Traditional Chinese"
+path = "/"
+active = false
+
+[[locales]]
+code = "vi"
+label = "Vietnamese"
+path = "/"
+active = false
+
+[[locales]]
+code = "th"
+label = "Thai"
+path = "/"
+active = false
+
+[[locales]]
+code = "id"
+label = "Indonesian"
+path = "/"
+active = false

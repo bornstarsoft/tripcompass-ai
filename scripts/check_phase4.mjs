@@ -80,6 +80,13 @@ assert.equal(hotelDb.calls[0].binds[6], "https://tripcompass.ai/from-seoul/");
 assert.equal(hotelDb.calls[0].binds[7], "TripCompass Phase 4 Check");
 assert.ok(Date.parse(hotelDb.calls[0].binds[8]));
 
+const langDb = createMockDb();
+const langResult = await callRouter("hotel", "?destination=fukuoka&country=japan&lang=ko", { env: { DB: langDb } });
+assertRedirect(langResult.response);
+assert.equal(langResult.pendingCount, 1);
+assert.deepEqual(langDb.calls[0].binds.slice(0, 6), ["hotel", "fukuoka", null, null, null, "ko"]);
+assert.equal(langResult.response.headers.get("location"), hotelResult.response.headers.get("location"));
+
 const headDb = createMockDb();
 const headResult = await callRouter("hotel", "?destination=fukuoka", { env: { DB: headDb }, method: "HEAD" });
 assertRedirect(headResult.response);

@@ -27,6 +27,7 @@ required_pages=(
   "affiliate-disclosure/index.html"
   "robots.txt"
   "_routes.json"
+  "js/language.js"
 )
 
 for page in "${required_pages[@]}"; do
@@ -55,6 +56,48 @@ for text in \
     exit 1
   }
 done
+
+for text in \
+  'data-language=en' \
+  'data-language-switcher' \
+  'data-language-suggestion' \
+  'js/language.js' \
+  'hreflang=en' \
+  'hreflang=ko' \
+  'hreflang=x-default' \
+  '/ko/' \
+  'lang=en'; do
+  grep -Fq "$text" "$homepage" || {
+    echo "Homepage missing Phase 5A language text: $text" >&2
+    exit 1
+  }
+done
+
+ko_page="$OUT_DIR/ko/index.html"
+for text in \
+  'lang=ko' \
+  'data-language=ko' \
+  'data-language-switcher' \
+  'hreflang=en' \
+  'hreflang=ko' \
+  'hreflang=x-default'; do
+  grep -Fq "$text" "$ko_page" || {
+    echo "Korean page missing Phase 5A language text: $text" >&2
+    exit 1
+  }
+done
+
+locale_registry="$ROOT_DIR/data/locales.toml"
+for code in en ko ja zh-tw vi th id; do
+  grep -Fq "code = \"$code\"" "$locale_registry" || {
+    echo "Locale registry missing code: $code" >&2
+    exit 1
+  }
+done
+grep -Fq 'path = "/ko/"' "$locale_registry" || {
+  echo "Locale registry missing Korean path" >&2
+  exit 1
+}
 
 grep -Fq '"/api/*"' "$OUT_DIR/_routes.json" || {
   echo "_routes.json missing /api/* include" >&2

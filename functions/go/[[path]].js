@@ -168,6 +168,18 @@ function headerValue(request, name) {
   return value && value.trim() ? value.trim().slice(0, 500) : null;
 }
 
+function languageParam(request) {
+  const raw = new URL(request.url).searchParams.get("lang");
+  const cleaned = String(raw || "")
+    .trim()
+    .toLowerCase()
+    .replace(/_/g, "-")
+    .replace(/[^a-z-]/g, "")
+    .slice(0, 16);
+
+  return cleaned || null;
+}
+
 function clickRecord(request, details) {
   return {
     type: details.type,
@@ -175,7 +187,7 @@ function clickRecord(request, details) {
     country: details.country,
     fromCity: details.fromCity,
     toCity: details.toCity,
-    language: headerValue(request, "accept-language"),
+    language: languageParam(request) || headerValue(request, "accept-language"),
     referrer: headerValue(request, "referer") || headerValue(request, "referrer"),
     userAgent: headerValue(request, "user-agent"),
     createdAt: new Date().toISOString()
