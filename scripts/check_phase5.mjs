@@ -692,3 +692,41 @@ assert.match(operationsNote, /no real-time prices/i);
 assert.match(operationsNote, /no availability guarantees/i);
 assert.match(operationsNote, /no visa guarantees/i);
 assert.match(operationsNote, /no booking guarantees/i);
+
+const launchMonitoring = await readFile("docs/launch-monitoring.md", "utf8");
+for (const expectedText of [
+  "14-Day Launch Checklist",
+  "submit sitemap",
+  "inspect homepage",
+  "inspect /ko/",
+  "inspect the 10 SEO landing pages",
+  "bash scripts/check_production_live.sh",
+  "Cloudflare Web Analytics",
+  "GSC coverage",
+  "D1 /go click logs",
+  "latest clicks",
+  "clicks by type",
+  "clicks by destination",
+  "clicks by language",
+  "daily click counts",
+  "Weekly KPI Table",
+  "indexed pages",
+  "GSC impressions",
+  "GSC clicks",
+  "Cloudflare visits",
+  "API backend/cache status",
+  "/go clicks",
+  "Decision Rules"
+]) {
+  assert.match(launchMonitoring, new RegExp(expectedText.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"));
+}
+assert.match(launchMonitoring, /SELECT\s+id,\s*type,\s*destination,\s*country,\s*from_city,\s*to_city,\s*language,\s*referrer,\s*user_agent,\s*created_at\s+FROM\s+clicks/is);
+assert.match(launchMonitoring, /GROUP BY\s+type/is);
+assert.match(launchMonitoring, /GROUP BY\s+destination/is);
+assert.match(launchMonitoring, /GROUP BY\s+language/is);
+assert.match(launchMonitoring, /date\(created_at\)/i);
+assert.match(launchMonitoring, /no real-time prices/i);
+assert.match(launchMonitoring, /no availability guarantees/i);
+assert.match(launchMonitoring, /no visa guarantees/i);
+assert.match(launchMonitoring, /no booking guarantees/i);
+assert.match(launchMonitoring, /Do not add real affiliate links/i);
