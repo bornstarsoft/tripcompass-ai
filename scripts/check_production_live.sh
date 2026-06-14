@@ -52,19 +52,26 @@ recommend_payload() {
   local language="$1"
   local budget="$2"
 
-  node -e '
-const [language, budget] = process.argv.slice(1);
-process.stdout.write(JSON.stringify({
-  departureCity: "Seoul",
-  tripLength: "4 days",
-  budget,
-  travelMonth: "October",
-  travelStyle: ["Food", "First-time friendly"],
-  travelers: "2 adults",
-  preferredRegion: "Japan",
-  language
-}));
-' "$language" "$budget"
+  LANGUAGE="$language" BUDGET="$budget" python3 - <<'PY_PAYLOAD'
+import json
+import os
+
+language = os.environ["LANGUAGE"]
+budget = os.environ["BUDGET"]
+
+payload = {
+    "departureCity": "Seoul",
+    "tripLength": "4 days",
+    "budget": budget,
+    "travelMonth": "October",
+    "travelStyle": ["Food", "First-time friendly"],
+    "travelers": "2 adults",
+    "preferredRegion": "Japan",
+    "language": language,
+}
+
+print(json.dumps(payload, ensure_ascii=False))
+PY_PAYLOAD
 }
 
 post_recommend() {
@@ -75,6 +82,10 @@ post_recommend() {
   local status
 
   payload="$(recommend_payload "$language" "$budget")"
+  if [[ "${DEBUG_PAYLOAD:-}" == "1" ]]; then
+    echo "DEBUG payload for $language:" >&2
+    printf "%s\n" "$payload" | python3 -m json.tool >&2
+  fi
   status="$(curl -sS -X POST "$BASE_URL/api/recommend" \
     -H 'content-type: application/json' \
     --data "$payload" \
@@ -100,7 +111,8 @@ try {
   process.exit(1);
 }
 if (data.fallbackReason) {
-  console.error(`FAIL ${label} exposed fallbackReason`);
+  const count = Array.isArray(data.recommendations) ? data.recommendations.length : 0;
+  console.error(`FAIL ${label} exposed fallbackReason source=${data.source || "missing"} fallbackReason=${data.fallbackReason} recommendations=${count} inputLanguage=${data.input?.language || "missing"} inputBudget=${data.input?.budget || "missing"}`);
   process.exit(1);
 }
 if (!Array.isArray(data.recommendations) || data.recommendations.length < 1) {
@@ -145,9 +157,9 @@ for ko_copy in \
 done
 pass "Korean homepage shows hero and live finder copy"
 
-unique_suffix="tripcompass-live-$(date -u +%Y%m%dT%H%M%SZ)-$$"
-en_budget="Production live QA ${unique_suffix} en"
-ko_budget="Production live QA ${unique_suffix} ko"
+unique_suffix="$(date +%s)"
+en_budget="under ${unique_suffix} USD"
+ko_budget="균형 예산 ${unique_suffix}"
 
 en_json="$TMP_DIR/recommend-en.json"
 en_repeat_json="$TMP_DIR/recommend-en-repeat.json"
