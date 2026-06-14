@@ -24,8 +24,8 @@
           <nav class="site-nav" aria-label="Primary navigation">
             <a href="{{ cond $isKo ("/ko/#destination-finder" | relURL) ("/destination-finder/" | relURL) }}">{{ cond $isKo "추천" "Finder" }}</a>
             <a href="{{ "/trip-planner/" | relURL }}">{{ cond $isKo "일정" "Planner" }}</a>
-            <a href="{{ "/compare/" | relURL }}">{{ cond $isKo "비교" "Compare" }}</a>
-            <a href="{{ "/from-seoul/" | relURL }}">{{ cond $isKo "한국 출발" "From Seoul" }}</a>
+            <a href="{{ cond $isKo ("/ko/compare/" | relURL) ("/compare/" | relURL) }}">{{ cond $isKo "비교" "Compare" }}</a>
+            <a href="{{ cond $isKo ("/ko/from-seoul/" | relURL) ("/from-seoul/" | relURL) }}">{{ cond $isKo "한국 출발" "From Seoul" }}</a>
           </nav>
           <nav class="language-switcher" aria-label="Language selector" data-language-switcher>
             {{- range where .Site.Data.locales.locales "active" true }}

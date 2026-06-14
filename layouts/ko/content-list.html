@@ -1,0 +1,27 @@
+{{ define "main" }}
+<section class="page-shell">
+  <header class="page-hero">
+    <p class="eyebrow">{{ .Params.eyebrow | default "TripCompass AI" }}</p>
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p>{{ . }}</p>{{ end }}
+  </header>
+  <div class="content-wrap prose">
+    {{ .Content }}
+  </div>
+  {{ if .Pages }}
+  <div class="link-grid" aria-label="관련 한국어 페이지">
+    {{ range .Pages.ByWeight }}
+    <article class="link-card">
+      <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
+      {{ with .Description }}<p>{{ . }}</p>{{ else }}<p>{{ .Summary }}</p>{{ end }}
+    </article>
+    {{ end }}
+  </div>
+  {{ end }}
+  {{ if ne .Params.disclaimer false }}
+  <aside class="trust-note" aria-label="여행 계획 확인 안내">
+    <strong>예약 전 확인:</strong> TripCompass AI는 여행 계획 제안을 제공합니다. 예약 전 최신 가격, 영업시간, 비자 규정, 예약 가능 여부, 예약 조건을 반드시 확인하세요.
+  </aside>
+  {{ end }}
+</section>
+{{ end }}

@@ -288,3 +288,114 @@ for (const page of seoPages) {
     assert.match(html, link);
   }
 }
+
+const oldKoreanPrepPattern = /한국어 섹션 준비|1단계 범위|영어를 기본 언어로 먼저 구축|이후 단계에서 확장/;
+const koreanSeoPages = [
+  {
+    path: ["ko", "from-seoul", "japan-3-day-trips", "index.html"],
+    title: /서울 출발 일본 3일 여행지 추천/,
+    links: [
+      /\/ko\/#destination-finder/,
+      /\/ko\/compare\/fukuoka-vs-osaka\//,
+      /\/ko\/compare\/tokyo-vs-osaka\//,
+      /\/ko\/from-seoul\/japan-travel-budget\//,
+      /\/ko\/best-short-trips-from-korea\//
+    ],
+    goLinks: [
+      /\/go\/hotel\?destination=fukuoka&amp;country=japan&amp;lang=ko/,
+      /\/go\/flight\?from=seoul&amp;to=fukuoka&amp;country=japan&amp;lang=ko/
+    ]
+  },
+  {
+    path: ["ko", "compare", "fukuoka-vs-osaka", "index.html"],
+    title: /후쿠오카 vs 오사카/,
+    links: [
+      /\/ko\/from-seoul\/japan-3-day-trips\//,
+      /\/ko\/from-seoul\/japan-travel-budget\//,
+      /\/ko\/compare\/tokyo-vs-osaka\//
+    ],
+    goLinks: [
+      /\/go\/hotel\?destination=fukuoka&amp;country=japan&amp;lang=ko/,
+      /\/go\/activity\?destination=osaka&amp;country=japan&amp;lang=ko/
+    ]
+  },
+  {
+    path: ["ko", "compare", "tokyo-vs-osaka", "index.html"],
+    title: /도쿄 vs 오사카/,
+    links: [
+      /\/ko\/from-seoul\/japan-3-day-trips\//,
+      /\/ko\/from-seoul\/japan-travel-budget\//,
+      /\/ko\/compare\/fukuoka-vs-osaka\//
+    ],
+    goLinks: [
+      /\/go\/hotel\?destination=tokyo&amp;country=japan&amp;lang=ko/,
+      /\/go\/flight\?from=seoul&amp;to=osaka&amp;country=japan&amp;lang=ko/
+    ]
+  },
+  {
+    path: ["ko", "best-short-trips-from-korea", "index.html"],
+    title: /한국에서 가기 좋은 짧은 해외여행/,
+    links: [
+      /\/ko\/#destination-finder/,
+      /\/ko\/from-seoul\/japan-3-day-trips\//,
+      /\/ko\/compare\/tokyo-vs-osaka\//,
+      /\/ko\/compare\/fukuoka-vs-osaka\//,
+      /\/ko\/from-seoul\/japan-travel-budget\//
+    ],
+    goLinks: [
+      /\/go\/hotel\?destination=da-nang&amp;country=vietnam&amp;lang=ko/,
+      /\/go\/esim\?country=japan&amp;lang=ko/
+    ]
+  },
+  {
+    path: ["ko", "from-seoul", "japan-travel-budget", "index.html"],
+    title: /서울 출발 일본 여행 예산/,
+    links: [
+      /\/ko\/#destination-finder/,
+      /\/ko\/from-seoul\/japan-3-day-trips\//,
+      /\/ko\/compare\/tokyo-vs-osaka\//,
+      /\/ko\/compare\/fukuoka-vs-osaka\//
+    ],
+    goLinks: [
+      /\/go\/flight\?from=seoul&amp;to=fukuoka&amp;country=japan&amp;lang=ko/,
+      /\/go\/hotel\?destination=osaka&amp;country=japan&amp;lang=ko/
+    ]
+  }
+];
+
+for (const page of koreanSeoPages) {
+  const html = await readFile(join(outDir, ...page.path), "utf8");
+  assert.match(html, page.title);
+  assert.match(html, /lang="?ko"?/);
+  assert.match(html, /이런 사람에게 추천/);
+  assert.match(html, /추천 여행 기간/);
+  assert.match(html, /예산 고려사항/);
+  assert.match(html, /주의할 점/);
+  assert.match(html, /다음 단계 CTA/);
+  assert.match(html, /예약 전 최신 가격, 영업시간, 비자 규정, 예약 가능 여부, 예약 조건을 반드시 확인하세요/);
+  assert.doesNotMatch(html, oldKoreanPrepPattern);
+  assert.doesNotMatch(html, /실시간 최저가|예약 가능을 보장|비자 규정을 보장|예약을 보장/);
+  for (const link of page.links) {
+    assert.match(html, link);
+  }
+  for (const link of page.goLinks) {
+    assert.match(html, link);
+  }
+}
+
+const koreanFromSeoulIndex = await readFile(join(outDir, "ko", "from-seoul", "index.html"), "utf8");
+assert.match(koreanFromSeoulIndex, /서울 출발 여행/);
+assert.match(koreanFromSeoulIndex, /\/ko\/from-seoul\/japan-3-day-trips\//);
+assert.match(koreanFromSeoulIndex, /\/ko\/from-seoul\/japan-travel-budget\//);
+assert.doesNotMatch(koreanFromSeoulIndex, oldKoreanPrepPattern);
+
+const koreanCompareIndex = await readFile(join(outDir, "ko", "compare", "index.html"), "utf8");
+assert.match(koreanCompareIndex, /여행지 비교/);
+assert.match(koreanCompareIndex, /\/ko\/compare\/fukuoka-vs-osaka\//);
+assert.match(koreanCompareIndex, /\/ko\/compare\/tokyo-vs-osaka\//);
+assert.doesNotMatch(koreanCompareIndex, oldKoreanPrepPattern);
+
+for (const englishPage of seoPages) {
+  const html = await readFile(join(outDir, ...englishPage.path), "utf8");
+  assert.match(html, englishPage.title);
+}
