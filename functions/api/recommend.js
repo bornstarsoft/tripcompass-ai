@@ -474,6 +474,35 @@ function backendUrlFromEnv(env = {}) {
   return typeof env.AI_BACKEND_URL === "string" && env.AI_BACKEND_URL.trim() ? env.AI_BACKEND_URL.trim() : "";
 }
 
+function backendSecretFromEnv(env = {}) {
+  return typeof env.AI_BACKEND_SECRET === "string" && env.AI_BACKEND_SECRET.trim() ? env.AI_BACKEND_SECRET.trim() : "";
+}
+
+function backendRequestHeaders(env = {}) {
+  const headers = {
+    "content-type": "application/json"
+  };
+  const backendSecret = backendSecretFromEnv(env);
+
+  if (backendSecret) {
+    headers["X-TripCompass-Backend-Secret"] = backendSecret;
+  }
+
+  return headers;
+}
+
+function backendHttpFallbackReason(status) {
+  if (status === 401) {
+    return "ai_backend_http_401";
+  }
+
+  if (status === 403) {
+    return "ai_backend_http_403";
+  }
+
+  return "ai_backend_http_failed";
+}
+
 function isProductionEnvironment(env = {}) {
   const values = [env.ENVIRONMENT, env.NODE_ENV, env.CF_PAGES_ENV]
     .map((value) => (typeof value === "string" ? value.trim().toLowerCase() : ""));
@@ -663,9 +692,7 @@ async function fetchBackendRecommendations(input, env, fetcher) {
   try {
     response = await fetcher(backendUrl, {
       method: "POST",
-      headers: {
-        "content-type": "application/json"
-      },
+      headers: backendRequestHeaders(env),
       body: JSON.stringify(input)
     });
   } catch {
@@ -673,7 +700,7 @@ async function fetchBackendRecommendations(input, env, fetcher) {
   }
 
   if (!response.ok) {
-    return { recommendations: null, fallbackReason: "ai_backend_http_failed" };
+    return { recommendations: null, fallbackReason: backendHttpFallbackReason(response.status) };
   }
 
   let backendJson;

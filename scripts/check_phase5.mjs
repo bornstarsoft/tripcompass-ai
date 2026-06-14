@@ -338,15 +338,17 @@ const cachedPayload = JSON.parse(cacheMissCache.putCalls[0].value);
 assert.equal(cachedPayload.recommendations.length, 3);
 assert.equal(cachedPayload.recommendations[0].slug, "fukuoka");
 
+const backendSecretValue = "opaque-test-token";
 const backendSuccessFetch = createFetchMock((call) => {
   assert.equal(call.url, "https://ai-backend.example/recommend");
   assert.equal(call.init.method, "POST");
   assert.equal(call.init.headers["content-type"], "application/json");
   assert.equal(call.init.headers.Authorization, undefined);
+  assert.equal(call.init.headers["X-TripCompass-Backend-Secret"], backendSecretValue);
   assert.equal(call.body.language, "ko");
   assert.equal(call.body.departureCity, "Seoul");
   assert.deepEqual(call.body.travelStyle, ["First-time friendly", "Food"]);
-  assert.doesNotMatch(call.init.body, /test-openai-key|api\.openai\.com|gpt-5\.4-mini/);
+  assert.doesNotMatch(call.init.body, /test-openai-key|opaque-test-token|api\.openai\.com|gpt-5\.4-mini/);
   return { recommendations: recommendationSet("ko") };
 });
 const backendSuccessCache = createCacheMock();
@@ -356,6 +358,7 @@ const backendSuccessResponse = await postRecommend({ ...basePayload, language: "
     DIRECT_OPENAI_IN_PRODUCTION: "true",
     CF_PAGES_BRANCH: "main",
     OPENAI_API_KEY: "test-openai-key",
+    AI_BACKEND_SECRET: backendSecretValue,
     CACHE: backendSuccessCache
   },
   fetch: backendSuccessFetch
@@ -371,6 +374,7 @@ assert.equal(backendSuccessCache.putCalls.length, 1);
 
 const backendFailureFetch = createFetchMock((call) => {
   assert.equal(call.url, "https://ai-backend.example/recommend");
+  assert.equal(call.init.headers["X-TripCompass-Backend-Secret"], undefined);
   return new Error("backend unavailable");
 });
 const backendFailureResponse = await postRecommend(basePayload, {
@@ -385,6 +389,38 @@ assert.equal(backendFailureJson.source, "mock");
 assert.equal(backendFailureJson.fallbackReason, "ai_backend_fetch_failed");
 assert.equal(backendFailureFetch.calls.length, 1);
 assert.equal(backendFailureJson.recommendations[0].slug, "fukuoka");
+
+async function assertBackendHttpFallback(status, fallbackReason) {
+  const backendHttpFetch = createFetchMock((call) => {
+    assert.equal(call.url, "https://ai-backend.example/recommend");
+    assert.equal(call.init.headers["X-TripCompass-Backend-Secret"], backendSecretValue);
+    return {
+      status,
+      body: {
+        error: "do-not-expose-backend-body",
+        secret: backendSecretValue
+      }
+    };
+  });
+  const backendHttpResponse = await postRecommend(basePayload, {
+    env: {
+      AI_BACKEND_URL: "https://ai-backend.example/recommend",
+      AI_BACKEND_SECRET: backendSecretValue,
+      OPENAI_API_KEY: "test-openai-key"
+    },
+    fetch: backendHttpFetch
+  });
+  const backendHttpJson = await backendHttpResponse.json();
+  const backendHttpText = JSON.stringify(backendHttpJson);
+
+  assert.equal(backendHttpJson.source, "mock");
+  assert.equal(backendHttpJson.fallbackReason, fallbackReason);
+  assert.equal(backendHttpFetch.calls.length, 1);
+  assert.doesNotMatch(backendHttpText, /do-not-expose-backend-body|opaque-test-token/);
+}
+
+await assertBackendHttpFallback(401, "ai_backend_http_401");
+await assertBackendHttpFallback(403, "ai_backend_http_403");
 
 const missingBackendFetch = createFetchMock(() => new Error("should not call OpenAI by default in production"));
 const missingBackendResponse = await postRecommend(basePayload, {
