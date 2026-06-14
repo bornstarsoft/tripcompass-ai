@@ -498,6 +498,49 @@ function openAIHttpFallbackReason(status) {
   return "openai_http_other";
 }
 
+function safeOpenAIErrorValue(value) {
+  if (typeof value === "string") {
+    const cleaned = value.trim().replace(/\s+/g, " ");
+    return cleaned ? cleaned.slice(0, 120) : null;
+  }
+
+  if (typeof value === "number" || typeof value === "boolean") {
+    return String(value);
+  }
+
+  return null;
+}
+
+async function openAIHttpFailureLogDetails(response) {
+  const details = {
+    status: typeof response?.status === "number" ? response.status : 0
+  };
+
+  try {
+    const responseForParsing = typeof response.clone === "function" ? response.clone() : response;
+    const body = await responseForParsing.json();
+    const error = body?.error && typeof body.error === "object" ? body.error : null;
+    const errorType = safeOpenAIErrorValue(error?.type);
+    const errorCode = safeOpenAIErrorValue(error?.code);
+
+    if (errorType) {
+      details.errorType = errorType;
+    }
+
+    if (errorCode) {
+      details.errorCode = errorCode;
+    }
+  } catch {
+    // Keep diagnostics intentionally coarse; never log raw OpenAI response bodies.
+  }
+
+  return details;
+}
+
+async function logOpenAIHttpFailure(response) {
+  console.warn("TripCompass OpenAI non-2xx response", await openAIHttpFailureLogDetails(response));
+}
+
 function extractOutputText(openAIJson) {
   if (typeof openAIJson?.output_text === "string") {
     return openAIJson.output_text;
@@ -604,6 +647,7 @@ async function fetchOpenAIRecommendations(input, env, fetcher) {
   }
 
   if (!response.ok) {
+    await logOpenAIHttpFailure(response);
     return { recommendations: null, fallbackReason: openAIHttpFallbackReason(response.status) };
   }
 

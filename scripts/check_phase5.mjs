@@ -406,19 +406,39 @@ assert.equal(failedJson.input.language, "ko");
 assert.equal(failedJson.recommendations[0].name, "후쿠오카");
 
 async function assertOpenAIHttpFallback(status, fallbackReason) {
+  const warnCalls = [];
+  const originalWarn = console.warn;
   const httpFetch = createFetchMock(() => ({
     status,
     body: {
       error: {
-        type: "test_error"
+        type: "invalid_request_error",
+        code: "model_not_found",
+        message: "do-not-log raw OpenAI body or sk-test-secret"
+      },
+      requestHeaders: {
+        Authorization: "Bearer do-not-log"
       }
     }
   }));
-  const httpResponse = await postRecommend(basePayload, {
-    env: { OPENAI_API_KEY: "test-openai-key" },
-    fetch: httpFetch
-  });
+
+  console.warn = (...args) => {
+    warnCalls.push(args);
+  };
+
+  let httpResponse;
+  try {
+    httpResponse = await postRecommend(basePayload, {
+      env: { OPENAI_API_KEY: "test-openai-key" },
+      fetch: httpFetch
+    });
+  } finally {
+    console.warn = originalWarn;
+  }
+
   const httpJson = await httpResponse.json();
+  const clientResponseText = JSON.stringify(httpJson);
+  const serverLogText = JSON.stringify(warnCalls);
 
   assert.equal(httpResponse.status, 200);
   assert.equal(httpJson.source, "mock");
@@ -426,6 +446,17 @@ async function assertOpenAIHttpFallback(status, fallbackReason) {
   assert.equal(httpFetch.calls.length, 1);
   assert.equal(httpJson.error, undefined);
   assert.equal(httpJson.openaiStatus, undefined);
+  assert.equal(httpJson.openaiErrorType, undefined);
+  assert.equal(httpJson.openaiErrorCode, undefined);
+  assert.doesNotMatch(clientResponseText, /invalid_request_error|model_not_found|do-not-log|Authorization|Bearer|sk-test-secret/i);
+  assert.equal(warnCalls.length, 1);
+  assert.match(String(warnCalls[0][0]), /OpenAI non-2xx response/);
+  assert.deepEqual(warnCalls[0][1], {
+    status,
+    errorType: "invalid_request_error",
+    errorCode: "model_not_found"
+  });
+  assert.doesNotMatch(serverLogText, /do-not-log|Authorization|Bearer|sk-test-secret/i);
 }
 
 await assertOpenAIHttpFallback(400, "openai_http_400");
