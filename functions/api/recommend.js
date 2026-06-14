@@ -470,6 +470,18 @@ function modelFromEnv(env = {}) {
   return typeof env.OPENAI_MODEL === "string" && env.OPENAI_MODEL.trim() ? env.OPENAI_MODEL.trim() : DEFAULT_OPENAI_MODEL;
 }
 
+function backendUrlFromEnv(env = {}) {
+  return typeof env.AI_BACKEND_URL === "string" && env.AI_BACKEND_URL.trim() ? env.AI_BACKEND_URL.trim() : "";
+}
+
+function isProductionEnvironment(env = {}) {
+  const values = [env.ENVIRONMENT, env.NODE_ENV, env.CF_PAGES_ENV]
+    .map((value) => (typeof value === "string" ? value.trim().toLowerCase() : ""));
+  const branch = typeof env.CF_PAGES_BRANCH === "string" ? env.CF_PAGES_BRANCH.trim().toLowerCase() : "";
+
+  return values.some((value) => value === "production" || value === "prod") || branch === "main";
+}
+
 function openAIHttpFallbackReason(status) {
   if (status === 400) {
     return "openai_http_400";
@@ -618,6 +630,51 @@ function validateOpenAIRecommendations(value, input) {
 
   const recommendations = value.recommendations.slice(0, 3).map((item) => validateRecommendation(item, input));
   return recommendations.every(Boolean) ? recommendations : null;
+}
+
+async function fetchBackendRecommendations(input, env, fetcher) {
+  const backendUrl = backendUrlFromEnv(env);
+
+  if (!backendUrl) {
+    return { recommendations: null, fallbackReason: "missing_ai_backend_url" };
+  }
+
+  if (typeof fetcher !== "function") {
+    return { recommendations: null, fallbackReason: "unknown" };
+  }
+
+  let response;
+
+  try {
+    response = await fetcher(backendUrl, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(input)
+    });
+  } catch {
+    return { recommendations: null, fallbackReason: "ai_backend_fetch_failed" };
+  }
+
+  if (!response.ok) {
+    return { recommendations: null, fallbackReason: "ai_backend_http_failed" };
+  }
+
+  let backendJson;
+
+  try {
+    backendJson = await response.json();
+  } catch {
+    return { recommendations: null, fallbackReason: "ai_backend_invalid_json" };
+  }
+
+  const recommendations = validateOpenAIRecommendations(backendJson, input);
+  if (!recommendations) {
+    return { recommendations: null, fallbackReason: "ai_backend_validation_failed" };
+  }
+
+  return { recommendations };
 }
 
 async function fetchOpenAIRecommendations(input, env, fetcher) {
@@ -771,6 +828,26 @@ export async function onRequestPost({ request, env = {}, fetch: contextFetch } =
   }
 
   const fetcher = contextFetch || globalThis.fetch;
+  const backendUrl = backendUrlFromEnv(env);
+
+  if (backendUrl) {
+    const backendResult = await fetchBackendRecommendations(input, env, fetcher);
+
+    if (backendResult.recommendations) {
+      await writeCachedRecommendations(cache, cacheKey, backendResult.recommendations);
+      return Response.json(responsePayload("backend", input, backendResult.recommendations));
+    }
+
+    return Response.json(
+      responsePayload("mock", input, recommendationsFor(input), backendResult.fallbackReason || cacheResult.fallbackReason || "unknown")
+    );
+  }
+
+  // Direct OpenAI calls are retained for local/preview development when the external backend is not configured.
+  if (isProductionEnvironment(env)) {
+    return Response.json(responsePayload("mock", input, recommendationsFor(input), "missing_ai_backend_url"));
+  }
+
   const openAIResult = await fetchOpenAIRecommendations(input, env, fetcher);
 
   if (openAIResult.recommendations) {

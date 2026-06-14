@@ -330,6 +330,84 @@ const cachedPayload = JSON.parse(cacheMissCache.putCalls[0].value);
 assert.equal(cachedPayload.recommendations.length, 3);
 assert.equal(cachedPayload.recommendations[0].slug, "fukuoka");
 
+const backendSuccessFetch = createFetchMock((call) => {
+  assert.equal(call.url, "https://ai-backend.example/recommend");
+  assert.equal(call.init.method, "POST");
+  assert.equal(call.init.headers["content-type"], "application/json");
+  assert.equal(call.init.headers.Authorization, undefined);
+  assert.equal(call.body.language, "ko");
+  assert.equal(call.body.departureCity, "Seoul");
+  assert.deepEqual(call.body.travelStyle, ["First-time friendly", "Food"]);
+  assert.doesNotMatch(call.init.body, /test-openai-key|api\.openai\.com|gpt-5\.4-mini/);
+  return { recommendations: recommendationSet("ko") };
+});
+const backendSuccessCache = createCacheMock();
+const backendSuccessResponse = await postRecommend({ ...basePayload, language: "ko" }, {
+  env: {
+    AI_BACKEND_URL: "https://ai-backend.example/recommend",
+    OPENAI_API_KEY: "test-openai-key",
+    CACHE: backendSuccessCache
+  },
+  fetch: backendSuccessFetch
+});
+const backendSuccessJson = await backendSuccessResponse.json();
+assert.equal(backendSuccessJson.source, "backend");
+assert.equal(backendSuccessJson.input.language, "ko");
+assert.equal(backendSuccessJson.recommendations[0].name, "후쿠오카");
+assert.match(backendSuccessJson.recommendations[0].ctaUrls.hotel, /lang=ko/);
+assert.equal(backendSuccessFetch.calls.length, 1);
+assert.equal(backendSuccessCache.getCalls.length, 1);
+assert.equal(backendSuccessCache.putCalls.length, 1);
+
+const backendFailureFetch = createFetchMock((call) => {
+  assert.equal(call.url, "https://ai-backend.example/recommend");
+  return new Error("backend unavailable");
+});
+const backendFailureResponse = await postRecommend(basePayload, {
+  env: {
+    AI_BACKEND_URL: "https://ai-backend.example/recommend",
+    OPENAI_API_KEY: "test-openai-key"
+  },
+  fetch: backendFailureFetch
+});
+const backendFailureJson = await backendFailureResponse.json();
+assert.equal(backendFailureJson.source, "mock");
+assert.equal(backendFailureJson.fallbackReason, "ai_backend_fetch_failed");
+assert.equal(backendFailureFetch.calls.length, 1);
+assert.equal(backendFailureJson.recommendations[0].slug, "fukuoka");
+
+const missingBackendFetch = createFetchMock(() => new Error("should not call OpenAI by default in production"));
+const missingBackendResponse = await postRecommend(basePayload, {
+  env: {
+    OPENAI_API_KEY: "test-openai-key",
+    CF_PAGES_BRANCH: "main"
+  },
+  fetch: missingBackendFetch
+});
+const missingBackendJson = await missingBackendResponse.json();
+assert.equal(missingBackendJson.source, "mock");
+assert.equal(missingBackendJson.fallbackReason, "missing_ai_backend_url");
+assert.equal(missingBackendFetch.calls.length, 0);
+
+const backendCacheHitFetch = createFetchMock(() => new Error("should not call backend on cache hit"));
+const backendCacheHitCache = createCacheMock({
+  initial: {
+    [cacheHitKey]: JSON.stringify({ recommendations: cachedRecommendations })
+  }
+});
+const backendCacheHitResponse = await postRecommend({ ...basePayload, language: "ko", travelStyle: ["Food", "First-time friendly"] }, {
+  env: {
+    AI_BACKEND_URL: "https://ai-backend.example/recommend",
+    CACHE: backendCacheHitCache
+  },
+  fetch: backendCacheHitFetch
+});
+const backendCacheHitJson = await backendCacheHitResponse.json();
+assert.equal(backendCacheHitJson.source, "cache");
+assert.equal(backendCacheHitFetch.calls.length, 0);
+assert.equal(backendCacheHitCache.getCalls.length, 1);
+assert.equal(backendCacheHitCache.putCalls.length, 0);
+
 const cacheReadFailureFetch = createFetchMock(() => responseJson(recommendationSet("en")));
 const cacheReadFailureCache = createCacheMock({ throwOnGet: true });
 const cacheReadFailureResponse = await postRecommend(basePayload, {
