@@ -110,8 +110,15 @@ function createFetchMock(responseFactory) {
       throw result;
     }
 
-    return new Response(JSON.stringify(result), {
-      status: 200,
+    if (result instanceof Response) {
+      return result;
+    }
+
+    const status = typeof result?.status === "number" ? result.status : 200;
+    const body = Object.prototype.hasOwnProperty.call(result || {}, "body") ? result.body : result;
+
+    return new Response(typeof body === "string" ? body : JSON.stringify(body), {
+      status,
       headers: { "content-type": "application/json" }
     });
   };
@@ -397,6 +404,37 @@ assert.equal(failedJson.source, "mock");
 assert.equal(failedJson.fallbackReason, "openai_fetch_failed");
 assert.equal(failedJson.input.language, "ko");
 assert.equal(failedJson.recommendations[0].name, "후쿠오카");
+
+async function assertOpenAIHttpFallback(status, fallbackReason) {
+  const httpFetch = createFetchMock(() => ({
+    status,
+    body: {
+      error: {
+        type: "test_error"
+      }
+    }
+  }));
+  const httpResponse = await postRecommend(basePayload, {
+    env: { OPENAI_API_KEY: "test-openai-key" },
+    fetch: httpFetch
+  });
+  const httpJson = await httpResponse.json();
+
+  assert.equal(httpResponse.status, 200);
+  assert.equal(httpJson.source, "mock");
+  assert.equal(httpJson.fallbackReason, fallbackReason);
+  assert.equal(httpFetch.calls.length, 1);
+  assert.equal(httpJson.error, undefined);
+  assert.equal(httpJson.openaiStatus, undefined);
+}
+
+await assertOpenAIHttpFallback(400, "openai_http_400");
+await assertOpenAIHttpFallback(401, "openai_http_401");
+await assertOpenAIHttpFallback(403, "openai_http_403");
+await assertOpenAIHttpFallback(404, "openai_http_404");
+await assertOpenAIHttpFallback(429, "openai_http_429");
+await assertOpenAIHttpFallback(500, "openai_http_5xx");
+await assertOpenAIHttpFallback(418, "openai_http_other");
 
 const invalidJsonFetch = createFetchMock(() => ({ output_text: "{not json" }));
 const invalidJsonResponse = await postRecommend(basePayload, {

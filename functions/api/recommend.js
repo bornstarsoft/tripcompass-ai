@@ -470,6 +470,34 @@ function modelFromEnv(env = {}) {
   return typeof env.OPENAI_MODEL === "string" && env.OPENAI_MODEL.trim() ? env.OPENAI_MODEL.trim() : DEFAULT_OPENAI_MODEL;
 }
 
+function openAIHttpFallbackReason(status) {
+  if (status === 400) {
+    return "openai_http_400";
+  }
+
+  if (status === 401) {
+    return "openai_http_401";
+  }
+
+  if (status === 403) {
+    return "openai_http_403";
+  }
+
+  if (status === 404) {
+    return "openai_http_404";
+  }
+
+  if (status === 429) {
+    return "openai_http_429";
+  }
+
+  if (status >= 500 && status <= 599) {
+    return "openai_http_5xx";
+  }
+
+  return "openai_http_other";
+}
+
 function extractOutputText(openAIJson) {
   if (typeof openAIJson?.output_text === "string") {
     return openAIJson.output_text;
@@ -557,7 +585,7 @@ async function fetchOpenAIRecommendations(input, env, fetcher) {
   }
 
   if (typeof fetcher !== "function") {
-    return { recommendations: null, fallbackReason: "openai_fetch_failed" };
+    return { recommendations: null, fallbackReason: "unknown" };
   }
 
   let response;
@@ -576,7 +604,7 @@ async function fetchOpenAIRecommendations(input, env, fetcher) {
   }
 
   if (!response.ok) {
-    return { recommendations: null, fallbackReason: "openai_fetch_failed" };
+    return { recommendations: null, fallbackReason: openAIHttpFallbackReason(response.status) };
   }
 
   let openAIJson;
