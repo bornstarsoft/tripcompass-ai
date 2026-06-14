@@ -730,3 +730,48 @@ assert.match(launchMonitoring, /no availability guarantees/i);
 assert.match(launchMonitoring, /no visa guarantees/i);
 assert.match(launchMonitoring, /no booking guarantees/i);
 assert.match(launchMonitoring, /Do not add real affiliate links/i);
+
+const clickReportScript = await readFile("scripts/report_clicks.sh", "utf8");
+assert.match(clickReportScript, /^#!\/usr\/bin\/env bash/);
+assert.match(clickReportScript, /wrangler d1 execute "\$DB_NAME" --remote --command/);
+assert.match(clickReportScript, /DB_NAME="tripcompass-ai-db"/);
+for (const expectedReport of [
+  "Latest 20 clicks",
+  "Clicks by type",
+  "Clicks by destination",
+  "Clicks by country",
+  "Clicks by language",
+  "Daily click counts"
+]) {
+  assert.match(clickReportScript, new RegExp(expectedReport.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+}
+assert.match(clickReportScript, /LIMIT 20/);
+assert.match(clickReportScript, /GROUP BY type/);
+assert.match(clickReportScript, /GROUP BY destination/);
+assert.match(clickReportScript, /GROUP BY country/);
+assert.match(clickReportScript, /GROUP BY language/);
+assert.match(clickReportScript, /date\(created_at\)/i);
+assert.doesNotMatch(clickReportScript, /\b(?:INSERT|UPDATE|DELETE|DROP|ALTER|CREATE)\b/i);
+assert.doesNotMatch(clickReportScript, /OPENAI_API_KEY|AI_BACKEND_SECRET|printenv|\bexport\b/);
+
+const affiliateReadiness = await readFile("docs/affiliate-readiness.md", "utf8");
+for (const expectedText of [
+  "Affiliate Readiness",
+  "D1 click logs",
+  "enough /go clicks by type",
+  "repeated hotel/activity/eSIM intent",
+  "organic traffic beginning to appear",
+  "no broken /go routes",
+  "hotel search",
+  "flight search",
+  "activities/tours",
+  "eSIM",
+  "no real affiliate IDs yet"
+]) {
+  assert.match(affiliateReadiness, new RegExp(expectedText.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"));
+}
+assert.match(affiliateReadiness, /no real-time price claims/i);
+assert.match(affiliateReadiness, /no availability guarantees/i);
+assert.match(affiliateReadiness, /no visa\/opening-hour\/safety guarantees/i);
+assert.match(affiliateReadiness, /no booking guarantees/i);
+assert.doesNotMatch(affiliateReadiness, /https?:\/\/(www\.)?(booking|agoda|expedia|klook|kkday|airalo|skyscanner)\./i);
