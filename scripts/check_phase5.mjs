@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { onRequestPost as recommend } from "../functions/api/recommend.js";
 
 const basePayload = {
@@ -659,3 +660,33 @@ assert.equal(invalidValidationJson.fallbackReason, "openai_validation_failed");
 assert.equal(englishFetch.calls.length, 1);
 assert.equal(koreanFetch.calls.length, 1);
 assert.equal(failedFetch.calls.length, 1);
+
+const productionLiveScript = await readFile("scripts/check_production_live.sh", "utf8");
+assert.match(productionLiveScript, /^#!\/usr\/bin\/env bash/);
+assert.match(productionLiveScript, /https:\/\/tripcompass\.ai/);
+assert.match(productionLiveScript, /\$BASE_URL\/"/);
+assert.match(productionLiveScript, /\$BASE_URL\/ko\//);
+assert.match(productionLiveScript, /\/api\/recommend/);
+assert.match(productionLiveScript, /fallbackReason/);
+assert.match(productionLiveScript, /source=cache/);
+assert.match(productionLiveScript, /\/go\/hotel\?destination=fukuoka&country=japan&lang=ko/);
+assert.match(productionLiveScript, /tripcompass-live-/);
+assert.match(productionLiveScript, /curl/);
+assert.match(productionLiveScript, /node/);
+assert.doesNotMatch(productionLiveScript, /OPENAI_API_KEY|AI_BACKEND_SECRET=/);
+
+const operationsNote = await readFile("docs/operations.md", "utf8");
+for (const expectedText of [
+  "TripCompass Pages calls AI_BACKEND_URL",
+  "bornstar-ai-gateway stores OPENAI_API_KEY",
+  "Pages stores AI_BACKEND_SECRET",
+  "D1 logs /go clicks",
+  "KV caches recommendation results",
+  "Pages should not keep OPENAI_API_KEY after gateway migration"
+]) {
+  assert.match(operationsNote, new RegExp(expectedText.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+}
+assert.match(operationsNote, /no real-time prices/i);
+assert.match(operationsNote, /no availability guarantees/i);
+assert.match(operationsNote, /no visa guarantees/i);
+assert.match(operationsNote, /no booking guarantees/i);
