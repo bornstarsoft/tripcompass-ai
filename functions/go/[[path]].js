@@ -84,11 +84,12 @@ function destinationSearch(type, searchParams) {
 
 function destinationDetails(type, searchParams) {
   const destination = normalizeParam(searchParams, "destination", "travel destination");
+  const country = nullableParam(searchParams, "country");
 
   return {
     type,
     destination,
-    country: null,
+    country,
     fromCity: null,
     toCity: null,
     location: destinationSearch(type, searchParams)
@@ -106,11 +107,12 @@ function flightSearch(searchParams) {
 function flightDetails(searchParams) {
   const fromCity = normalizeParam(searchParams, "from", "seoul");
   const toCity = normalizeParam(searchParams, "to", "destination");
+  const country = nullableParam(searchParams, "country");
 
   return {
     type: "flight",
     destination: null,
-    country: null,
+    country,
     fromCity,
     toCity,
     location: flightSearch(searchParams)

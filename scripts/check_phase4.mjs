@@ -84,8 +84,14 @@ const langDb = createMockDb();
 const langResult = await callRouter("hotel", "?destination=fukuoka&country=japan&lang=ko", { env: { DB: langDb } });
 assertRedirect(langResult.response);
 assert.equal(langResult.pendingCount, 1);
-assert.deepEqual(langDb.calls[0].binds.slice(0, 6), ["hotel", "fukuoka", null, null, null, "ko"]);
+assert.deepEqual(langDb.calls[0].binds.slice(0, 6), ["hotel", "fukuoka", "japan", null, null, "ko"]);
 assert.equal(langResult.response.headers.get("location"), hotelResult.response.headers.get("location"));
+
+const activityLangDb = createMockDb();
+const activityLangResult = await callRouter("activity", "?destination=osaka&country=japan&lang=en", { env: { DB: activityLangDb } });
+assertRedirect(activityLangResult.response);
+assert.equal(activityLangResult.pendingCount, 1);
+assert.deepEqual(activityLangDb.calls[0].binds.slice(0, 6), ["activity", "osaka", "japan", null, null, "en"]);
 
 const headDb = createMockDb();
 const headResult = await callRouter("hotel", "?destination=fukuoka", { env: { DB: headDb }, method: "HEAD" });
@@ -99,10 +105,20 @@ const flightResult = await callRouter("flight", "?from=seoul&to=fukuoka", { env:
 assertRedirect(flightResult.response);
 assert.deepEqual(flightDb.calls[0].binds.slice(0, 6), ["flight", null, null, "seoul", "fukuoka", "ko-KR,ko;q=0.9,en;q=0.8"]);
 
+const flightCountryDb = createMockDb();
+const flightCountryResult = await callRouter("flight", "?from=seoul&to=fukuoka&country=japan&lang=en", { env: { DB: flightCountryDb } });
+assertRedirect(flightCountryResult.response);
+assert.deepEqual(flightCountryDb.calls[0].binds.slice(0, 6), ["flight", null, "japan", "seoul", "fukuoka", "en"]);
+
 const esimDb = createMockDb();
 const esimResult = await callRouter("esim", "?country=japan", { env: { DB: esimDb } });
 assertRedirect(esimResult.response);
 assert.deepEqual(esimDb.calls[0].binds.slice(0, 6), ["esim", null, "japan", null, null, "ko-KR,ko;q=0.9,en;q=0.8"]);
+
+const esimLangDb = createMockDb();
+const esimLangResult = await callRouter("esim", "?country=japan&lang=ko", { env: { DB: esimLangDb } });
+assertRedirect(esimLangResult.response);
+assert.deepEqual(esimLangDb.calls[0].binds.slice(0, 6), ["esim", null, "japan", null, null, "ko"]);
 
 const noDbResult = await callRouter("activity", "?destination=osaka", { env: {} });
 assertRedirect(noDbResult.response);
