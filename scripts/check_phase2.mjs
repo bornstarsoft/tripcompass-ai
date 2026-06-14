@@ -194,3 +194,97 @@ const languageJs = await readFile(join(outDir, "js", "language.js"), "utf8");
 assert.match(languageJs, /localStorage/);
 assert.match(languageJs, /data-language-suggestion/);
 assert.match(languageJs, /browserLanguage\.startsWith\("ko"\)/);
+
+const oldMockCopyPattern =
+  /MOCK API PREVIEW|Mock API preview|View sample matches|SAMPLE RECOMMENDATIONS|Sample recommendations|Mock result cards|These cards are static examples/i;
+const seoPages = [
+  {
+    path: ["from-seoul", "japan-3-day-trips", "index.html"],
+    title: /Best Japan 3 Day Trips From Seoul/,
+    links: [
+      /\/compare\/fukuoka-vs-osaka\//,
+      /\/compare\/tokyo-vs-osaka\//,
+      /\/from-seoul\/japan-travel-budget\//,
+      /\/best-short-trips-from-korea\//
+    ],
+    goLinks: [
+      /\/go\/hotel\?destination=fukuoka&amp;country=japan&amp;lang=en/,
+      /\/go\/flight\?from=seoul&amp;to=fukuoka&amp;country=japan&amp;lang=en/
+    ]
+  },
+  {
+    path: ["compare", "fukuoka-vs-osaka", "index.html"],
+    title: /Fukuoka vs Osaka: Which Is Better for a Short Food Trip\?/,
+    links: [
+      /\/from-seoul\/japan-3-day-trips\//,
+      /\/from-seoul\/japan-travel-budget\//,
+      /\/compare\/tokyo-vs-osaka\//
+    ],
+    goLinks: [
+      /\/go\/hotel\?destination=fukuoka&amp;country=japan&amp;lang=en/,
+      /\/go\/activity\?destination=osaka&amp;country=japan&amp;lang=en/
+    ]
+  },
+  {
+    path: ["compare", "tokyo-vs-osaka", "index.html"],
+    title: /Tokyo vs Osaka: Which Is Better for First-Time Travelers\?/,
+    links: [
+      /\/from-seoul\/japan-3-day-trips\//,
+      /\/from-seoul\/japan-travel-budget\//,
+      /\/compare\/fukuoka-vs-osaka\//
+    ],
+    goLinks: [
+      /\/go\/hotel\?destination=tokyo&amp;country=japan&amp;lang=en/,
+      /\/go\/flight\?from=seoul&amp;to=osaka&amp;country=japan&amp;lang=en/
+    ]
+  },
+  {
+    path: ["best-short-trips-from-korea", "index.html"],
+    title: /Best Short Trips From Korea/,
+    links: [
+      /\/#destination-finder/,
+      /\/from-seoul\/japan-3-day-trips\//,
+      /\/compare\/tokyo-vs-osaka\//,
+      /\/compare\/fukuoka-vs-osaka\//,
+      /\/from-seoul\/japan-travel-budget\//
+    ],
+    goLinks: [
+      /\/go\/hotel\?destination=da-nang&amp;country=vietnam&amp;lang=en/,
+      /\/go\/esim\?country=japan&amp;lang=en/
+    ]
+  },
+  {
+    path: ["from-seoul", "japan-travel-budget", "index.html"],
+    title: /Japan Travel Budget From Seoul/,
+    links: [
+      /\/#destination-finder/,
+      /\/from-seoul\/japan-3-day-trips\//,
+      /\/compare\/tokyo-vs-osaka\//,
+      /\/compare\/fukuoka-vs-osaka\//
+    ],
+    goLinks: [
+      /\/go\/flight\?from=seoul&amp;to=fukuoka&amp;country=japan&amp;lang=en/,
+      /\/go\/hotel\?destination=osaka&amp;country=japan&amp;lang=en/
+    ]
+  }
+];
+
+for (const page of seoPages) {
+  const html = await readFile(join(outDir, ...page.path), "utf8");
+  assert.match(html, page.title);
+  assert.match(html, /Who this page is for/);
+  assert.match(html, /Best-fit travelers/);
+  assert.match(html, /Suggested trip length/);
+  assert.match(html, /Budget considerations/);
+  assert.match(html, /Cautions/);
+  assert.match(html, /Next-step CTA links/);
+  assert.match(html, /Always check current prices, opening hours, visa rules, availability, and booking terms before booking/);
+  assert.doesNotMatch(html, oldMockCopyPattern);
+  assert.doesNotMatch(html, /real-time lowest prices|guaranteed availability|confirmed visa rules|guaranteed booking/i);
+  for (const link of page.links) {
+    assert.match(html, link);
+  }
+  for (const link of page.goLinks) {
+    assert.match(html, link);
+  }
+}

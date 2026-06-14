@@ -7,4 +7,4 @@ weight: 60
 
 TripCompass AI starts with Korea-based travelers planning short international trips. The most useful first filter is often simple: how many nights do you have, and how much friction can you tolerate?
 
-Phase 1 begins with Japan 3 day trip ideas from Seoul.
+Start with [Japan 3 day trips from Seoul](/from-seoul/japan-3-day-trips/), then compare [Japan travel budget categories from Seoul](/from-seoul/japan-travel-budget/) and broader [short trip ideas from Korea](/best-short-trips-from-korea/). These pages are planning guides, not live price or availability tools.
