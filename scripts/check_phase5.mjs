@@ -120,6 +120,40 @@ function createFetchMock(responseFactory) {
   return fetchMock;
 }
 
+function createCacheMock(options = {}) {
+  const getCalls = [];
+  const putCalls = [];
+  const store = new Map(Object.entries(options.initial || {}));
+
+  return {
+    getCalls,
+    putCalls,
+    async get(key, type) {
+      getCalls.push({ key, type });
+
+      if (options.throwOnGet) {
+        throw new Error("cache get failed");
+      }
+
+      if (!store.has(key)) {
+        return null;
+      }
+
+      const value = store.get(key);
+      return type === "json" && typeof value === "string" ? JSON.parse(value) : value;
+    },
+    async put(key, value, putOptions) {
+      putCalls.push({ key, value, options: putOptions });
+
+      if (options.throwOnPut) {
+        throw new Error("cache put failed");
+      }
+
+      store.set(key, value);
+    }
+  };
+}
+
 async function postRecommend(payload, options = {}) {
   return recommend({
     request: new Request("https://tripcompass.ai/api/recommend", {
@@ -158,6 +192,29 @@ assert.equal(noKeyJson.input.language, "en");
 assert.equal(noKeyFetch.calls.length, 0);
 assert.equal(noKeyJson.recommendations[0].slug, "fukuoka");
 assert.equal(noKeyJson.recommendations[0].countrySlug, "japan");
+
+const tooLongFetch = createFetchMock(() => new Error("should not call OpenAI for invalid input"));
+const tooLongCache = createCacheMock();
+const tooLongResponse = await postRecommend(
+  {
+    ...basePayload,
+    departureCity: "Seoul".repeat(300),
+    travelStyle: ["Food", "x".repeat(300)]
+  },
+  {
+    env: {
+      OPENAI_API_KEY: "test-openai-key",
+      CACHE: tooLongCache
+    },
+    fetch: tooLongFetch
+  }
+);
+assert.equal(tooLongResponse.status, 400);
+const tooLongJson = await tooLongResponse.json();
+assert.equal(tooLongJson.error, "Invalid recommendation request");
+assert.match(tooLongJson.message, /too long/i);
+assert.equal(tooLongFetch.calls.length, 0);
+assert.equal(tooLongCache.getCalls.length, 0);
 
 const englishFetch = createFetchMock((call) => {
   assert.equal(call.url, "https://api.openai.com/v1/responses");
@@ -198,6 +255,85 @@ const overrideModelResponse = await postRecommend(basePayload, {
 const overrideModelJson = await overrideModelResponse.json();
 assert.equal(overrideModelJson.source, "openai");
 assert.equal(overrideModelFetch.calls.length, 1);
+
+const cachedRecommendations = recommendationSet("ko").map((item) => ({
+  ...item,
+  ctaUrls: {
+    hotel: `/go/hotel?destination=${item.slug}&country=${item.countrySlug}&lang=ko`,
+    flight: `/go/flight?from=seoul&to=${item.slug}&country=${item.countrySlug}&lang=ko`,
+    activity: `/go/activity?destination=${item.slug}&country=${item.countrySlug}&lang=ko`,
+    esim: `/go/esim?country=${item.countrySlug}&lang=ko`
+  }
+}));
+const cacheHitFetch = createFetchMock(() => new Error("should not call OpenAI on cache hit"));
+const cacheHitKey =
+  "recommend:v1:language=ko:departureCity=Seoul:tripLength=4%20days:budget=Balanced:travelMonth=October:travelStyle=First-time%20friendly%2CFood:travelers=2%20adults:preferredRegion=Japan";
+const cacheHitCache = createCacheMock({
+  initial: {
+    [cacheHitKey]: JSON.stringify({ recommendations: cachedRecommendations })
+  }
+});
+const cacheHitResponse = await postRecommend({ ...basePayload, language: "ko", travelStyle: [" Food ", "First-time friendly"] }, {
+  env: {
+    OPENAI_API_KEY: "test-openai-key",
+    CACHE: cacheHitCache
+  },
+  fetch: cacheHitFetch
+});
+const cacheHitJson = await cacheHitResponse.json();
+assert.equal(cacheHitJson.source, "cache");
+assert.equal(cacheHitJson.input.language, "ko");
+assert.equal(cacheHitFetch.calls.length, 0);
+assert.equal(cacheHitCache.getCalls.length, 1);
+assert.equal(cacheHitCache.putCalls.length, 0);
+assert.equal(cacheHitCache.getCalls[0].type, "json");
+assert.equal(cacheHitCache.getCalls[0].key, cacheHitKey);
+for (const expectedPart of [
+  "language=ko",
+  "departureCity=Seoul",
+  "tripLength=4%20days",
+  "budget=Balanced",
+  "travelMonth=October",
+  "travelStyle=First-time%20friendly%2CFood",
+  "travelers=2%20adults",
+  "preferredRegion=Japan"
+]) {
+  assert.match(cacheHitCache.getCalls[0].key, new RegExp(expectedPart.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+}
+
+const cacheMissFetch = createFetchMock(() => responseJson(recommendationSet("en")));
+const cacheMissCache = createCacheMock();
+const cacheMissResponse = await postRecommend(basePayload, {
+  env: {
+    OPENAI_API_KEY: "test-openai-key",
+    CACHE: cacheMissCache
+  },
+  fetch: cacheMissFetch
+});
+const cacheMissJson = await cacheMissResponse.json();
+assert.equal(cacheMissJson.source, "openai");
+assert.equal(cacheMissFetch.calls.length, 1);
+assert.equal(cacheMissCache.getCalls.length, 1);
+assert.equal(cacheMissCache.putCalls.length, 1);
+assert.equal(cacheMissCache.putCalls[0].key, cacheMissCache.getCalls[0].key);
+assert.equal(cacheMissCache.putCalls[0].options.expirationTtl, 604800);
+assert.match(cacheMissCache.putCalls[0].key, /language=en/);
+const cachedPayload = JSON.parse(cacheMissCache.putCalls[0].value);
+assert.equal(cachedPayload.recommendations.length, 3);
+assert.equal(cachedPayload.recommendations[0].slug, "fukuoka");
+
+const failingCacheFetch = createFetchMock(() => responseJson(recommendationSet("en")));
+const failingCache = createCacheMock({ throwOnGet: true, throwOnPut: true });
+const failingCacheResponse = await postRecommend(basePayload, {
+  env: {
+    OPENAI_API_KEY: "test-openai-key",
+    CACHE: failingCache
+  },
+  fetch: failingCacheFetch
+});
+const failingCacheJson = await failingCacheResponse.json();
+assert.equal(failingCacheJson.source, "openai");
+assert.equal(failingCacheFetch.calls.length, 1);
 
 const koreanFetch = createFetchMock((call) => {
   assert.match(JSON.stringify(call.body.input), /Korean/);

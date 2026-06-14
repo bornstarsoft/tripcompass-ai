@@ -1,11 +1,22 @@
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
 // GPT-5.4 mini is the default cost-efficient MVP model; OPENAI_MODEL can override it in the Cloudflare environment.
 const DEFAULT_OPENAI_MODEL = "gpt-5.4-mini";
+const CACHE_TTL_SECONDS = 60 * 60 * 24 * 7;
 const SUPPORTED_LANGUAGES = new Set(["en", "ko"]);
 const ENGLISH_DISCLAIMER =
   "TripCompass AI provides planning suggestions. Always check current prices, opening hours, visa rules, availability, and booking terms before booking.";
 const KOREAN_DISCLAIMER =
   "TripCompass AI는 여행 계획 제안을 제공합니다. 예약 전 최신 가격, 영업시간, 비자 규정, 예약 가능 여부, 예약 조건을 반드시 확인하세요.";
+const FIELD_LIMITS = {
+  departureCity: 80,
+  tripLength: 40,
+  budget: 40,
+  travelMonth: 40,
+  travelStyleItem: 60,
+  travelStyleTotal: 240,
+  travelers: 80,
+  preferredRegion: 80
+};
 
 const RECOMMENDATION_SCHEMA = {
   type: "object",
@@ -63,30 +74,83 @@ const RECOMMENDATION_SCHEMA = {
   required: ["recommendations"]
 };
 
-function normalizeText(value, fallback) {
-  return typeof value === "string" && value.trim() ? value.trim() : fallback;
+function compactText(value) {
+  return typeof value === "string" ? value.trim().replace(/\s+/g, " ") : "";
 }
 
-function normalizeList(value, fallback) {
-  if (Array.isArray(value)) {
-    const cleaned = value
-      .filter((item) => typeof item === "string")
-      .map((item) => item.trim())
-      .filter(Boolean);
+function normalizeLimitedText(payload, name, fallback, limit, errors) {
+  const raw = payload?.[name];
 
-    return cleaned.length ? cleaned : fallback;
+  if (typeof raw === "string" && raw.length > limit) {
+    errors.push(name);
   }
 
-  if (typeof value === "string" && value.trim()) {
-    return [value.trim()];
+  const cleaned = compactText(raw);
+  return cleaned || fallback;
+}
+
+function normalizeLimitedList(payload, name, fallback, itemLimit, totalLimit, errors) {
+  const raw = payload?.[name];
+  const rawItems = Array.isArray(raw) ? raw : typeof raw === "string" ? [raw] : [];
+  const cleaned = [];
+
+  for (const item of rawItems) {
+    if (typeof item !== "string") {
+      continue;
+    }
+
+    if (item.length > itemLimit) {
+      errors.push(name);
+    }
+
+    const value = compactText(item);
+    if (value) {
+      cleaned.push(value);
+    }
   }
 
-  return fallback;
+  const normalized = cleaned.length ? Array.from(new Set(cleaned)).sort() : fallback;
+  if (normalized.join(",").length > totalLimit) {
+    errors.push(name);
+  }
+
+  return normalized;
 }
 
 function normalizeLanguage(value) {
   const normalized = typeof value === "string" ? value.trim().toLowerCase().replace("_", "-") : "";
   return SUPPORTED_LANGUAGES.has(normalized) ? normalized : "en";
+}
+
+function normalizeInputPayload(payload) {
+  const errors = [];
+  const input = {
+    departureCity: normalizeLimitedText(payload, "departureCity", "Seoul", FIELD_LIMITS.departureCity, errors),
+    tripLength: normalizeLimitedText(payload, "tripLength", "3 to 4 days", FIELD_LIMITS.tripLength, errors),
+    budget: normalizeLimitedText(payload, "budget", "Balanced", FIELD_LIMITS.budget, errors),
+    travelMonth: normalizeLimitedText(payload, "travelMonth", "Flexible", FIELD_LIMITS.travelMonth, errors),
+    travelStyle: normalizeLimitedList(
+      payload,
+      "travelStyle",
+      ["Food", "First-time friendly"],
+      FIELD_LIMITS.travelStyleItem,
+      FIELD_LIMITS.travelStyleTotal,
+      errors
+    ),
+    travelers: normalizeLimitedText(payload, "travelers", "2 travelers", FIELD_LIMITS.travelers, errors),
+    preferredRegion: normalizeLimitedText(payload, "preferredRegion", "Japan", FIELD_LIMITS.preferredRegion, errors),
+    language: normalizeLanguage(payload?.language)
+  };
+
+  if (errors.length) {
+    return {
+      error: {
+        fields: Array.from(new Set(errors))
+      }
+    };
+  }
+
+  return { input };
 }
 
 function disclaimerFor(language) {
@@ -521,6 +585,48 @@ function responsePayload(source, input, recommendations) {
   };
 }
 
+function cacheBinding(env = {}) {
+  return env.CACHE && typeof env.CACHE.get === "function" && typeof env.CACHE.put === "function" ? env.CACHE : null;
+}
+
+function cacheKeyFor(input) {
+  const pairs = [
+    ["language", input.language],
+    ["departureCity", input.departureCity],
+    ["tripLength", input.tripLength],
+    ["budget", input.budget],
+    ["travelMonth", input.travelMonth],
+    ["travelStyle", input.travelStyle.join(",")],
+    ["travelers", input.travelers],
+    ["preferredRegion", input.preferredRegion]
+  ];
+
+  return `recommend:v1:${pairs.map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join(":")}`;
+}
+
+async function readCachedRecommendations(cache, key, input) {
+  if (!cache) {
+    return null;
+  }
+
+  try {
+    const cached = await cache.get(key, "json");
+    return validateOpenAIRecommendations(cached, input);
+  } catch {
+    return null;
+  }
+}
+
+async function writeCachedRecommendations(cache, key, recommendations) {
+  if (!cache) {
+    return;
+  }
+
+  try {
+    await cache.put(key, JSON.stringify({ recommendations }), { expirationTtl: CACHE_TTL_SECONDS });
+  } catch {}
+}
+
 export async function onRequestPost({ request, env = {}, fetch: contextFetch } = {}) {
   let payload = {};
 
@@ -545,21 +651,32 @@ export async function onRequestPost({ request, env = {}, fetch: contextFetch } =
     );
   }
 
-  const input = {
-    departureCity: normalizeText(payload.departureCity, "Seoul"),
-    tripLength: normalizeText(payload.tripLength, "3 to 4 days"),
-    budget: normalizeText(payload.budget, "Balanced"),
-    travelMonth: normalizeText(payload.travelMonth, "Flexible"),
-    travelStyle: normalizeList(payload.travelStyle, ["Food", "First-time friendly"]),
-    travelers: normalizeText(payload.travelers, "2 travelers"),
-    preferredRegion: normalizeText(payload.preferredRegion, "Japan"),
-    language: normalizeLanguage(payload.language)
-  };
+  const normalized = normalizeInputPayload(payload);
+  if (normalized.error) {
+    return Response.json(
+      {
+        error: "Invalid recommendation request",
+        message: "One or more recommendation request fields are too long.",
+        fields: normalized.error.fields
+      },
+      { status: 400 }
+    );
+  }
+
+  const input = normalized.input;
+  const cache = cacheBinding(env);
+  const cacheKey = cacheKeyFor(input);
+  const cachedRecommendations = await readCachedRecommendations(cache, cacheKey, input);
+
+  if (cachedRecommendations) {
+    return Response.json(responsePayload("cache", input, cachedRecommendations));
+  }
 
   const fetcher = contextFetch || globalThis.fetch;
   const openAIRecommendations = await fetchOpenAIRecommendations(input, env, fetcher);
 
   if (openAIRecommendations) {
+    await writeCachedRecommendations(cache, cacheKey, openAIRecommendations);
     return Response.json(responsePayload("openai", input, openAIRecommendations));
   }
 
