@@ -711,7 +711,35 @@ assert.match(operationsNote, /scripts\/list_gsc_urls\.sh/);
 assert.match(operationsNote, /scripts\/check_gsc_inventory\.sh/);
 assert.match(operationsNote, /scripts\/check_launch_health\.sh/);
 assert.match(operationsNote, /HEAD request for `\/go` redirect QA/i);
+assert.match(operationsNote, /\.github\/workflows\/ci\.yml/);
+assert.match(operationsNote, /pushes to `main`, pull requests, and manual dispatches/i);
+assert.match(operationsNote, /does not call production APIs or D1/i);
 assert.doesNotMatch(operationsNote, /10 English and Korean SEO landing pages/i);
+
+const ciWorkflow = await readFile(".github/workflows/ci.yml", "utf8");
+for (const expectedText of [
+  "name: TripCompass CI",
+  "push:",
+  "pull_request:",
+  "workflow_dispatch:",
+  "permissions:",
+  "contents: read",
+  "actions/checkout@v4",
+  "actions/setup-node@v4",
+  "node-version: \"24\"",
+  "peaceiris/actions-hugo@v3",
+  "hugo-version: \"0.152.2\"",
+  "bash scripts/check_phase1.sh",
+  "bash scripts/check_phase2.sh",
+  "bash scripts/check_phase3.sh",
+  "bash scripts/check_phase4.sh",
+  "bash scripts/check_phase5.sh",
+  "hugo --minify --panicOnWarning",
+  "git diff --check"
+]) {
+  assert.match(ciWorkflow, new RegExp(expectedText.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+}
+assert.doesNotMatch(ciWorkflow, /check_production_live|check_launch_health|report_clicks|OPENAI_API_KEY|AI_BACKEND_SECRET|CLOUDFLARE_API_TOKEN|secrets\./i);
 
 const launchMonitoring = await readFile("docs/launch-monitoring.md", "utf8");
 for (const expectedText of [

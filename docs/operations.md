@@ -23,6 +23,12 @@ The launch health check runs the live English/Korean/API checks and confirms tha
 
 The public check does not require secrets and must not print Cloudflare or OpenAI environment values. After completing Cloudflare CLI authentication manually, add the aggregate D1 report with `bash scripts/check_launch_health.sh --with-d1`.
 
+## Continuous Integration
+
+GitHub Actions runs `.github/workflows/ci.yml` for pushes to `main`, pull requests, and manual dispatches. The workflow runs Phase 1-5 checks, the strict Hugo build, and `git diff --check`.
+
+CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call production APIs or D1. Production health remains an explicit operation through `bash scripts/check_launch_health.sh`.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:

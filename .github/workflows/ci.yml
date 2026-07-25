@@ -1,0 +1,49 @@
+name: TripCompass CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tripcompass-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Set up Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: "0.152.2"
+          extended: true
+
+      - name: Run phase checks
+        run: |
+          bash scripts/check_phase1.sh
+          bash scripts/check_phase2.sh
+          bash scripts/check_phase3.sh
+          bash scripts/check_phase4.sh
+          bash scripts/check_phase5.sh
+
+      - name: Run strict Hugo build
+        run: hugo --minify --panicOnWarning
+
+      - name: Check whitespace errors
+        run: git diff --check
