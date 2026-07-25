@@ -28,17 +28,9 @@ After deploying SEO content changes, use Google Search Console to:
 - Submit `https://tripcompass.ai/sitemap.xml`.
 - Inspect `https://tripcompass.ai/`.
 - Inspect `https://tripcompass.ai/ko/`.
-- Inspect the 10 English and Korean SEO landing pages:
-  - `https://tripcompass.ai/from-seoul/japan-3-day-trips/`
-  - `https://tripcompass.ai/compare/fukuoka-vs-osaka/`
-  - `https://tripcompass.ai/compare/tokyo-vs-osaka/`
-  - `https://tripcompass.ai/best-short-trips-from-korea/`
-  - `https://tripcompass.ai/from-seoul/japan-travel-budget/`
-  - `https://tripcompass.ai/ko/from-seoul/japan-3-day-trips/`
-  - `https://tripcompass.ai/ko/compare/fukuoka-vs-osaka/`
-  - `https://tripcompass.ai/ko/compare/tokyo-vs-osaka/`
-  - `https://tripcompass.ai/ko/best-short-trips-from-korea/`
-  - `https://tripcompass.ai/ko/from-seoul/japan-travel-budget/`
+- Inspect the 20 current English and Korean SEO landing pages (10 English and 10 Korean).
+- Run `bash scripts/list_gsc_urls.sh` for the current copy/paste URL inventory.
+- Run `bash scripts/check_gsc_inventory.sh` to confirm every listed page appears in the generated sitemap.
 - Monitor coverage, indexing status, and query impressions for both English and Korean pages.
 
 ## Trust Boundaries

@@ -692,6 +692,11 @@ assert.match(operationsNote, /no real-time prices/i);
 assert.match(operationsNote, /no availability guarantees/i);
 assert.match(operationsNote, /no visa guarantees/i);
 assert.match(operationsNote, /no booking guarantees/i);
+assert.match(operationsNote, /20 current English and Korean SEO landing pages/i);
+assert.match(operationsNote, /10 English and 10 Korean/i);
+assert.match(operationsNote, /scripts\/list_gsc_urls\.sh/);
+assert.match(operationsNote, /scripts\/check_gsc_inventory\.sh/);
+assert.doesNotMatch(operationsNote, /10 English and Korean SEO landing pages/i);
 
 const launchMonitoring = await readFile("docs/launch-monitoring.md", "utf8");
 for (const expectedText of [
@@ -699,7 +704,10 @@ for (const expectedText of [
   "submit sitemap",
   "inspect homepage",
   "inspect /ko/",
-  "inspect the 10 SEO landing pages",
+  "inspect the 20 SEO landing pages",
+  "10 English and 10 Korean",
+  "scripts/list_gsc_urls.sh",
+  "scripts/check_gsc_inventory.sh",
   "bash scripts/check_production_live.sh",
   "Cloudflare Web Analytics",
   "GSC coverage",
@@ -730,6 +738,7 @@ assert.match(launchMonitoring, /no availability guarantees/i);
 assert.match(launchMonitoring, /no visa guarantees/i);
 assert.match(launchMonitoring, /no booking guarantees/i);
 assert.match(launchMonitoring, /Do not add real affiliate links/i);
+assert.doesNotMatch(launchMonitoring, /inspect the 10 SEO landing pages/i);
 
 const clickReportScript = await readFile("scripts/report_clicks.sh", "utf8");
 assert.match(clickReportScript, /^#!\/usr\/bin\/env bash/);
@@ -813,10 +822,22 @@ for (const expectedUrl of [
   assert.match(gscUrlScript, new RegExp(expectedUrl.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 }
 
+const gscInventoryScript = await readFile("scripts/check_gsc_inventory.sh", "utf8");
+assert.match(gscInventoryScript, /^#!\/usr\/bin\/env bash/);
+assert.match(gscInventoryScript, /hugo --minify --panicOnWarning/);
+assert.match(gscInventoryScript, /scripts\/list_gsc_urls\.sh/);
+assert.match(gscInventoryScript, /sitemap\.xml/);
+assert.match(gscInventoryScript, /rg -Fq/);
+assert.match(gscInventoryScript, /mktemp -d/);
+assert.doesNotMatch(gscInventoryScript, /curl|fetch|googleapis|gcloud|OPENAI_API_KEY|AI_BACKEND_SECRET|wrangler/i);
+
 const gscChecklist = await readFile("docs/gsc-submission-checklist.md", "utf8");
 for (const expectedText of [
   "Google Search Console URL Submission Checklist",
   "scripts/list_gsc_urls.sh",
+  "scripts/check_gsc_inventory.sh",
+  "20 SEO landing pages",
+  "10 English and 10 Korean",
   "Submit sitemap.xml",
   "Inspect homepage and /ko/",
   "Inspect SEO landing pages",

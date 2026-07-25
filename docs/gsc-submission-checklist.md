@@ -10,6 +10,14 @@ bash scripts/list_gsc_urls.sh
 
 The script prints the sitemap, homepages, section hubs, and English/Korean SEO landing pages in a copy/paste friendly format. It does not call Google services and does not require secrets.
 
+Before submission, verify that the current inventory matches the generated Hugo sitemap:
+
+```bash
+bash scripts/check_gsc_inventory.sh
+```
+
+The check builds the site locally and verifies that all 28 listed page URLs appear in `sitemap.xml`. The inventory currently includes 20 SEO landing pages: 10 English and 10 Korean.
+
 ## Manual Workflow
 
 1. Submit sitemap.xml: `https://tripcompass.ai/sitemap.xml`.

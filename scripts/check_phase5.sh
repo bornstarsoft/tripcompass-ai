@@ -5,3 +5,4 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 cd "$ROOT_DIR"
 node scripts/check_phase5.mjs
+bash scripts/check_gsc_inventory.sh
