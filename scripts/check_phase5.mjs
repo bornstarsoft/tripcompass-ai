@@ -742,7 +742,10 @@ assert.doesNotMatch(launchMonitoring, /inspect the 10 SEO landing pages/i);
 
 const clickReportScript = await readFile("scripts/report_clicks.sh", "utf8");
 assert.match(clickReportScript, /^#!\/usr\/bin\/env bash/);
-assert.match(clickReportScript, /wrangler d1 execute "\$DB_NAME" --remote --command/);
+assert.match(clickReportScript, /command -v wrangler/);
+assert.match(clickReportScript, /WRANGLER=\(wrangler\)/);
+assert.match(clickReportScript, /WRANGLER=\(npx --yes wrangler\)/);
+assert.match(clickReportScript, /"\$\{WRANGLER\[@\]\}" d1 execute "\$DB_NAME" --remote --command/);
 assert.match(clickReportScript, /DB_NAME="tripcompass-ai-db"/);
 for (const expectedReport of [
   "Latest 20 clicks",
@@ -762,6 +765,24 @@ assert.match(clickReportScript, /GROUP BY language/);
 assert.match(clickReportScript, /date\(created_at\)/i);
 assert.doesNotMatch(clickReportScript, /\b(?:INSERT|UPDATE|DELETE|DROP|ALTER|CREATE)\b/i);
 assert.doesNotMatch(clickReportScript, /OPENAI_API_KEY|AI_BACKEND_SECRET|printenv|\bexport\b/);
+
+const launchBaseline = await readFile("docs/launch-baseline.md", "utf8");
+for (const expectedText of [
+  "TripCompass AI Launch Baseline",
+  "2026-07-25",
+  "Google Search Console sitemap submission: owner-confirmed complete",
+  "local `main` matched `origin/main` before this baseline documentation update",
+  "all 28 page URLs",
+  "backend ok / cache ok",
+  "D1 report was not collected",
+  "bash scripts/report_clicks.sh",
+  "No credentials were requested",
+  "Do not add real affiliate links"
+]) {
+  assert.match(launchBaseline, new RegExp(expectedText.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"));
+}
+assert.doesNotMatch(launchBaseline, /API[_ -]?key|authorization header|user_agent|CLOUDFLARE_API_TOKEN/i);
+assert.match(launchMonitoring, /docs\/launch-baseline\.md/);
 
 const affiliateReadiness = await readFile("docs/affiliate-readiness.md", "utf8");
 for (const expectedText of [

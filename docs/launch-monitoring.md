@@ -4,6 +4,8 @@ This document sets a lightweight 14-day baseline for watching early SEO, AI find
 
 TripCompass AI should remain cautious in public reporting and user-facing copy: no real-time prices, no availability guarantees, no visa guarantees, no opening-hour guarantees, and no booking guarantees. Do not add real affiliate links until partner approval and tracking rules are clear.
 
+The current Day 0 evidence and pending measurements are recorded in [`docs/launch-baseline.md`](launch-baseline.md).
+
 ## 14-Day Launch Checklist
 
 Use this checklist during the first two weeks after each launch or SEO deploy.

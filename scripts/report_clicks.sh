@@ -3,12 +3,21 @@ set -euo pipefail
 
 DB_NAME="tripcompass-ai-db"
 
+if command -v wrangler >/dev/null 2>&1; then
+  WRANGLER=(wrangler)
+elif command -v npx >/dev/null 2>&1; then
+  WRANGLER=(npx --yes wrangler)
+else
+  printf "Click report failed: install Wrangler or Node.js with npx.\n" >&2
+  exit 1
+fi
+
 run_report() {
   local title="$1"
   local sql="$2"
 
   printf "\n== %s ==\n" "$title"
-  wrangler d1 execute "$DB_NAME" --remote --command "$sql"
+  "${WRANGLER[@]}" d1 execute "$DB_NAME" --remote --command "$sql"
 }
 
 run_report "Latest 20 clicks" "SELECT id, type, destination, country, from_city, to_city, language, created_at FROM clicks ORDER BY created_at DESC LIMIT 20;"
