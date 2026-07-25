@@ -16,10 +16,12 @@ This note captures the current production responsibilities after the shared AI G
 Run the public live check from the repo root:
 
 ```bash
-bash scripts/check_production_live.sh
+bash scripts/check_launch_health.sh
 ```
 
-The script uses only public TripCompass endpoints. It does not require secrets and must not print Cloudflare or OpenAI environment values.
+The launch health check runs the live English/Korean/API checks and confirms that all monitored URLs remain in the production sitemap. It uses a HEAD request for `/go` redirect QA so the check does not create a D1 click row.
+
+The public check does not require secrets and must not print Cloudflare or OpenAI environment values. After completing Cloudflare CLI authentication manually, add the aggregate D1 report with `bash scripts/check_launch_health.sh --with-d1`.
 
 ## Google Search Console Checklist
 

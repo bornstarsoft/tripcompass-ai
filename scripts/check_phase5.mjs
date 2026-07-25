@@ -675,7 +675,20 @@ assert.match(productionLiveScript, /en_budget="under \$\{unique_suffix\} USD"/);
 assert.match(productionLiveScript, /ko_budget="균형 예산 \$\{unique_suffix\}"/);
 assert.match(productionLiveScript, /curl/);
 assert.match(productionLiveScript, /node/);
+assert.match(productionLiveScript, /curl -sS -I -o \/dev\/null/);
+assert.match(productionLiveScript, /without creating a click log/);
 assert.doesNotMatch(productionLiveScript, /OPENAI_API_KEY|AI_BACKEND_SECRET=/);
+
+const launchHealthScript = await readFile("scripts/check_launch_health.sh", "utf8");
+assert.match(launchHealthScript, /^#!\/usr\/bin\/env bash/);
+assert.match(launchHealthScript, /bash scripts\/check_production_live\.sh/);
+assert.match(launchHealthScript, /curl -fsS "\$BASE_URL\/sitemap\.xml"/);
+assert.match(launchHealthScript, /bash scripts\/list_gsc_urls\.sh/);
+assert.match(launchHealthScript, /rg -Fq "<loc>\$\{url\}<\/loc>"/);
+assert.match(launchHealthScript, /--with-d1/);
+assert.match(launchHealthScript, /bash scripts\/report_clicks\.sh/);
+assert.match(launchHealthScript, /expected 28 production page URLs/);
+assert.doesNotMatch(launchHealthScript, /OPENAI_API_KEY|AI_BACKEND_SECRET|CLOUDFLARE_API_TOKEN|Authorization/i);
 
 const operationsNote = await readFile("docs/operations.md", "utf8");
 for (const expectedText of [
@@ -696,6 +709,8 @@ assert.match(operationsNote, /20 current English and Korean SEO landing pages/i)
 assert.match(operationsNote, /10 English and 10 Korean/i);
 assert.match(operationsNote, /scripts\/list_gsc_urls\.sh/);
 assert.match(operationsNote, /scripts\/check_gsc_inventory\.sh/);
+assert.match(operationsNote, /scripts\/check_launch_health\.sh/);
+assert.match(operationsNote, /HEAD request for `\/go` redirect QA/i);
 assert.doesNotMatch(operationsNote, /10 English and Korean SEO landing pages/i);
 
 const launchMonitoring = await readFile("docs/launch-monitoring.md", "utf8");
@@ -708,7 +723,7 @@ for (const expectedText of [
   "10 English and 10 Korean",
   "scripts/list_gsc_urls.sh",
   "scripts/check_gsc_inventory.sh",
-  "bash scripts/check_production_live.sh",
+  "bash scripts/check_launch_health.sh",
   "Cloudflare Web Analytics",
   "GSC coverage",
   "D1 /go click logs",
@@ -777,6 +792,8 @@ for (const expectedText of [
   "D1 report was not collected",
   "bash scripts/report_clicks.sh",
   "No credentials were requested",
+  "bash scripts/check_launch_health.sh",
+  "bash scripts/check_launch_health.sh --with-d1",
   "Do not add real affiliate links"
 ]) {
   assert.match(launchBaseline, new RegExp(expectedText.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"));

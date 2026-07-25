@@ -37,9 +37,9 @@ The report remains read-only and summarizes latest clicks, type, destination, co
 
 ## Next Checkpoints
 
-1. Days 1-3: review Cloudflare Web Analytics visits, top paths, countries, and referrers.
+1. Days 1-3: run `bash scripts/check_launch_health.sh`, then review Cloudflare Web Analytics visits, top paths, countries, and referrers.
 2. Days 1-7: review GSC coverage, indexed pages, impressions, clicks, and early queries.
-3. Day 7: rerun production QA and the aggregate D1 click report, then fill the KPI baseline.
+3. Day 7: run `bash scripts/check_launch_health.sh --with-d1` after Cloudflare CLI authentication, then fill the KPI baseline.
 4. Day 14: compare the second KPI snapshot and apply the decision rules in `docs/launch-monitoring.md`.
 
 Keep all conclusions cautious. Do not infer real-time prices, availability, visa status, opening hours, safety, or booking outcomes from these monitoring signals. Do not add real affiliate links during the baseline period.

@@ -184,11 +184,11 @@ else
   warn "English repeated /api/recommend returned source=$en_repeat_source; cache may already have been bypassed upstream"
 fi
 
-go_status="$(curl -sS -o /dev/null -w '%{http_code}' "$BASE_URL/go/hotel?destination=fukuoka&country=japan&lang=ko")"
+go_status="$(curl -sS -I -o /dev/null -w '%{http_code}' "$BASE_URL/go/hotel?destination=fukuoka&country=japan&lang=ko")"
 if [[ "$go_status" =~ ^30[0-9]$ ]]; then
-  pass "/go/hotel returned redirect status $go_status"
+  pass "/go/hotel HEAD returned redirect status $go_status without creating a click log"
 else
-  fail "/go/hotel expected redirect status, got HTTP $go_status"
+  fail "/go/hotel HEAD expected redirect status, got HTTP $go_status"
 fi
 
 printf 'Production live QA passed for %s\n' "$BASE_URL"

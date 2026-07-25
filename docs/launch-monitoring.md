@@ -16,7 +16,7 @@ Use this checklist during the first two weeks after each launch or SEO deploy.
 | Day 0 | inspect homepage | Inspect `https://tripcompass.ai/` and request indexing if appropriate. |
 | Day 0 | inspect /ko/ | Inspect `https://tripcompass.ai/ko/` and request indexing if appropriate. |
 | Day 0 | inspect the 20 SEO landing pages | Inspect the 10 English and 10 Korean SEO landing pages printed by `scripts/list_gsc_urls.sh`. Run `bash scripts/check_gsc_inventory.sh` before submission to confirm the list matches the generated sitemap. |
-| Day 0 | run production live QA after deploys | Run `bash scripts/check_production_live.sh` after deployment and after any important environment change. |
+| Day 0 | run production live QA after deploys | Run `bash scripts/check_launch_health.sh` after deployment and after any important environment change. It verifies live behavior and the production sitemap without adding a `/go` click row. |
 | Days 1-3 | review Cloudflare Web Analytics | Check visits, top paths, countries, referrers, and any unusual traffic drops. |
 | Days 1-7 | review GSC coverage/impressions | Watch indexed pages, crawl status, impressions, clicks, and queries without treating early data as final. |
 | Days 1-14 | review D1 /go click logs | Check whether hotel, flight, activity, and eSIM routes receive useful early click signals. |
