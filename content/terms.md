@@ -14,8 +14,12 @@ Prices, opening hours, routes, visa rules, availability, and booking terms can c
 
 ## External Links
 
-Links through `/go/...` may send users to third-party travel search or booking services in future phases. TripCompass AI is not responsible for third-party content, prices, availability, or service terms.
+Search links send users to third-party search results. Any booking, payment, change, or refund is handled by the provider you choose. Read that provider's terms before purchasing.
+
+## AI Suggestions
+
+AI recommendations may be incomplete or incorrect, and repeated requests may reuse a cached result. Scores and budget labels are planning estimates rather than verified ratings or current quotes. Written itineraries are examples to adapt to your actual arrival and departure times.
 
 ## No Real-Time Claims
 
-TripCompass AI does not claim real-time lowest prices or guaranteed availability unless a verified real-time API is integrated and disclosed.
+TripCompass AI does not provide real-time prices or confirm availability. A search link or recommendation is not a booking confirmation.

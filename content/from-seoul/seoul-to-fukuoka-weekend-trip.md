@@ -50,7 +50,7 @@ Compare Fukuoka with [Japan travel budget from Seoul](/from-seoul/japan-travel-b
 - Estimate spending categories: [Japan travel budget from Seoul](/from-seoul/japan-travel-budget/)
 - Compare broader options: [Best short trips from Korea](/best-short-trips-from-korea/)
 
-## Next-step CTA links
+## Compare Your Booking Options
 
 - [Search Fukuoka hotels](/go/hotel?destination=fukuoka&country=japan&lang=en)
 - [Search Seoul to Fukuoka flights](/go/flight?from=seoul&to=fukuoka&country=japan&lang=en)

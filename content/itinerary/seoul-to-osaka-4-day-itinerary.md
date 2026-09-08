@@ -30,6 +30,8 @@ This page is for travelers flying from Korea to Osaka who want a practical 3 nig
 - Day 3: choose either an Osaka activity day or one realistic Kyoto or Nara side trip.
 - Day 4: keep the morning light, then check airport timing and baggage needs.
 
+Count this as 3 nights and 4 calendar days, including both travel days. For Day 2, choose a Namba and Shinsaibashi route or a day centered on Umeda rather than crossing the city for every meal. If Day 3 becomes a side trip, select one area within Kyoto or Nara and leave the rest for another visit. If weather or energy changes, keep an Osaka day near your hotel instead. Check the actual airport and return flight before assigning anything to Day 4.
+
 ## Budget considerations
 
 The biggest swing factors are flight time, hotel area, baggage, local transport, day-trip trains, meals, activity tickets, eSIM or roaming, and cancellation terms. A central hotel can cost more but reduce backtracking; a cheaper hotel can be less useful if it adds too much transit friction.
@@ -51,7 +53,7 @@ Compare Osaka against [Tokyo vs Osaka](/compare/tokyo-vs-osaka/), [Fukuoka vs Os
 - Try an easier weekend: [Seoul to Fukuoka weekend trip](/from-seoul/seoul-to-fukuoka-weekend-trip/)
 - Plan spending: [Japan travel budget from Seoul](/from-seoul/japan-travel-budget/)
 
-## Next-step CTA links
+## Compare Your Booking Options
 
 - [Search Osaka hotels](/go/hotel?destination=osaka&country=japan&lang=en)
 - [Search Seoul to Osaka flights](/go/flight?from=seoul&to=osaka&country=japan&lang=en)

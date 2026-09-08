@@ -30,6 +30,8 @@ This page is for Korea-based travelers choosing Tokyo for a focused 3 night or 4
 - Day 3: choose an east-side or culture route such as Asakusa, Ueno, Akihabara, Ginza, or Tokyo Station.
 - Day 4: keep one short neighborhood, shopping buffer, or airport-friendly plan.
 
+These are 3 nights and 4 calendar days, including both travel days. Day 2 could pair Shibuya with Harajuku; Day 3 could pair Asakusa with Ueno. The other listed neighborhoods are alternatives, not extra requirements. Choose one main activity and one optional stop for each full day, with a nearby indoor backup. With late arrival and early departure flights, plan around two usable sightseeing days.
+
 ## Budget considerations
 
 Tokyo budgets depend heavily on hotel area and daily movement. A room near your planned neighborhoods can reduce wasted time. A cheaper hotel farther out may be fine if transit is simple, but it can become tiring when the itinerary crosses the city.
@@ -51,7 +53,7 @@ Before booking, compare [Tokyo vs Osaka](/compare/tokyo-vs-osaka/), [best Japan 
 - Compare broader short trips: [Best short trips from Korea](/best-short-trips-from-korea/)
 - Plan spending: [Japan travel budget from Seoul](/from-seoul/japan-travel-budget/)
 
-## Next-step CTA links
+## Compare Your Booking Options
 
 - [Search Tokyo hotels](/go/hotel?destination=tokyo&country=japan&lang=en)
 - [Search Seoul to Tokyo flights](/go/flight?from=seoul&to=tokyo&country=japan&lang=en)

@@ -23,9 +23,13 @@ The launch health check runs the live English/Korean/API checks and confirms tha
 
 The public check does not require secrets and must not print Cloudflare or OpenAI environment values. After completing Cloudflare CLI authentication manually, add the aggregate D1 report with `bash scripts/check_launch_health.sh --with-d1`.
 
+The public QA submits two distinct AI requests plus a repeated cache check; these can consume provider usage and populate KV. Its HEAD redirect check avoids adding new D1 click rows, but older GET-based QA runs may be present in historical click totals. A working public site does not by itself prove which commit Cloudflare deployed.
+
 ## Continuous Integration
 
-GitHub Actions runs `.github/workflows/ci.yml` for pushes to `main`, pull requests, and manual dispatches. The workflow runs Phase 1-5 checks, the strict Hugo build, and `git diff --check`.
+The configured GitHub Actions workflow is `.github/workflows/ci.yml`, for pushes to `main`, pull requests, and manual dispatches. The workflow runs Phase 1-5 checks, the strict Hugo build, and `git diff --check`.
+
+Its last recorded push was rejected because the GitHub token lacked workflow permission. The local configuration and passing local checks do not confirm a successful GitHub Actions run; verify the remote workflow after authentication is updated.
 
 CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call production APIs or D1. Production health remains an explicit operation through `bash scripts/check_launch_health.sh`.
 

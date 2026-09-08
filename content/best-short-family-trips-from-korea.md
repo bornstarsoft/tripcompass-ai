@@ -50,7 +50,7 @@ Compare this page with [Best short trips from Korea](/best-short-trips-from-kore
 - Plan Japan spending: [Japan travel budget from Seoul](/from-seoul/japan-travel-budget/)
 - Build an Osaka route: [Seoul to Osaka 4 day itinerary](/itinerary/seoul-to-osaka-4-day-itinerary/)
 
-## Next-step CTA links
+## Compare Your Booking Options
 
 - [Search Da Nang hotels](/go/hotel?destination=da-nang&country=vietnam&lang=en)
 - [Search Seoul to Da Nang flights](/go/flight?from=seoul&to=da-nang&country=vietnam&lang=en)

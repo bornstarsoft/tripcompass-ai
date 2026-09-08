@@ -8,6 +8,18 @@ weight: 80
 
 TripCompass AI helps travelers decide where to go, plan what to do, and compare what to book.
 
-The first audience is Korea-based travelers planning short international trips to Japan, Southeast Asia, Taiwan, Hong Kong, Guam, and Saipan. The product starts simple: destination choice, practical itinerary content, and booking/search links routed through `/go/...` paths.
+We focus on Korea-based travelers planning short international trips. Start with your departure city, available days, budget style, and interests, then compare a small set of destinations before committing to a booking.
 
-Future phases may add mock APIs, link routing, click logging, and OpenAI-powered recommendations. API keys and secrets must stay out of the repository.
+## What You Can Use Today
+
+- [AI destination recommendations](/#destination-finder) in English and [Korean](/ko/#destination-finder), with reasons to consider each destination and cautions to check.
+- [Destination comparisons](/compare/) and [itinerary guides](/itinerary/) for planning at your own pace.
+- Hotel, flight, activity, and eSIM search links that open external search results. TripCompass AI does not take payments or manage bookings.
+
+## How to Read a Recommendation
+
+AI suggestions can be incomplete or mistaken. A match score is a planning aid, not an independently measured quality rating or a probability that a trip will suit you. Budget labels describe a spending style, not a current quote.
+
+Repeated requests may reuse a recent result. If a recommendation request cannot complete, starting ideas remain available. Always check travel details and booking terms directly before paying.
+
+Read our [privacy information](/privacy/) and [link disclosure](/affiliate-disclosure/) for how requests and search clicks are handled.

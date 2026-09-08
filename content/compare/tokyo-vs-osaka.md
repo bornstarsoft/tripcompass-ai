@@ -21,7 +21,7 @@ Choose Tokyo if you want the widest range of neighborhoods, restaurants, museums
 | Factor | Tokyo | Osaka |
 | --- | --- | --- |
 | Best for | Variety, shopping, pop culture, museums | Food, nightlife, Kansai day trips |
-| Short trip fit | Strong for 3 to 5 days | Strong for 3 to 4 days |
+| Short trip fit | 3 to 5 calendar days with a focused plan | 3 to 4 calendar days with optional side trips |
 | First-time ease | Huge choice, more planning needed | Easier pacing, simpler base |
 | Day trips | Yokohama, Kamakura, Hakone | Kyoto, Nara, Kobe |
 | Watch-outs | Distances can be larger than expected | Popular areas can feel very busy |
@@ -37,7 +37,7 @@ Choose Tokyo if you want the widest range of neighborhoods, restaurants, museums
 
 - Tokyo: 3 nights works if you pick a theme; 4 to 5 nights is better for first-time travelers who want variety.
 - Osaka: 3 nights works for food, shopping, and nightlife; 4 nights is better if you want Kyoto or Nara.
-- If your flights are late-night or early-morning, reduce the usable sightseeing time when comparing cities.
+- Nights and days are different: 3 nights usually means 4 calendar days. A 3 day trip is generally 2 nights; narrow the route further. If your flights are late-night or early-morning, reduce the usable sightseeing time when comparing cities.
 
 ## Budget considerations
 
@@ -60,7 +60,7 @@ Treat this as planning guidance, not a price estimate. Check current flight fare
 - Estimate spending categories: [Japan travel budget from Seoul](/from-seoul/japan-travel-budget/)
 - Broaden the search: [Best short trips from Korea](/best-short-trips-from-korea/)
 
-## Next-step CTA links
+## Compare Your Booking Options
 
 - [Search Tokyo hotels](/go/hotel?destination=tokyo&country=japan&lang=en)
 - [Search Osaka hotels](/go/hotel?destination=osaka&country=japan&lang=en)

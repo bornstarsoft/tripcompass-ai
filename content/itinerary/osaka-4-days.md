@@ -5,7 +5,7 @@ eyebrow: "Itinerary"
 weight: 50
 ---
 
-This sample Osaka itinerary balances food neighborhoods with one or two Kansai day trips.
+This sample Osaka itinerary balances city neighborhoods with at most one optional Kansai day trip. It assumes 3 nights and 4 calendar days, including arrival and departure. Use the [Seoul to Osaka planning guide](/itinerary/seoul-to-osaka-4-day-itinerary/) to compare hotel, transport, and budget choices.
 
 ## Day 1: Arrival, Namba, and Dotonbori
 
@@ -13,16 +13,16 @@ This sample Osaka itinerary balances food neighborhoods with one or two Kansai d
 - Walk Dotonbori and nearby shopping streets.
 - Keep dinner simple and close to the hotel.
 
-## Day 2: Osaka Castle, Kuromon, and Umeda
+## Day 2: Choose One City Route
 
-- Start with Osaka Castle Park.
-- Visit Kuromon Market or a nearby food area.
-- Spend the evening around Umeda for shopping, views, or dinner.
+- Choose a Namba, Kuromon, and Shinsaibashi food-and-shopping day, or a separate route built around Osaka Castle Park and Umeda.
+- Do not treat both routes as a checklist for one day. Pick the one that best matches your hotel and interests.
+- Keep a meal break and an indoor alternative in the plan.
 
 ## Day 3: Kyoto or Nara Day Trip
 
 - Choose Kyoto for temples, old streets, and a fuller schedule.
-- Choose Nara for a simpler day trip with parks and historic sites.
+- Choose Nara if its parks and historic sites match your interests; check walking distances and transfers before choosing either option.
 - Return to Osaka for dinner.
 
 ## Day 4: Flexible Food and Departure
@@ -32,7 +32,9 @@ This sample Osaka itinerary balances food neighborhoods with one or two Kansai d
 
 ## Booking Checks
 
-- [Search Osaka hotels](/go/hotel?destination=osaka)
-- [Search Seoul to Osaka flights](/go/flight?from=seoul&to=osaka)
-- [Find Osaka activities](/go/activity?destination=osaka)
-- [Check Japan eSIM options](/go/esim?country=japan)
+- [Search Osaka hotels](/go/hotel?destination=osaka&country=japan&lang=en)
+- [Search Seoul to Osaka flights](/go/flight?from=seoul&to=osaka&country=japan&lang=en)
+- [Find Osaka activities](/go/activity?destination=osaka&country=japan&lang=en)
+- [Check Japan eSIM options](/go/esim?country=japan&lang=en)
+
+Still choosing? Compare [Fukuoka vs Osaka](/compare/fukuoka-vs-osaka/) or return to the [AI finder](/#destination-finder).

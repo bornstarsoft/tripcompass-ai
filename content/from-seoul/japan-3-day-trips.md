@@ -69,7 +69,7 @@ Always check current flight fares, hotel rates, baggage rules, local transport p
 - Compare broader nearby ideas: [Best short trips from Korea](/best-short-trips-from-korea/)
 - Plan your spending categories: [Japan travel budget from Seoul](/from-seoul/japan-travel-budget/)
 
-## Next-step CTA links
+## Compare Your Booking Options
 
 - [Search Fukuoka hotels](/go/hotel?destination=fukuoka&country=japan&lang=en)
 - [Search Seoul to Fukuoka flights](/go/flight?from=seoul&to=fukuoka&country=japan&lang=en)

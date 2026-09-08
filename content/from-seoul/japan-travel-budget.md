@@ -45,6 +45,19 @@ Start with these categories:
 
 Fukuoka often fits travelers who want fewer moving parts. Osaka can be efficient if you use it as one base for Kansai, but side trips add transport and time. Tokyo rewards careful hotel-area choice because the city is larger.
 
+## Build a Comparable Total
+
+For a 3 night, 4 day trip, start with a group total: return fares for every traveler + three nights for all rooms + airport and local transport + meals + activities + connectivity + a contingency you choose. Divide shared costs only after checking how many people and rooms the quote covers.
+
+| Quote to record | Unit to check | Common double count or omission |
+| --- | --- | --- |
+| Return flights | Per traveler, both directions | Baggage and seat fees may be separate. |
+| Accommodation | Per room, per night, for three nights | Confirm the displayed total covers every room and traveler. |
+| Food and local travel | Per traveler, per usable day | Arrival and departure days may need different allowances. |
+| Transfers and connectivity | Per person, vehicle, or device | Shared costs should not be added once per traveler again. |
+
+Compare two destinations using the same dates, party size, room setup, currency, and cancellation conditions. Record when each quote was checked. Treat an unpriced item as unknown, not zero; keep optional activities separate so you can see what to remove if the total exceeds your limit.
+
 ## Cautions
 
 - Do not treat social media budgets, old fare screenshots, or sample itineraries as current prices.
@@ -60,7 +73,7 @@ Fukuoka often fits travelers who want fewer moving parts. Osaka can be efficient
 - Compare food-trip fit: [Fukuoka vs Osaka](/compare/fukuoka-vs-osaka/)
 - Broaden nearby options: [Best short trips from Korea](/best-short-trips-from-korea/)
 
-## Next-step CTA links
+## Compare Your Booking Options
 
 - [Search Seoul to Fukuoka flights](/go/flight?from=seoul&to=fukuoka&country=japan&lang=en)
 - [Search Seoul to Tokyo flights](/go/flight?from=seoul&to=tokyo&country=japan&lang=en)

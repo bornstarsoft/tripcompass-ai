@@ -6,8 +6,8 @@ disclaimer: false
 weight: 120
 ---
 
-TripCompass AI may earn compensation from some booking, travel, activity, eSIM, or search links in future phases.
+TripCompass AI currently uses generic search links without affiliate IDs. These links do not earn affiliate commission for TripCompass AI.
 
-Phase 1 does not use real affiliate links. Booking and search buttons route through `/go/...` paths so partners can be changed later and clicks can be measured after the routing phase is implemented.
+Hotel, flight, activity, and eSIM buttons open Google search results. Clicking a button does not reserve anything or confirm a price. Search clicks may be recorded as described in our [privacy information](/privacy/).
 
-Affiliate relationships should not change the core goal: helping travelers make practical, trustworthy travel decisions.
+We may introduce affiliate relationships later. Any such change should be reflected in this disclosure and near relevant links. Search providers and booking companies set their own prices, availability, and terms; compare the final conditions before paying.

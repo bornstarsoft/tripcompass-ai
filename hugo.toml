@@ -4,6 +4,7 @@ defaultContentLanguage = "en"
 title = "TripCompass AI"
 summaryLength = 24
 disableHugoGeneratorInject = true
+disableKinds = ["taxonomy", "term"]
 
 [params]
 description = "TripCompass AI helps travelers choose destinations, plan short trips, and compare booking options with clear, practical guidance."

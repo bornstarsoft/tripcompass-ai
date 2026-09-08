@@ -1,13 +1,19 @@
 # TripCompass AI — MVP Plan
 
+## Current Status
+
+The phase descriptions below preserve the original implementation sequence, not the current product's feature list. As of the September 2026 content review, the repository contains live English/Korean destination finders, a shared Worker AI Gateway, optional KV recommendation caching, GET-only D1 click logging, and 20 English/Korean SEO landing pages. Itinerary pages are written guides; `/api/itinerary` remains a mock endpoint.
+
+Use `docs/operations.md` for current deployment and validation commands. The GitHub CI workflow exists locally; its last recorded push was rejected for missing workflow permission, so remote execution must be verified separately. Keep historical launch measurements separate from fresh production checks.
+
 ## Tech stack
 - Hugo static site
 - GitHub repository
 - Cloudflare Pages
 - Cloudflare Pages Functions
-- Cloudflare D1 for click logs later
-- Cloudflare KV for cache later
-- OpenAI API later
+- Cloudflare D1 for click logs
+- Cloudflare KV for recommendation caching
+- OpenAI through the shared Worker AI Gateway
 - No custom web server for MVP
 
 ## Phase 1: Static Hugo site

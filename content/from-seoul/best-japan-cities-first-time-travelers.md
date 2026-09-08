@@ -51,7 +51,7 @@ Use [Japan travel budget from Seoul](/from-seoul/japan-travel-budget/) and [Japa
 - Build a Tokyo route: [Seoul to Tokyo 4 day itinerary](/itinerary/seoul-to-tokyo-4-day-itinerary/)
 - Compare short Japan ideas: [Japan 3 day trips from Seoul](/from-seoul/japan-3-day-trips/)
 
-## Next-step CTA links
+## Compare Your Booking Options
 
 - [Search Tokyo hotels](/go/hotel?destination=tokyo&country=japan&lang=en)
 - [Search Fukuoka hotels](/go/hotel?destination=fukuoka&country=japan&lang=en)

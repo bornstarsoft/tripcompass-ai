@@ -56,7 +56,7 @@ weight: 10
 - 더 넓은 후보 보기: [한국에서 가기 좋은 짧은 해외여행](/ko/best-short-trips-from-korea/)
 - 예산 항목 정리: [서울 출발 일본 여행 예산](/ko/from-seoul/japan-travel-budget/)
 
-## 다음 단계 CTA
+## 예약 전 비교하기
 
 - [후쿠오카 호텔 검색](/go/hotel?destination=fukuoka&country=japan&lang=ko)
 - [서울 출발 후쿠오카 항공권 검색](/go/flight?from=seoul&to=fukuoka&country=japan&lang=ko)

@@ -48,7 +48,7 @@ weight: 65
 - 짧은 미식 여행 비교: [후쿠오카 vs 오사카](/ko/compare/fukuoka-vs-osaka/)
 - 일본 예산 항목 정리: [서울 출발 일본 여행 예산](/ko/from-seoul/japan-travel-budget/)
 
-## 다음 단계 CTA
+## 예약 전 비교하기
 
 - [후쿠오카 호텔 검색](/go/hotel?destination=fukuoka&country=japan&lang=ko)
 - [서울 출발 오사카 항공권 검색](/go/flight?from=seoul&to=osaka&country=japan&lang=ko)

@@ -32,14 +32,14 @@
     <link rel="stylesheet" href="{{ "css/styles.css" | relURL }}">
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main">{{ cond $isKo "본문으로 이동" "Skip to content" }}</a>
     <header class="site-header">
       <div class="site-header__inner">
-        <a class="brand" href="{{ "/" | relURL }}" aria-label="TripCompass AI home">TripCompass AI</a>
+        <a class="brand" href="{{ cond $isKo ("/ko/" | relURL) ("/" | relURL) }}" aria-label="{{ cond $isKo "TripCompass AI 홈" "TripCompass AI home" }}">TripCompass AI</a>
         <div class="site-header__actions">
           <nav class="site-nav" aria-label="Primary navigation">
             <a href="{{ cond $isKo ("/ko/#destination-finder" | relURL) ("/destination-finder/" | relURL) }}">{{ cond $isKo "추천" "Finder" }}</a>
-            <a href="{{ "/trip-planner/" | relURL }}">{{ cond $isKo "일정" "Planner" }}</a>
+            <a href="{{ cond $isKo ("/ko/itinerary/" | relURL) ("/trip-planner/" | relURL) }}">{{ cond $isKo "일정" "Planner" }}</a>
             <a href="{{ cond $isKo ("/ko/compare/" | relURL) ("/compare/" | relURL) }}">{{ cond $isKo "비교" "Compare" }}</a>
             <a href="{{ cond $isKo ("/ko/from-seoul/" | relURL) ("/from-seoul/" | relURL) }}">{{ cond $isKo "한국 출발" "From Seoul" }}</a>
           </nav>

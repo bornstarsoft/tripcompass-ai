@@ -47,7 +47,7 @@ weight: 66
 - 일본 예산 항목 보기: [서울 출발 일본 여행 예산](/ko/from-seoul/japan-travel-budget/)
 - 오사카 일정 보기: [서울 출발 오사카 4일 일정](/ko/itinerary/seoul-to-osaka-4-day-itinerary/)
 
-## 다음 단계 CTA
+## 예약 전 비교하기
 
 - [다낭 호텔 검색](/go/hotel?destination=da-nang&country=vietnam&lang=ko)
 - [서울 출발 다낭 항공권 검색](/go/flight?from=seoul&to=da-nang&country=vietnam&lang=ko)

@@ -41,7 +41,9 @@ Korea-based travelers planning short international trips, especially:
 3. AI Trip Planner
 4. Booking/search link router through /go/...
 5. Email/save later, optional in later phase
-6. Korean /ko/ pages, starting small
+6. Live Korean finder and planning guides under /ko/
+
+The destination finder is AI-powered. The trip planner currently consists of written itinerary guides; personalized daily itinerary generation is not a released frontend feature. Recommendations can reuse cached results and do not confirm current prices or booking availability.
 
 ## Business model
 Initial model:

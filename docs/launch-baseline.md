@@ -2,6 +2,8 @@
 
 Status date: 2026-07-25 (KST)
 
+Historical snapshot: these observations describe July 25, not current production health or September search performance. Record later measurements in a new dated snapshot rather than reusing these values.
+
 This document records the first operational baseline after Google Search Console submission. It contains aggregate status only and does not store raw referrers, user agents, credentials, or private environment values.
 
 ## Day 0 Status

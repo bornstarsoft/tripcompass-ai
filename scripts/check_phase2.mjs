@@ -376,7 +376,7 @@ for (const page of seoPages) {
   assert.match(html, /Suggested trip length/);
   assert.match(html, /Budget considerations/);
   assert.match(html, /Cautions/);
-  assert.match(html, /Next-step CTA links/);
+  assert.match(html, /Compare Your Booking Options/);
   assert.match(html, /Always check current prices, opening hours, visa rules, availability, and booking terms before booking/);
   assert.doesNotMatch(html, oldMockCopyPattern);
   assert.doesNotMatch(html, /real-time lowest prices|guaranteed availability|confirmed visa rules|guaranteed booking/i);
@@ -569,7 +569,7 @@ for (const page of koreanSeoPages) {
   assert.match(html, /추천 여행 기간/);
   assert.match(html, /예산 고려사항/);
   assert.match(html, /주의할 점/);
-  assert.match(html, /다음 단계 CTA/);
+  assert.match(html, /예약 전 비교하기/);
   assert.match(html, /예약 전 최신 가격, 영업시간, 비자 규정, 예약 가능 여부, 예약 조건을 반드시 확인하세요/);
   assert.doesNotMatch(html, oldKoreanPrepPattern);
   assert.doesNotMatch(html, /실시간 최저가|예약 가능을 보장|비자 규정을 보장|예약을 보장/);

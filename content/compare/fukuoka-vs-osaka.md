@@ -60,7 +60,7 @@ Do not use this guide as a price quote. Check current flights, hotel rates, canc
 - Estimate spending categories: [Japan travel budget from Seoul](/from-seoul/japan-travel-budget/)
 - Broaden the search: [Best short trips from Korea](/best-short-trips-from-korea/)
 
-## Next-step CTA links
+## Compare Your Booking Options
 
 - [Search Fukuoka hotels](/go/hotel?destination=fukuoka&country=japan&lang=en)
 - [Search Osaka hotels](/go/hotel?destination=osaka&country=japan&lang=en)

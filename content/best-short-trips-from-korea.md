@@ -51,7 +51,7 @@ Useful categories to compare include flights, baggage, hotel location, local tra
 - Compare food-trip cities: [Fukuoka vs Osaka](/compare/fukuoka-vs-osaka/)
 - Estimate Japan spending categories: [Japan travel budget from Seoul](/from-seoul/japan-travel-budget/)
 
-## Next-step CTA links
+## Compare Your Booking Options
 
 - [Search Fukuoka hotels](/go/hotel?destination=fukuoka&country=japan&lang=en)
 - [Search Seoul to Osaka flights](/go/flight?from=seoul&to=osaka&country=japan&lang=en)

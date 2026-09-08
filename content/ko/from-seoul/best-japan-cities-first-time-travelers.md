@@ -48,7 +48,7 @@ weight: 35
 - 도쿄 일정 보기: [서울 출발 도쿄 4일 일정](/ko/itinerary/seoul-to-tokyo-4-day-itinerary/)
 - 일본 3일 후보 비교: [서울 출발 일본 3일 여행지 추천](/ko/from-seoul/japan-3-day-trips/)
 
-## 다음 단계 CTA
+## 예약 전 비교하기
 
 - [도쿄 호텔 검색](/go/hotel?destination=tokyo&country=japan&lang=ko)
 - [후쿠오카 호텔 검색](/go/hotel?destination=fukuoka&country=japan&lang=ko)
