@@ -9,11 +9,14 @@
   }
 
   const submitButton = form.querySelector("button[type='submit']");
+  const requestTimeoutMs = 60000;
+  let requestPending = false;
   const originalSubmitText = submitButton ? submitButton.dataset.submitLabel || submitButton.textContent : "Get AI recommendations";
   const messages = {
     en: {
       bookingDisclaimer: "Always check current prices, opening hours, visa rules, availability, and booking terms before booking.",
       ready: "AI recommendations are ready.",
+      fallback: "Personalized recommendations are unavailable right now. Here are starting ideas to explore; try again later for matches based on your choices.",
       loading: "Asking TripCompass AI for destination matches...",
       loadingButton: "Getting AI recommendations...",
       error: "We could not refresh AI recommendations just now. You can still use the starting ideas below and try again in a moment.",
@@ -29,6 +32,7 @@
     ko: {
       bookingDisclaimer: "예약 전 최신 가격, 영업시간, 비자 규정, 예약 가능 여부, 예약 조건을 반드시 확인하세요.",
       ready: "AI 추천을 불러왔습니다.",
+      fallback: "지금은 맞춤 추천을 불러올 수 없어 참고용 여행지 아이디어를 보여드립니다. 선택한 조건에 맞는 추천은 잠시 후 다시 시도해 주세요.",
       loading: "TripCompass AI가 여행지 추천을 준비하고 있습니다...",
       loadingButton: "AI 추천 불러오는 중...",
       error: "지금은 AI 추천을 새로 불러오지 못했습니다. 아래 여행지 아이디어를 참고하고 잠시 후 다시 시도해 주세요.",
@@ -163,25 +167,38 @@
     dynamicResults.replaceChildren(...recommendations.map(recommendationCard));
     dynamicResults.hidden = false;
     staticResults.hidden = true;
-    setStatus(`${uiText("ready")} ${data.disclaimer || uiText("bookingDisclaimer")}`, false);
+    const isFallback = data.source === "mock";
+    setStatus(`${uiText(isFallback ? "fallback" : "ready")} ${data.disclaimer || uiText("bookingDisclaimer")}`, isFallback);
   }
 
   async function requestRecommendations() {
-    const response = await fetch("/api/recommend", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(formPayload())
-    });
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), requestTimeoutMs);
+    try {
+      const response = await fetch("/api/recommend", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(formPayload()),
+        signal: controller.signal
+      });
 
-    if (!response.ok) {
-      throw new Error(`Recommendation request failed with status ${response.status}`);
+      if (!response.ok) {
+        throw new Error(`Recommendation request failed with status ${response.status}`);
+      }
+
+      return await response.json();
+    } finally {
+      clearTimeout(timeout);
     }
-
-    return response.json();
   }
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (requestPending) {
+      return;
+    }
+    requestPending = true;
+    form.setAttribute("aria-busy", "true");
     dynamicResults.hidden = true;
     dynamicResults.replaceChildren();
     staticResults.hidden = false;
@@ -197,6 +214,8 @@
     } catch {
       setStatus(uiText("error"), true);
     } finally {
+      requestPending = false;
+      form.setAttribute("aria-busy", "false");
       if (submitButton) {
         submitButton.disabled = false;
         submitButton.textContent = originalSubmitText;

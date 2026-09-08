@@ -47,4 +47,6 @@ After deploying SEO content changes, use Google Search Console to:
 
 ## Trust Boundaries
 
+The finder stops waiting after 60 seconds and restores its submit button and starting ideas on request failure. This browser-side timeout does not guarantee cancellation of an AI request already running on the server or prevent provider charges. A successful fallback response is presented as starting ideas, not as newly personalized recommendations; internal diagnostic fields are not displayed.
+
 TripCompass AI provides planning suggestions only. Keep user-facing copy cautious: no real-time prices, no availability guarantees, no visa guarantees, and no booking guarantees. Users should verify prices, opening hours, visa rules, availability, and booking terms before booking.

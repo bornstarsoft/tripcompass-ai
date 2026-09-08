@@ -18,7 +18,7 @@ hugo --minify --panicOnWarning
 git diff --check
 ```
 
-Local phase checks use mocked AI responses and do not require credentials. Phase 2 also checks generated content, internal links, metadata, and booking-search URL parameters.
+Local phase checks use mocked AI responses and do not require credentials. Phase 2 also checks generated content, internal links, metadata, and booking-search URL parameters. Its frontend tests exercise English/Korean success and fallback messages, request timeouts, retries, and duplicate-submit protection using a lightweight DOM test double.
 
 ## Operations and Content
 
