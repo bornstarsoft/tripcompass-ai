@@ -2,6 +2,7 @@
 title: "Destination Compare"
 description: "Compare nearby destinations for short international trips from Korea."
 eyebrow: "Compare"
+alternateKo: "/ko/compare/"
 weight: 30
 ---
 

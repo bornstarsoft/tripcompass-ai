@@ -21,6 +21,12 @@ Run the existing Phase 1-5 checks, `hugo --minify --panicOnWarning`, and `git di
 
 The September 8 local review passed all phase checks and the strict build. The generated-content check covered 37 HTML pages, and the GSC inventory still contained all 28 monitored page URLs. Playwright checks of both homepages, both budget guides, Privacy, and Trip Planning Guides found no horizontal overflow at 390px or 1440px. English desktop and Korean mobile budget tables were also inspected visually. The browser logged an existing missing `favicon.ico`; adding a branded favicon remains a separate visual asset task.
 
+## Navigation Follow-up
+
+The navigation follow-up keeps readers on the equivalent English/Korean guide when switching languages, adds reciprocal alternates for the Compare and From Seoul hubs, and preserves homepage fallback where no translation exists. Both finder forms now provide a short data-processing notice with a privacy link. Korean navigation accessibility labels are localized, English-only footer links are marked, and the Korean homepage uses one primary heading. Anchor scrolling leaves room for the sticky header and respects reduced-motion preferences. The generated-content check now verifies these language destinations, reciprocal alternates, heading counts, and form notice associations. No API, cache, click logging, or redirect behavior changed.
+
+Local Playwright checks confirmed round-trip English/Korean navigation on the Fukuoka comparison guide and saved language selection. Both homepages had no horizontal overflow at 390px and 1440px; clicking the finder CTA left the title below the header, including with reduced motion enabled. The Korean mobile notice, footer, and finder anchor view were inspected visually. These are local checks, not evidence of a new production deployment.
+
 ## Owner Follow-up
 
 - Supply an approved public support email or contact URL. The Contact page currently states that none is listed; no address was invented.

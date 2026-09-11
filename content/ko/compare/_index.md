@@ -3,6 +3,7 @@ title: "여행지 비교"
 description: "한국에서 출발하는 짧은 해외여행 후보를 여행 스타일과 일정 기준으로 비교합니다."
 eyebrow: "비교"
 htmlLang: "ko"
+alternateEn: "/compare/"
 layout: "content-list"
 weight: 30
 ---

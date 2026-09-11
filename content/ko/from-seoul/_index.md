@@ -3,6 +3,7 @@ title: "서울 출발 여행"
 description: "한국에서 출발하는 짧은 해외여행을 목적, 기간, 예산 관점에서 비교합니다."
 eyebrow: "한국 출발"
 htmlLang: "ko"
+alternateEn: "/from-seoul/"
 layout: "content-list"
 weight: 60
 ---

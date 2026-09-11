@@ -2,6 +2,7 @@
 title: "Trips From Seoul"
 description: "Short international trip ideas from Seoul for nearby destinations in Japan and Southeast Asia."
 eyebrow: "From Seoul"
+alternateKo: "/ko/from-seoul/"
 weight: 60
 ---
 

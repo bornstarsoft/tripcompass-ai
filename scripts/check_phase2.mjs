@@ -129,6 +129,8 @@ assert.match(homepage, />From Seoul</);
 assert.match(homepage, />English</);
 assert.match(homepage, />Korean</);
 assert.match(homepage, /name="?language"? value="?en"?/);
+assert.match(homepage, /Your trip preferences are sent to our AI service/);
+assert.match(homepage, /Results may be cached for seven days/);
 assert.match(homepage, /Fukuoka/);
 assert.match(homepage, /Osaka/);
 assert.match(homepage, /Tokyo/);
@@ -155,6 +157,10 @@ assert.match(koreanHome, /여행 인원/);
 assert.match(koreanHome, /선호 지역/);
 assert.match(koreanHome, /여행 스타일/);
 assert.match(koreanHome, /name="?language"? value="?ko"?/);
+assert.match(koreanHome, /<h2 id="?ko-finder-title"?>/);
+assert.match(koreanHome, /선택한 여행 조건이 AI 서비스로 전송됩니다/);
+assert.match(koreanHome, /7일 동안 캐시에 저장될 수 있습니다/);
+assert.match(koreanHome, /개인정보 처리 안내 \(영문\)/);
 assert.match(koreanHome, /data-dynamic-results/);
 assert.match(koreanHome, /data-static-results/);
 assert.match(koreanHome, /호텔 검색/);
@@ -194,6 +200,11 @@ const languageJs = await readFile(join(outDir, "js", "language.js"), "utf8");
 assert.match(languageJs, /localStorage/);
 assert.match(languageJs, /data-language-suggestion/);
 assert.match(languageJs, /browserLanguage\.startsWith\("ko"\)/);
+
+const styles = await readFile(join(outDir, "css", "styles.css"), "utf8");
+assert.match(styles, /scroll-padding-top:\s*5\.25rem/);
+assert.match(styles, /scroll-padding-top:\s*10\.5rem/);
+assert.match(styles, /@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{\s*html\s*\{\s*scroll-behavior:\s*auto/);
 
 const oldMockCopyPattern =
   /MOCK API PREVIEW|Mock API preview|View sample matches|SAMPLE RECOMMENDATIONS|Sample recommendations|Mock result cards|These cards are static examples/i;

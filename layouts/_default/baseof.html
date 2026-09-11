@@ -37,24 +37,32 @@
       <div class="site-header__inner">
         <a class="brand" href="{{ cond $isKo ("/ko/" | relURL) ("/" | relURL) }}" aria-label="{{ cond $isKo "TripCompass AI 홈" "TripCompass AI home" }}">TripCompass AI</a>
         <div class="site-header__actions">
-          <nav class="site-nav" aria-label="Primary navigation">
+          <nav class="site-nav" aria-label="{{ cond $isKo "주요 메뉴" "Primary navigation" }}">
             <a href="{{ cond $isKo ("/ko/#destination-finder" | relURL) ("/destination-finder/" | relURL) }}">{{ cond $isKo "추천" "Finder" }}</a>
             <a href="{{ cond $isKo ("/ko/itinerary/" | relURL) ("/trip-planner/" | relURL) }}">{{ cond $isKo "일정" "Planner" }}</a>
             <a href="{{ cond $isKo ("/ko/compare/" | relURL) ("/compare/" | relURL) }}">{{ cond $isKo "비교" "Compare" }}</a>
             <a href="{{ cond $isKo ("/ko/from-seoul/" | relURL) ("/from-seoul/" | relURL) }}">{{ cond $isKo "한국 출발" "From Seoul" }}</a>
           </nav>
-          <nav class="language-switcher" aria-label="Language selector" data-language-switcher>
+          <nav class="language-switcher" aria-label="{{ cond $isKo "언어 선택" "Language selector" }}" data-language-switcher>
             {{- range where .Site.Data.locales.locales "active" true }}
-              <a href="{{ .path | relURL }}" lang="{{ .code }}" hreflang="{{ .code }}" data-language-option="{{ .code }}"{{ if eq $pageLang .code }} aria-current="true"{{ end }}>{{ if and $isKo (eq .code "ko") }}한국어{{ else }}{{ .label }}{{ end }}</a>
+              {{- $languagePath := .path -}}
+              {{- if eq .code $pageLang -}}
+                {{- $languagePath = $.RelPermalink -}}
+              {{- else if and (eq .code "en") $alternateEnPath -}}
+                {{- $languagePath = $alternateEnPath -}}
+              {{- else if and (eq .code "ko") $alternateKoPath -}}
+                {{- $languagePath = $alternateKoPath -}}
+              {{- end }}
+              <a href="{{ $languagePath | relURL }}" lang="{{ .code }}" hreflang="{{ .code }}" data-language-option="{{ .code }}"{{ if eq $pageLang .code }} aria-current="true"{{ end }}>{{ if and $isKo (eq .code "ko") }}한국어{{ else }}{{ .label }}{{ end }}</a>
             {{- end }}
           </nav>
         </div>
       </div>
     </header>
-    <aside class="language-suggestion" data-language-suggestion hidden>
-      <span>Korean is available for TripCompass AI.</span>
-      <a href="{{ "/ko/" | relURL }}" data-language-option="ko">View Korean</a>
-      <button type="button" data-language-suggestion-close>Dismiss</button>
+    <aside class="language-suggestion" data-language-suggestion lang="ko" hidden>
+      <span>한국어로 여행지를 찾아보세요.</span>
+      <a href="{{ "/ko/" | relURL }}" data-language-option="ko">한국어로 보기</a>
+      <button type="button" data-language-suggestion-close>닫기</button>
     </aside>
     <main id="main">
       {{ block "main" . }}{{ end }}
@@ -68,12 +76,12 @@
           <p><strong>TripCompass AI</strong> helps you narrow down travel choices before you book.</p>
           <p class="fine-print">{{ .Site.Params.disclaimer }}</p>
         {{- end }}
-        <nav class="footer-nav" aria-label="Footer navigation">
-          <a href="{{ "/about/" | relURL }}">{{ cond $isKo "소개" "About" }}</a>
-          <a href="{{ "/contact/" | relURL }}">{{ cond $isKo "문의" "Contact" }}</a>
-          <a href="{{ "/privacy/" | relURL }}">{{ cond $isKo "개인정보" "Privacy" }}</a>
-          <a href="{{ "/terms/" | relURL }}">{{ cond $isKo "이용약관" "Terms" }}</a>
-          <a href="{{ "/affiliate-disclosure/" | relURL }}">{{ cond $isKo "제휴 고지" "Affiliate disclosure" }}</a>
+        <nav class="footer-nav" aria-label="{{ cond $isKo "사이트 안내" "Footer navigation" }}">
+          <a href="{{ "/about/" | relURL }}" hreflang="en">{{ cond $isKo "소개 (영문)" "About" }}</a>
+          <a href="{{ "/contact/" | relURL }}" hreflang="en">{{ cond $isKo "문의 (영문)" "Contact" }}</a>
+          <a href="{{ "/privacy/" | relURL }}" hreflang="en">{{ cond $isKo "개인정보 처리 안내 (영문)" "Privacy" }}</a>
+          <a href="{{ "/terms/" | relURL }}" hreflang="en">{{ cond $isKo "이용약관 (영문)" "Terms" }}</a>
+          <a href="{{ "/affiliate-disclosure/" | relURL }}" hreflang="en">{{ cond $isKo "제휴 고지 (영문)" "Affiliate disclosure" }}</a>
         </nav>
       </div>
     </footer>

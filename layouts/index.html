@@ -20,7 +20,7 @@
       <h2 id="finder-title">AI destination finder</h2>
       <p class="section-lead">Choose a starting point, trip length, timing, and travel style. TripCompass AI returns planning suggestions to help you compare where to go before you book.</p>
     </div>
-    <form class="finder-form" action="{{ "/destination-finder/" | relURL }}" method="get" data-recommend-form>
+    <form class="finder-form" action="{{ "/destination-finder/" | relURL }}" method="get" aria-describedby="finder-privacy" data-recommend-form>
       <input type="hidden" name="language" value="en">
       <div class="form-grid">
         <label>
@@ -82,6 +82,7 @@
         <label><input type="checkbox" name="travelStyle" value="Family"> Family</label>
         <label><input type="checkbox" name="travelStyle" value="Shopping"> Shopping</label>
       </fieldset>
+      <p class="fine-print" id="finder-privacy">Your trip preferences are sent to our AI service to prepare recommendations. Results may be cached for seven days. <a href="{{ "/privacy/" | relURL }}">Privacy details</a></p>
       <button class="button button--primary" type="submit" data-submit-label="Get AI recommendations">Get AI recommendations</button>
     </form>
   </div>
