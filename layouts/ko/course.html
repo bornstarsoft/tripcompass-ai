@@ -1,0 +1,26 @@
+{{ define "main" }}
+{{ $course := index .Site.Data.courses .Params.course }}
+{{ $isGuide := .Params.guide | default false }}
+<article class="page-shell course-guide">
+  <header class="page-hero">
+    <p><a href="{{ "/ko/#recommended-courses" | relURL }}">추천 코스</a></p>
+    <p class="eyebrow">{{ .Params.eyebrow }}</p>
+    <h1>{{ .Title }}</h1>
+    <p>{{ .Description }}</p>
+    <p class="course-meta">{{ if not $isGuide }}{{ $course.duration }} · {{ end }}{{ .Params.audience | default $course.audience }}</p>
+    <p class="fine-print">TripCompass AI 편집 {{ cond $isGuide "가이드" "코스" }} · 자료 확인 <time datetime="{{ .Params.reviewed }}">{{ .Params.reviewed }}</time></p>
+  </header>
+  {{ if not $isGuide }}{{ partial "course-photo.html" (dict "course" $course "sizes" "(max-width: 960px) 100vw, 960px") }}{{ end }}
+  <p class="fine-print">{{ if .Params.guide }}공식 자료를 참고한 숙소 권역 비교이며 직접 방문한 후기가 아닙니다. 특정 호텔의 가격·객실 상태·예약 가능 여부를 확인한 안내가 아닙니다.{{ else }}공식 관광 자료를 참고해 구성한 일정 제안이며 직접 방문한 후기가 아닙니다. 아래 시간 배분은 편집상 여유분이지 실제 소요시간이나 영업시간 안내가 아닙니다.{{ end }}</p>
+  <div class="course-guide__body">
+    <aside class="course-toc" aria-label="글 목차">
+      <h2>{{ cond $isGuide "이 가이드에서 보기" "이 코스에서 보기" }}</h2>
+      {{ .TableOfContents }}
+    </aside>
+    <div class="prose">{{ .Content }}</div>
+  </div>
+  <aside class="trust-note" aria-label="여행 계획 확인 안내">
+    <strong>예약 전 확인:</strong> 최신 가격, 영업시간, 비자 규정, 예약 가능 여부, 예약 조건을 직접 확인하세요. 이 글은 실시간 견적이나 안전·입국·예약 보장을 제공하지 않습니다.
+  </aside>
+</article>
+{{ end }}

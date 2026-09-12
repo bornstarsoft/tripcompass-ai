@@ -57,8 +57,8 @@ while IFS= read -r url; do
   page_count=$((page_count + 1))
 done < "$LISTED_URLS"
 
-if [[ "$page_count" -ne 28 ]]; then
-  printf "FAIL expected 28 production page URLs, checked %s.\n" "$page_count" >&2
+if [[ "$page_count" -ne 32 ]]; then
+  printf "FAIL expected 32 production page URLs, checked %s.\n" "$page_count" >&2
   exit 1
 fi
 

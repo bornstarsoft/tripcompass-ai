@@ -148,8 +148,9 @@ done
 pass "English homepage does not show old mock UI copy"
 
 for ko_copy in \
-  "AI 여행지 추천 및 여행 계획" \
-  "어디로 갈지 고르고, 일정을 계획하고, 예약 전 비교하세요." \
+  "한국에서 떠나는 짧은 해외여행" \
+  "내 상황에 맞는 여행 코스를 고르고, 예약 전 비교하세요." \
+  "추천 코스 둘러보기" \
   "AI 추천 시작" \
   "AI 여행지 추천" \
   "AI 추천 받기"; do

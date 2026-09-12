@@ -1,0 +1,78 @@
+{{ define "main" }}
+{{ $ko := eq .Params.htmlLang "ko" }}
+{{ $lang := cond $ko "ko" "en" }}
+{{ $copy := index .Site.Data.decision $lang }}
+{{ $prefix := cond $ko "/ko" "" }}
+<link rel="stylesheet" href="{{ "css/decision-board.css" | relURL }}">
+<div class="page-shell decision-board" data-decision-board>
+  <header class="decision-header">
+    <div><p class="eyebrow">{{ $copy.eyebrow }}</p><h1>{{ .Title }}</h1><p>{{ $copy.intro }}</p></div>
+    <img src="{{ "img/tripcompass-hero.png" | relURL }}" alt="" width="160" height="100">
+  </header>
+  <noscript><p class="trust-note">{{ $copy.noJs }}</p></noscript>
+  <form data-board-form hidden novalidate aria-label="{{ .Title }}">
+    <section class="decision-settings" aria-labelledby="trip-settings">
+      <h2 id="trip-settings">{{ $copy.shared }}</h2>
+      <div class="decision-fields">
+        <label><span>{{ $copy.from }}</span><select name="from"><option value="seoul">{{ cond $ko "서울" "Seoul" }}</option><option value="busan">{{ cond $ko "부산" "Busan" }}</option><option value="incheon">{{ cond $ko "인천" "Incheon" }}</option></select></label>
+        <label><span>{{ $copy.people }}</span><input name="people" type="number" min="1" max="6" step="1" value="2" required></label>
+        <label><span>{{ $copy.rooms }}</span><input name="rooms" type="number" min="1" max="6" step="1" value="1" required></label>
+        <label><span>{{ $copy.budget }}</span><input name="budget" type="number" min="0" max="100000000" step="1" inputmode="numeric" placeholder="{{ $copy.unknown }}"></label>
+        <label><span>{{ $copy.buffer }}</span><input name="buffer" type="number" min="0" max="12" step="0.5" value="3" required></label>
+      </div>
+      <p class="fine-print">{{ $copy.currency }}</p>
+    </section>
+    <p class="decision-error" role="alert" data-board-error hidden></p>
+    <div class="decision-columns">
+      {{ range $index, $city := slice "fukuoka" "osaka" }}
+      <section class="decision-option" aria-labelledby="option-{{ $index }}">
+        <h2 id="option-{{ $index }}">{{ $copy.option }} {{ add $index 1 }}</h2>
+        <label><span>{{ $copy.city }}</span><select name="city{{ $index }}">{{ range $slug := slice "fukuoka" "osaka" "tokyo" }}<option value="{{ $slug }}"{{ if eq $slug $city }} selected{{ end }}>{{ index $copy.cities $slug }}</option>{{ end }}</select></label>
+        <div class="decision-fields decision-fields--pair">
+          {{ range $field := slice "airfare" "hotel" "nights" "other" }}
+          <label><span>{{ index $copy $field }}</span><input name="{{ $field }}{{ $index }}" type="number" min="{{ if eq $field "nights" }}1{{ else }}0{{ end }}" max="{{ if eq $field "nights" }}14{{ else }}100000000{{ end }}" step="1" inputmode="numeric"{{ if eq $field "nights" }} value="3" required{{ else }} placeholder="{{ $copy.unknown }}"{{ end }}></label>
+          {{ end }}
+          {{ range $field := slice "arrival" "departure" }}
+          <label><span>{{ index $copy $field }}</span><input name="{{ $field }}{{ $index }}" type="datetime-local" min="2020-01-01T00:00" max="2100-12-31T23:59"></label>
+          {{ end }}
+        </div>
+        <div class="decision-totals" data-totals="{{ $index }}"></div>
+        <div class="card-actions" data-board-ctas="{{ $index }}"></div>
+      </section>
+      {{ end }}
+    </div>
+    <section class="decision-summary" aria-labelledby="comparison-heading">
+      <h2 id="comparison-heading">{{ $copy.comparison }}</h2>
+      <div data-board-summary aria-live="polite" aria-atomic="true"></div>
+      <details><summary>{{ cond $ko "계산 기준과 주의사항" "Calculation assumptions" }}</summary><p>{{ $copy.costRule }}</p><p>{{ $copy.timeRule }}</p></details>
+    </section>
+    <section class="decision-opinions" aria-labelledby="opinions-heading">
+      <h2 id="opinions-heading">{{ $copy.voices }}</h2>
+      <p class="fine-print">{{ $copy.priorityNote }}</p>
+      <div class="decision-columns">
+        {{ range $index := slice 0 1 }}
+        <fieldset><legend>{{ $copy.voice }} {{ add $index 1 }}</legend>
+          <label><span>{{ $copy.priority }}</span><select name="priority{{ $index }}">{{ range $key := slice "budget" "time" "food" "shopping" "ease" }}<option value="{{ $key }}">{{ index $copy.priorities $key }}</option>{{ end }}</select></label>
+          <label><span>{{ $copy.pick }}</span><select name="pick{{ $index }}"><option value="">{{ $copy.undecided }}</option>{{ range $slug := slice "fukuoka" "osaka" "tokyo" }}<option value="{{ $slug }}">{{ index $copy.cities $slug }}</option>{{ end }}</select></label>
+        </fieldset>
+        {{ end }}
+      </div>
+      <p data-agreement aria-live="polite"></p>
+    </section>
+    <section class="decision-actions" aria-label="{{ cond $ko "저장 및 공유" "Save and share" }}">
+      <p class="fine-print">{{ $copy.privacy }} <a href="{{ "/privacy/" | relURL }}">{{ $copy.privacyLink }}</a></p>
+      <div class="decision-buttons"><button type="button" class="button button--primary" data-board-share>{{ $copy.share }}</button><button type="button" class="button" data-board-save>{{ $copy.save }}</button><button type="button" class="button" data-board-reset>{{ $copy.reset }}</button></div>
+      <p data-board-status role="status"></p>
+      <div data-share-output hidden><label><span>{{ $copy.shareLabel }}</span><textarea data-share-link rows="3" readonly></textarea></label><button type="button" class="button" data-board-copy>{{ $copy.copy }}</button></div>
+    </section>
+  </form>
+  <aside class="trust-note">{{ $copy.disclaimer }}</aside>
+  <nav class="decision-related" aria-label="{{ $copy.next }}">
+    <a href="{{ printf "%s/compare/fukuoka-vs-osaka/" $prefix | relURL }}">{{ index $copy.cities "fukuoka" }} / {{ index $copy.cities "osaka" }}</a>
+    <a href="{{ printf "%s/compare/tokyo-vs-osaka/" $prefix | relURL }}">{{ index $copy.cities "tokyo" }} / {{ index $copy.cities "osaka" }}</a>
+    <a href="{{ printf "%s/#destination-finder" $prefix | relURL }}">{{ $copy.finder }}</a>
+  </nav>
+</div>
+<script type="application/json" data-decision-copy>{{ $copy | jsonify | safeJS }}</script>
+<script type="module" src="{{ "js/decision-board.js" | relURL }}"></script>
+{{ end }}

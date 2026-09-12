@@ -16,7 +16,12 @@ Before submission, verify that the current inventory matches the generated Hugo 
 bash scripts/check_gsc_inventory.sh
 ```
 
-The check builds the site locally and verifies that all 28 listed page URLs appear in `sitemap.xml`. The inventory currently includes 20 SEO landing pages: 10 English and 10 Korean.
+The check builds the site locally and verifies that all 32 listed page URLs appear in `sitemap.xml`. The inventory currently includes 22 SEO landing pages: 10 English and 12 Korean, plus the English/Korean trip decision boards. Inspect the clean decision-board URLs, not private shared snapshot links containing fragments.
+
+The two Korean-only support guides have no English counterpart; do not create false translation alternates:
+
+- `https://tripcompass.ai/ko/itinerary/fukuoka-with-parents-3-days/`
+- `https://tripcompass.ai/ko/from-seoul/fukuoka-hakata-vs-tenjin-hotels/`
 
 ## Manual Workflow
 

@@ -40,12 +40,14 @@ After deploying SEO content changes, use Google Search Console to:
 - Submit `https://tripcompass.ai/sitemap.xml`.
 - Inspect `https://tripcompass.ai/`.
 - Inspect `https://tripcompass.ai/ko/`.
-- Inspect the 20 current English and Korean SEO landing pages (10 English and 10 Korean).
+- Inspect the 22 current English and Korean SEO landing pages (10 English and 12 Korean).
 - Run `bash scripts/list_gsc_urls.sh` for the current copy/paste URL inventory.
 - Run `bash scripts/check_gsc_inventory.sh` to confirm every listed page appears in the generated sitemap.
 - Monitor coverage, indexing status, and query impressions for both English and Korean pages.
 
 ## Trust Boundaries
+
+The content-first Korean pilot is documented in `docs/content-pilot.md`, including the three existing course URLs, photo licenses and post-deployment measurements. Its public QA copy checks require the new deployment; local checks alone do not establish that production has changed.
 
 The finder stops waiting after 60 seconds and restores its submit button and starting ideas on request failure. This browser-side timeout does not guarantee cancellation of an AI request already running on the server or prevent provider charges. A successful fallback response is presented as starting ideas, not as newly personalized recommendations; internal diagnostic fields are not displayed.
 

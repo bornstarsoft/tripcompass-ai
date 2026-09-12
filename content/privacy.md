@@ -24,6 +24,12 @@ The application does not currently enforce automatic expiry for D1 click records
 
 Your selected language and whether you dismissed the Korean-language suggestion are stored in this browser's local storage. You can remove these preferences by clearing site data. Browser language can be used to suggest Korean; it does not force a redirect.
 
+## Trip Decision Board
+
+The [trip decision board](/decision-board/) calculates costs and time estimates in your browser without sending its input fields to the AI API. "Save on this device" stores a snapshot in this browser's localStorage; resetting the board removes that saved snapshot. On a shared device, other people using the same browser profile may be able to view it.
+
+Share links contain the entered costs, dates, and choices in the URL fragment (after `#`). The fragment is not sent in the page's HTTP request, but anyone with the full link can read the snapshot. Browser history and the service you use to send the link may retain it. Shared copies cannot be revoked by resetting your local board. Edits do not synchronize between people; create a new link to share updated inputs. Existing `/go` click logging still applies to booking/search links.
+
 ## Service Providers
 
 Cloudflare hosts the site, processes requests, and provides the cache and click-log storage. OpenAI processes recommendation requests sent through the gateway. These providers may retain service or security data under their own policies; this page does not promise zero retention by those providers.

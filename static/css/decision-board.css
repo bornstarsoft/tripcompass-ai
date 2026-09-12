@@ -1,0 +1,44 @@
+.decision-board { max-width: 1120px; }
+.decision-header { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--ink); }
+.decision-header h1 { margin: 0; font-size: 2rem; line-height: 1.2; }
+.decision-header p { margin-bottom: 0; }
+.decision-header img { width: 160px; height: 100px; object-fit: cover; border-radius: 6px; }
+.decision-board h2 { font-size: 1.25rem; margin: 0 0 1rem; }
+.decision-board section { padding: 1.5rem 0; }
+.decision-fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.decision-fields--pair { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 1rem; }
+.decision-board label { display: block; min-width: 0; }
+.decision-board input, .decision-board textarea { width: 100%; min-width: 0; min-height: 2.85rem; border: 1px solid #9cafaa; border-radius: 6px; padding: 0.65rem; font: inherit; color: var(--ink); background: white; }
+.decision-board textarea { overflow-wrap: anywhere; resize: vertical; }
+.decision-board [aria-invalid="true"] { border: 2px solid #a62925; }
+.decision-board input:focus-visible, .decision-board select:focus-visible, .decision-board button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
+.decision-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
+.decision-option { border-top: 3px solid var(--teal); min-width: 0; }
+.decision-option + .decision-option { border-color: var(--coral); }
+.decision-option > label select { font-size: 1.25rem; font-weight: 750; }
+.decision-totals { min-height: 225px; padding: 1rem 0; }
+.decision-totals p { margin: 0.4rem 0; }
+.decision-amount { font-size: 1.6rem; font-weight: 800; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.decision-summary, .decision-opinions, .decision-actions { border-top: 1px solid var(--line); }
+.decision-summary { background: var(--green-soft); padding: 1.25rem !important; }
+.decision-summary details { font-size: 0.9rem; color: var(--muted); }
+.decision-summary summary { cursor: pointer; color: var(--ink); }
+.decision-opinions fieldset { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; min-width: 0; }
+.decision-opinions legend { margin-bottom: 0.75rem; }
+.decision-buttons, .decision-related { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.decision-buttons .button:not(.button--primary), [data-board-copy] { background: white; border: 1px solid #9cafaa; color: var(--ink); }
+.decision-error { padding: 0.75rem; border-left: 3px solid #a62925; color: #852622; background: #fff0ee; }
+.decision-board [hidden] { display: none !important; }
+@media (max-width: 700px) {
+  .decision-columns, .decision-fields { grid-template-columns: 1fr; gap: 0.75rem; }
+  .decision-fields--pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .decision-fields--pair label:has(input[type="datetime-local"]) { grid-column: 1 / -1; }
+  .decision-header h1 { font-size: 1.7rem; }
+  .decision-header img { width: 78px; height: 78px; }
+  .decision-totals { min-height: 0; }
+  .decision-opinions fieldset { grid-template-columns: 1fr; padding: 1rem 0; }
+}
+@media print {
+  .site-header, .site-footer, .decision-actions, .decision-related, .card-actions { display: none; }
+  .decision-board { width: 100%; }
+}

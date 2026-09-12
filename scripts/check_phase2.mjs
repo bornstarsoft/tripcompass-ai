@@ -141,9 +141,10 @@ const koreanHome = await readFile(join(outDir, "ko", "index.html"), "utf8");
 assert.match(koreanHome, /data-language="?ko"?/);
 assert.match(koreanHome, /js\/destination-finder\.js/);
 assert.match(koreanHome, /img\/tripcompass-hero\.png/);
-assert.match(koreanHome, /AI 여행지 추천 및 여행 계획/);
+assert.match(koreanHome, /한국에서 떠나는 짧은 해외여행/);
 assert.match(koreanHome, /TripCompass AI/);
-assert.match(koreanHome, /어디로 갈지 고르고, 일정을 계획하고, 예약 전 비교하세요\./);
+assert.match(koreanHome, /내 상황에 맞는 여행 코스를 고르고, 예약 전 비교하세요\./);
+assert.match(koreanHome, /추천 코스 둘러보기/);
 assert.match(koreanHome, /AI 추천 시작/);
 assert.match(koreanHome, /여행지 비교/);
 assert.match(koreanHome, /href=["']?#destination-finder/);
@@ -654,7 +655,7 @@ assertHeadSeo(koreanHome, {
   alternateKo: "https://tripcompass.ai/ko/",
   lang: "ko",
   titlePattern: /<title>TripCompass AI 한국어 \| TripCompass AI<\/title>/,
-  descriptionPattern: /<meta name=description content="한국에서 출발하는 짧은 해외여행을 AI 추천으로 비교하세요\.">/
+  descriptionPattern: /<meta name=description content="후쿠오카 주말여행, 오사카 첫 여행, 도쿄 카페·쇼핑 코스를 비교하세요\. 일자별 동선과 숙소 권역을 살펴보고 AI로 여행지 후보를 좁혀 보세요\.">/
 });
 
 for (const page of seoPages) {

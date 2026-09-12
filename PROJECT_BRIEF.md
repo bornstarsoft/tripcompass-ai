@@ -16,6 +16,9 @@ Find where to go, plan what to do, compare what to book.
 ## Core concept
 TripCompass AI should not be just another AI itinerary generator. It should help users decide where to go first, compare destination options, create a practical itinerary, and then continue to trusted booking/search partners.
 
+## Current content-first pilot
+The Korean experience now prioritizes three written Japan courses before the AI finder: a Fukuoka weekend, a first Osaka four-day trip, and a Tokyo cafe/shopping four-day trip. Improve existing URLs with useful routes and tradeoffs rather than mass-producing similar pages. AI destination suggestions and the decision board remain optional supporting tools, not automatic course editors. The English experience is unchanged for this pilot. See `docs/content-pilot.md` for scope, sourcing and post-deployment measurement; traffic growth is a hypothesis, not a verified result.
+
 ## Primary target
 Korea-based travelers planning short international trips, especially:
 - Japan

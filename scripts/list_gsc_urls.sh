@@ -24,6 +24,10 @@ print_group "Section hubs" \
   "https://tripcompass.ai/ko/compare/" \
   "https://tripcompass.ai/ko/itinerary/"
 
+print_group "Decision tools" \
+  "https://tripcompass.ai/decision-board/" \
+  "https://tripcompass.ai/ko/decision-board/"
+
 print_group "English SEO landing pages" \
   "https://tripcompass.ai/from-seoul/japan-3-day-trips/" \
   "https://tripcompass.ai/compare/fukuoka-vs-osaka/" \
@@ -46,4 +50,6 @@ print_group "Korean SEO landing pages" \
   "https://tripcompass.ai/ko/itinerary/seoul-to-osaka-4-day-itinerary/" \
   "https://tripcompass.ai/ko/itinerary/seoul-to-tokyo-4-day-itinerary/" \
   "https://tripcompass.ai/ko/from-seoul/best-japan-cities-first-time-travelers/" \
-  "https://tripcompass.ai/ko/best-short-family-trips-from-korea/"
+  "https://tripcompass.ai/ko/best-short-family-trips-from-korea/" \
+  "https://tripcompass.ai/ko/itinerary/fukuoka-with-parents-3-days/" \
+  "https://tripcompass.ai/ko/from-seoul/fukuoka-hakata-vs-tenjin-hotels/"
