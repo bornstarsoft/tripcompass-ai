@@ -29,7 +29,7 @@ The public QA submits two distinct AI requests plus a repeated cache check; thes
 
 The configured GitHub Actions workflow is `.github/workflows/ci.yml`, for pushes to `main`, pull requests, and manual dispatches. The workflow runs Phase 1-5 checks, the strict Hugo build, and `git diff --check`.
 
-Its last recorded push was rejected because the GitHub token lacked workflow permission. The local configuration and passing local checks do not confirm a successful GitHub Actions run; verify the remote workflow after authentication is updated.
+GitHub workflow permission was restored and commit `244efe9` was pushed and deployed on 2026-09-12. Its production live QA passed, including both language responses, repeated-request caching and the 32-page sitemap inventory. The first GitHub Actions run ended with exit 127 during phase checks. CI now explicitly installs ripgrep and Python before validation rather than relying on the runner image. Verify the latest remote run separately; a successful Pages deployment does not imply a successful CI run.
 
 CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call production APIs or D1. Production health remains an explicit operation through `bash scripts/check_launch_health.sh`.
 

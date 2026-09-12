@@ -4,7 +4,7 @@
 
 The phase descriptions below preserve the original implementation sequence, not the current product's feature list. As of the September 2026 content review, the repository contains live English/Korean destination finders, a shared Worker AI Gateway, optional KV recommendation caching, GET-only D1 click logging, and 22 English/Korean SEO landing pages. Itinerary pages are written guides; `/api/itinerary` remains a mock endpoint.
 
-Use `docs/operations.md` for current deployment and validation commands. The GitHub CI workflow exists locally; its last recorded push was rejected for missing workflow permission, so remote execution must be verified separately. Keep historical launch measurements separate from fresh production checks.
+Use `docs/operations.md` for current deployment and validation commands. GitHub workflow permission was restored and the content-first release was deployed on 2026-09-12. Verify GitHub CI independently of Pages deployment status. Keep historical launch measurements separate from fresh production checks.
 
 ## Tech stack
 - Hugo static site
