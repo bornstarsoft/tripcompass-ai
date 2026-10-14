@@ -25,6 +25,9 @@
 .my-trip-checklist input { width: 20px; height: 20px; margin: 0; accent-color: var(--teal); }
 .my-trip-checklist input:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
 .my-trip-checklist input:checked + span { color: var(--muted); }
+.my-trip-check-row + .my-trip-check-row { border-top: 1px solid var(--line); }
+.my-trip-check-row label { margin: 0; }
+.my-trip-task-guide { display: flex; align-items: center; min-height: 44px; margin-left: 2rem; padding: .5rem 0; font-size: .9rem; line-height: 1.5; }
 .my-trip-card [data-trip-check-feedback]:empty { margin: 0; }
 .my-trip-guides { border-top: 1px solid var(--line); margin: 1.25rem 0 0; padding-top: 1rem; }
 .my-trip-guides h3 { margin: 0; font-size: 1.05rem; }

@@ -44,7 +44,10 @@
           <fieldset class="my-trip-checklist" data-trip-checklist>
             <legend>{{ cond $ko "준비 체크" "Preparation checklist" }}</legend>
             {{ range $trip.tasks }}
-            <label><input type="checkbox" data-trip-check="{{ .id }}" disabled><span>{{ index . $lang }}</span></label>
+            <div class="my-trip-check-row">
+              <label><input type="checkbox" data-trip-check="{{ .id }}" disabled><span>{{ index . $lang }}</span></label>
+              <a class="my-trip-task-guide" data-trip-task-guide="{{ $trip.id }}:{{ .id }}" href="{{ printf "%s%s" $prefix .path | relURL }}" aria-label="{{ cond $ko "관련 가이드" "Related guide" }}: {{ index . $lang }}">{{ cond $ko "관련 가이드" "Related guide" }}</a>
+            </div>
             {{ end }}
           </fieldset>
         </div>

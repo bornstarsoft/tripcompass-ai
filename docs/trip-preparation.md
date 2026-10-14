@@ -1,5 +1,13 @@
 # Trip Preparation Workspaces
 
+## Related Guides from My Trips Tasks
+
+Each of the five checklist items in each city now has a separate Related guide / 관련 가이드 link. Hugo uses the same `data/trip_prep/*.toml` task paths as the existing workspace, with the current language prefix. Links open the existing article in the same tab and remain available for checked items. They are outside the checkbox label, have a 44px minimum target, and include the task name for screen readers. Reading an article does not mark a check, save a guide or verify travel conditions.
+
+No JavaScript or storage behavior changes are needed. Browser Back or the existing My trips navigation returns to the overview; saved preparation and bookmarks are read from their existing keys. Unsaved trips and unavailable preparation keep their workspace/library fallback links. As before, bookmark undo is page-memory only and is not promised across fresh navigation. `scripts/check_my_trips_links.py`, run by Phase 2, compares all 30 localized task links to the built workspaces and verifies targets and checkbox-label separation. Browser QA must cover actual navigation/back, record preservation and check/guide interaction isolation.
+
+Local validation on 2026-10-14 passed Phase 1-5, strict Hugo and whitespace checks. Chromium passed EN/KO at 320/390/768/920/1440px, 44px separate link targets, keyboard order/activation, all 30 task links, correct article language, browser Back and the existing My trips navigation. Preparation/bookmark/decision fixtures stayed byte-equivalent during reading; explicit checks survived article visits. Screenshots were inspected and duplicate visible helper text was replaced with an accessible label. Checklist, workspace synchronization, bookmark undo, failed-save retry, stale reset and no-JS/empty/corrupt/blocked regressions also passed. No application errors or preparation API/search calls occurred. Physical-device/Safari remains NOT_RUN; production verification is recorded separately.
+
 ## My Trips Checklist Editing
 
 For a readable, already-started trip, both overview languages now show all five preparation checkboxes in their existing order. Completed checks remain available to uncheck. Labels come from the same city TOML task data as the workspace, with a native fieldset/legend and at least 44px label targets. Counts, progress, next task, city quick links and completion/review wording refresh after edits. Checked means the user's own note, never a booking or travel-condition guarantee.
