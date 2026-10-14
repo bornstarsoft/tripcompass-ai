@@ -88,6 +88,15 @@ CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call producti
 - Launch health passed: both overviews and six workspaces, EN/KO backend responses, repeated cache hit, HEAD 302 and all 58 monitored sitemap URLs. Overview JS/CSS, preparation core/controller and bookmark JS matched the committed files by SHA-256.
 - Undo is page-memory only, not a persistent deletion history. No new storage keys, AI/gateway changes, D1/KV changes, `/go` changes or affiliate additions. Physical-device/Safari, D1 reporting and retention measurement were not run.
 
+## My Trips Checklist Release: 2026-10-14
+
+- Application commit: `eaae7a48d2854cffa6b9e72b492a51bf663298b8`, pushed to GitHub `main` with owner approval. Phase 1-5, strict Hugo build and whitespace checks passed locally; content/inventory counts remain 67/58.
+- GitHub CI: [run 38578710843](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/38578710843), success for that SHA.
+- Cloudflare Pages: deployment `244ac751-5a2b-4c35-9ba7-ed39d6b5546a`, success for the same SHA. [Immutable deployment](https://244ac751.tripcompass-ai.pages.dev). No infrastructure, binding, environment or credential changes.
+- Production Chromium passed EN/KO 320/390/768/920/1440px: city check/uncheck, progress/next task, keyboard focus, original choices and unrelated records retained, reload/language switching, two-way workspace updates, bookmark undo, failed saves/retry, stale reset protection and no-JS/empty/corrupt/blocked cases. Screenshots inspected; details in `docs/trip-preparation.md`.
+- Public launch health passed both overviews and six workspaces, EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and 58 sitemap URLs. Five deployed overview/preparation/bookmark JS/CSS hashes matched the commit.
+- No new storage keys, migrations, AI/gateway, D1/KV, `/go` or affiliate changes. Physical-device/Safari, D1 reporting and retention measurement were not run.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:
