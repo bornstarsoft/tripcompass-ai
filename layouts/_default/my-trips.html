@@ -1,0 +1,53 @@
+{{ define "main" }}
+{{ $ko := eq .Params.htmlLang "ko" }}
+{{ $lang := cond $ko "ko" "en" }}
+{{ $prefix := cond $ko "/ko" "" }}
+<article class="page-shell my-trips" data-my-trips>
+  <header class="my-trips-header">
+    <p class="eyebrow">{{ cond $ko "다시, 여행을 생각할 시간" "A little closer to your next trip" }}</p>
+    <h1>{{ .Title }}</h1>
+    <p>{{ cond $ko "고른 코스와 남은 준비, 여기서 이어가세요." "Your chosen courses and next steps, ready to return to." }}</p>
+    <p class="fine-print">{{ cond $ko "준비 내용과 저장한 글은 이 브라우저에만 남습니다. 다른 기기에 동기화되지 않으며 사이트 데이터를 지우면 사라집니다." "Preparation and saved guides stay in this browser only. They do not sync to other devices and are removed when site data is cleared." }}</p>
+  </header>
+  <p class="my-trips-summary" data-trips-summary role="status" aria-live="polite">{{ cond $ko "어느 여행을 이어갈까요?" "Which trip will you return to?" }}</p>
+  <nav class="my-trips-jump" aria-label="{{ cond $ko "도시별 준비 상태 바로가기" "Jump to a trip summary" }}">
+    {{ range slice "fukuoka" "osaka" "tokyo" }}
+    {{ $trip := index $.Site.Data.trip_prep . }}
+    <a href="#trip-{{ . }}">{{ index $trip $lang }}<span data-trip-quick="{{ . }}">{{ cond $ko "보기" "View" }}</span></a>
+    {{ end }}
+  </nav>
+  <noscript><p>{{ cond $ko "저장 상태를 표시하려면 JavaScript가 필요합니다. 각 준비함의 가이드는 계속 읽을 수 있습니다." "JavaScript is needed to show saved progress. Guides in each workspace remain available." }}</p></noscript>
+  <div class="my-trips-grid">
+    {{ range slice "fukuoka" "osaka" "tokyo" }}
+    {{ $trip := index $.Site.Data.trip_prep . }}
+    {{ $cover := index $.Site.Data.explore.guides $trip.cover }}
+    {{ $image := (resources.Get $cover.cover).Resize "640x webp q80" }}
+    {{ $courses := dict }}{{ range $trip.courses }}{{ $courses = merge $courses (dict .id (index . $lang)) }}{{ end }}
+    {{ $alternatives := dict }}{{ range $trip.alternatives }}{{ $alternatives = merge $alternatives (dict .id (index . $lang)) }}{{ end }}
+    {{ $tasks := dict }}{{ range $trip.tasks }}{{ $tasks = merge $tasks (dict .id (index . $lang)) }}{{ end }}
+    <section class="my-trip-card" id="trip-{{ . }}" aria-labelledby="trip-title-{{ . }}" data-trip-summary="{{ . }}" data-course-labels="{{ $courses | jsonify }}" data-alternative-labels="{{ $alternatives | jsonify }}" data-task-labels="{{ $tasks | jsonify }}">
+      <img src="{{ $image.RelPermalink }}" width="{{ $image.Width }}" height="{{ $image.Height }}" alt="{{ index $cover $lang "alt" }}">
+      <div class="my-trip-body">
+        <p class="fine-print">{{ index $trip (printf "%sEyebrow" $lang) }}</p>
+        <h2 id="trip-title-{{ . }}">{{ index $trip $lang }}</h2>
+        <p class="my-trip-status" data-trip-status>{{ cond $ko "준비함에서 코스와 가이드 보기" "Explore courses and guides in the workspace" }}</p>
+        <div data-trip-details hidden>
+          <p data-trip-count></p>
+          <progress data-trip-progress value="0" max="5" aria-label="{{ cond $ko (printf "%s 직접 확인한 항목" $trip.ko) (printf "%s items you checked" $trip.en) }}"></progress>
+          <dl>
+            <dt>{{ cond $ko "선택 코스" "Your course" }}</dt><dd data-trip-course></dd>
+            <dt>{{ cond $ko "상황이 바뀌면" "Alternative" }}</dt><dd data-trip-alternative></dd>
+            <dt>{{ cond $ko "다음 확인" "Next step" }}</dt><dd data-trip-next></dd>
+          </dl>
+        </div>
+        <a class="button button--primary my-trip-action" data-trip-action href="{{ printf "%s%s" $prefix $trip.path | relURL }}"><span data-trip-action-label>{{ cond $ko "준비함 열기" "Open workspace" }}</span><span class="my-trip-action-city"> · {{ index $trip $lang }}</span></a>
+      </div>
+    </section>
+    {{ end }}
+  </div>
+  <p class="fine-print">{{ cond $ko "이미지: AI 일러스트 · 실제 현장 사진 아님" "Images: AI illustrations, not location photographs" }}</p>
+  <aside class="trust-note">{{ cond $ko "체크는 내가 확인했다는 메모일 뿐, 예약 완료나 여행 조건 확인을 보장하지 않습니다. 출발 전 최신 가격, 영업시간, 비자 규정, 예약 가능 여부와 조건을 직접 다시 확인하세요." "Checks are your own notes, not booking confirmations or verified travel conditions. Recheck current prices, opening hours, visa rules, availability and terms before departure." }}</aside>
+  <p><a href="{{ printf "%s/itinerary/" $prefix | relURL }}">{{ cond $ko "다른 코스도 둘러보기" "Explore more courses" }}</a> · <a href="{{ printf "%s/decision-board/" $prefix | relURL }}">{{ cond $ko "여행 결정표" "Trip decision board" }}</a></p>
+</article>
+<script type="module" src="{{ "js/my-trips.js" | relURL }}"></script>
+{{ end }}

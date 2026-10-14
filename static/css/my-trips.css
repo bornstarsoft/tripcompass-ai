@@ -1,0 +1,28 @@
+.my-trips { max-width: 1120px; }
+.my-trips-header { max-width: 720px; }
+.my-trips h1 { font-size: 2.25rem; }
+.my-trips-summary { margin: 1.5rem 0 1rem; font-weight: 700; }
+.my-trips-jump { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; margin: 0 0 1.25rem; border-block: 1px solid var(--line); }
+.my-trips-jump a { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .25rem; min-height: 56px; padding: .5rem 0; font-weight: 700; }
+.my-trips-jump span { color: var(--muted); font-size: .85rem; font-weight: 400; }
+.my-trip-action-city { margin-left: .25rem; }
+.my-trips-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.my-trip-card { min-width: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--panel); display: flex; flex-direction: column; }
+.my-trip-card > img { width: 100%; height: auto; aspect-ratio: 2 / 1; object-fit: cover; }
+.my-trip-body { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; overflow-wrap: anywhere; }
+.my-trip-body > .fine-print { margin: 0; }
+.my-trip-card h2 { font-size: 1.5rem; margin: .35rem 0; }
+.my-trip-status { margin: .4rem 0 .75rem; color: var(--muted); }
+.my-trip-card [data-trip-count] { margin: 0 0 .35rem; font-weight: 700; }
+.my-trip-card progress { display: block; width: 100%; height: .65rem; accent-color: var(--teal); }
+.my-trip-card dl { margin: 1rem 0; }
+.my-trip-card dt { font-size: .85rem; color: var(--muted); margin-top: .75rem; }
+.my-trip-card dd { margin: .2rem 0 0; line-height: 1.5; }
+.my-trip-card [data-trip-next] { font-weight: 700; }
+.my-trip-action { margin-top: auto; min-height: 44px; text-align: center; }
+.my-trips > .trust-note { margin-top: 1.5rem; }
+@media (max-width: 800px) {
+  .my-trips-grid { grid-template-columns: 1fr; }
+  .my-trip-card > img { max-height: 180px; }
+  .my-trip-body { padding: 1rem; }
+}

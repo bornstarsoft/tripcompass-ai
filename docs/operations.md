@@ -19,7 +19,7 @@ Run the public live check from the repo root:
 bash scripts/check_launch_health.sh
 ```
 
-The launch health check runs the live English/Korean/API checks, checks all six Fukuoka/Osaka/Tokyo preparation pages and their shared assets, and confirms that all monitored URLs remain in the production sitemap. Preparation persistence, language switching and reset still require browser QA; an HTTP 200 alone is not an interaction test. It uses a HEAD request for `/go` redirect QA so the check does not create a D1 click row.
+The launch health check runs the live English/Korean/API checks, checks both My trips overviews, all six Fukuoka/Osaka/Tokyo preparation pages and their assets, and confirms that all 58 monitored URLs remain in the production sitemap. Preparation persistence, language switching, overview updates and reset still require browser QA; an HTTP 200 alone is not an interaction test. It uses a HEAD request for `/go` redirect QA so the check does not create a D1 click row.
 
 The public check does not require secrets and must not print Cloudflare or OpenAI environment values. After completing Cloudflare CLI authentication manually, add the aggregate D1 report with `bash scripts/check_launch_health.sh --with-d1`.
 

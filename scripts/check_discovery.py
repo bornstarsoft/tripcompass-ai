@@ -90,7 +90,7 @@ def check(root):
         prefix = "/ko" if ko else ""
         en_path = path.removeprefix("/ko") if ko else path
         assert page.primary_links == [prefix + "/#destination-finder", prefix + "/itinerary/",
-                                      prefix + "/compare/", prefix + "/from-seoul/"], f"{path}: indirect navigation"
+                                      prefix + "/compare/", prefix + "/from-seoul/", prefix + "/my-trips/"], f"{path}: indirect navigation"
         expected = {
             "og:title": page.title, "og:description": page.description,
             "og:url": origin + path, "og:site_name": "TripCompass AI",

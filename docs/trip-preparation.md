@@ -1,5 +1,17 @@
 # Trip Preparation Workspaces
 
+## My Trips Overview
+
+`/my-trips/` and `/ko/my-trips/` show Fukuoka, Osaka and Tokyo together in a stable city order. Each card reuses the existing illustration and localized guide/task labels. Readable records display the selected course, alternative, count of user-marked checks and next unchecked item. Empty trips offer a start link; completed checklists offer review, not a claim of booking readiness. All actions open the released workspace URLs, including the original Fukuoka `/my-trip/`.
+
+The overview is read-only: it reuses `TRIPS`, `parseState` and `progress` from the released state module, creates no new storage key and does not write, migrate or reset any trip, bookmark or decision-board record. It updates after same-origin storage events and browser-history restores. Unavailable storage and invalid records are distinguished from an unsaved trip and left unchanged. Without JavaScript, all three workspace links remain usable and explain that saved progress needs JavaScript.
+
+Header navigation, home/course entry bands and each workspace link to the overview. A compact three-city status row jumps to each card, avoiding a long mobile scroll to reach Tokyo. Header/language targets are at least 44px high; responsive scroll padding accounts for a wrapped header. Both languages share the same local records and have reciprocal language links, canonical metadata and sitemap entries. The monitored inventory is now 58 page URLs; the SEO landing-page count remains 40. No API, backend, infrastructure, search redirect or affiliate changes are included.
+
+`scripts/check_my_trips.mjs` runs within Phase 2 and covers mixed/complete/empty states, localized labels, no writes, byte-equivalent legacy records and bookmarks, storage failures, malformed records, cross-tab reset and history restore. Browser QA must also cover navigation to/from all three workspaces, both languages, 320/390/1440px layouts, image loading, keyboard and no-JS/blocked-storage states. Production release evidence will be recorded after deployment.
+
+Local Chromium verification on 2026-10-14 passed both languages at 320/390/768/920/1440px: loaded images, no horizontal overflow, 44px header/overview targets, unobscured city jumps, keyboard navigation and all three workspace resume/back links. Existing preparation, bookmarks and decision-board records remained byte-equivalent during reads. EN/KO switching, cross-tab edits, isolated reset, back navigation and reload passed. Separate 320px contexts passed no-JS, blocked-storage and one-corrupt-city checks in both languages, without leaking internal errors or rewriting bad records. Screenshots were visually inspected. No application page errors or preparation API/search calls occurred. Physical-device/Safari testing remains NOT_RUN.
+
 ## Tokyo Expansion
 
 Tokyo uses `/my-trip/tokyo/` and `/ko/my-trip/tokyo/`, the existing Tokyo illustration and four bilingual guides. The base 4-day course offers an Asakusa-only Day 3 instead of optional Ueno. A separate, exclusive Day 2 replacement can be Jimbocho books/cafes or Kiyosumi-Shirakawa garden-or-exhibition plus a break. These replace a shopping half-day, not add districts or extend departure day. Actual transfers, opening arrangements, exhibitions and weather still require travelers' checks.

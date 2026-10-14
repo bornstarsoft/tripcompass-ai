@@ -25,6 +25,8 @@ print_group "Section hubs" \
   "https://tripcompass.ai/ko/itinerary/"
 
 print_group "Decision tools" \
+  "https://tripcompass.ai/my-trips/" \
+  "https://tripcompass.ai/ko/my-trips/" \
   "https://tripcompass.ai/decision-board/" \
   "https://tripcompass.ai/ko/decision-board/" \
   "https://tripcompass.ai/my-trip/" \

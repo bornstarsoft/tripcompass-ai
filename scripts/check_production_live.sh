@@ -174,6 +174,12 @@ for language in en ko; do
     prefix="/ko"
     title="내 후쿠오카 여행 준비함"
   fi
+  overview_html="$TMP_DIR/my-trips-$language.html"
+  assert_http_200 "$BASE_URL$prefix/my-trips/" "$overview_html" "$language My trips overview"
+  for expected in "data-my-trips" "data-trip-summary=fukuoka" "data-trip-summary=osaka" \
+    "data-trip-summary=tokyo" "/js/my-trips.js" "/css/my-trips.css" "$prefix/my-trip/tokyo/"; do
+    assert_contains "$overview_html" "$expected" "$language My trips overview"
+  done
   prep_html="$TMP_DIR/prep-$language.html"
   assert_http_200 "$BASE_URL$prefix/my-trip/" "$prep_html" "$language Fukuoka preparation"
   for expected in "$title" "data-trip-prep" "data-prep-create" "data-prep-check" \
@@ -198,12 +204,12 @@ for language in en ko; do
     assert_contains "$tokyo_html" "$expected" "$language Tokyo preparation"
   done
 done
-for asset in js/trip-prep.js js/trip-prep-core.js css/trip-prep.css js/guide-explorer.js; do
+for asset in js/trip-prep.js js/trip-prep-core.js css/trip-prep.css js/guide-explorer.js js/my-trips.js css/my-trips.css; do
   assert_http_200 "$BASE_URL/$asset" "$TMP_DIR/${asset##*/}" "$asset"
 done
 assert_contains "$TMP_DIR/trip-prep.js" "mountTripPrep" "Preparation controller"
 assert_contains "$TMP_DIR/trip-prep-core.js" "tripcompass.trip-prep.v1" "Preparation state module"
-pass "All six preparation pages and their shared assets are published; interactive QA remains a browser check"
+pass "Both overviews, all six preparation pages and their assets are published; interactive QA remains a browser check"
 
 unique_suffix="$(date +%s)"
 en_budget="under ${unique_suffix} USD"

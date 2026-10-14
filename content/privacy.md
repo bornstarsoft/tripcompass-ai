@@ -32,6 +32,8 @@ Guide search and interest filters run locally and do not send the search text or
 
 ## Fukuoka, Osaka and Tokyo Trip Preparation
 
+The [My trips overview](/my-trips/) reads those three preparation records to display your course choices, checked items and next steps together. It does not create, migrate, change or delete records, and does not send their contents to a server. Unreadable or unavailable storage is shown as unavailable progress, not an empty trip. The Korean overview at [/ko/my-trips/](/ko/my-trips/) reads the same records.
+
 The [Fukuoka preparation workspace](/my-trip/), [Osaka preparation workspace](/my-trip/osaka/) and [Tokyo preparation workspace](/my-trip/tokyo/) each save your selected base course, one alternative and five checklist values in this browser after you start that trip. Changes are saved locally; no account, cloud synchronization, AI request or analytics event is created. No dates, names, booking references or free-text notes are collected by the workspace.
 
 English and Korean use the same preparation state for each city on this browser profile. The three cities use separate records; starting, editing or resetting one does not migrate or delete either other city's preparation. People sharing that profile may see it. Resetting preparation removes only that city's storage key, not other trips, saved guides, language settings or decision-board data. Clearing site data removes all of these local choices. A storage failure is shown as page-only progress, not a successful save. Saved guides in all workspaces use the same bookmark list as the existing guide explorer.

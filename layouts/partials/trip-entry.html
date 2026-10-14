@@ -11,6 +11,7 @@
 {{- with $trips -}}
 <aside class="trip-entry" aria-label="{{ cond $ko "내 여행" "My trip" }}">
   <div class="section-inner">
+    <a href="{{ printf "%s/my-trips/" $prefix | relURL }}">{{ cond $ko "내 여행 한눈에 보기" "All my trips at a glance" }}</a>
     {{ range . }}
     {{ $start := cond $ko (printf "%s 여행 준비하기" .ko) (printf "Prepare my %s trip" .en) }}
     {{ $continue := cond $ko (printf "준비하던 %s 여행 이어보기" .ko) (printf "Continue my %s trip" .en) }}

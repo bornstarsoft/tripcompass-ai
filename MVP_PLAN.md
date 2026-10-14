@@ -12,7 +12,10 @@ The authorized Osaka expansion adds `/my-trip/osaka/` and `/ko/my-trip/osaka/` u
 
 The authorized Tokyo expansion adds `/my-trip/tokyo/` and `/ko/my-trip/tokyo/`, reusing existing bilingual guides and bookmarks with a third independent browser-local record. Fukuoka and Osaka records are preserved without migration. Current release evidence is in `docs/CURRENT_STATE.md` and `docs/trip-preparation.md`.
 
+The My trips overview at `/my-trips/` and `/ko/my-trips/` reads the three released preparation records without migrating or writing them. It summarizes choices, checked items and the next step, with links back to the existing workspaces. Release evidence belongs in `docs/CURRENT_STATE.md` and `docs/trip-preparation.md`; a local build alone is not a production release.
+
 ## Tech stack
+
 - Hugo static site
 - GitHub repository
 - Cloudflare Pages

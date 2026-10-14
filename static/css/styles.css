@@ -132,8 +132,20 @@ a:hover {
   border-left: 1px solid var(--line);
 }
 
+.site-nav a,
 .language-switcher a {
-  min-height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.site-nav a[aria-current="page"] {
+  color: var(--teal-dark);
+  text-decoration: underline;
+  text-underline-offset: .25rem;
+}
+
+.language-switcher a {
   padding: 0.25rem 0.55rem;
   border: 1px solid transparent;
   border-radius: 8px;
@@ -583,7 +595,7 @@ input[type="checkbox"] {
 
 @media (max-width: 920px) {
   html {
-    scroll-padding-top: 10.5rem;
+    scroll-padding-top: 12rem;
   }
 
   .site-header__inner {
@@ -622,6 +634,10 @@ input[type="checkbox"] {
 }
 
 @media (max-width: 620px) {
+  html {
+    scroll-padding-top: 16rem;
+  }
+
   .site-header__inner,
   .site-footer__inner,
   .section-inner,

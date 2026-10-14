@@ -206,7 +206,9 @@ assert.match(languageJs, /browserLanguage\.startsWith\("ko"\)/);
 
 const styles = await readFile(join(outDir, "css", "styles.css"), "utf8");
 assert.match(styles, /scroll-padding-top:\s*5\.25rem/);
-assert.match(styles, /scroll-padding-top:\s*10\.5rem/);
+assert.match(styles, /@media \(max-width: 920px\)\s*\{\s*html\s*\{\s*scroll-padding-top:\s*12rem/);
+assert.match(styles, /@media \(max-width: 620px\)\s*\{\s*html\s*\{\s*scroll-padding-top:\s*16rem/);
+assert.match(styles, /\.site-nav a,\s*\.language-switcher a\s*\{[^}]*min-height:\s*44px/);
 assert.match(styles, /@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{\s*html\s*\{\s*scroll-behavior:\s*auto/);
 
 const oldMockCopyPattern =

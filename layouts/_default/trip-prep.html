@@ -7,6 +7,7 @@
 {{ $cover := index .Site.Data.explore.guides $data.cover }}
 <article class="page-shell trip-prep" data-trip-prep="{{ $destination }}" data-guide-experience data-guide-ids="{{ delimit (partial "saved-guide-ids.html" .) "," }}">
   <nav class="prep-destinations" aria-label="{{ cond $ko "여행 준비함 선택" "Choose a trip workspace" }}">
+    <a href="{{ printf "%s/my-trips/" $prefix | relURL }}">{{ cond $ko "내 여행 전체" "All my trips" }}</a>
     {{ range .Site.Data.trip_prep }}<a href="{{ printf "%s%s" $prefix .path | relURL }}"{{ if eq .id $destination }} aria-current="page"{{ end }}>{{ index . $lang }}</a>{{ end }}
   </nav>
   <header class="prep-header">
