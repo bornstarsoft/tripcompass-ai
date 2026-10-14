@@ -7,6 +7,12 @@ const root = resolve(process.argv[2]);
 const { TRIPS, TASKS, initialState } = await import(pathToFileURL(resolve(root, "js/trip-prep-core.js")));
 const { mountMyTrips } = await import(pathToFileURL(resolve(root, "js/my-trips.js")));
 const ids = Object.keys(TRIPS);
+const bookmarkKey = "tripcompass.saved-guides.v1";
+const cityGuides = {
+  fukuoka: ["fukuoka", "parents", "stay", "fukuoka-rain", "fukuoka-dazaifu", "travel-days"],
+  osaka: ["osaka", "osaka-kyoto", "osaka-nara", "osaka-doguyasuji", "travel-days"],
+  tokyo: ["tokyo", "tokyo-jimbocho", "tokyo-kiyosumi", "travel-days"]
+};
 
 function harness(language = "en", records = new Map(), blocked = []) {
   const events = {};
@@ -14,8 +20,10 @@ function harness(language = "en", records = new Map(), blocked = []) {
   const quick = Object.fromEntries(ids.map(id => [id, { textContent: "" }]));
   const cards = ids.map(id => {
     const labels = values => JSON.stringify(Object.fromEntries(values.map(value => [value, `${language}:${id}:${value}`])));
-    const fields = Object.fromEntries(["status", "details", "count", "progress", "course", "alternative", "next", "action-label"].map(name => [name, { textContent: "", hidden: true, value: 0 }]));
-    return { fields, dataset: { tripSummary: id, courseLabels: labels(TRIPS[id].courses), alternativeLabels: labels(TRIPS[id].alternatives), taskLabels: labels(TASKS) },
+    const fields = Object.fromEntries(["status", "details", "count", "progress", "course", "alternative", "next", "action-label", "guides-status", "guides-list"].map(name => [name, { textContent: "", hidden: true, value: 0 }]));
+    const guides = cityGuides[id].map(id => ({ dataset: { tripSavedGuide: id }, hidden: true }));
+    return { fields, guides, dataset: { tripSummary: id, courseLabels: labels(TRIPS[id].courses), alternativeLabels: labels(TRIPS[id].alternatives), taskLabels: labels(TASKS) },
+      querySelectorAll: () => guides,
       querySelector: selector => fields[selector.slice(11, -1)] };
   });
   const page = { querySelector: selector => selector === "[data-trips-summary]" ? summary : quick[selector.split('"')[1]], querySelectorAll: () => cards };
@@ -88,6 +96,46 @@ for (const language of ["en", "ko"]) {
 }
 mountMyTrips({ querySelector: () => null }, {});
 
+for (const language of ["en", "ko"]) {
+  const raw = '["stay","osaka-nara","tokyo-jimbocho","travel-days","stay","unknown-future-id","<script>PRIVATE</script>",null,17]';
+  const records = new Map([[bookmarkKey, raw], [TRIPS.fukuoka.storageKey, JSON.stringify(initialState())]]);
+  const before = [...records];
+  const ui = harness(language, records);
+  const visible = () => ui.cards.map(card => card.guides.filter(guide => !guide.hidden).map(guide => guide.dataset.tripSavedGuide));
+  assert.deepEqual(visible(), [["stay", "travel-days"], ["osaka-nara", "travel-days"], ["tokyo-jimbocho", "travel-days"]]);
+  assert.ok(ui.cards[1].fields.details.hidden, "Bookmarks must work without starting a trip");
+  assert.ok(ui.cards.every(card => /2/.test(card.fields["guides-status"].textContent)));
+  assert.deepEqual([...records], before, "Unknown and duplicate IDs must remain byte-equivalent");
+  records.set(bookmarkKey, '["tokyo-kiyosumi"]');
+  ui.events.storage({ key: bookmarkKey, newValue: records.get(bookmarkKey) });
+  assert.deepEqual(visible(), [[], [], ["tokyo-kiyosumi"]]);
+  assert.match(ui.cards[0].fields["guides-status"].textContent, /No guides|아직/);
+  assert.ok(ui.cards[0].fields["guides-list"].hidden);
+  records.set(bookmarkKey, JSON.stringify(Object.values(cityGuides).flat()));
+  ui.events.pageshow({ persisted: true });
+  assert.deepEqual(visible().map(guides => guides.length), [6, 5, 4]);
+  for (const bad of ["broken PRIVATE", "{}", "null", "", "x".repeat(65537)]) {
+    records.set(bookmarkKey, bad);
+    ui.events.storage({ key: bookmarkKey });
+    assert.deepEqual(visible(), [[], [], []]);
+    assert.ok(ui.cards.every(card => /could not be read|읽지 못/.test(card.fields["guides-status"].textContent)));
+    assert.doesNotMatch(JSON.stringify(ui.cards), /PRIVATE/);
+    assert.equal(records.get(bookmarkKey), bad);
+    assert.equal(ui.cards[0].fields.details.hidden, false, "Bookmark error must not hide preparation");
+  }
+  records.delete(bookmarkKey);
+  ui.events.storage({ key: null });
+  assert.ok(ui.cards.every(card => /No guides|아직/.test(card.fields["guides-status"].textContent)));
+  records.set(bookmarkKey, raw);
+  const blocked = harness(language, records, [bookmarkKey]);
+  assert.ok(blocked.cards.every(card => card.fields["guides-list"].hidden));
+  assert.ok(blocked.cards.every(card => /unavailable|사용할 수 없어/.test(card.fields["guides-status"].textContent)));
+  assert.equal(blocked.cards[0].fields.details.hidden, false);
+  assert.equal(blocked.writes(), 0);
+  assert.equal(ui.writes(), 0);
+  assert.equal(records.get(bookmarkKey), raw);
+}
+
 const source = await readFile(resolve(root, "js/my-trips.js"), "utf8");
 assert.doesNotMatch(source, /setItem|removeItem|\.clear\(|fetch\(|innerHTML/);
 for (const prefix of ["", "/ko"]) {
@@ -99,6 +147,14 @@ for (const prefix of ["", "/ko"]) {
   assert.match(html, /js\/my-trips.js/);
   assert.match(html, /css\/my-trips.css/);
   assert.match(html, /data-task-labels=/);
+  assert.equal((html.match(/data-trip-saved-guide=/g) || []).length, 15);
+  assert.equal((html.match(/data-trip-guides-status/g) || []).length, 3);
+  assert.equal((html.match(/<small>(Shared guide|공통 가이드)<\/small>/g) || []).length, 3);
+  assert.match(html, prefix ? /저장한 가이드/ : /Saved guides/);
+  assert.doesNotMatch(html, /js\/guide-explorer.js|data-save-guide=/, "Overview must remain read-only");
+  for (const id of new Set(Object.values(cityGuides).flat())) assert.ok(html.includes(`data-trip-saved-guide=${id}`));
+  assert.match(html, new RegExp(`href=${prefix}/itinerary/tokyo-jimbocho-books-cafes/`));
+  assert.match(html, new RegExp(`href=${prefix}/itinerary/osaka-to-nara-temple-park-day/`));
   for (const path of ["/my-trip/", "/my-trip/osaka/", "/my-trip/tokyo/"]) {
     assert.ok(html.includes(`href=${prefix}${path}`));
     const workspace = await readFile(resolve(root, `.${prefix}${path}index.html`), "utf8");
@@ -109,4 +165,4 @@ for (const prefix of ["", "/ko"]) {
   const sitemap = await readFile(resolve(root, "sitemap.xml"), "utf8");
   assert.ok(sitemap.includes(`<loc>https://tripcompass.ai${prefix}/my-trips/</loc>`));
 }
-console.log("My trips checks passed: bilingual read-only summaries, mixed states, errors, cross-tab/reset, existing records and discovery.");
+console.log("My trips checks passed: read-only preparation and city bookmarks, bilingual links, shared guides, malformed/unknown IDs, storage/history updates and record preservation.");

@@ -1,5 +1,7 @@
 import { TRIPS, TASKS, parseState, progress } from "./trip-prep-core.js";
 
+const SAVED_GUIDES_KEY = "tripcompass.saved-guides.v1";
+
 const copy = {
   en: {
     empty: "No preparation saved yet.", saved: "Preparation saved in this browser",
@@ -9,6 +11,10 @@ const copy = {
     start: "Start preparing", resume: "Continue trip", open: "Open workspace", review: "Review trip",
     notStarted: "Not started", unavailable: "Unavailable", quick: done => `${done}/5 checked`,
     count: done => `${done} of ${TASKS.length} items checked`,
+    guidesCount: count => `${count} saved ${count === 1 ? "guide" : "guides"}`,
+    guidesEmpty: "No guides saved for this city yet.",
+    guidesInvalid: "Your saved list could not be read. It has not been changed.",
+    guidesBlocked: "Browser storage is unavailable. Your saved list cannot be shown.",
     summary: (saved, unreadable) => `${saved} of 3 trips have saved preparation.${unreadable ? ` ${unreadable} could not be read.` : ""}`,
     final: "Recheck your choices and travel conditions before departure."
   },
@@ -20,6 +26,10 @@ const copy = {
     start: "여행 준비 시작", resume: "여행 이어가기", open: "준비함 열기", review: "준비 내용 다시 보기",
     notStarted: "시작 전", unavailable: "확인 불가", quick: done => `${done}/5 확인`,
     count: done => `${TASKS.length}개 중 ${done}개 확인`,
+    guidesCount: count => `저장한 가이드 ${count}개`,
+    guidesEmpty: "아직 이 도시에 저장한 가이드가 없어요.",
+    guidesInvalid: "저장 목록을 읽지 못했어요. 기존 기록은 그대로 두었습니다.",
+    guidesBlocked: "브라우저 저장소를 사용할 수 없어 저장 목록을 표시할 수 없어요.",
     summary: (saved, unreadable) => `3개 여행 중 ${saved}개에 준비 내용이 있어요.${unreadable ? ` ${unreadable}개는 읽지 못했어요.` : ""}`,
     final: "출발 전 선택한 일정과 여행 조건을 다시 확인하세요."
   }
@@ -33,14 +43,28 @@ export function mountMyTrips(doc, win) {
     card, id: card.dataset.tripSummary,
     courses: JSON.parse(card.dataset.courseLabels),
     alternatives: JSON.parse(card.dataset.alternativeLabels),
-    tasks: JSON.parse(card.dataset.taskLabels)
+    tasks: JSON.parse(card.dataset.taskLabels),
+    guides: [...card.querySelectorAll("[data-trip-saved-guide]")]
   }));
 
   // Read the released records in place. The overview never writes or migrates storage.
   function render() {
+    let guideIds = new Set();
+    let guideError = "";
+    let rawGuides;
+    try { rawGuides = win.localStorage.getItem(SAVED_GUIDES_KEY); }
+    catch { guideError = "guidesBlocked"; }
+    if (!guideError && rawGuides !== null) {
+      try {
+        if (typeof rawGuides !== "string" || rawGuides.length > 65536) throw Error("invalid");
+        const parsed = JSON.parse(rawGuides);
+        if (!Array.isArray(parsed)) throw Error("invalid");
+        guideIds = new Set(parsed.filter(id => typeof id === "string"));
+      } catch { guideError = "guidesInvalid"; }
+    }
     let saved = 0;
     let unreadable = 0;
-    for (const { card, id, courses, alternatives, tasks } of cards) {
+    for (const { card, id, courses, alternatives, tasks, guides } of cards) {
       if (!Object.hasOwn(TRIPS, id)) continue;
       let state = null;
       let error = "";
@@ -52,6 +76,15 @@ export function mountMyTrips(doc, win) {
         catch { error = "invalid"; }
       }
       const find = name => card.querySelector(`[data-trip-${name}]`);
+      // Only prebuilt localized links can be shown; stored IDs never become URLs or HTML.
+      let guideCount = 0;
+      for (const guide of guides) {
+        guide.hidden = !!guideError || !guideIds.has(guide.dataset.tripSavedGuide);
+        if (!guide.hidden) guideCount++;
+      }
+      find("guides-list").hidden = guideCount === 0;
+      find("guides-status").textContent = guideError ? text[guideError]
+        : guideCount ? text.guidesCount(guideCount) : text.guidesEmpty;
       const quick = root.querySelector(`[data-trip-quick="${id}"]`);
       find("details").hidden = !state;
       if (!state) {
@@ -79,7 +112,7 @@ export function mountMyTrips(doc, win) {
   }
   render();
   win.addEventListener("storage", event => {
-    if (event.key === null || Object.values(TRIPS).some(trip => trip.storageKey === event.key)) render();
+    if (event.key === null || event.key === SAVED_GUIDES_KEY || Object.values(TRIPS).some(trip => trip.storageKey === event.key)) render();
   });
   win.addEventListener("pageshow", event => { if (event.persisted) render(); });
 }

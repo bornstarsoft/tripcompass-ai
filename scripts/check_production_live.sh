@@ -177,7 +177,8 @@ for language in en ko; do
   overview_html="$TMP_DIR/my-trips-$language.html"
   assert_http_200 "$BASE_URL$prefix/my-trips/" "$overview_html" "$language My trips overview"
   for expected in "data-my-trips" "data-trip-summary=fukuoka" "data-trip-summary=osaka" \
-    "data-trip-summary=tokyo" "/js/my-trips.js" "/css/my-trips.css" "$prefix/my-trip/tokyo/"; do
+    "data-trip-summary=tokyo" "data-trip-guides-status" "data-trip-saved-guide=tokyo-jimbocho" \
+    "/js/my-trips.js" "/css/my-trips.css" "$prefix/my-trip/tokyo/"; do
     assert_contains "$overview_html" "$expected" "$language My trips overview"
   done
   prep_html="$TMP_DIR/prep-$language.html"

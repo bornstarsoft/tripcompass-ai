@@ -2,6 +2,8 @@
 {{ $ko := eq .Params.htmlLang "ko" }}
 {{ $lang := cond $ko "ko" "en" }}
 {{ $prefix := cond $ko "/ko" "" }}
+{{ $guideUses := dict }}
+{{ range .Site.Data.trip_prep }}{{ range .guides }}{{ $guideUses = merge $guideUses (dict .id (add (index $guideUses .id | default 0) 1)) }}{{ end }}{{ end }}
 <article class="page-shell my-trips" data-my-trips>
   <header class="my-trips-header">
     <p class="eyebrow">{{ cond $ko "다시, 여행을 생각할 시간" "A little closer to your next trip" }}</p>
@@ -16,7 +18,7 @@
     <a href="#trip-{{ . }}">{{ index $trip $lang }}<span data-trip-quick="{{ . }}">{{ cond $ko "보기" "View" }}</span></a>
     {{ end }}
   </nav>
-  <noscript><p>{{ cond $ko "저장 상태를 표시하려면 JavaScript가 필요합니다. 각 준비함의 가이드는 계속 읽을 수 있습니다." "JavaScript is needed to show saved progress. Guides in each workspace remain available." }}</p></noscript>
+  <noscript><p>{{ cond $ko "준비 상태와 저장한 가이드를 표시하려면 JavaScript가 필요합니다. 각 준비함의 전체 가이드는 계속 읽을 수 있습니다." "JavaScript is needed to show progress and saved guides. All guides in each workspace remain available." }}</p></noscript>
   <div class="my-trips-grid">
     {{ range slice "fukuoka" "osaka" "tokyo" }}
     {{ $trip := index $.Site.Data.trip_prep . }}
@@ -41,6 +43,17 @@
           </dl>
         </div>
         <a class="button button--primary my-trip-action" data-trip-action href="{{ printf "%s%s" $prefix $trip.path | relURL }}"><span data-trip-action-label>{{ cond $ko "준비함 열기" "Open workspace" }}</span><span class="my-trip-action-city"> · {{ index $trip $lang }}</span></a>
+        <section class="my-trip-guides" aria-labelledby="saved-title-{{ . }}">
+          <h3 id="saved-title-{{ . }}">{{ cond $ko "저장한 가이드" "Saved guides" }}</h3>
+          <p class="fine-print" data-trip-guides-status>{{ cond $ko "저장 목록을 표시하려면 JavaScript가 필요합니다." "JavaScript is needed to show your saved list." }}</p>
+          <ul data-trip-guides-list hidden>
+            {{ range $trip.guides }}
+            {{ $guide := $.Site.GetPage (printf "%s%s" $prefix .path) }}
+            <li data-trip-saved-guide="{{ .id }}" hidden><a href="{{ $guide.RelPermalink }}">{{ $guide.Title }}</a>{{ if gt (index $guideUses .id) 1 }}<small>{{ cond $ko "공통 가이드" "Shared guide" }}</small>{{ end }}</li>
+            {{ end }}
+          </ul>
+          <a class="my-trip-browse" href="{{ printf "%s%s#prep-reading-title" $prefix $trip.path | relURL }}">{{ cond $ko "이 도시 가이드 둘러보기" "Browse this city's guides" }}</a>
+        </section>
       </div>
     </section>
     {{ end }}

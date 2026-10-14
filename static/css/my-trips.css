@@ -19,7 +19,14 @@
 .my-trip-card dt { font-size: .85rem; color: var(--muted); margin-top: .75rem; }
 .my-trip-card dd { margin: .2rem 0 0; line-height: 1.5; }
 .my-trip-card [data-trip-next] { font-weight: 700; }
-.my-trip-action { margin-top: auto; min-height: 44px; text-align: center; }
+.my-trip-guides { border-top: 1px solid var(--line); margin: 1.25rem 0 0; padding-top: 1rem; }
+.my-trip-guides h3 { margin: 0; font-size: 1.05rem; }
+.my-trip-guides p { margin: .4rem 0; color: var(--muted); }
+.my-trip-guides ul { list-style: none; padding: 0; margin: .25rem 0; }
+.my-trip-guides li + li { border-top: 1px solid var(--line); }
+.my-trip-guides li a, .my-trip-browse { display: flex; align-items: center; min-height: 44px; padding: .5rem 0; line-height: 1.5; }
+.my-trip-guides small { display: block; color: var(--muted); margin-bottom: .5rem; }
+.my-trip-action { margin-top: .5rem; min-height: 44px; text-align: center; }
 .my-trips > .trust-note { margin-top: 1.5rem; }
 @media (max-width: 800px) {
   .my-trips-grid { grid-template-columns: 1fr; }

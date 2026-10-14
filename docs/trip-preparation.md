@@ -1,5 +1,15 @@
 # Trip Preparation Workspaces
 
+## Saved Guides in My Trips
+
+The My trips overview now reads `tripcompass.saved-guides.v1` alongside the independent preparation records. Each city's existing `data/trip_prep/*.toml` guide list supplies the mapping. Hugo renders the localized titles and trusted URLs; saved IDs only control which prebuilt links are visible. All 13 supported bookmarks are covered, with the arrival/departure guide labeled as shared in each of its three cities. The count is per city, not a distinct global total.
+
+Guides appear even before a preparation record exists. The original preparation action stays above the reading list. Empty lists offer the city's complete guide library; blocked or malformed storage gets a distinct notice and does not hide readable preparation. Without JavaScript, the guide-library links remain available. The overview never writes, deduplicates, prunes unknown IDs or migrates records; duplicate IDs only appear once in the display. Oversized or invalid records are left untouched. Other-tab bookmark edits and back-navigation restores refresh the list.
+
+This reopens saved articles in the current language, not the last scroll position. There is no new reading history, offline download, account, tracking call or cloud synchronization. Bookmark editing remains in the existing guide/workspace controls. `scripts/check_my_trips.mjs` covers assignments, shared counts, duplicate/unknown/malformed IDs, empty and blocked reads, state isolation, updates and built localized links. Production QA must exercise actual guide navigation and existing bookmark controls as well as HTTP markers.
+
+Local verification on 2026-10-14 passed Phase 1-5 and strict Hugo validation. Isolated Chromium passed EN/KO at 320/390/768/920/1440px with all guides saved: no horizontal overflow, loaded images and 44px guide links. Keyboard guide opening, localized article titles/URLs, guide-library anchors, language switching, cross-tab shared-guide remove/add, back navigation and reload passed. Overview reads preserved all preparation/bookmark/decision records byte-for-byte, including unknown and duplicate bookmark IDs. Separate 320px contexts passed no-JS, blocked bookmark reads, corrupt records, empty lists and saved guides before preparation starts. Screenshots were inspected; no application page errors or API/search calls occurred. Physical-device/Safari and production checks are not established by these local results.
+
 ## My Trips Overview
 
 `/my-trips/` and `/ko/my-trips/` show Fukuoka, Osaka and Tokyo together in a stable city order. Each card reuses the existing illustration and localized guide/task labels. Readable records display the selected course, alternative, count of user-marked checks and next unchecked item. Empty trips offer a start link; completed checklists offer review, not a claim of booking readiness. All actions open the released workspace URLs, including the original Fukuoka `/my-trip/`.
