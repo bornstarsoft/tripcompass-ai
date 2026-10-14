@@ -48,8 +48,16 @@ for prefix in ("", "/ko"):
         for task, href in workspace.items():
             assert href.startswith(prefix + "/") and not href.startswith("/go/")
             assert href.startswith("/ko/") == bool(prefix), f"Incorrect language: {href}"
-            assert (root / href.lstrip("/") / "index.html").is_file(), f"Missing guide: {href}"
-            expected[f"{city}:{task}"] = href
+            article = root / href.lstrip("/") / "index.html"
+            assert article.is_file(), f"Missing guide: {href}"
+            guide_html = article.read_text()
+            context = f"#prep-{city}-{task}"
+            target = f"trip-{city}-{task}"
+            assert f"id={target}" in html or f'id="{target}"' in html
+            assert guide_html.count(f"data-guide-return={context}") + guide_html.count(f'data-guide-return="{context}"') == 2
+            assert f"{prefix}/my-trips/#{target}" in guide_html
+            assert 'js/trip-guide-return.js' in guide_html and 'css/trip-guide-return.css' in guide_html
+            expected[f"{city}:{task}"] = href + context
     assert overview == expected, f"Overview/workspace task guide mismatch: {prefix or 'en'}"
     assert html.count("관련 가이드" if prefix else "Related guide") == 30
 

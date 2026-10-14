@@ -1,5 +1,13 @@
 # Trip Preparation Workspaces
 
+## Returning from Task Guides
+
+My trips task-guide links carry a fixed `#prep-city-task` fragment. The article renders return links above and below the content only when that exact context is one of its existing TOML task mappings. They return to the localized overview's `#trip-city-task` anchor and focus/scroll to the corresponding checkbox after saved state is restored. If the city's record is absent, invalid or unreadable, the workspace action receives focus instead; navigation does not create a record. The same shared article can return to different cities without guessing from its content or the referrer.
+
+The read-only `trip-guide-return.js` module uses generated local links, not arbitrary return URLs, storage, tracking or network calls. Reload and the article's language switch retain valid context; absent or mismatched context hides the return links. Canonical URLs and sitemap entries stay unchanged. Without JavaScript the existing overview/workspace navigation remains available. Reading does not mark checks or change saved guides, and bookmark undo still does not persist across fresh navigation.
+
+Local QA on 2026-10-15 passed Phase 1-5, strict Hugo and whitespace checks. Chromium passed all 30 EN/KO round trips, top/bottom links, keyboard activation, restored task focus below the header, unchanged preparation/bookmark/decision fixture bytes, language switching/reload, invalid contexts and no-JS/empty/corrupt/blocked fallbacks. Both languages passed 320/390/768/920/1440px with 44px return links and no horizontal overflow; screenshots were inspected. Existing checklist, cross-tab workspace synchronization, bookmark undo, failed-write retry and stale-reset regressions passed. Browser navigation emitted no preparation API/search calls or application errors. Physical-device/Safari and production QA are not established by local checks.
+
 ## Related Guides from My Trips Tasks
 
 Each of the five checklist items in each city now has a separate Related guide / 관련 가이드 link. Hugo uses the same `data/trip_prep/*.toml` task paths as the existing workspace, with the current language prefix. Links open the existing article in the same tab and remain available for checked items. They are outside the checkbox label, have a 44px minimum target, and include the task name for screen readers. Reading an article does not mark a check, save a guide or verify travel conditions.

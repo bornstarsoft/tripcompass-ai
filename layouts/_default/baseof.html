@@ -40,6 +40,7 @@
     {{ end }}
     {{ if .Params.tripPrep }}<link rel="stylesheet" href="{{ "css/trip-prep.css" | relURL }}">{{ end }}
     {{ if .Params.myTrips }}<link rel="stylesheet" href="{{ "css/my-trips.css" | relURL }}">{{ end }}
+    {{ if or .Params.course .Params.planningGuide }}<link rel="stylesheet" href="{{ "css/trip-guide-return.css" | relURL }}">{{ end }}
     {{ if or .Params.course .Params.planningGuide }}
     <link rel="stylesheet" href="{{ "css/course-print.css" | relURL }}" media="print">
     {{ end }}
@@ -79,8 +80,10 @@
       <button type="button" data-language-suggestion-close>닫기</button>
     </aside>
     <main id="main">
+      {{ partial "trip-guide-return.html" (dict "page" . "top" true) }}
       {{ partial "trip-entry.html" . }}
       {{ block "main" . }}{{ end }}
+      {{ partial "trip-guide-return.html" (dict "page" . "top" false) }}
     </main>
     <footer class="site-footer">
       <div class="site-footer__inner">
@@ -102,5 +105,6 @@
     </footer>
     <script src="{{ "js/language.js" | relURL }}" defer></script>
     <script type="module" src="{{ "js/trip-prep.js" | relURL }}"></script>
+    {{ if or (.Store.Get "hasTripGuideReturn") .Params.myTrips }}<script type="module" src="{{ "js/trip-guide-return.js" | relURL }}"></script>{{ end }}
   </body>
 </html>

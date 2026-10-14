@@ -1,0 +1,5 @@
+.trip-guide-return { padding: .75rem 0; border-block: 1px solid var(--line); background: var(--mint); }
+.trip-guide-return[hidden] { display: none; }
+.trip-guide-return a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 750; overflow-wrap: anywhere; }
+.trip-guide-return p { margin: .25rem 0 0; color: var(--muted); }
+@media print { .trip-guide-return { display: none; } }

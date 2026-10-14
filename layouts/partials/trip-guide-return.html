@@ -1,0 +1,19 @@
+{{- $ko := eq .page.Params.htmlLang "ko" -}}
+{{- $lang := cond $ko "ko" "en" -}}
+{{- $prefix := cond $ko "/ko" "" -}}
+{{- $page := .page -}}
+{{- $top := .top -}}
+{{- range $page.Site.Data.trip_prep -}}
+  {{- $trip := . -}}
+  {{- range .tasks -}}
+    {{- if eq $page.RelPermalink (printf "%s%s" $prefix .path) -}}
+      {{- $page.Store.Set "hasTripGuideReturn" true -}}
+<nav class="trip-guide-return"{{ if $top }} id="prep-{{ $trip.id }}-{{ .id }}"{{ end }} data-guide-return="{{ printf "#prep-%s-%s" $trip.id .id }}" aria-label="{{ cond $ko "준비 항목으로 돌아가기" "Return to preparation" }}" hidden>
+  <div class="section-inner">
+    <a href="{{ printf "%s/my-trips/#trip-%s-%s" $prefix $trip.id .id | relURL }}">{{ cond $ko (printf "내 여행 · %s 준비 항목으로 돌아가기" $trip.ko) (printf "My trips · Back to %s preparation" $trip.en) }}</a>
+    <p>{{ index . $lang }}</p>
+  </div>
+</nav>
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
