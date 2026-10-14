@@ -1,15 +1,13 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (OSAKA-TRIP-PREP; implement bilingual Osaka preparation, validate, commit, deploy and verify production; main/current worktree; 2026-10-14 KST)
 
-- Last AI: CODEX; WORK-ID: TRIPCOMPASS-MVP-RELEASE; DONE 2026-10-14 KST. Writer released after production verification.
-- Phase: release deployed and production-validated; operations record accompanies the release.
-- Owner approval: review all changes, fix release blockers, commit and deploy, then verify the live Fukuoka preparation workspace.
-- Starting HEAD: e54e582. Existing tracked and untracked content/UI WIP is preserved; no previous writer marker was found.
-- Scope: accumulated content/UI work and Fukuoka preparation MVP; existing production QA only. No new accounts, analytics, backend behavior or infrastructure changes.
-- HEAD/WIP: application release f7646a9 on main, pushed and deployed; all 105 reviewed paths included. This documentation follow-up records the outcome without changing application behavior. No owner WIP was discarded.
-- NEXT_SINGLE_TASK: collect initial owner/user feedback on the live Fukuoka preparation flow before expanding to another destination.
-- QA PASS: Phase 1-5, strict Hugo build, git diff --check, GitHub CI and Pages deployment; 61 built content pages and 52 live monitored sitemap page URLs. Production EN/KO backend responses, repeated cache hit and HEAD 302. Production preparation: 1440/390/320px, keyboard, reload, language switch, homepage resume, cross-tab edits, reset isolation, no-JS, blocked storage and corrupt-state recovery. Live JS/CSS hashes match the release.
-- QA NOT_RUN: physical-device/Safari tests, remote D1 queries and business-retention measurement. Optional WebKit could not start because its required browser binary is absent; local favicon 404 remains outside scope.
-- BLOCKER: none for this release. Local Wrangler authentication is expired, but the existing GitHub-to-Pages integration successfully deployed the authorized commit.
-- Handoff: see docs/trip-preparation.md and docs/operations.md for production evidence. This approval does not authorize future unrelated features or infrastructure changes.
+- Last completed work: CODEX, TRIPCOMPASS-MVP-RELEASE; application f7646a9 and release notes e7349aa deployed. Historical evidence is in docs/operations.md and docs/trip-preparation.md.
+- Phase: release preparation for OSAKA-TRIP-PREP.
+- Owner approval: extend preparation to Osaka using existing bilingual guides/bookmarks; validate, commit, deploy and verify production. Starting HEAD e7349aa, main clean, no active writer.
+- Scope: Osaka pages, city-specific shared UI/state, discovery links and verification. Preserve Fukuoka URLs and stored records. No backend, AI Gateway, D1/KV, environment, API, /go or affiliate changes.
+- HEAD/WIP: main at e7349aa with only this task's reviewed implementation and tests; no owner WIP discarded. Commit and deployment pending.
+- QA PASS: Phase 1-5; 63 content pages, 54 monitored sitemap URLs. Local Chromium EN/KO at 320/390/1440px, keyboard, reload, language switch, independent home resume, legacy Fukuoka/bookmark preservation, two-tab synchronization, reset isolation, no-JS reading, blocked storage and corrupt recovery.
+- QA NOT_RUN: production validation for this expansion (pending deployment), physical-device/Safari tests, remote D1 queries and retention measurement.
+- NEXT_SINGLE_TASK: finish release gates, commit/push the Osaka expansion, then verify the deployed pages and record the outcome.
+- BLOCKER: none. Use existing GitHub-to-Pages integration; do not change infrastructure or inspect credentials.

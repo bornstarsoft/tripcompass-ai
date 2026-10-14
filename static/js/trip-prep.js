@@ -1,9 +1,18 @@
-import { STORAGE_KEY, COURSES, ALTERNATIVES, TASKS, initialState, parseState, progress } from "./trip-prep-core.js";
+import { TRIPS, TASKS, initialState, parseState, progress } from "./trip-prep-core.js";
 
 export function mountTripPrep(doc, win) {
   const root = doc.querySelector("[data-trip-prep]");
   const entries = [...doc.querySelectorAll("[data-trip-entry]")];
+  for (const destination of Object.keys(TRIPS)) {
+    mountDestination(doc, win, destination,
+      (root?.dataset?.tripPrep || "fukuoka") === destination ? root : null,
+      entries.filter(entry => (entry.dataset.tripEntry || "fukuoka") === destination));
+  }
+}
+
+function mountDestination(doc, win, destination, root, entries) {
   if (!root && !entries.length) return;
+  const { storageKey: STORAGE_KEY, courses: COURSES, alternatives: ALTERNATIVES } = TRIPS[destination];
   const ko = doc.documentElement.lang === "ko";
   const say = (en, korean) => ko ? korean : en;
   const find = selector => root?.querySelector(selector);
@@ -26,15 +35,14 @@ export function mountTripPrep(doc, win) {
     let raw;
     try { raw = win.localStorage.getItem(STORAGE_KEY); }
     catch { memoryOnly = true; temporary(); return state; }
-    try { return parseState(raw); }
+    try { return parseState(raw, destination); }
     catch { message(say("Saved preparation could not be read. Start again to replace it; saved guides are untouched.",
       "저장된 준비 내용을 읽을 수 없습니다. 다시 시작하면 준비 내용만 교체하고 저장한 글은 유지합니다.")); return null; }
   }
 
   function render() {
     for (const entry of entries) entry.textContent = state && !memoryOnly
-      ? say("Continue my Fukuoka trip", "준비하던 후쿠오카 여행 이어보기")
-      : say("Prepare my Fukuoka trip", "후쿠오카 여행 준비하기");
+      ? entry.dataset.continueLabel : entry.dataset.startLabel;
     if (!root) return;
     start.hidden = !!state;
     workspace.hidden = !state;
@@ -80,13 +88,13 @@ export function mountTripPrep(doc, win) {
   if (root) {
     create.addEventListener("click", () => {
       if (!memoryOnly) state = read();
-      state ||= initialState();
+      state ||= initialState(destination);
       save();
       courses.find(input => input.checked).focus();
     });
     courses.forEach(input => input.addEventListener("change", () => {
       if (input.checked && COURSES.includes(input.value)) change(value => {
-        if (value.course !== input.value) value.checks = initialState().checks;
+        if (value.course !== input.value) value.checks = initialState(destination).checks;
         value.course = input.value;
       });
     }));
@@ -115,7 +123,7 @@ export function mountTripPrep(doc, win) {
       state = null;
       memoryOnly = false;
       render();
-      message(say("Preparation cleared. Saved guides and the decision board were kept.", "준비 내용을 지웠습니다. 저장한 글과 여행 결정표는 유지했습니다."));
+      message(say("This preparation cleared. Other trips, saved guides and the decision board were kept.", "이 여행 준비 내용을 지웠습니다. 다른 준비함, 저장한 글과 여행 결정표는 유지했습니다."));
       create.focus();
     });
   }

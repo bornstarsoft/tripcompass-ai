@@ -1,0 +1,90 @@
+id = "osaka"
+path = "/my-trip/osaka/"
+en = "Osaka"
+ko = "오사카"
+enEyebrow = "Osaka · 4 days, 3 nights"
+koEyebrow = "오사카 · 3박 4일"
+cover = "osaka"
+enNote = "Keep arrival and departure light. Choose one version of Day 2 and one plan for Day 3; Kyoto and Nara are alternatives, not a combined outing."
+koNote = "도착일과 출국일은 가볍게. 둘째 날의 취향 코스와 셋째 날의 목적지를 하나씩 고르세요. 교토와 나라는 같은 날 묶지 않습니다."
+
+[[courses]]
+id = "osaka"
+path = "/itinerary/seoul-to-osaka-4-day-itinerary/"
+en = "First Osaka trip: food and neighborhoods"
+ko = "첫 오사카 여행: 먹거리와 동네 산책"
+enNote = "Day 2 around Namba and Shinsaibashi. Keep meals and rest in the plan."
+koNote = "둘째 날은 난바와 신사이바시를 중심으로. 식사와 휴식은 남겨요."
+
+[[courses]]
+id = "doguyasuji"
+path = "/itinerary/osaka-doguyasuji-kitchenware-walk/"
+en = "Swap a shopping half-day for Doguyasuji"
+ko = "쇼핑 반나절 대신 도구야스지"
+enNote = "Replace part of Day 2 with tableware and food-model browsing, not an extra district. A workshop requires separate confirmation."
+koNote = "둘째 날 쇼핑 일부를 그릇·음식 모형 구경으로 바꿔요. 다른 동네를 더하지 않고, 체험은 따로 확인해요."
+
+[[alternatives]]
+id = "none"
+en = "Day 3: stay in Osaka"
+ko = "셋째 날: 오사카에 머물기"
+enNote = "Keep Umeda or another unhurried city day. No intercity outing."
+koNote = "우메다나 여유로운 도심 하루를 유지해요. 다른 도시로 이동하지 않아요."
+
+[[alternatives]]
+id = "kyoto"
+path = "/itinerary/osaka-or-kyoto-day-trip/"
+en = "Day 3: one Kyoto area instead"
+ko = "셋째 날 대신 교토 한 권역"
+enNote = "Replace the Osaka day with one place you want to see. Leave Nara for another trip."
+koNote = "오사카 하루를 보고 싶은 교토 한 권역으로 교체해요. 나라는 다른 여행으로 남겨요."
+
+[[alternatives]]
+id = "nara"
+path = "/itinerary/osaka-to-nara-temple-park-day/"
+en = "Day 3: Nara temple and park instead"
+ko = "셋째 날 대신 나라 사찰과 공원"
+enNote = "Replace the Osaka day with Todaiji and an adjustable park walk. No Kyoto on this day."
+koNote = "오사카 하루 대신 도다이지와 짧은 공원 산책을 골라요. 같은 날 교토에는 가지 않아요."
+
+[[tasks]]
+id = "flights"
+en = "Check flights, the actual airport and usable days"
+ko = "항공편·실제 공항과 온전한 여행일 확인"
+path = "/itinerary/japan-arrival-departure-day-plan/"
+[[tasks]]
+id = "hotel"
+en = "Compare the hotel area and room conditions"
+ko = "숙소 권역과 객실 조건 비교"
+path = "/itinerary/seoul-to-osaka-4-day-itinerary/"
+[[tasks]]
+id = "transport"
+en = "Check airport transfers and the chosen Day 3 return route"
+ko = "공항 이동과 선택한 셋째 날 귀환 경로 확인"
+path = "/itinerary/seoul-to-osaka-4-day-itinerary/"
+[[tasks]]
+id = "weather"
+en = "Review weather, venue notices and what to drop"
+ko = "날씨·방문지 공지와 줄일 일정 확인"
+path = "/itinerary/seoul-to-osaka-4-day-itinerary/"
+[[tasks]]
+id = "departure"
+en = "Confirm bag collection and return-airport plan"
+ko = "짐 회수와 돌아갈 공항 이동 확인"
+path = "/itinerary/japan-arrival-departure-day-plan/"
+
+[[guides]]
+id = "osaka"
+path = "/itinerary/seoul-to-osaka-4-day-itinerary/"
+[[guides]]
+id = "osaka-kyoto"
+path = "/itinerary/osaka-or-kyoto-day-trip/"
+[[guides]]
+id = "osaka-nara"
+path = "/itinerary/osaka-to-nara-temple-park-day/"
+[[guides]]
+id = "osaka-doguyasuji"
+path = "/itinerary/osaka-doguyasuji-kitchenware-walk/"
+[[guides]]
+id = "travel-days"
+path = "/itinerary/japan-arrival-departure-day-plan/"

@@ -1,3 +1,11 @@
+id = "fukuoka"
+path = "/my-trip/"
+en = "Fukuoka"
+ko = "후쿠오카"
+enEyebrow = "Fukuoka · 3 days, 2 nights"
+koEyebrow = "후쿠오카 · 2박 3일"
+cover = "fukuoka"
+
 [[courses]]
 id = "fukuoka"
 path = "/from-seoul/seoul-to-fukuoka-weekend-trip/"

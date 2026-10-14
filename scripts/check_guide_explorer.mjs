@@ -171,4 +171,7 @@ assert.equal(harness({ absent: true }).state.writes, 0);
 const prepBookmarks = harness({ stored: '["tokyo","fukuoka-rain","travel-days"]', extraIds: ["fukuoka-rain", "fukuoka-dazaifu", "travel-days"] });
 prepBookmarks.save("parents");
 assert.deepEqual(JSON.parse(prepBookmarks.state.stored), ["tokyo", "fukuoka-rain", "travel-days", "parents"], "Saving on a course/homepage must preserve preparation-library bookmarks");
+const bothTrips = harness({ stored: '["fukuoka-rain","osaka-nara","osaka-kyoto","osaka-doguyasuji"]', extraIds: ["fukuoka-rain", "osaka-nara", "osaka-kyoto", "osaka-doguyasuji"] });
+bothTrips.save("parents");
+assert.deepEqual(JSON.parse(bothTrips.state.stored), ["fukuoka-rain", "osaka-nara", "osaka-kyoto", "osaka-doguyasuji", "parents"]);
 console.log("Guide explorer check passed: EN/KO filters, search, saved guides, safe storage fallback and cross-tab state.");

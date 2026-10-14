@@ -28,7 +28,9 @@ print_group "Decision tools" \
   "https://tripcompass.ai/decision-board/" \
   "https://tripcompass.ai/ko/decision-board/" \
   "https://tripcompass.ai/my-trip/" \
-  "https://tripcompass.ai/ko/my-trip/"
+  "https://tripcompass.ai/ko/my-trip/" \
+  "https://tripcompass.ai/my-trip/osaka/" \
+  "https://tripcompass.ai/ko/my-trip/osaka/"
 
 print_group "English SEO landing pages" \
   "https://tripcompass.ai/from-seoul/japan-3-day-trips/" \

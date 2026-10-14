@@ -1,11 +1,21 @@
 {{- $ko := eq .Params.htmlLang "ko" -}}
+{{- $prefix := cond $ko "/ko" "" -}}
 {{- $path := strings.TrimPrefix "/ko" .RelPermalink -}}
-{{- $show := or .IsHome (eq .RelPermalink "/ko/") .Params.itineraryLibrary -}}
-{{- range .Site.Data.trip_prep.guides -}}
-  {{- if eq .path $path }}{{ $show = true }}{{ end -}}
+{{- $all := or .IsHome (eq .RelPermalink "/ko/") .Params.itineraryLibrary -}}
+{{- $trips := slice -}}
+{{- range .Site.Data.trip_prep -}}
+  {{- $show := $all -}}
+  {{- range .guides -}}{{- if eq .path $path }}{{ $show = true }}{{ end -}}{{- end -}}
+  {{- if $show }}{{ $trips = $trips | append . }}{{ end -}}
 {{- end -}}
-{{- if $show -}}
+{{- with $trips -}}
 <aside class="trip-entry" aria-label="{{ cond $ko "내 여행" "My trip" }}">
-  <div class="section-inner"><a data-trip-entry href="{{ cond $ko "/ko/my-trip/" "/my-trip/" | relURL }}">{{ cond $ko "후쿠오카 여행 준비하기" "Prepare my Fukuoka trip" }}</a></div>
+  <div class="section-inner">
+    {{ range . }}
+    {{ $start := cond $ko (printf "%s 여행 준비하기" .ko) (printf "Prepare my %s trip" .en) }}
+    {{ $continue := cond $ko (printf "준비하던 %s 여행 이어보기" .ko) (printf "Continue my %s trip" .en) }}
+    <a data-trip-entry="{{ .id }}" data-start-label="{{ $start }}" data-continue-label="{{ $continue }}" href="{{ printf "%s%s" $prefix .path | relURL }}">{{ $start }}</a>
+    {{ end }}
+  </div>
 </aside>
 {{- end -}}

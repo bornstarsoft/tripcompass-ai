@@ -8,6 +8,8 @@ Use `docs/operations.md` for current deployment and validation commands. GitHub 
 
 The October 2026 retention pilot adds `/my-trip/` and `/ko/my-trip/`: a browser-local Fukuoka course choice, alternative and five preparation checks using existing bilingual guides and bookmarks. See `docs/trip-preparation.md` and `docs/CURRENT_STATE.md` for production validation. This is not booking verification or evidence of improved retention; backend and affiliate behavior are unchanged.
 
+The authorized Osaka expansion adds `/my-trip/osaka/` and `/ko/my-trip/osaka/` using existing guides and independent browser-local state. It preserves Fukuoka data and shares guide bookmarks; it does not change the AI, booking-search or infrastructure behavior. Consult the current-state and operations notes for release status.
+
 ## Tech stack
 - Hugo static site
 - GitHub repository

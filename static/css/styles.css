@@ -577,6 +577,7 @@ input[type="checkbox"] {
 }
 
 .trip-entry { padding: .65rem 0; background: var(--mint); border-bottom: 1px solid var(--line); }
+.trip-entry .section-inner { display: flex; flex-wrap: wrap; column-gap: 2rem; row-gap: .25rem; }
 .trip-entry a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 750; }
 @media print { .trip-entry { display: none; } }
 

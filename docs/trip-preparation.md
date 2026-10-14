@@ -1,4 +1,16 @@
-# Fukuoka Trip Preparation MVP
+# Trip Preparation Workspaces
+
+## Osaka Expansion
+
+The Osaka workspace uses `/my-trip/osaka/` and `/ko/my-trip/osaka/`, the existing Osaka artwork and five bilingual guides. Choose the base Namba/Shinsaibashi day or replace part of its shopping with Doguyasuji. Separately choose one Day 3: stay in Osaka, replace it with one Kyoto area, or replace it with Nara. The choices do not combine Kyoto and Nara or add extra days. Workshops and travel conditions require the traveler's own checks.
+
+The shared layout/controller now uses city-specific data under `data/trip_prep/`. Fukuoka keeps its released URLs, `tripcompass.trip-prep.v1` key and version-1 shape, without migration or automatic writes. Osaka uses `tripcompass.trip-prep.osaka.v1` with the same limited shape and its own allowed course/alternative IDs. Each reset affects only that city. Home and itinerary-hub links independently resume each saved trip; relevant guides link to their city workspace, and both workspaces have city navigation.
+
+Both cities share guide bookmarks. The known-ID union includes Osaka/Kyoto, Nara and Doguyasuji so new page visits and saves do not discard either city's supported guides. No new API requests, analytics, accounts, server storage, backend routing or affiliate behavior are added. The sitemap inventory expands to 54 page URLs; SEO landing-page count remains 40. Phase 2 tests cover both cities/languages, legacy records, invalid/cross-city values, independent reset, same-city synchronization, independent homepage labels and bookmark preservation. Release and production evidence for this expansion will be recorded after validation.
+
+Local validation on 2026-10-14 passed Phase 1-5, covering 63 built content pages and 54 monitored sitemap URLs. Isolated Chromium checks passed English/Korean at 320px, 390px and 1440px: loaded artwork, no horizontal overflow, 44px choice/check/city targets, unobscured next-task anchors, keyboard checks, alternative replacement, reload, language switching, independent homepage resume, legacy Fukuoka preservation, shared bookmarks, two-tab synchronization and reset cancel/confirm. Separate 320px contexts passed no-JavaScript reading, blocked-storage notices and corrupt-state recovery in both languages. No preparation API/search requests or application page errors occurred; the known local favicon 404 is unrelated. Physical-device and Safari tests remain NOT_RUN.
+
+## Original Fukuoka Release
 
 English `/my-trip/` and Korean `/ko/my-trip/` connect existing courses and support guides to a browser-local preparation state. The MVP was deployed on 2026-10-14 in `f7646a9`. It is a retention pilot, not evidence of improved retention.
 

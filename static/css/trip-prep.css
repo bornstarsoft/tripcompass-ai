@@ -1,4 +1,7 @@
 .trip-prep { max-width: 880px; padding-top: 2rem; }
+.prep-destinations { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--line); }
+.prep-destinations a { min-height: 44px; display: inline-flex; align-items: center; text-decoration: none; border-bottom: 3px solid transparent; }
+.prep-destinations a[aria-current] { color: var(--ink); font-weight: 750; border-color: var(--teal); }
 .trip-prep [hidden] { display: none !important; }
 .trip-prep .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .prep-header h1 { margin: .25rem 0; font-size: 2.1rem; line-height: 1.2; overflow-wrap: anywhere; }

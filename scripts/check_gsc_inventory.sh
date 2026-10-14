@@ -19,8 +19,8 @@ bash scripts/list_gsc_urls.sh > "$URL_OUTPUT"
 rg '^https://tripcompass\.ai/' "$URL_OUTPUT" > "$URLS_FILE"
 
 url_count="$(wc -l < "$URLS_FILE" | tr -d ' ')"
-if [[ "$url_count" -ne 53 ]]; then
-  printf "GSC inventory check failed: expected 53 listed URLs, found %s.\n" "$url_count" >&2
+if [[ "$url_count" -ne 55 ]]; then
+  printf "GSC inventory check failed: expected 55 listed URLs, found %s.\n" "$url_count" >&2
   exit 1
 fi
 
@@ -46,8 +46,8 @@ while IFS= read -r url; do
   page_count=$((page_count + 1))
 done < "$URLS_FILE"
 
-if [[ "$page_count" -ne 52 ]]; then
-  printf "GSC inventory check failed: expected 52 page URLs, checked %s.\n" "$page_count" >&2
+if [[ "$page_count" -ne 54 ]]; then
+  printf "GSC inventory check failed: expected 54 page URLs, checked %s.\n" "$page_count" >&2
   exit 1
 fi
 
