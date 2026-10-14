@@ -18,6 +18,10 @@ const copy = {
     removed: title => `Removed from saved guides: ${title}. You can undo while this page stays open.`,
     restored: title => `Saved again: ${title}.`,
     editFailed: "Your change could not be saved. Please try again. Travel preparation has not been changed.",
+    checkSaved: (title, checked) => `${checked ? "Marked" : "Unmarked"}: ${title}. Saved in this browser.`,
+    checkFailed: "This check could not be saved. Please try again; saved guides are unchanged.",
+    tripChanged: "Your course or alternative changed in another tab. Review the updated trip before checking again.",
+    tripMissing: "This trip has no saved preparation. Open its workspace to start; no record was created.",
     summary: (saved, unreadable) => `${saved} of 3 trips have saved preparation.${unreadable ? ` ${unreadable} could not be read.` : ""}`,
     final: "Recheck your choices and travel conditions before departure."
   },
@@ -36,6 +40,10 @@ const copy = {
     removed: title => `저장 해제: ${title}. 이 페이지를 열어 둔 동안 취소할 수 있어요.`,
     restored: title => `다시 저장했어요: ${title}.`,
     editFailed: "변경 내용을 저장하지 못했어요. 다시 시도해 주세요. 여행 준비 기록은 그대로입니다.",
+    checkSaved: (title, checked) => `${checked ? "확인 표시" : "확인 해제"}: ${title}. 이 브라우저에 저장했어요.`,
+    checkFailed: "체크 변경을 저장하지 못했어요. 다시 시도해 주세요. 저장한 가이드는 그대로입니다.",
+    tripChanged: "다른 탭에서 코스나 대안이 바뀌었어요. 변경된 여행 내용을 확인한 뒤 다시 체크해 주세요.",
+    tripMissing: "저장된 준비 내용이 없어요. 준비함에서 여행을 시작해 주세요. 기록을 새로 만들지 않았습니다.",
     summary: (saved, unreadable) => `3개 여행 중 ${saved}개에 준비 내용이 있어요.${unreadable ? ` ${unreadable}개는 읽지 못했어요.` : ""}`,
     final: "출발 전 선택한 일정과 여행 조건을 다시 확인하세요."
   }
@@ -50,10 +58,12 @@ export function mountMyTrips(doc, win) {
     courses: JSON.parse(card.dataset.courseLabels),
     alternatives: JSON.parse(card.dataset.alternativeLabels),
     tasks: JSON.parse(card.dataset.taskLabels),
+    checks: [...card.querySelectorAll("[data-trip-check]")],
     guides: [...card.querySelectorAll("[data-trip-saved-guide]")]
   }));
 
   const removed = new Set();
+  const displayed = new Map();
   function readGuides() {
     let raw;
     try { raw = win.localStorage.getItem(SAVED_GUIDES_KEY); }
@@ -67,7 +77,7 @@ export function mountMyTrips(doc, win) {
     } catch { throw Error("guidesInvalid"); }
   }
 
-  // Visits only read storage; explicit edits change the bookmark key, never preparation.
+  // Visits only read storage; each explicit edit updates its existing record in place.
   function render() {
     let guideIds = new Set();
     let guideError = "";
@@ -76,7 +86,7 @@ export function mountMyTrips(doc, win) {
     for (const id of guideIds) removed.delete(id);
     let saved = 0;
     let unreadable = 0;
-    for (const { card, id, courses, alternatives, tasks, guides } of cards) {
+    for (const { card, id, courses, alternatives, tasks, guides, checks } of cards) {
       if (!Object.hasOwn(TRIPS, id)) continue;
       let state = null;
       let error = "";
@@ -88,6 +98,14 @@ export function mountMyTrips(doc, win) {
         catch { error = "invalid"; }
       }
       const find = name => card.querySelector(`[data-trip-${name}]`);
+      displayed.set(id, state);
+      find("check-feedback").textContent = "";
+      const focusedCheck = checks.includes(doc.activeElement);
+      for (const input of checks) {
+        input.checked = !!state?.checks[input.dataset.tripCheck];
+        input.disabled = !state;
+      }
+      if (!state && focusedCheck) find("action").focus({ preventScroll: true });
       find("guides-feedback").textContent = "";
       // Only prebuilt localized links can be shown; stored IDs never become URLs or HTML.
       let guideCount = 0;
@@ -133,6 +151,37 @@ export function mountMyTrips(doc, win) {
       find("action-label").textContent = text[next ? "resume" : "review"];
     }
     root.querySelector("[data-trips-summary]").textContent = text.summary(saved, unreadable);
+  }
+
+  for (const { card, id, tasks, checks } of cards) {
+    if (!Object.hasOwn(TRIPS, id)) continue;
+    for (const input of checks) input.addEventListener("change", () => {
+      const task = input.dataset.tripCheck;
+      if (!TASKS.includes(task)) return;
+      const checked = input.checked;
+      let feedback = "";
+      try {
+        const key = TRIPS[id].storageKey;
+        const raw = win.localStorage.getItem(key);
+        const current = parseState(raw, id);
+        const previous = displayed.get(id);
+        if (!current || !previous) feedback = text.tripMissing;
+        else if (current.course !== previous.course || current.alternative !== previous.alternative) feedback = text.tripChanged;
+        else {
+          // Preserve other fields and fresh other-tab checks, changing only this boolean.
+          if (current.checks[task] !== checked) {
+            const next = JSON.parse(raw);
+            next.checks[task] = checked;
+            const serialized = JSON.stringify(next);
+            if (serialized.length > 2048) throw Error("invalid");
+            win.localStorage.setItem(key, serialized);
+          }
+          feedback = text.checkSaved(tasks[task], checked);
+        }
+      } catch { feedback = text.checkFailed; }
+      render();
+      card.querySelector("[data-trip-check-feedback]").textContent = feedback;
+    });
   }
 
   for (const { card, guides } of cards) {

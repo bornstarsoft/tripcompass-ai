@@ -21,7 +21,9 @@ function harness(language = "en", records = new Map(), blocked = []) {
   const quick = Object.fromEntries(ids.map(id => [id, { textContent: "" }]));
   const cards = ids.map(id => {
     const labels = values => JSON.stringify(Object.fromEntries(values.map(value => [value, `${language}:${id}:${value}`])));
-    const fields = Object.fromEntries(["status", "details", "count", "progress", "course", "alternative", "next", "action-label", "guides-status", "guides-list", "guides-feedback"].map(name => [name, { textContent: "", hidden: true, value: 0 }]));
+    const fields = Object.fromEntries(["status", "details", "count", "progress", "course", "alternative", "next", "action", "action-label", "guides-status", "guides-list", "guides-feedback", "check-feedback"].map(name => [name, { textContent: "", hidden: true, value: 0, focus() { doc.activeElement = this; } }]));
+    const checks = TASKS.map(task => ({ dataset: { tripCheck: task }, checked: false, disabled: true,
+      addEventListener(type, fn) { this[type] = fn; }, focus() { doc.activeElement = this; } }));
     const guides = cityGuides[id].map(id => {
       const controls = Object.fromEntries(["remove", "undo", "removed"].map(action => {
         const node = { hidden: false, addEventListener(type, fn) { this[type] = fn; }, focus() { doc.activeElement = this; } };
@@ -30,8 +32,8 @@ function harness(language = "en", records = new Map(), blocked = []) {
       controls.a = { textContent: `${language}:${id}` };
       return { dataset: { tripSavedGuide: id }, hidden: true, controls, querySelector: selector => controls[selector] };
     });
-    return { fields, guides, dataset: { tripSummary: id, courseLabels: labels(TRIPS[id].courses), alternativeLabels: labels(TRIPS[id].alternatives), taskLabels: labels(TASKS) },
-      querySelectorAll: () => guides,
+    return { fields, guides, checks, dataset: { tripSummary: id, courseLabels: labels(TRIPS[id].courses), alternativeLabels: labels(TRIPS[id].alternatives), taskLabels: labels(TASKS) },
+      querySelectorAll: selector => selector === "[data-trip-check]" ? checks : guides,
       querySelector: selector => fields[selector.slice(11, -1)] };
   });
   const page = { querySelector: selector => selector === "[data-trips-summary]" ? summary : quick[selector.split('"')[1]], querySelectorAll: () => cards };
@@ -40,7 +42,7 @@ function harness(language = "en", records = new Map(), blocked = []) {
   const win = {
     localStorage: {
       getItem(key) { if (blocked.includes(key)) throw Error("PRIVATE"); return records.get(key) ?? null; },
-      setItem(key, value) { assert.equal(key, bookmarkKey); if (failWrites) throw Error("PRIVATE"); writes++; records.set(key, value); },
+      setItem(key, value) { assert.ok([bookmarkKey, ...ids.map(id => TRIPS[id].storageKey)].includes(key)); if (failWrites) throw Error("PRIVATE"); writes++; records.set(key, value); },
       removeItem() { assert.fail("Unexpected deletion"); }, clear() { assert.fail("Unexpected clear"); }
     },
     addEventListener: (type, fn) => { events[type] = fn; }
@@ -166,6 +168,9 @@ for (const prefix of ["", "/ko"]) {
   assert.equal((html.match(/data-guide-remove\b/g) || []).length, 15);
   assert.equal((html.match(/data-guide-undo/g) || []).length, 15);
   assert.equal((html.match(/data-trip-guides-feedback/g) || []).length, 3);
+  assert.equal((html.match(/data-trip-check=/g) || []).length, 15);
+  assert.equal((html.match(/data-trip-check-feedback/g) || []).length, 3);
+  assert.match(html, prefix ? /준비 체크/ : /Preparation checklist/);
   for (const id of new Set(Object.values(cityGuides).flat())) assert.ok(html.includes(`data-trip-saved-guide=${id}`));
   assert.match(html, new RegExp(`href=${prefix}/itinerary/tokyo-jimbocho-books-cafes/`));
   assert.match(html, new RegExp(`href=${prefix}/itinerary/osaka-to-nara-temple-park-day/`));
@@ -243,4 +248,91 @@ for (const language of ["en", "ko"]) {
   assert.deepEqual([...records].filter(([key]) => key !== bookmarkKey), preparation);
   assert.doesNotMatch(JSON.stringify(ui.cards), /PRIVATE/);
 }
-console.log("My trips checks passed: remove/undo, shared guides, latest-list merging, failures, focus, bilingual links and unchanged preparation records.");
+for (const language of ["en", "ko"]) for (const [index, city] of ids.entries()) {
+  const records = new Map(ids.map(id => [TRIPS[id].storageKey, JSON.stringify(initialState(id))]));
+  records.set(bookmarkKey, '["stay","stay","future-id","travel-days"]');
+  records.set("tripcompass.decision.v1", "unchanged");
+  const key = TRIPS[city].storageKey;
+  const protectedRecords = [...records].filter(([name]) => name !== key);
+  const blocked = [];
+  const ui = harness(language, records, blocked);
+  const card = ui.cards[index];
+  const toggle = (task, checked) => {
+    const input = card.checks.find(input => input.dataset.tripCheck === task);
+    input.focus(); input.checked = checked; input.change();
+    return input;
+  };
+  assert.equal(ui.writes(), 0);
+  const flights = toggle("flights", true);
+  assert.equal(JSON.parse(records.get(key)).checks.flights, true);
+  assert.equal(card.fields.progress.value, 1);
+  assert.equal(ui.doc.activeElement, flights);
+  assert.equal(card.fields.next.textContent, `${language}:${city}:hotel`);
+  toggle("flights", false);
+  assert.equal(card.fields.progress.value, 0);
+  const fresh = JSON.parse(records.get(key));
+  fresh.checks.hotel = true;
+  fresh.futureField = "keep";
+  fresh.checks.futureCheck = "keep";
+  records.set(key, JSON.stringify(fresh));
+  toggle("flights", true);
+  assert.deepEqual(JSON.parse(records.get(key)), { ...fresh, checks: { ...fresh.checks, flights: true } });
+  for (const task of TASKS) toggle(task, true);
+  assert.equal(card.fields.progress.value, 5);
+  assert.match(card.fields.status.textContent, /Recheck|다시 확인/);
+  toggle("weather", false);
+  assert.equal(card.fields.next.textContent, `${language}:${city}:weather`);
+  const beforeFailure = records.get(key);
+  ui.failWrites(true);
+  toggle("weather", true);
+  assert.equal(records.get(key), beforeFailure);
+  assert.equal(card.checks[3].checked, false, "Failed write must roll checkbox back");
+  assert.match(card.fields["check-feedback"].textContent, /could not|못했/);
+  ui.failWrites(false);
+  toggle("weather", true);
+  assert.equal(card.checks[3].checked, true);
+  for (const field of ["course", "alternative"]) {
+    const changed = JSON.parse(records.get(key));
+    changed[field] = TRIPS[city][field === "course" ? "courses" : "alternatives"][1];
+    changed.checks.flights = false;
+    const raw = JSON.stringify(changed);
+    records.set(key, raw);
+    toggle("flights", true);
+    assert.equal(records.get(key), raw, "Do not mark an unseen changed course/alternative");
+    assert.match(card.fields["check-feedback"].textContent, /another tab|다른 탭/);
+    assert.equal(card.checks[0].checked, false);
+  }
+  toggle("flights", true);
+  assert.equal(card.checks[0].checked, true, "Retry after reviewing current trip");
+  records.delete(key);
+  toggle("hotel", true);
+  assert.equal(records.has(key), false, "Never recreate a reset trip");
+  assert.ok(card.checks.every(input => input.disabled && !input.checked));
+  assert.equal(ui.doc.activeElement, card.fields.action);
+  for (const bad of ['PRIVATE invalid', '{"version":2}', 'x'.repeat(2049)]) {
+    records.set(key, bad);
+    toggle("hotel", true);
+    assert.equal(records.get(key), bad);
+    assert.ok(card.checks.every(input => input.disabled));
+    assert.doesNotMatch(card.fields["check-feedback"].textContent, /PRIVATE/);
+  }
+  records.set(key, JSON.stringify(initialState(city)));
+  ui.events.storage({ key });
+  assert.ok(card.checks.every(input => !input.disabled));
+  blocked.push(key);
+  toggle("flights", true);
+  assert.equal(JSON.parse(records.get(key)).checks.flights, false);
+  assert.ok(card.checks.every(input => input.disabled));
+  blocked.pop();
+  ui.events.pageshow({ persisted: true });
+  assert.ok(card.checks.every(input => !input.disabled));
+  assert.deepEqual([...records].filter(([name]) => name !== key), protectedRecords);
+  const guide = ui.cards[0].guides.find(guide => guide.dataset.tripSavedGuide === "stay");
+  guide.querySelector("[data-guide-remove]").click();
+  toggle("flights", true);
+  assert.equal(guide.querySelector("[data-guide-undo]").hidden, false, "Checklist edits preserve pending guide undo");
+  guide.querySelector("[data-guide-undo]").click();
+  assert.ok(JSON.parse(records.get(bookmarkKey)).includes("stay"));
+  assert.equal(JSON.parse(records.get(key)).checks.flights, true);
+}
+console.log("My trips checks passed: city checklist edits, fresh-state merging, rollback/reset protection, bookmark undo, bilingual links and record isolation.");
