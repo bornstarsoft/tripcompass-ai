@@ -61,6 +61,15 @@ CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call producti
 - Production Chromium: Tokyo EN/KO at 320/390/1440px, both existing city records unchanged, three-city resume, bookmarks, keyboard, language switching, reload, two-tab synchronization and isolated reset passed. No-JS, blocked-storage and corrupt-state checks also passed. Details: `docs/trip-preparation.md`.
 - Physical-device/Safari tests, D1 reports and retention measurement were not run. No affiliate changes or production GET booking-search clicks were included.
 
+## My Trips Release Verification: 2026-10-14
+
+- Application commit: `1a92539710e91d8f2bc65dd102ac4623c44261a1`, pushed to GitHub `main` with owner approval. Local Phase 1-5, strict Hugo build and whitespace checks passed; 67 built content pages and 58 monitored sitemap URLs.
+- GitHub CI: [run 38564048913](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/38564048913), success for that SHA.
+- Cloudflare Pages: deployment `71603b80-602d-45dd-a183-c169c9aef488`, success for the same SHA. [Immutable deployment](https://71603b80.tripcompass-ai.pages.dev). Existing Git integration used; no binding, environment, gateway or infrastructure changes.
+- Production launch health: both My trips overviews and six workspaces returned 200; EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and all 58 monitored sitemap URLs passed. Overview JS/CSS, global CSS, preparation core/controller and bookmark JS matched the committed files by SHA-256.
+- Production Chromium: EN/KO at 320/390/768/920/1440px, keyboard, unchanged three-city records/bookmarks, resume/back links, language switching, cross-tab edits, isolated reset and history/reload passed. No-JS, blocked storage and corrupt-record isolation also passed. See `docs/trip-preparation.md` for scope and the corrected test-initialization timing.
+- Physical-device/Safari tests, D1 queries and retention measurement were not run. No affiliate or `/go` changes and no production GET search clicks were included.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:

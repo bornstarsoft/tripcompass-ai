@@ -8,9 +8,17 @@ The overview is read-only: it reuses `TRIPS`, `parseState` and `progress` from t
 
 Header navigation, home/course entry bands and each workspace link to the overview. A compact three-city status row jumps to each card, avoiding a long mobile scroll to reach Tokyo. Header/language targets are at least 44px high; responsive scroll padding accounts for a wrapped header. Both languages share the same local records and have reciprocal language links, canonical metadata and sitemap entries. The monitored inventory is now 58 page URLs; the SEO landing-page count remains 40. No API, backend, infrastructure, search redirect or affiliate changes are included.
 
-`scripts/check_my_trips.mjs` runs within Phase 2 and covers mixed/complete/empty states, localized labels, no writes, byte-equivalent legacy records and bookmarks, storage failures, malformed records, cross-tab reset and history restore. Browser QA must also cover navigation to/from all three workspaces, both languages, 320/390/1440px layouts, image loading, keyboard and no-JS/blocked-storage states. Production release evidence will be recorded after deployment.
+`scripts/check_my_trips.mjs` runs within Phase 2 and covers mixed/complete/empty states, localized labels, no writes, byte-equivalent legacy records and bookmarks, storage failures, malformed records, cross-tab reset and history restore. Browser QA must also cover navigation to/from all three workspaces, both languages, 320/390/1440px layouts, image loading, keyboard and no-JS/blocked-storage states.
 
 Local Chromium verification on 2026-10-14 passed both languages at 320/390/768/920/1440px: loaded images, no horizontal overflow, 44px header/overview targets, unobscured city jumps, keyboard navigation and all three workspace resume/back links. Existing preparation, bookmarks and decision-board records remained byte-equivalent during reads. EN/KO switching, cross-tab edits, isolated reset, back navigation and reload passed. Separate 320px contexts passed no-JS, blocked-storage and one-corrupt-city checks in both languages, without leaking internal errors or rewriting bad records. Screenshots were visually inspected. No application page errors or preparation API/search calls occurred. Physical-device/Safari testing remains NOT_RUN.
+
+### My Trips Production Verification: 2026-10-14
+
+Application commit `1a92539` passed CI and deployed through the existing Pages Git integration. The same checks passed on `https://tripcompass.ai` in an isolated Chromium profile, including all five viewport widths in both languages, keyboard workspace entry, original Fukuoka/Osaka/Tokyo state, language switching, other-tab editing/reset and same-tab back/reload updates. Separate no-JS, blocked-storage and corrupt-record contexts passed. Test fixtures remained local to the isolated browser; no preparation API/search requests or application page errors occurred. Production screenshots were inspected.
+
+The initial automated back-navigation attempt ran before the workspace had initialized, so its uncheck operation was a no-op. The test now waits for the visible workspace and restored checked input, and verifies the stored edit before navigating back. The individual reproduction and full rerun passed without an application change.
+
+Public launch QA passed both overviews, six existing workspaces, EN/KO backend recommendations, repeated cache response, HEAD 302 and all 58 monitored sitemap URLs. Six live JS/CSS hashes matched the committed files. Physical-device/Safari tests, D1 queries and retention measurement remain NOT_RUN. See `docs/operations.md` for CI/deployment references. This is a functional release, not evidence of increased retention or verified bookings.
 
 ## Tokyo Expansion
 
