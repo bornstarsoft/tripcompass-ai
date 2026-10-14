@@ -19,7 +19,7 @@ Run the public live check from the repo root:
 bash scripts/check_launch_health.sh
 ```
 
-The launch health check runs the live English/Korean/API checks, checks all four Fukuoka/Osaka preparation pages and their shared assets, and confirms that all monitored URLs remain in the production sitemap. Preparation persistence, language switching and reset still require browser QA; an HTTP 200 alone is not an interaction test. It uses a HEAD request for `/go` redirect QA so the check does not create a D1 click row.
+The launch health check runs the live English/Korean/API checks, checks all six Fukuoka/Osaka/Tokyo preparation pages and their shared assets, and confirms that all monitored URLs remain in the production sitemap. Preparation persistence, language switching and reset still require browser QA; an HTTP 200 alone is not an interaction test. It uses a HEAD request for `/go` redirect QA so the check does not create a D1 click row.
 
 The public check does not require secrets and must not print Cloudflare or OpenAI environment values. After completing Cloudflare CLI authentication manually, add the aggregate D1 report with `bash scripts/check_launch_health.sh --with-d1`.
 
@@ -52,6 +52,15 @@ CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call producti
 - Production Chromium: both languages at 320/390/1440px, legacy Fukuoka preservation, independent Osaka state, reload, language switching, bookmarks, home resume, keyboard, cross-tab edits and isolated reset passed. Separate no-JS, blocked-storage and corrupt-state contexts passed. Details: `docs/trip-preparation.md`.
 - Physical-device/Safari testing, D1 reporting and retention measurement were not performed. No real affiliate links, provider changes or production GET search clicks were introduced.
 
+## Tokyo Release Verification: 2026-10-14
+
+- Application commit: `0fe401adb5126b1e450ff8e9cfbadef3aa009c67`, pushed to GitHub `main` with owner approval. Phase 1-5, strict Hugo build and whitespace checks passed locally.
+- GitHub CI: [run 38561651451](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/38561651451), success for the same SHA.
+- Cloudflare Pages: deployment `d1398921-6f2f-4e5e-8818-65f9d4d024c3`, success for the same SHA. [Immutable deployment](https://d1398921.tripcompass-ai.pages.dev). No bindings, environment or infrastructure changes.
+- Production launch health: all six preparation URLs, EN/KO backend responses, repeated cache hit, HEAD 302 and 56 monitored sitemap URLs passed. Five live JS/CSS files matched the committed files by SHA-256.
+- Production Chromium: Tokyo EN/KO at 320/390/1440px, both existing city records unchanged, three-city resume, bookmarks, keyboard, language switching, reload, two-tab synchronization and isolated reset passed. No-JS, blocked-storage and corrupt-state checks also passed. Details: `docs/trip-preparation.md`.
+- Physical-device/Safari tests, D1 reports and retention measurement were not run. No affiliate changes or production GET booking-search clicks were included.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:
@@ -66,7 +75,7 @@ After deploying SEO content changes, use Google Search Console to:
 
 ## Trust Boundaries
 
-The Fukuoka preparation MVP at `/my-trip/` and `/ko/my-trip/`, and Osaka at `/my-trip/osaka/` and `/ko/my-trip/osaka/`, are documented in `docs/trip-preparation.md`. They save independent browser-local choices and checklist flags, share guide bookmarks and add no analytics or AI call. Both cities were deployed and production-tested on 2026-10-14. The monitored URL inventory includes all four workspaces; existing backend/cache/click-log responsibilities are unchanged.
+The Fukuoka preparation MVP at `/my-trip/`, Osaka at `/my-trip/osaka/` and Tokyo at `/my-trip/tokyo/`, plus their Korean equivalents under `/ko/`, are documented in `docs/trip-preparation.md`. They save independent browser-local choices and checklist flags, share guide bookmarks and add no analytics or AI call. All three cities were deployed and production-tested on 2026-10-14. The monitored URL inventory includes all six workspaces; existing backend/cache/click-log responsibilities are unchanged.
 
 The content-first bilingual guides are documented in `docs/content-pilot.md`, including course URLs, photo licenses, English parity scope and post-deployment measurements. `docs/image-provenance.md` separately records the owner's confirmation that the hero was generated with Codex. Public QA copy checks require the corresponding deployment; local checks alone do not establish that production has changed.
 
