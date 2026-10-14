@@ -70,6 +70,15 @@ CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call producti
 - Production Chromium: EN/KO at 320/390/768/920/1440px, keyboard, unchanged three-city records/bookmarks, resume/back links, language switching, cross-tab edits, isolated reset and history/reload passed. No-JS, blocked storage and corrupt-record isolation also passed. See `docs/trip-preparation.md` for scope and the corrected test-initialization timing.
 - Physical-device/Safari tests, D1 queries and retention measurement were not run. No affiliate or `/go` changes and no production GET search clicks were included.
 
+## My Trips Saved Guides Release: 2026-10-14
+
+- Application commit: `eee44f32caede43f99a70642ee7d8a3848ede005`, pushed to GitHub `main` with owner approval. Phase 1-5, strict Hugo build and whitespace checks passed locally; content/inventory counts remain 67/58.
+- GitHub CI: [run 38566874214](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/38566874214), success for that SHA.
+- Cloudflare Pages: deployment `97b000e0-4276-4178-a28f-5bc4cf27a738`, success for the same SHA. [Immutable deployment](https://97b000e0.tripcompass-ai.pages.dev). No infrastructure or credential changes.
+- Production Chromium passed EN/KO 320/390/768/920/1440px, localized guide opening, keyboard, read-only legacy record preservation, shared-guide cross-tab changes, back/reload and no-JS/blocked/corrupt/empty/unstarted states. Screenshots were inspected. Details: `docs/trip-preparation.md`.
+- Launch health passed: both overviews and six workspaces, EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and 58 sitemap URLs. Overview JS/CSS, preparation core/controller and bookmark JS matched the committed files by SHA-256.
+- No reading-position tracking, new storage keys, backend/gateway changes, D1/KV changes, `/go` changes or affiliate additions. Physical-device/Safari, D1 queries and retention measurement were not run.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:
