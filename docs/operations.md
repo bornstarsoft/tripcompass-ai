@@ -97,6 +97,15 @@ CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call producti
 - Public launch health passed both overviews and six workspaces, EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and 58 sitemap URLs. Five deployed overview/preparation/bookmark JS/CSS hashes matched the commit.
 - No new storage keys, migrations, AI/gateway, D1/KV, `/go` or affiliate changes. Physical-device/Safari, D1 reporting and retention measurement were not run.
 
+## My Trips Task Guide Release: 2026-10-14
+
+- Application commit: `967a22987a4626deb3bfd04cff1e7311ada23f0e`, pushed to GitHub `main` with owner approval. Phase 1-5, strict Hugo and whitespace checks passed locally; content/inventory counts remain 67/58.
+- GitHub CI: [run 38581779035](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/38581779035), success for that SHA.
+- Cloudflare Pages: deployment `babd033d-9f2a-4115-9461-6c7b0f242819`, success for the same SHA. [Immutable deployment](https://babd033d.tripcompass-ai.pages.dev).
+- Production Chromium passed all 30 localized task-guide opens, keyboard/click, Back/header navigation, unchanged saved records and EN/KO 320/390/768/920/1440px layouts. Screenshots inspected. Checklist, workspace sync, bookmark undo, failed saves/retry, stale reset and fallback regressions passed; details in `docs/trip-preparation.md`.
+- Public launch QA passed both overviews and six workspaces, EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and all 58 monitored sitemap URLs. Five deployed JS/CSS hashes matched the commit.
+- No JavaScript/storage logic, new keys, migration, backend, gateway, infrastructure, environment, `/go` or affiliate changes. Physical-device/Safari, D1 reporting and retention measurement were not run.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:
