@@ -79,6 +79,15 @@ CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call producti
 - Launch health passed: both overviews and six workspaces, EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and 58 sitemap URLs. Overview JS/CSS, preparation core/controller and bookmark JS matched the committed files by SHA-256.
 - No reading-position tracking, new storage keys, backend/gateway changes, D1/KV changes, `/go` changes or affiliate additions. Physical-device/Safari, D1 queries and retention measurement were not run.
 
+## My Trips Guide Undo Release: 2026-10-14
+
+- Application commit: `76ec46c792e0ad99a01d2b3eab7b5ad7ab322e57`, pushed to GitHub `main` with owner approval. Phase 1-5, strict Hugo build and whitespace checks passed locally; content/inventory counts remain 67/58.
+- GitHub CI: [run 38570104597](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/38570104597), success for that SHA.
+- Cloudflare Pages: deployment `de57457b-8d18-463d-beee-4f3ad0060387`, success for the same SHA. [Immutable deployment](https://de57457b.tripcompass-ai.pages.dev). No binding, environment, credential or infrastructure changes.
+- Production Chromium passed English/Korean at 320/390/768/920/1440px: removal/undo, multiple/shared/last-guide behavior, keyboard focus, cross-tab edits, reload/language switching, failed writes/retry and unchanged three-city preparation records. Existing guide navigation and no-JS/blocked/corrupt/empty/unstarted regression flows passed. Screenshots were inspected. Details: `docs/trip-preparation.md`.
+- Launch health passed: both overviews and six workspaces, EN/KO backend responses, repeated cache hit, HEAD 302 and all 58 monitored sitemap URLs. Overview JS/CSS, preparation core/controller and bookmark JS matched the committed files by SHA-256.
+- Undo is page-memory only, not a persistent deletion history. No new storage keys, AI/gateway changes, D1/KV changes, `/go` changes or affiliate additions. Physical-device/Safari, D1 reporting and retention measurement were not run.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:

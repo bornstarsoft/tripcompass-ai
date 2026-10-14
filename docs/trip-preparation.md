@@ -10,6 +10,12 @@ Hugo supplies all titles and URLs; storage values never become HTML or links. Co
 
 Local verification on 2026-10-14 passed Phase 1-5, strict Hugo build and whitespace checks. Isolated Chromium passed EN/KO at 320/390/768/920/1440px, 44px controls, loaded artwork and no horizontal overflow. Keyboard remove/undo focus, consecutive/last/shared removals, other-tab edits, reload/language switching, failed writes and successful retries passed. Preparation and decision fixtures stayed byte-equivalent. Existing article navigation, library anchors, no-JS/blocked/corrupt/empty/unstarted behavior also passed. Screenshots were inspected; stale feedback from a shared-guide action was corrected and the functional suite rerun. No application page errors or preparation API/search calls occurred. Physical-device/Safari checks remain NOT_RUN; local checks alone do not establish production deployment.
 
+### Removal and Undo Production Verification: 2026-10-14
+
+Application commit `76ec46c` passed GitHub CI and deployed through the existing Pages integration. Isolated production Chromium passed English/Korean at 320/390/768/920/1440px, keyboard focus transfer, consecutive/last/shared removals, individual undo, other-tab bookmark edits, reload/language switching and failed-write retries. All three preparation fixtures and decision-board data stayed byte-equivalent. The existing article-opening/library-anchor flows and no-JS/blocked/corrupt/empty/unstarted checks also passed. Production screenshots were inspected. No application page errors or preparation API/search requests occurred.
+
+Public launch QA passed both overviews and all six workspaces, EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and 58 monitored sitemap URLs. Five deployed overview/preparation/bookmark assets matched the committed files by SHA-256. Physical-device/Safari, D1 queries and retention measurement remain NOT_RUN. These checks establish functional behavior, not improved retention or verified bookings. CI and immutable deployment references are in `docs/operations.md`.
+
 ## Saved Guides in My Trips
 
 The My trips overview now reads `tripcompass.saved-guides.v1` alongside the independent preparation records. Each city's existing `data/trip_prep/*.toml` guide list supplies the mapping. Hugo renders the localized titles and trusted URLs; saved IDs only control which prebuilt links are visible. All 13 supported bookmarks are covered, with the arrival/departure guide labeled as shared in each of its three cities. The count is per city, not a distinct global total.
