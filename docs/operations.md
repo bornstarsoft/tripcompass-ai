@@ -33,6 +33,16 @@ GitHub workflow permission was restored and commit `244efe9` was pushed and depl
 
 CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call production APIs or D1. Production health remains an explicit operation through `bash scripts/check_launch_health.sh`.
 
+## Release Verification: 2026-10-14
+
+- Release commit: `f7646a96cc65736b2a93b0886a03fdb5fe2831a0`, pushed to GitHub `main` with owner approval.
+- GitHub CI: [run 38548326865](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/38548326865), success. All Phase 1-5 checks, strict Hugo build and whitespace checks passed locally and in CI.
+- Cloudflare Pages: deployment `4460c9ce-015d-4e06-8bc1-78043411d275`, success for the same SHA, confirmed through its GitHub check. [Immutable deployment](https://4460c9ce.tripcompass-ai.pages.dev). Existing Git integration performed the deployment; no bindings or environment settings changed.
+- `bash scripts/check_launch_health.sh`: PASS on the production custom domain. English and Korean requests returned `source=backend`, the repeat returned `source=cache`, `/go/hotel` HEAD returned 302, and all 52 monitored page URLs appeared in the live sitemap.
+- Both preparation pages and shared assets returned 200. Live preparation JS, state module, bookmark JS and preparation CSS matched the committed files by SHA-256. Interactive production checks are recorded in `docs/trip-preparation.md`.
+- The local Wrangler session is expired. It was not needed for Git-triggered deployment or public checks. Authenticate manually before any future CLI-only Cloudflare administration; do not put credentials in the repository.
+- No remote D1 query, production GET click, new affiliate link or infrastructure mutation was part of QA. No retention or conversion improvement is established by a successful release.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:
@@ -47,7 +57,7 @@ After deploying SEO content changes, use Google Search Console to:
 
 ## Trust Boundaries
 
-The Fukuoka preparation MVP at `/my-trip/` and `/ko/my-trip/` is documented in `docs/trip-preparation.md`. It saves only browser-local choices and checklist flags, reuses guide bookmarks and adds no analytics or AI call. It is local implementation until separately deployed. The monitored URL inventory includes these two workspaces; existing backend/cache/click-log responsibilities are unchanged.
+The Fukuoka preparation MVP at `/my-trip/` and `/ko/my-trip/` is documented in `docs/trip-preparation.md`. It saves only browser-local choices and checklist flags, reuses guide bookmarks and adds no analytics or AI call. It was deployed and production-tested on 2026-10-14. The monitored URL inventory includes these two workspaces; existing backend/cache/click-log responsibilities are unchanged.
 
 The content-first bilingual guides are documented in `docs/content-pilot.md`, including course URLs, photo licenses, English parity scope and post-deployment measurements. `docs/image-provenance.md` separately records the owner's confirmation that the hero was generated with Codex. Public QA copy checks require the corresponding deployment; local checks alone do not establish that production has changed.
 

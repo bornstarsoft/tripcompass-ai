@@ -1,6 +1,6 @@
 # Fukuoka Trip Preparation MVP
 
-English `/my-trip/` and Korean `/ko/my-trip/` connect existing courses and support guides to a browser-local preparation state. This is an implementation pilot, not evidence of improved retention or a production release.
+English `/my-trip/` and Korean `/ko/my-trip/` connect existing courses and support guides to a browser-local preparation state. The MVP was deployed on 2026-10-14 in `f7646a9`. It is a retention pilot, not evidence of improved retention.
 
 ## Scope
 
@@ -25,8 +25,21 @@ Reset requires an inline confirmation and removes only the preparation key. Book
 
 Browser QA must check 1440px, 390px and 320px in both languages; keyboard operation, starting, saving, reload, language switch, home resume, existing bookmarks, reset cancel/confirm, no JavaScript and blocked storage. Existing Phase 1-5 checks and the strict Hugo build remain release gates. The monitored sitemap inventory includes both tool URLs (52 pages plus the sitemap); SEO landing-page count remains 40.
 
-No backend routing, AI Gateway, D1 schema, KV binding, environment variable, API schema, `/go` destination or affiliate behavior changes. Generic search links keep stable English slugs and the current language. Production QA, commit and deployment need separate authorization.
+No backend routing, AI Gateway, D1 schema, KV binding, environment variable, API schema, `/go` destination or affiliate behavior changes. Generic search links keep stable English slugs and the current language. The owner explicitly authorized final review, commit, deployment and production QA on 2026-10-14.
 
 Local Chromium QA on 2026-10-14 passed both languages at 1440px, 390px and 320px: no horizontal overflow, loaded artwork, 44px-or-larger choice/check label targets and an unobscured next-task anchor. Keyboard checkbox input, reload, language switching, homepage resume, older bookmark compatibility, two-tab synchronization and reset cancel/confirm passed. Separate contexts covered no JavaScript, blocked storage, corrupt state and failed deletion in both languages. No API requests were made by these flows. The existing missing local favicon produced a 404; no application page errors were observed. These checks do not establish physical-device/Safari compatibility or production deployment.
 
-Final local Phase 1-5 checks, `hugo --minify --panicOnWarning` and `git diff --check` passed on 2026-10-14. The shared content validator covers 61 built HTML pages. Existing owner changes were preserved; no commit or deployment was made.
+Final local Phase 1-5 checks, `hugo --minify --panicOnWarning` and `git diff --check` passed on 2026-10-14. The shared content validator covers 61 built HTML pages. The earlier local implementation did not commit or deploy; the separately authorized release includes all accumulated content/UI changes.
+
+## Production Browser QA: 2026-10-14
+
+Against `https://tripcompass.ai`, using an isolated Chromium profile:
+
+- Korean start, parents course, rain alternative, keyboard checkbox, saved hotel/rain guides and reload restored the same state. English switching preserved the course, alternative, two checks and saved-guide buttons.
+- English homepage continue link reopened the prepared trip. English/Korean tabs synchronized checklist edits in both directions.
+- Reset cancel retained the checklist. Confirmed reset removed only preparation and updated the other tab; saved-guide values and pressed states remained.
+- Both languages were inspected at 320px, 390px and 1440px. Artwork loaded and no horizontal overflow was observed. English choice/check labels measured at least 44px high across these widths.
+- Separate 320px contexts tested both languages with normal storage, JavaScript disabled, storage blocked and corrupt stored JSON. All six reading links stayed available; blocked storage showed the local-only warning, and corrupt state could be replaced by starting again. No page errors or `/api`/`/go` requests were emitted by these flows.
+- Screenshots were inspected locally; they are QA artifacts, not repository assets. The public launch check separately verified backend/cache responses and HEAD redirects without generating a click row.
+
+Physical devices and Safari were not tested. An optional WebKit launch could not run because the CLI's required browser binary was not installed; no global browser installation was performed. The preparation flow is browser-local, not cross-device synchronization, offline access or a verified booking record. See `docs/operations.md` for CI and deployment evidence.

@@ -2,7 +2,7 @@
 
 ## Scope
 
-The original Korean pilot was deployed in commit `244efe9`. The English parity follow-up is implementation work until a separate deployment is confirmed. It upgrades the corresponding existing English URLs for these courses:
+The original Korean pilot was deployed in commit `244efe9`. The English parity follow-up, generated artwork, saved-guide controls and supplemental bilingual guides were deployed in `f7646a9` on 2026-10-14, together with the Fukuoka preparation MVP. GitHub CI, Cloudflare Pages and public launch QA passed. Dated local-validation entries below describe their original implementation checkpoints, not the current deployment status. See `docs/trip-preparation.md` for production interaction checks. The release upgrades the corresponding existing English URLs for these courses:
 
 - `/ko/from-seoul/seoul-to-fukuoka-weekend-trip/`: Friday-evening arrival, one full day, two nights.
 - `/ko/itinerary/seoul-to-osaka-4-day-itinerary/`: Osaka base, Kyoto as a replacement day rather than an extra stop.
