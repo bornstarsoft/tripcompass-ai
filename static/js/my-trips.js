@@ -15,6 +15,9 @@ const copy = {
     guidesEmpty: "No guides saved for this city yet.",
     guidesInvalid: "Your saved list could not be read. It has not been changed.",
     guidesBlocked: "Browser storage is unavailable. Your saved list cannot be shown.",
+    removed: title => `Removed from saved guides: ${title}. You can undo while this page stays open.`,
+    restored: title => `Saved again: ${title}.`,
+    editFailed: "Your change could not be saved. Please try again. Travel preparation has not been changed.",
     summary: (saved, unreadable) => `${saved} of 3 trips have saved preparation.${unreadable ? ` ${unreadable} could not be read.` : ""}`,
     final: "Recheck your choices and travel conditions before departure."
   },
@@ -30,6 +33,9 @@ const copy = {
     guidesEmpty: "아직 이 도시에 저장한 가이드가 없어요.",
     guidesInvalid: "저장 목록을 읽지 못했어요. 기존 기록은 그대로 두었습니다.",
     guidesBlocked: "브라우저 저장소를 사용할 수 없어 저장 목록을 표시할 수 없어요.",
+    removed: title => `저장 해제: ${title}. 이 페이지를 열어 둔 동안 취소할 수 있어요.`,
+    restored: title => `다시 저장했어요: ${title}.`,
+    editFailed: "변경 내용을 저장하지 못했어요. 다시 시도해 주세요. 여행 준비 기록은 그대로입니다.",
     summary: (saved, unreadable) => `3개 여행 중 ${saved}개에 준비 내용이 있어요.${unreadable ? ` ${unreadable}개는 읽지 못했어요.` : ""}`,
     final: "출발 전 선택한 일정과 여행 조건을 다시 확인하세요."
   }
@@ -47,21 +53,27 @@ export function mountMyTrips(doc, win) {
     guides: [...card.querySelectorAll("[data-trip-saved-guide]")]
   }));
 
-  // Read the released records in place. The overview never writes or migrates storage.
+  const removed = new Set();
+  function readGuides() {
+    let raw;
+    try { raw = win.localStorage.getItem(SAVED_GUIDES_KEY); }
+    catch { throw Error("guidesBlocked"); }
+    if (raw === null) return [];
+    try {
+      if (typeof raw !== "string" || raw.length > 65536) throw Error("invalid");
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) throw Error("invalid");
+      return parsed;
+    } catch { throw Error("guidesInvalid"); }
+  }
+
+  // Visits only read storage; explicit edits change the bookmark key, never preparation.
   function render() {
     let guideIds = new Set();
     let guideError = "";
-    let rawGuides;
-    try { rawGuides = win.localStorage.getItem(SAVED_GUIDES_KEY); }
-    catch { guideError = "guidesBlocked"; }
-    if (!guideError && rawGuides !== null) {
-      try {
-        if (typeof rawGuides !== "string" || rawGuides.length > 65536) throw Error("invalid");
-        const parsed = JSON.parse(rawGuides);
-        if (!Array.isArray(parsed)) throw Error("invalid");
-        guideIds = new Set(parsed.filter(id => typeof id === "string"));
-      } catch { guideError = "guidesInvalid"; }
-    }
+    try { guideIds = new Set(readGuides().filter(id => typeof id === "string")); }
+    catch (error) { guideError = error.message; }
+    for (const id of guideIds) removed.delete(id);
     let saved = 0;
     let unreadable = 0;
     for (const { card, id, courses, alternatives, tasks, guides } of cards) {
@@ -76,13 +88,25 @@ export function mountMyTrips(doc, win) {
         catch { error = "invalid"; }
       }
       const find = name => card.querySelector(`[data-trip-${name}]`);
+      find("guides-feedback").textContent = "";
       // Only prebuilt localized links can be shown; stored IDs never become URLs or HTML.
       let guideCount = 0;
       for (const guide of guides) {
-        guide.hidden = !!guideError || !guideIds.has(guide.dataset.tripSavedGuide);
-        if (!guide.hidden) guideCount++;
+        const guideId = guide.dataset.tripSavedGuide;
+        const pending = removed.has(guideId);
+        guide.hidden = !!guideError || (!guideIds.has(guideId) && !pending);
+        if (!guideError && guideIds.has(guideId)) guideCount++;
+        const remove = guide.querySelector("[data-guide-remove]");
+        const undo = guide.querySelector("[data-guide-undo]");
+        const focused = doc.activeElement === remove || doc.activeElement === undo;
+        remove.hidden = pending;
+        undo.hidden = !pending;
+        guide.querySelector("[data-guide-removed]").hidden = !pending;
+        if (!guide.hidden && focused) {
+          (pending ? undo : remove).focus({ preventScroll: true });
+        }
       }
-      find("guides-list").hidden = guideCount === 0;
+      find("guides-list").hidden = guides.every(guide => guide.hidden);
       find("guides-status").textContent = guideError ? text[guideError]
         : guideCount ? text.guidesCount(guideCount) : text.guidesEmpty;
       const quick = root.querySelector(`[data-trip-quick="${id}"]`);
@@ -109,6 +133,35 @@ export function mountMyTrips(doc, win) {
       find("action-label").textContent = text[next ? "resume" : "review"];
     }
     root.querySelector("[data-trips-summary]").textContent = text.summary(saved, unreadable);
+  }
+
+  for (const { card, guides } of cards) {
+    for (const guide of guides) {
+      for (const action of ["remove", "undo"]) {
+        guide.querySelector(`[data-guide-${action}]`).addEventListener("click", () => {
+          const id = guide.dataset.tripSavedGuide;
+          const status = card.querySelector("[data-trip-guides-feedback]");
+          try {
+            // Merge only this ID into the latest list, retaining unknown entries and other-tab edits.
+            const current = readGuides();
+            if (action === "undo" && !removed.has(id)) return;
+            const next = action === "remove" ? current.filter(value => value !== id)
+              : current.includes(id) ? current : [...current, id];
+            if (action === "remove" ? current.includes(id) : !current.includes(id)) {
+              const serialized = JSON.stringify(next);
+              if (serialized.length > 65536) throw Error("too large");
+              win.localStorage.setItem(SAVED_GUIDES_KEY, serialized);
+            }
+            if (action === "remove") removed.add(id);
+            else removed.delete(id);
+            render();
+            status.textContent = text[action === "remove" ? "removed" : "restored"](guide.querySelector("a").textContent);
+          } catch {
+            status.textContent = text.editFailed;
+          }
+        });
+      }
+    }
   }
   render();
   win.addEventListener("storage", event => {

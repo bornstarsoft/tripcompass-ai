@@ -49,9 +49,18 @@
           <ul data-trip-guides-list hidden>
             {{ range $trip.guides }}
             {{ $guide := $.Site.GetPage (printf "%s%s" $prefix .path) }}
-            <li data-trip-saved-guide="{{ .id }}" hidden><a href="{{ $guide.RelPermalink }}">{{ $guide.Title }}</a>{{ if gt (index $guideUses .id) 1 }}<small>{{ cond $ko "공통 가이드" "Shared guide" }}</small>{{ end }}</li>
+            <li data-trip-saved-guide="{{ .id }}" hidden>
+              <div class="my-trip-guide-row">
+                <a href="{{ $guide.RelPermalink }}">{{ $guide.Title }}</a>
+                <button type="button" class="my-trip-guide-tool" data-guide-remove aria-label="{{ cond $ko "저장 해제" "Remove saved guide" }}: {{ $guide.Title }}" title="{{ cond $ko "저장 해제" "Remove saved guide" }}">{{ partial "icons/bookmark.html" }}<span class="my-trip-guide-tooltip" aria-hidden="true">{{ cond $ko "저장 해제" "Remove" }}</span></button>
+                <button type="button" class="my-trip-guide-tool" data-guide-undo hidden aria-label="{{ cond $ko "저장 해제 취소" "Undo removal" }}: {{ $guide.Title }}" title="{{ cond $ko "저장 해제 취소" "Undo removal" }}">{{ partial "icons/undo.html" }}<span class="my-trip-guide-tooltip" aria-hidden="true">{{ cond $ko "취소" "Undo" }}</span></button>
+              </div>
+              {{ if gt (index $guideUses .id) 1 }}<small>{{ cond $ko "공통 가이드" "Shared guide" }}</small>{{ end }}
+              <small data-guide-removed hidden>{{ cond $ko "저장 해제됨 · 취소 가능" "Removed · Undo available" }}</small>
+            </li>
             {{ end }}
           </ul>
+          <p class="fine-print" data-trip-guides-feedback role="status" aria-live="polite" aria-atomic="true"></p>
           <a class="my-trip-browse" href="{{ printf "%s%s#prep-reading-title" $prefix $trip.path | relURL }}">{{ cond $ko "이 도시 가이드 둘러보기" "Browse this city's guides" }}</a>
         </section>
       </div>

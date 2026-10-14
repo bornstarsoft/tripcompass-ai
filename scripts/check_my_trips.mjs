@@ -16,28 +16,38 @@ const cityGuides = {
 
 function harness(language = "en", records = new Map(), blocked = []) {
   const events = {};
+  const doc = { documentElement: { lang: language } };
   const summary = { textContent: "" };
   const quick = Object.fromEntries(ids.map(id => [id, { textContent: "" }]));
   const cards = ids.map(id => {
     const labels = values => JSON.stringify(Object.fromEntries(values.map(value => [value, `${language}:${id}:${value}`])));
-    const fields = Object.fromEntries(["status", "details", "count", "progress", "course", "alternative", "next", "action-label", "guides-status", "guides-list"].map(name => [name, { textContent: "", hidden: true, value: 0 }]));
-    const guides = cityGuides[id].map(id => ({ dataset: { tripSavedGuide: id }, hidden: true }));
+    const fields = Object.fromEntries(["status", "details", "count", "progress", "course", "alternative", "next", "action-label", "guides-status", "guides-list", "guides-feedback"].map(name => [name, { textContent: "", hidden: true, value: 0 }]));
+    const guides = cityGuides[id].map(id => {
+      const controls = Object.fromEntries(["remove", "undo", "removed"].map(action => {
+        const node = { hidden: false, addEventListener(type, fn) { this[type] = fn; }, focus() { doc.activeElement = this; } };
+        return [`[data-guide-${action}]`, node];
+      }));
+      controls.a = { textContent: `${language}:${id}` };
+      return { dataset: { tripSavedGuide: id }, hidden: true, controls, querySelector: selector => controls[selector] };
+    });
     return { fields, guides, dataset: { tripSummary: id, courseLabels: labels(TRIPS[id].courses), alternativeLabels: labels(TRIPS[id].alternatives), taskLabels: labels(TASKS) },
       querySelectorAll: () => guides,
       querySelector: selector => fields[selector.slice(11, -1)] };
   });
   const page = { querySelector: selector => selector === "[data-trips-summary]" ? summary : quick[selector.split('"')[1]], querySelectorAll: () => cards };
   let writes = 0;
+  let failWrites = false;
   const win = {
     localStorage: {
       getItem(key) { if (blocked.includes(key)) throw Error("PRIVATE"); return records.get(key) ?? null; },
-      setItem() { writes++; }, removeItem() { writes++; }, clear() { writes++; }
+      setItem(key, value) { assert.equal(key, bookmarkKey); if (failWrites) throw Error("PRIVATE"); writes++; records.set(key, value); },
+      removeItem() { assert.fail("Unexpected deletion"); }, clear() { assert.fail("Unexpected clear"); }
     },
     addEventListener: (type, fn) => { events[type] = fn; }
   };
-  const doc = { documentElement: { lang: language }, querySelector: () => page };
+  doc.querySelector = () => page;
   mountMyTrips(doc, win);
-  return { cards, summary, quick, events, writes: () => writes, render: () => mountMyTrips(doc, win) };
+  return { cards, summary, quick, events, doc, failWrites: value => { failWrites = value; }, writes: () => writes, render: () => mountMyTrips(doc, win) };
 }
 
 for (const language of ["en", "ko"]) {
@@ -137,7 +147,8 @@ for (const language of ["en", "ko"]) {
 }
 
 const source = await readFile(resolve(root, "js/my-trips.js"), "utf8");
-assert.doesNotMatch(source, /setItem|removeItem|\.clear\(|fetch\(|innerHTML/);
+assert.doesNotMatch(source, /removeItem|\.clear\(|fetch\(|innerHTML/);
+assert.match(source, /setItem\(SAVED_GUIDES_KEY, serialized\)/);
 for (const prefix of ["", "/ko"]) {
   const html = await readFile(resolve(root, `.${prefix}/my-trips/index.html`), "utf8");
   assert.match(html, prefix ? /<h1>내 여행<\/h1>/ : /<h1>My trips<\/h1>/);
@@ -151,7 +162,10 @@ for (const prefix of ["", "/ko"]) {
   assert.equal((html.match(/data-trip-guides-status/g) || []).length, 3);
   assert.equal((html.match(/<small>(Shared guide|공통 가이드)<\/small>/g) || []).length, 3);
   assert.match(html, prefix ? /저장한 가이드/ : /Saved guides/);
-  assert.doesNotMatch(html, /js\/guide-explorer.js|data-save-guide=/, "Overview must remain read-only");
+  assert.doesNotMatch(html, /js\/guide-explorer.js|data-save-guide=/, "Only the overview controller handles edits here");
+  assert.equal((html.match(/data-guide-remove\b/g) || []).length, 15);
+  assert.equal((html.match(/data-guide-undo/g) || []).length, 15);
+  assert.equal((html.match(/data-trip-guides-feedback/g) || []).length, 3);
   for (const id of new Set(Object.values(cityGuides).flat())) assert.ok(html.includes(`data-trip-saved-guide=${id}`));
   assert.match(html, new RegExp(`href=${prefix}/itinerary/tokyo-jimbocho-books-cafes/`));
   assert.match(html, new RegExp(`href=${prefix}/itinerary/osaka-to-nara-temple-park-day/`));
@@ -165,4 +179,68 @@ for (const prefix of ["", "/ko"]) {
   const sitemap = await readFile(resolve(root, "sitemap.xml"), "utf8");
   assert.ok(sitemap.includes(`<loc>https://tripcompass.ai${prefix}/my-trips/</loc>`));
 }
-console.log("My trips checks passed: read-only preparation and city bookmarks, bilingual links, shared guides, malformed/unknown IDs, storage/history updates and record preservation.");
+for (const language of ["en", "ko"]) {
+  const records = new Map(ids.map(id => [TRIPS[id].storageKey, JSON.stringify(initialState(id))]));
+  records.set("tripcompass.decision.v1", "untouched");
+  const preparation = [...records];
+  records.set(bookmarkKey, JSON.stringify(["stay", "stay", "travel-days", "unknown", null, 17]));
+  const blocked = [];
+  const ui = harness(language, records, blocked);
+  const row = (city, id) => ui.cards[ids.indexOf(city)].guides.find(guide => guide.dataset.tripSavedGuide === id);
+  const press = (city, id, action) => {
+    const button = row(city, id).querySelector(`[data-guide-${action}]`);
+    button.focus(); button.click();
+  };
+  const saved = () => JSON.parse(records.get(bookmarkKey));
+  press("fukuoka", "stay", "remove");
+  assert.deepEqual(saved(), ["travel-days", "unknown", null, 17]);
+  assert.equal(row("fukuoka", "stay").hidden, false, "Undo stays beside the removed guide");
+  assert.equal(ui.doc.activeElement, row("fukuoka", "stay").querySelector("[data-guide-undo]"));
+  press("osaka", "travel-days", "remove");
+  assert.ok(ids.every(city => !row(city, "travel-days").querySelector("[data-guide-undo]").hidden));
+  assert.match(ui.cards[0].fields["guides-status"].textContent, /No guides|아직/);
+  assert.equal(ui.cards[0].fields["guides-list"].hidden, false, "Last removal must retain undo");
+  records.set(bookmarkKey, JSON.stringify([...saved(), "tokyo-jimbocho"]));
+  press("fukuoka", "stay", "undo");
+  assert.deepEqual(saved(), ["unknown", null, 17, "tokyo-jimbocho", "stay"]);
+  assert.equal(ui.doc.activeElement, row("fukuoka", "stay").querySelector("[data-guide-remove]"));
+  press("tokyo", "travel-days", "undo");
+  assert.equal(ui.cards[1].fields["guides-feedback"].textContent, "", "Clear stale shared-guide feedback in other cities");
+  assert.ok(ids.every(city => row(city, "travel-days").querySelector("[data-guide-undo]").hidden));
+  assert.equal(saved().filter(id => id === "travel-days").length, 1);
+  ui.failWrites(true);
+  const beforeFailure = records.get(bookmarkKey);
+  press("fukuoka", "stay", "remove");
+  assert.equal(records.get(bookmarkKey), beforeFailure);
+  assert.equal(row("fukuoka", "stay").querySelector("[data-guide-remove]").hidden, false);
+  assert.match(ui.cards[0].fields["guides-feedback"].textContent, /could not|못했/);
+  ui.failWrites(false);
+  press("fukuoka", "stay", "remove");
+  ui.failWrites(true);
+  press("fukuoka", "stay", "undo");
+  assert.ok(!saved().includes("stay"));
+  assert.equal(row("fukuoka", "stay").querySelector("[data-guide-undo]").hidden, false);
+  ui.failWrites(false);
+  blocked.push(bookmarkKey);
+  press("fukuoka", "stay", "undo");
+  assert.ok(!saved().includes("stay"));
+  blocked.pop();
+  records.set(bookmarkKey, "PRIVATE broken");
+  press("fukuoka", "stay", "undo");
+  assert.equal(records.get(bookmarkKey), "PRIVATE broken", "Do not overwrite corrupt storage");
+  records.set(bookmarkKey, '["stay","tokyo"]');
+  press("fukuoka", "stay", "undo");
+  assert.deepEqual(saved(), ["stay", "tokyo"], "Another tab's restoration must not duplicate IDs");
+  press("fukuoka", "stay", "remove");
+  records.set(bookmarkKey, '["stay","osaka"]');
+  ui.events.storage({ key: bookmarkKey });
+  assert.equal(row("fukuoka", "stay").querySelector("[data-guide-undo]").hidden, true);
+  press("fukuoka", "stay", "remove");
+  ui.events.pageshow({ persisted: true });
+  assert.equal(row("fukuoka", "stay").querySelector("[data-guide-undo]").hidden, false);
+  const reloaded = harness(language, records);
+  assert.equal(reloaded.cards[0].guides.find(guide => guide.dataset.tripSavedGuide === "stay").hidden, true);
+  assert.deepEqual([...records].filter(([key]) => key !== bookmarkKey), preparation);
+  assert.doesNotMatch(JSON.stringify(ui.cards), /PRIVATE/);
+}
+console.log("My trips checks passed: remove/undo, shared guides, latest-list merging, failures, focus, bilingual links and unchanged preparation records.");

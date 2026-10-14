@@ -26,6 +26,14 @@
 .my-trip-guides li + li { border-top: 1px solid var(--line); }
 .my-trip-guides li a, .my-trip-browse { display: flex; align-items: center; min-height: 44px; padding: .5rem 0; line-height: 1.5; }
 .my-trip-guides small { display: block; color: var(--muted); margin-bottom: .5rem; }
+.my-trip-guide-row { display: grid; grid-template-columns: minmax(0, 1fr) 44px; gap: .5rem; align-items: center; }
+.my-trip-guide-tool { position: relative; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid var(--line); border-radius: 4px; color: var(--teal); background: var(--panel); cursor: pointer; }
+.my-trip-guide-tool[data-guide-remove] svg { fill: currentColor; }
+.my-trip-guide-tool:hover { background: var(--bg); }
+.my-trip-guide-tool:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+.my-trip-guide-tooltip { position: absolute; right: 0; bottom: 100%; padding: .25rem .5rem; background: var(--ink); color: white; font-size: .8rem; white-space: nowrap; visibility: hidden; pointer-events: none; }
+.my-trip-guide-tool:hover .my-trip-guide-tooltip, .my-trip-guide-tool:focus-visible .my-trip-guide-tooltip { visibility: visible; }
+.my-trip-guides [hidden] { display: none; }
 .my-trip-action { margin-top: .5rem; min-height: 44px; text-align: center; }
 .my-trips > .trust-note { margin-top: 1.5rem; }
 @media (max-width: 800px) {
