@@ -1,0 +1,11 @@
+{{- $ko := eq .Params.htmlLang "ko" -}}
+{{- $path := strings.TrimPrefix "/ko" .RelPermalink -}}
+{{- $show := or .IsHome (eq .RelPermalink "/ko/") .Params.itineraryLibrary -}}
+{{- range .Site.Data.trip_prep.guides -}}
+  {{- if eq .path $path }}{{ $show = true }}{{ end -}}
+{{- end -}}
+{{- if $show -}}
+<aside class="trip-entry" aria-label="{{ cond $ko "내 여행" "My trip" }}">
+  <div class="section-inner"><a data-trip-entry href="{{ cond $ko "/ko/my-trip/" "/my-trip/" | relURL }}">{{ cond $ko "후쿠오카 여행 준비하기" "Prepare my Fukuoka trip" }}</a></div>
+</aside>
+{{- end -}}

@@ -24,6 +24,20 @@ The application does not currently enforce automatic expiry for D1 click records
 
 Your selected language and whether you dismissed the Korean-language suggestion are stored in this browser's local storage. You can remove these preferences by clearing site data. Browser language can be used to suggest Korean; it does not force a redirect.
 
+## Saved Guides and Content Filters
+
+Saving a guide stores only its guide identifier in this browser's localStorage. It does not create an account or download an offline copy. English and Korean versions share the saved list. You can remove an individual guide with its save button or clear site data to remove the list. People using the same browser profile may see these choices.
+
+Guide search and interest filters run locally and do not send the search text or saved list to the AI API or a separate analytics service. Normal page requests still reach our hosting provider, and the existing click logging applies when you follow `/go/` booking-search links. If browser storage is blocked, saved choices last only on the current page.
+
+## Fukuoka Trip Preparation
+
+The [Fukuoka preparation workspace](/my-trip/) saves your selected base course, one alternative and five checklist values in this browser after you start the trip. Changes are saved locally; no account, cloud synchronization, AI request or analytics event is created. No dates, names, booking references or free-text notes are collected by the workspace.
+
+English and Korean use the same preparation state on this browser profile. People sharing that profile may see it. Resetting preparation removes only its own storage key, not saved guides, language settings or decision-board data. Clearing site data removes all of these local choices. A storage failure is shown as page-only progress, not a successful save. Saved guides in the workspace use the same bookmark list as the existing guide explorer.
+
+Checklist marks are personal notes, not booking confirmations. Following a `/go` link still uses the search-click logging described above. The workspace does not send checklist values to those links.
+
 ## Trip Decision Board
 
 The [trip decision board](/decision-board/) calculates costs and time estimates in your browser without sending its input fields to the AI API. "Save on this device" stores a snapshot in this browser's localStorage; resetting the board removes that saved snapshot. On a shared device, other people using the same browser profile may be able to view it.

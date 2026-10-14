@@ -1,0 +1,37 @@
+.trip-prep { max-width: 880px; padding-top: 2rem; }
+.trip-prep [hidden] { display: none !important; }
+.trip-prep .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.prep-header h1 { margin: .25rem 0; font-size: 2.1rem; line-height: 1.2; overflow-wrap: anywhere; }
+.prep-header figure { margin: 1.25rem 0; }
+.prep-header img { width: 100%; height: 180px; object-fit: cover; object-position: center 55%; }
+.prep-header figcaption { font-size: .8rem; color: var(--muted); }
+.prep-status { min-height: 1.6em; color: var(--muted); font-weight: 650; overflow-wrap: anywhere; }
+.prep-section, .prep-progress { padding: 1.5rem 0; border-top: 1px solid var(--line); }
+.prep-section h2, .prep-progress h2 { margin: 0 0 1rem; font-size: 1.35rem; }
+.prep-progress progress { width: 100%; height: .65rem; display: block; margin: 0 0 1rem; accent-color: var(--teal); }
+.prep-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; min-width: 0; }
+.prep-options legend { margin-bottom: .6rem; }
+.prep-option { border: 1px solid var(--line); border-radius: 6px; background: white; padding: .75rem; min-width: 0; }
+.prep-option:has(input:checked) { border-color: var(--teal); background: #edf7ef; }
+.prep-option label { display: flex; align-items: flex-start; min-height: 48px; cursor: pointer; gap: .6rem; }
+.prep-option label span { margin: 0; font-size: 1rem; }
+.prep-option small { display: block; font-size: .9rem; color: var(--muted); font-weight: 400; margin-top: .4rem; }
+.prep-option input, .prep-checklist input { width: 1.2rem; height: 1.2rem; flex-shrink: 0; accent-color: var(--teal); margin-top: .25rem; }
+.prep-option a, .prep-checklist a { display: inline-flex; align-items: center; min-height: 44px; margin-left: 1.8rem; }
+.prep-checklist, .prep-reading { list-style: none; padding: 0; margin: 0; }
+.prep-checklist li { padding: .6rem 0; border-bottom: 1px solid var(--line); scroll-margin-top: 1rem; }
+.prep-checklist label { display: flex; gap: .65rem; align-items: center; cursor: pointer; min-height: 44px; }
+.prep-checklist label span { margin: 0; font-size: 1rem; font-weight: 600; }
+.prep-checklist li:has(input:checked) label span { color: var(--muted); }
+.prep-reading li { display: grid; grid-template-columns: minmax(0, 1fr) 44px; gap: .75rem; align-items: center; padding: .75rem 0; border-bottom: 1px solid var(--line); }
+.prep-reading li > a { min-height: 44px; display: flex; align-items: center; overflow-wrap: anywhere; }
+.prep-reading .save-guide { position: relative; inset: auto; width: 44px; height: 44px; padding: 0; }
+.prep-reading .save-guide__tooltip { right: 0; left: auto; transform: none; }
+.prep-reset { padding: 1rem 0 1.5rem; }
+.prep-reset button { background: white; border: 1px solid var(--line); color: var(--ink); margin: .25rem .25rem .25rem 0; }
+.trip-prep :focus-visible { outline: 3px solid #a6402b; outline-offset: 3px; }
+@media (max-width: 620px) {
+  .prep-options { grid-template-columns: minmax(0, 1fr); }
+  .prep-header h1 { font-size: 1.8rem; }
+  .prep-header img { height: 140px; }
+}

@@ -2,6 +2,10 @@
 {{- $pageLangRaw := lower (.Params.htmlLang | default .Site.Language.Lang) -}}
 {{- $pageLang := cond (hasPrefix $pageLangRaw "ko") "ko" "en" -}}
 {{- $isKo := eq $pageLang "ko" -}}
+{{- $title := printf "%s | %s" .Title .Site.Title -}}
+{{- if .IsHome -}}
+  {{- $title = printf "%s | %s" .Site.Title .Site.Params.tagline -}}
+{{- end -}}
 {{- $alternateEnPath := .Params.alternateEn | default "" -}}
 {{- $alternateKoPath := .Params.alternateKo | default "" -}}
 {{- if .IsHome -}}
@@ -21,7 +25,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ if .IsHome }}{{ .Site.Title }} | {{ .Site.Params.tagline }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+    <title>{{ $title }}</title>
     <meta name="description" content="{{ $description }}">
     <link rel="canonical" href="{{ .Permalink }}">
     {{- if $hasLanguageAlternates }}
@@ -29,9 +33,14 @@
     <link rel="alternate" hreflang="ko" href="{{ $alternateKoPath | absURL }}">
     <link rel="alternate" hreflang="x-default" href="{{ "/" | absURL }}">
     {{- end }}
+    {{ partial "social-meta.html" (dict "page" . "title" $title "description" $description "isKo" $isKo "hasAlternates" $hasLanguageAlternates) }}
     <link rel="stylesheet" href="{{ "css/styles.css" | relURL }}">
-    {{ if or (eq .RelPermalink "/ko/") .Params.course }}
+    {{ if or .IsHome (eq .RelPermalink "/ko/") .Params.course .Params.itineraryLibrary .Params.planningGuide .Params.tripPrep }}
     <link rel="stylesheet" href="{{ "css/courses.css" | relURL }}">
+    {{ end }}
+    {{ if .Params.tripPrep }}<link rel="stylesheet" href="{{ "css/trip-prep.css" | relURL }}">{{ end }}
+    {{ if or .Params.course .Params.planningGuide }}
+    <link rel="stylesheet" href="{{ "css/course-print.css" | relURL }}" media="print">
     {{ end }}
   </head>
   <body>
@@ -41,8 +50,8 @@
         <a class="brand" href="{{ cond $isKo ("/ko/" | relURL) ("/" | relURL) }}" aria-label="{{ cond $isKo "TripCompass AI 홈" "TripCompass AI home" }}">TripCompass AI</a>
         <div class="site-header__actions">
           <nav class="site-nav" aria-label="{{ cond $isKo "주요 메뉴" "Primary navigation" }}">
-            <a href="{{ cond $isKo ("/ko/#destination-finder" | relURL) ("/destination-finder/" | relURL) }}">{{ cond $isKo "추천" "Finder" }}</a>
-            <a href="{{ cond $isKo ("/ko/itinerary/" | relURL) ("/trip-planner/" | relURL) }}">{{ cond $isKo "일정" "Planner" }}</a>
+            <a href="{{ cond $isKo ("/ko/#destination-finder" | relURL) ("/#destination-finder" | relURL) }}">{{ cond $isKo "추천" "Finder" }}</a>
+            <a href="{{ cond $isKo ("/ko/itinerary/" | relURL) ("/itinerary/" | relURL) }}">{{ cond $isKo "일정" "Planner" }}</a>
             <a href="{{ cond $isKo ("/ko/compare/" | relURL) ("/compare/" | relURL) }}">{{ cond $isKo "비교" "Compare" }}</a>
             <a href="{{ cond $isKo ("/ko/from-seoul/" | relURL) ("/from-seoul/" | relURL) }}">{{ cond $isKo "한국 출발" "From Seoul" }}</a>
           </nav>
@@ -68,6 +77,7 @@
       <button type="button" data-language-suggestion-close>닫기</button>
     </aside>
     <main id="main">
+      {{ partial "trip-entry.html" . }}
       {{ block "main" . }}{{ end }}
     </main>
     <footer class="site-footer">
@@ -89,5 +99,6 @@
       </div>
     </footer>
     <script src="{{ "js/language.js" | relURL }}" defer></script>
+    <script type="module" src="{{ "js/trip-prep.js" | relURL }}"></script>
   </body>
 </html>

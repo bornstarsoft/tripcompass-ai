@@ -1,0 +1,46 @@
+{{- $ko := eq .Params.htmlLang "ko" -}}
+{{- $courses := slice -}}
+{{- $guides := slice -}}
+{{- range .Site.RegularPages.ByWeight -}}
+  {{- if and .Params.course (eq (eq .Params.htmlLang "ko") $ko) -}}
+    {{- if .Params.guide -}}
+      {{- $guides = $guides | append . -}}
+    {{- else -}}
+      {{- $courses = $courses | append . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+<section class="itinerary-library" aria-labelledby="itinerary-library-title">
+  <h2 id="itinerary-library-title">{{ cond $ko "추천 코스 비교" "Compare recommended itineraries" }}</h2>
+  <table>
+    <caption>{{ cond $ko "코스별 여행 기간과 추천 여행 성향" "Trip length and traveler fit by itinerary" }}</caption>
+    <thead>
+      <tr>
+        <th scope="col">{{ cond $ko "코스" "Itinerary" }}</th>
+        <th scope="col">{{ cond $ko "추천 기간" "Length" }}</th>
+        <th scope="col">{{ cond $ko "추천 여행 성향" "Best fit" }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{- range $courses }}
+        {{- $course := index $.Site.Data.courses .Params.course -}}
+        {{- if not $ko -}}
+          {{- $course = merge $course $course.en -}}
+        {{- end }}
+      <tr>
+        <th scope="row"><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></th>
+        <td>{{ .Params.duration | default $course.duration }}</td>
+        <td>{{ .Params.audience | default $course.audience }}</td>
+      </tr>
+      {{- end }}
+    </tbody>
+  </table>
+  {{- with $guides }}
+  <h2>{{ cond $ko "숙소 권역 선택" "Choose a hotel area" }}</h2>
+  <ul>
+    {{- range . }}
+    <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
+    {{- end }}
+  </ul>
+  {{- end }}
+</section>

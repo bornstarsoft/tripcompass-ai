@@ -1,6 +1,6 @@
 {{ define "main" }}
 <section class="hero hero--courses" aria-labelledby="ko-home-title">
-  <img src="{{ "img/tripcompass-hero.png" | relURL }}" alt="지도, 휴대폰, 짧은 여행 준비물이 놓인 여행 계획 장면">
+  {{ partial "explore-hero-image.html" . }}
   <div class="hero__overlay" aria-hidden="true"></div>
   <div class="hero__content">
     <p class="eyebrow">한국에서 떠나는 짧은 해외여행</p>
@@ -10,6 +10,7 @@
       <a class="button button--primary" href="#recommended-courses">추천 코스 둘러보기</a>
       <a class="button button--light" href="#destination-finder">AI 추천 시작</a>
     </div>
+    <p class="hero-art-note">AI 여행 일러스트 · 상상 장면</p>
   </div>
 </section>
 

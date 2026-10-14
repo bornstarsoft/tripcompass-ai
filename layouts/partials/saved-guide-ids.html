@@ -1,0 +1,5 @@
+{{- $ids := .Site.Data.explore.order -}}
+{{- range .Site.Data.trip_prep.guides -}}
+  {{- $ids = $ids | append .id -}}
+{{- end -}}
+{{- return (uniq $ids) -}}

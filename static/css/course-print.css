@@ -1,0 +1,26 @@
+@page { margin: 16mm; }
+body { color: #111; background: #fff; font-size: 10.5pt; line-height: 1.5; }
+.site-header, .site-footer, .skip-link, .language-suggestion, .course-tools, .course-toc, .course-guide .page-hero > p:first-child, .course-guide > .editorial-cover, .guide-highlights > a, .explore-feedback { display: none !important; }
+.course-guide.page-shell { width: 100%; margin: 0; padding: 0; }
+.course-guide .page-hero { padding: 0 0 4mm; }
+.course-guide .page-hero h1 { font-size: 21pt; line-height: 1.2; }
+.course-guide .page-hero p { font-size: 10pt; color: #333; }
+.course-guide .course-print-url { display: block; overflow-wrap: anywhere; font-size: 9pt; }
+.course-guide > .course-photo { max-width: 85mm; margin: 4mm 0; break-inside: avoid; }
+.reference-photo { max-width: 85mm; margin: 4mm 0; break-inside: avoid; }
+.guide-highlights ul { display: block; }
+.guide-highlights li { margin-bottom: 2mm; }
+.course-guide > .course-photo img { width: 100%; height: auto; max-height: none; object-fit: contain; }
+.course-guide .course-photo figcaption { color: #333; font-size: 8pt; }
+.course-guide__body { display: block; margin-top: 5mm; }
+.course-guide .prose { max-width: none; }
+.course-guide .prose p, .course-guide .prose li { color: #111; orphans: 3; widows: 3; }
+.course-guide .prose p, .course-guide .prose ul, .course-guide .prose ol { margin-top: 2mm; margin-bottom: 2.5mm; }
+.course-guide h2, .course-guide h3 { break-after: avoid; }
+.course-guide .prose h2 { margin-top: 4mm; font-size: 15pt; }
+.course-guide .prose h3 { font-size: 12pt; }
+.course-guide .prose table { font-size: 9pt; }
+.course-guide .prose th, .course-guide .prose td { padding: 2mm; background: #fff; }
+.course-guide .prose tr { break-inside: avoid; }
+.course-guide a { color: #111; }
+.course-guide .trust-note { break-before: avoid; break-inside: avoid; margin-top: 4mm; padding: 3mm; color: #111; border: 1px solid #888; background: #fff; box-shadow: none; }

@@ -1,0 +1,93 @@
+{{ define "main" }}
+{{ $ko := eq .Params.htmlLang "ko" }}
+{{ $lang := cond $ko "ko" "en" }}
+{{ $prefix := cond $ko "/ko" "" }}
+{{ $data := .Site.Data.trip_prep }}
+<article class="page-shell trip-prep" data-trip-prep data-guide-experience data-guide-ids="{{ delimit (partial "saved-guide-ids.html" .) "," }}">
+  <header class="prep-header">
+    <p class="eyebrow">{{ cond $ko "후쿠오카 · 2박 3일" "Fukuoka · 3 days, 2 nights" }}</p>
+    <h1>{{ .Title }}</h1>
+    <p>{{ cond $ko "가고 싶은 하루를 고르고, 남은 준비를 하나씩." "Choose the day you want. Take the next step when you return." }}</p>
+    {{ $image := (resources.Get .Site.Data.explore.guides.fukuoka.cover).Resize "960x webp q80" }}
+    <figure><img src="{{ $image.RelPermalink }}" width="{{ $image.Width }}" height="{{ $image.Height }}" alt="{{ index .Site.Data.explore.guides.fukuoka $lang "alt" }}"><figcaption>{{ cond $ko "AI 일러스트 · 실제 현장 사진 아님" "AI illustration · Not a location photograph" }}</figcaption></figure>
+  </header>
+  <div class="prep-start" data-prep-start hidden>
+    <button type="button" class="button--primary" data-prep-create>{{ cond $ko "이 여행 준비 시작" "Start this trip" }}</button>
+  </div>
+  <p class="fine-print prep-storage">{{ cond $ko "준비 내용과 저장한 글은 이 브라우저에만 남습니다. 다른 기기에는 동기화되지 않으며, 사이트 데이터를 지우면 사라집니다." "Your preparation and saved guides stay in this browser only. They do not sync to other devices and are removed when site data is cleared." }}</p>
+  <p class="prep-status" data-prep-status role="status" aria-live="polite"></p>
+  <noscript><p>{{ cond $ko "아래 가이드는 그대로 읽을 수 있습니다. 준비 상태 저장에는 JavaScript가 필요합니다." "The guides below remain available. Saving preparation requires JavaScript." }}</p></noscript>
+  <div data-prep-workspace hidden>
+    <section class="prep-progress" aria-labelledby="prep-progress-title">
+      <h2 id="prep-progress-title">{{ cond $ko "남은 준비" "Your next step" }}</h2>
+      <p data-prep-summary></p>
+      <progress data-prep-progress value="0" max="5" aria-label="{{ cond $ko "직접 확인한 준비 항목" "Preparation items you checked" }}"></progress>
+      <a data-prep-next href="#prep-checklist"></a>
+      <p class="fine-print">{{ cond $ko "체크는 내가 확인했다는 메모입니다. 예약 완료나 여행 조건 확인을 보장하지 않습니다." "Checks are your own notes, not booking confirmations or verification of travel conditions." }}</p>
+    </section>
+    <section class="prep-section" aria-labelledby="prep-course-title">
+      <h2 id="prep-course-title">{{ cond $ko "01 기본 코스" "01 Your course" }}</h2>
+      <p class="fine-print">{{ cond $ko "기본 코스를 바꾸면 준비 체크를 모두 다시 확인합니다." "Changing the base course clears the checks for review." }}</p>
+      <fieldset class="prep-options"><legend>{{ cond $ko "기본 코스 하나" "Choose one base course" }}</legend>
+        {{ range $data.courses }}
+        <div class="prep-option">
+          <label><input type="radio" name="prep-course" value="{{ .id }}"><span>{{ index . $lang }}<small>{{ index . (printf "%sNote" $lang) }}</small></span></label>
+          <a href="{{ printf "%s%s" $prefix .path | relURL }}">{{ cond $ko "코스 읽기" "Read course" }} <span class="visually-hidden">{{ index . $lang }}</span></a>
+        </div>
+        {{ end }}
+      </fieldset>
+    </section>
+    <section class="prep-section" aria-labelledby="prep-alternative-title">
+      <h2 id="prep-alternative-title">{{ cond $ko "02 상황이 바뀌면" "02 If plans change" }}</h2>
+      <p class="fine-print">{{ cond $ko "대안을 바꾸면 교통·날씨 체크를 다시 확인합니다." "Changing the alternative clears transport and weather checks for review." }}</p>
+      <fieldset class="prep-options"><legend>{{ cond $ko "대안 하나 · 기본 일정에 더하지 않기" "One alternative, not an extra day" }}</legend>
+        {{ range $data.alternatives }}
+        {{ $alternative := . }}
+        <div class="prep-option">
+          <label><input type="radio" name="prep-alternative" value="{{ .id }}"><span>{{ index . $lang }}<small>{{ index . (printf "%sNote" $lang) }}</small></span></label>
+          {{ with .path }}<a href="{{ printf "%s%s" $prefix . | relURL }}">{{ cond $ko "대안 읽기" "Read alternative" }} <span class="visually-hidden">{{ index $alternative $lang }}</span></a>{{ end }}
+        </div>
+        {{ end }}
+      </fieldset>
+    </section>
+    <section class="prep-section" id="prep-checklist" aria-labelledby="prep-check-title">
+      <h2 id="prep-check-title">{{ cond $ko "03 직접 확인할 것" "03 Check before you go" }}</h2>
+      <ul class="prep-checklist">
+        {{ range $data.tasks }}
+        <li id="prep-task-{{ .id }}"><label><input type="checkbox" data-prep-check="{{ .id }}"><span>{{ index . $lang }}</span></label><a href="{{ printf "%s%s" $prefix .path | relURL }}">{{ cond $ko "관련 가이드" "Related guide" }} <span class="visually-hidden">{{ index . $lang }}</span></a></li>
+        {{ end }}
+      </ul>
+    </section>
+    <div class="prep-reset">
+      <button type="button" data-prep-reset>{{ cond $ko "준비함 초기화" "Reset preparation" }}</button>
+      <div data-prep-confirm hidden>
+        <p>{{ cond $ko "코스 선택과 체크를 지울까요? 저장한 글과 여행 결정표는 유지됩니다." "Clear course choices and checks? Saved guides and your decision board will stay." }}</p>
+        <button type="button" data-prep-delete>{{ cond $ko "준비 내용 지우기" "Clear preparation" }}</button>
+        <button type="button" data-prep-cancel>{{ cond $ko "취소" "Cancel" }}</button>
+      </div>
+    </div>
+  </div>
+  <section class="prep-section" aria-labelledby="prep-reading-title">
+    <h2 id="prep-reading-title">{{ cond $ko "함께 볼 가이드" "Guides for this trip" }}</h2>
+    <p class="explore-feedback" data-guide-feedback role="status" aria-live="polite" aria-atomic="true"></p>
+    <ul class="prep-reading">
+      {{ range $data.guides }}
+      {{ $page := $.Site.GetPage (printf "%s%s" $prefix .path) }}
+      <li><a href="{{ $page.RelPermalink }}">{{ $page.Title }}</a>{{ partial "save-guide.html" (dict "id" .id "title" $page.Title "ko" $ko) }}</li>
+      {{ end }}
+    </ul>
+  </section>
+  <section class="prep-section" aria-labelledby="prep-compare-title">
+    <h2 id="prep-compare-title">{{ cond $ko "예약 전 비교" "Compare before booking" }}</h2>
+    <p><a href="{{ printf "%s/decision-board/" $prefix | relURL }}">{{ cond $ko "여행 결정표" "Trip decision board" }}</a> · <a href="{{ printf "%s/from-seoul/japan-travel-budget/" $prefix | relURL }}">{{ cond $ko "예산 가이드" "Budget guide" }}</a></p>
+    <p class="fine-print">{{ cond $ko "아래 링크는 일반 검색입니다. 준비함 체크와 예약 결과는 연결되지 않습니다." "These links open generic searches. Checklist status is not linked to booking results." }}</p>
+    <div class="card-actions">
+      <a href="/go/hotel?destination=fukuoka&amp;country=japan&amp;lang={{ $lang }}">{{ cond $ko "호텔 검색" "Search hotels" }}</a>
+      <a href="/go/flight?from=seoul&amp;to=fukuoka&amp;country=japan&amp;lang={{ $lang }}">{{ cond $ko "항공권 검색" "Search flights" }}</a>
+      <a href="/go/esim?country=japan&amp;lang={{ $lang }}">{{ cond $ko "eSIM 확인" "Check eSIM" }}</a>
+    </div>
+  </section>
+  <aside class="trust-note">{{ cond $ko "예약 전 최신 가격, 영업시간, 비자 규정, 예약 가능 여부와 조건을 직접 확인하세요. 실시간 견적이나 안전·입국·예약 보장을 제공하지 않습니다." "Check current prices, opening hours, visa rules, availability and terms before booking. No real-time quotes or safety, entry or booking guarantees are provided." }}</aside>
+</article>
+<script src="{{ "js/guide-explorer.js" | relURL }}" defer></script>
+{{ end }}

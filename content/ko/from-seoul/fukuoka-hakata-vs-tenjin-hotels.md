@@ -3,6 +3,7 @@ title: "후쿠오카 숙소 위치: 하카타 vs 텐진, 어디에 묵을까?"
 description: "후쿠오카 하카타와 텐진 숙소 권역을 도착 시간, 식사·쇼핑 동선, 부모님 동반, 객실 조건으로 비교합니다. 호텔 예약 전 확인할 출구·터미널 이동도 정리했습니다."
 eyebrow: "후쿠오카 숙소 · 권역부터 선택"
 htmlLang: "ko"
+alternateEn: "/from-seoul/fukuoka-hakata-vs-tenjin-hotels/"
 layout: "course"
 course: "fukuoka"
 guide: true
@@ -73,6 +74,8 @@ weight: 33
 [후쿠오카시 지하철 설비 안내](https://subway.city.fukuoka.lg.jp/subway/barrier/universal/)에서 기본 시설을 확인하고, 사용할 역의 출입구와 현재 이용 상태는 운영사에 다시 확인하세요. 모든 역 출구가 동일한 설비를 갖췄다는 뜻은 아닙니다.
 
 ## 예산 고려사항
+
+숙소를 고르기 전에 그 권역에서 보내는 하루를 떠올려 보세요. [후쿠오카 비 오는 날 계획](/ko/itinerary/fukuoka-rainy-day-plan/)은 야외 산책 대신 하카타나 텐진에 머무는 안을 비교합니다. 어느 안도 호텔까지의 실내 연결을 보장하지 않습니다.
 
 호텔 총액만 보지 말고 공항·현지 이동과 식사 비용을 합쳐 비교합니다. 두 호텔의 차액이 있더라도 이동 부담과 일행의 우선순위에 따라 판단이 달라집니다. 실제 확인한 견적 없이 ‘하카타가 싸다’ 또는 ‘텐진은 비싸다’고 결론 내리지 마세요.
 

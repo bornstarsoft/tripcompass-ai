@@ -1,0 +1,18 @@
+<div class="course-tools" data-course-tools data-canonical-url="{{ .page.Permalink }}" hidden>
+  <div class="course-tools__buttons" role="group" aria-label="{{ cond .ko "가이드 도구" "Guide tools" }}">
+    {{ with .entry }}{{ partial "save-guide.html" (dict "id" .id "title" .copy.title "ko" $.ko) }}{{ end }}
+    <button type="button" class="course-tool" data-course-copy aria-label="{{ cond .ko "링크 복사" "Copy link" }}">
+      {{ partial "icons/copy.html" }}
+      <span class="course-tool__tooltip" aria-hidden="true">{{ cond .ko "링크 복사" "Copy link" }}</span>
+    </button>
+    <button type="button" class="course-tool" data-course-print aria-label="{{ cond .ko "가이드 인쇄" "Print guide" }}">
+      {{ partial "icons/printer.html" }}
+      <span class="course-tool__tooltip" aria-hidden="true">{{ cond .ko "가이드 인쇄" "Print guide" }}</span>
+    </button>
+    <p class="course-tools__status" role="status" aria-live="polite" aria-atomic="true" data-course-status></p>
+  </div>
+  <div class="course-tools__manual" data-course-manual hidden>
+    <label for="course-link">{{ cond .ko "가이드 링크" "Guide link" }}</label>
+    <input id="course-link" type="url" readonly data-course-link spellcheck="false" autocomplete="off">
+  </div>
+</div>

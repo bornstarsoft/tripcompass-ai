@@ -1,0 +1,49 @@
+{{ define "main" }}
+{{ $ko := eq .Params.htmlLang "ko" }}
+{{ $prefix := cond $ko "/ko" "" }}
+{{ $course := index .Site.Data.courses .Params.course }}
+{{ if not $ko }}{{ $course = merge $course $course.en }}{{ end }}
+{{ $isGuide := .Params.guide | default false }}
+{{ $entry := partial "explore-entry.html" . }}
+<article class="page-shell course-guide" data-guide-experience data-guide-ids="{{ delimit (partial "saved-guide-ids.html" .) "," }}">
+  <header class="page-hero">
+    <p><a href="{{ printf "%s/#recommended-courses" $prefix | relURL }}">{{ cond $ko "추천 코스" "Recommended itineraries" }}</a></p>
+    <p class="eyebrow">{{ .Params.eyebrow }}</p>
+    <h1>{{ .Title }}</h1>
+    <p>{{ .Description }}</p>
+    <p class="course-meta">{{ if not $isGuide }}{{ $course.duration }} · {{ end }}{{ .Params.audience | default $course.audience }}</p>
+    <p class="fine-print">{{ if $ko }}TripCompass AI 편집 {{ cond $isGuide "가이드" "코스" }} · 자료 확인{{ else }}TripCompass AI editorial guide · Sources reviewed{{ end }} <time datetime="{{ .Params.reviewed }}">{{ .Params.reviewed }}</time></p>
+    {{ partial "course-tools.html" (dict "page" . "ko" $ko "entry" $entry) }}
+    <p class="explore-feedback" data-guide-feedback role="status" aria-live="polite" aria-atomic="true"></p>
+    <p class="course-print-url">{{ cond $ko "원문" "Original guide" }}: {{ .Permalink }}</p>
+  </header>
+  {{ with $entry }}
+  {{ partial "editorial-cover.html" (dict "guide" .guide "copy" .copy "ko" $ko "sizes" "(max-width: 960px) 100vw, 960px") }}
+  <section class="guide-highlights" aria-labelledby="guide-highlights-title">
+    <h2 id="guide-highlights-title">{{ cond $ko "이 글의 핵심" "The useful bits" }}</h2>
+    <ul>{{ range .copy.takeaways }}<li>{{ . }}</li>{{ end }}</ul>
+    <a href="#guide-contents">{{ cond $ko "궁금한 부분부터 보기" "Jump to a section" }} <span aria-hidden="true">↓</span></a>
+  </section>
+  {{ end }}
+  <p class="fine-print">{{ if $isGuide }}{{ cond $ko "공식 자료를 참고한 숙소 권역 비교이며 직접 방문한 후기가 아닙니다. 특정 호텔의 가격·객실 상태·예약 가능 여부를 확인한 안내가 아닙니다." "An accommodation-area comparison based on official sources, not a firsthand review. Individual hotel prices, room conditions and availability have not been verified." }}{{ else }}{{ cond $ko "공식 관광 자료를 참고해 구성한 일정 제안이며 직접 방문한 후기가 아닙니다. 아래 시간 배분은 편집상 여유분이지 실제 소요시간이나 영업시간 안내가 아닙니다." "An editorial itinerary based on official tourism sources, not a firsthand review. Time blocks are planning allowances, not verified journey times or opening hours." }}{{ end }}</p>
+  <div class="course-guide__body">
+    <aside class="course-toc" id="guide-contents" aria-label="{{ cond $ko "글 목차" "On this page" }}">
+      <h2>{{ if $ko }}{{ cond $isGuide "이 가이드에서 보기" "이 코스에서 보기" }}{{ else }}In this guide{{ end }}</h2>
+      {{ .TableOfContents }}
+    </aside>
+    <div class="prose">{{ .Content }}</div>
+  </div>
+  {{ if not $isGuide }}
+  <section class="reference-photo" aria-labelledby="reference-photo-title">
+    <h2 id="reference-photo-title">{{ cond $ko "실제 장소 참고 사진" "Location reference photograph" }}</h2>
+    <p class="fine-print">{{ cond $ko "촬영 당시의 모습이며 현재 영업·시설 상태를 확인한 사진은 아닙니다." "Shown as photographed, not verification of current facilities or operating conditions." }}</p>
+    {{ partial "course-photo.html" (dict "course" $course "ko" $ko "sizes" "(max-width: 960px) 100vw, 960px") }}
+  </section>
+  {{ end }}
+  <aside class="trust-note" aria-label="{{ cond $ko "여행 계획 확인 안내" "Planning disclaimer" }}">
+    <strong>{{ cond $ko "예약 전 확인:" "Before booking:" }}</strong> {{ cond $ko "최신 가격, 영업시간, 비자 규정, 예약 가능 여부, 예약 조건을 직접 확인하세요. 이 글은 실시간 견적이나 안전·입국·예약 보장을 제공하지 않습니다." "Check current prices, opening hours, visa rules, availability and booking terms yourself. This guide provides no real-time quotes or safety, entry or booking guarantees." }}
+  </aside>
+</article>
+<script src="{{ "js/course-tools.js" | relURL }}" defer></script>
+<script src="{{ "js/guide-explorer.js" | relURL }}" defer></script>
+{{ end }}

@@ -1,0 +1,9 @@
+{{- $path := strings.TrimPrefix "/ko" .RelPermalink -}}
+{{- $language := cond (eq .Params.htmlLang "ko") "ko" "en" -}}
+{{- $entry := dict -}}
+{{- range $id, $guide := .Site.Data.explore.guides -}}
+  {{- if eq $guide.path $path -}}
+    {{- $entry = dict "id" $id "guide" $guide "copy" (index $guide $language) -}}
+  {{- end -}}
+{{- end -}}
+{{- return $entry -}}

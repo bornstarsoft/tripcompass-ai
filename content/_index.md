@@ -1,4 +1,4 @@
 ---
 title: "TripCompass AI"
-description: "Find where to go, plan what to do, compare what to book with TripCompass AI."
+description: "Explore short Japan itineraries from Korea, compare hotel areas and narrow destination options with AI. Practical routes, rainy-day alternatives and booking checks."
 ---

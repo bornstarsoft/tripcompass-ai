@@ -26,7 +26,9 @@ print_group "Section hubs" \
 
 print_group "Decision tools" \
   "https://tripcompass.ai/decision-board/" \
-  "https://tripcompass.ai/ko/decision-board/"
+  "https://tripcompass.ai/ko/decision-board/" \
+  "https://tripcompass.ai/my-trip/" \
+  "https://tripcompass.ai/ko/my-trip/"
 
 print_group "English SEO landing pages" \
   "https://tripcompass.ai/from-seoul/japan-3-day-trips/" \
@@ -38,7 +40,17 @@ print_group "English SEO landing pages" \
   "https://tripcompass.ai/itinerary/seoul-to-osaka-4-day-itinerary/" \
   "https://tripcompass.ai/itinerary/seoul-to-tokyo-4-day-itinerary/" \
   "https://tripcompass.ai/from-seoul/best-japan-cities-first-time-travelers/" \
-  "https://tripcompass.ai/best-short-family-trips-from-korea/"
+  "https://tripcompass.ai/best-short-family-trips-from-korea/" \
+  "https://tripcompass.ai/itinerary/fukuoka-with-parents-3-days/" \
+  "https://tripcompass.ai/from-seoul/fukuoka-hakata-vs-tenjin-hotels/" \
+  "https://tripcompass.ai/itinerary/osaka-or-kyoto-day-trip/" \
+  "https://tripcompass.ai/itinerary/fukuoka-rainy-day-plan/" \
+  "https://tripcompass.ai/itinerary/tokyo-jimbocho-books-cafes/" \
+  "https://tripcompass.ai/itinerary/osaka-doguyasuji-kitchenware-walk/" \
+  "https://tripcompass.ai/itinerary/fukuoka-dazaifu-shrine-museum-day/" \
+  "https://tripcompass.ai/itinerary/tokyo-kiyosumi-shirakawa-garden-art-coffee/" \
+  "https://tripcompass.ai/itinerary/osaka-to-nara-temple-park-day/" \
+  "https://tripcompass.ai/itinerary/japan-arrival-departure-day-plan/"
 
 print_group "Korean SEO landing pages" \
   "https://tripcompass.ai/ko/from-seoul/japan-3-day-trips/" \
@@ -52,4 +64,12 @@ print_group "Korean SEO landing pages" \
   "https://tripcompass.ai/ko/from-seoul/best-japan-cities-first-time-travelers/" \
   "https://tripcompass.ai/ko/best-short-family-trips-from-korea/" \
   "https://tripcompass.ai/ko/itinerary/fukuoka-with-parents-3-days/" \
-  "https://tripcompass.ai/ko/from-seoul/fukuoka-hakata-vs-tenjin-hotels/"
+  "https://tripcompass.ai/ko/from-seoul/fukuoka-hakata-vs-tenjin-hotels/" \
+  "https://tripcompass.ai/ko/itinerary/osaka-or-kyoto-day-trip/" \
+  "https://tripcompass.ai/ko/itinerary/fukuoka-rainy-day-plan/" \
+  "https://tripcompass.ai/ko/itinerary/tokyo-jimbocho-books-cafes/" \
+  "https://tripcompass.ai/ko/itinerary/osaka-doguyasuji-kitchenware-walk/" \
+  "https://tripcompass.ai/ko/itinerary/fukuoka-dazaifu-shrine-museum-day/" \
+  "https://tripcompass.ai/ko/itinerary/tokyo-kiyosumi-shirakawa-garden-art-coffee/" \
+  "https://tripcompass.ai/ko/itinerary/osaka-to-nara-temple-park-day/" \
+  "https://tripcompass.ai/ko/itinerary/japan-arrival-departure-day-plan/"

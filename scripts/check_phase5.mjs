@@ -687,7 +687,7 @@ assert.match(launchHealthScript, /bash scripts\/list_gsc_urls\.sh/);
 assert.match(launchHealthScript, /rg -Fq "<loc>\$\{url\}<\/loc>"/);
 assert.match(launchHealthScript, /--with-d1/);
 assert.match(launchHealthScript, /bash scripts\/report_clicks\.sh/);
-assert.match(launchHealthScript, /expected 32 production page URLs/);
+assert.match(launchHealthScript, /expected 52 production page URLs/);
 assert.doesNotMatch(launchHealthScript, /OPENAI_API_KEY|AI_BACKEND_SECRET|CLOUDFLARE_API_TOKEN|Authorization/i);
 
 const operationsNote = await readFile("docs/operations.md", "utf8");
@@ -705,8 +705,8 @@ assert.match(operationsNote, /no real-time prices/i);
 assert.match(operationsNote, /no availability guarantees/i);
 assert.match(operationsNote, /no visa guarantees/i);
 assert.match(operationsNote, /no booking guarantees/i);
-assert.match(operationsNote, /22 current English and Korean SEO landing pages/i);
-assert.match(operationsNote, /10 English and 12 Korean/i);
+assert.match(operationsNote, /40 current English and Korean SEO landing pages/i);
+assert.match(operationsNote, /20 English and 20 Korean/i);
 assert.match(operationsNote, /scripts\/list_gsc_urls\.sh/);
 assert.match(operationsNote, /scripts\/check_gsc_inventory\.sh/);
 assert.match(operationsNote, /scripts\/check_launch_health\.sh/);
@@ -750,8 +750,8 @@ for (const expectedText of [
   "submit sitemap",
   "inspect homepage",
   "inspect /ko/",
-  "inspect the 22 SEO landing pages",
-  "10 English and 12 Korean",
+  "inspect the 40 SEO landing pages",
+  "20 English and 20 Korean",
   "scripts/list_gsc_urls.sh",
   "scripts/check_gsc_inventory.sh",
   "bash scripts/check_launch_health.sh",
@@ -857,6 +857,8 @@ assert.doesNotMatch(affiliateReadiness, /https?:\/\/(www\.)?(booking|agoda|exped
 const gscUrlScript = await readFile("scripts/list_gsc_urls.sh", "utf8");
 assert.ok(gscUrlScript.includes("https://tripcompass.ai/decision-board/"));
 assert.ok(gscUrlScript.includes("https://tripcompass.ai/ko/decision-board/"));
+assert.ok(gscUrlScript.includes("https://tripcompass.ai/my-trip/"));
+assert.ok(gscUrlScript.includes("https://tripcompass.ai/ko/my-trip/"));
 assert.match(gscUrlScript, /^#!\/usr\/bin\/env bash/);
 assert.doesNotMatch(gscUrlScript, /curl|fetch|googleapis|gcloud|OPENAI_API_KEY|AI_BACKEND_SECRET|wrangler/i);
 for (const expectedUrl of [
@@ -907,8 +909,8 @@ for (const expectedText of [
   "Google Search Console URL Submission Checklist",
   "scripts/list_gsc_urls.sh",
   "scripts/check_gsc_inventory.sh",
-  "22 SEO landing pages",
-  "10 English and 12 Korean",
+  "40 SEO landing pages",
+  "20 English and 20 Korean",
   "Submit sitemap.xml",
   "Inspect homepage and /ko/",
   "Inspect SEO landing pages",

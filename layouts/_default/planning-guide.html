@@ -1,0 +1,34 @@
+{{ define "main" }}
+{{ $ko := eq .Params.htmlLang "ko" }}
+{{ $lang := cond $ko "ko" "en" }}
+{{ $prefix := cond $ko "/ko" "" }}
+{{ $cover := index .Site.Data.explore.guides .Params.coverGuide }}
+<article class="page-shell course-guide">
+  <header class="page-hero">
+    <p><a href="{{ printf "%s/itinerary/" $prefix | relURL }}">{{ cond $ko "여행 일정 가이드" "Itinerary guides" }}</a></p>
+    <p class="eyebrow">{{ .Params.eyebrow }}</p>
+    <h1>{{ .Title }}</h1>
+    <p>{{ .Description }}</p>
+    <p class="fine-print">{{ cond $ko "TripCompass AI 편집 가이드 · 자료 확인" "TripCompass AI editorial guide · Sources reviewed" }} <time datetime="{{ .Params.reviewed }}">{{ .Params.reviewed }}</time></p>
+    {{ partial "course-tools.html" (dict "page" . "ko" $ko) }}
+    <p class="course-print-url">{{ cond $ko "원문" "Original guide" }}: {{ .Permalink }}</p>
+  </header>
+  {{ partial "editorial-cover.html" (dict "guide" $cover "copy" (index $cover $lang) "ko" $ko "sizes" "(max-width: 960px) 100vw, 960px") }}
+  <section class="guide-highlights" aria-labelledby="guide-highlights-title">
+    <h2 id="guide-highlights-title">{{ cond $ko "이 글의 핵심" "The useful bits" }}</h2>
+    <ul>{{ range .Params.takeaways }}<li>{{ . }}</li>{{ end }}</ul>
+    <a href="#guide-contents">{{ cond $ko "궁금한 부분부터 보기" "Jump to a section" }} <span aria-hidden="true">↓</span></a>
+  </section>
+  <div class="course-guide__body">
+    <aside class="course-toc" id="guide-contents" aria-label="{{ cond $ko "글 목차" "On this page" }}">
+      <h2>{{ cond $ko "이 가이드에서 보기" "In this guide" }}</h2>
+      {{ .TableOfContents }}
+    </aside>
+    <div class="prose">{{ .Content }}</div>
+  </div>
+  <aside class="trust-note" aria-label="{{ cond $ko "여행 계획 확인 안내" "Planning disclaimer" }}">
+    <strong>{{ cond $ko "예약 전 확인:" "Before booking:" }}</strong> {{ cond $ko "최신 가격, 영업시간, 비자 규정, 예약 가능 여부, 예약 조건을 직접 확인하세요. 이 글은 실시간 견적이나 안전·입국·예약 보장을 제공하지 않습니다." "Check current prices, opening hours, visa rules, availability and booking terms yourself. This guide provides no real-time quotes or safety, entry or booking guarantees." }}
+  </aside>
+</article>
+<script src="{{ "js/course-tools.js" | relURL }}" defer></script>
+{{ end }}

@@ -1,0 +1,83 @@
+[[courses]]
+id = "fukuoka"
+path = "/from-seoul/seoul-to-fukuoka-weekend-trip/"
+en = "A weekend for two or with friends"
+ko = "둘이서 또는 친구와 주말여행"
+enNote = "One full city day, with arrival and departure kept light."
+koNote = "가운데 하루는 도심에서, 도착일과 출국일은 가볍게."
+
+[[courses]]
+id = "parents"
+path = "/itinerary/fukuoka-with-parents-3-days/"
+en = "A slower trip with parents"
+ko = "부모님과 쉬어 가는 여행"
+enNote = "One outing, a meal together and time back at the hotel."
+koNote = "외출 하나, 함께 먹는 밥, 숙소에서 쉬는 시간."
+
+[[alternatives]]
+id = "none"
+en = "Keep the city course"
+ko = "기본 도심 코스 유지"
+enNote = "No extra outing selected."
+koNote = "별도 외출을 추가하지 않아요."
+
+[[alternatives]]
+id = "rain"
+path = "/itinerary/fukuoka-rainy-day-plan/"
+en = "Rain: Hakata or Tenjin"
+ko = "비 오는 날: 하카타 또는 텐진"
+enNote = "Replace the outdoor block with one area; verify current conditions."
+koNote = "야외 일정 대신 한 권역만. 당일 상황은 직접 확인하세요."
+
+[[alternatives]]
+id = "dazaifu"
+path = "/itinerary/fukuoka-dazaifu-shrine-museum-day/"
+en = "Dazaifu instead of the city day"
+ko = "도심 하루 대신 다자이후"
+enNote = "A replacement day, not an extra stop or an easier default for parents."
+koNote = "추가 명소가 아닌 하루 교체안. 부모님에게 더 쉬운 기본안은 아니에요."
+
+[[tasks]]
+id = "flights"
+en = "Check flights, airports and usable days"
+ko = "항공편·공항과 온전한 여행일 확인"
+path = "/itinerary/japan-arrival-departure-day-plan/"
+[[tasks]]
+id = "hotel"
+en = "Compare hotel area and room conditions"
+ko = "숙소 권역과 객실 조건 비교"
+path = "/from-seoul/fukuoka-hakata-vs-tenjin-hotels/"
+[[tasks]]
+id = "transport"
+en = "Check the actual terminal-to-hotel route"
+ko = "실제 터미널에서 숙소까지 경로 확인"
+path = "/itinerary/japan-arrival-departure-day-plan/"
+[[tasks]]
+id = "weather"
+en = "Review weather and the day to shorten"
+ko = "날씨와 줄일 일정 다시 확인"
+path = "/itinerary/fukuoka-rainy-day-plan/"
+[[tasks]]
+id = "departure"
+en = "Confirm bag collection and return-airport plan"
+ko = "짐 회수와 돌아갈 공항 이동 확인"
+path = "/itinerary/japan-arrival-departure-day-plan/"
+
+[[guides]]
+id = "fukuoka"
+path = "/from-seoul/seoul-to-fukuoka-weekend-trip/"
+[[guides]]
+id = "parents"
+path = "/itinerary/fukuoka-with-parents-3-days/"
+[[guides]]
+id = "stay"
+path = "/from-seoul/fukuoka-hakata-vs-tenjin-hotels/"
+[[guides]]
+id = "fukuoka-rain"
+path = "/itinerary/fukuoka-rainy-day-plan/"
+[[guides]]
+id = "fukuoka-dazaifu"
+path = "/itinerary/fukuoka-dazaifu-shrine-museum-day/"
+[[guides]]
+id = "travel-days"
+path = "/itinerary/japan-arrival-departure-day-plan/"

@@ -4,5 +4,5 @@
 {{- $large := $image.Resize "960x webp q80" -}}
 <figure class="course-photo">
   <img src="{{ $large.RelPermalink }}" srcset="{{ $small.RelPermalink }} 480w, {{ $large.RelPermalink }} 960w" sizes="{{ .sizes }}" width="{{ $large.Width }}" height="{{ $large.Height }}" alt="{{ $course.alt }}" loading="lazy" decoding="async">
-  <figcaption>{{ $course.caption }} · <a href="{{ $course.source }}">{{ $course.author }}</a> · <a href="{{ $course.licenseURL }}">{{ $course.license }}</a> · 크기·형식·표시 영역 조정</figcaption>
+  <figcaption>{{ $course.caption }} · <a href="{{ $course.source }}">{{ $course.author }}</a> · <a href="{{ $course.licenseURL }}">{{ $course.license }}</a> · {{ cond .ko "크기·형식·표시 영역 조정" "Resized, reformatted and cropped for display" }}</figcaption>
 </figure>

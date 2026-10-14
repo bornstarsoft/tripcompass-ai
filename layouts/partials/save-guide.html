@@ -1,0 +1,4 @@
+<button type="button" class="save-guide" data-save-guide="{{ .id }}" data-guide-title="{{ .title }}" aria-pressed="false" aria-label="{{ cond .ko "글 저장" "Save guide" }}: {{ .title }}" hidden>
+  {{ partial "icons/bookmark.html" }}
+  <span class="save-guide__tooltip" aria-hidden="true" data-save-label>{{ cond .ko "글 저장" "Save guide" }}</span>
+</button>

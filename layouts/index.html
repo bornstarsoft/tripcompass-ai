@@ -1,17 +1,20 @@
 {{ define "main" }}
-<section class="hero" aria-labelledby="home-title">
-  <img src="{{ "img/tripcompass-hero.png" | relURL }}" alt="Travel planning desk with a map, phone, and short trip essentials">
+<section class="hero hero--courses" aria-labelledby="home-title">
+  {{ partial "explore-hero-image.html" . }}
   <div class="hero__overlay" aria-hidden="true"></div>
   <div class="hero__content">
-    <p class="eyebrow">AI destination finder and trip planner</p>
+    <p class="eyebrow">Short overseas trips from Korea</p>
     <h1 id="home-title">TripCompass AI</h1>
     <p class="hero__tagline">Find where to go, plan what to do, compare what to book.</p>
     <div class="hero__actions" aria-label="Primary actions">
-      <a class="button button--primary" href="#destination-finder">Start with the finder</a>
-      <a class="button button--light" href="{{ "/compare/" | relURL }}">Compare destinations</a>
+      <a class="button button--primary" href="#recommended-courses">Explore recommended itineraries</a>
+      <a class="button button--light" href="#destination-finder">Start with the finder</a>
     </div>
+    <p class="hero-art-note">AI travel illustration · Imagined scene</p>
   </div>
 </section>
+
+{{ partial "featured-courses.html" . }}
 
 <section class="finder-band" id="destination-finder" aria-labelledby="finder-title">
   <div class="section-inner finder-layout">

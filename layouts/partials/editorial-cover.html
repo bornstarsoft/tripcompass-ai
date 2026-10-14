@@ -1,0 +1,7 @@
+{{- $image := resources.Get .guide.cover -}}
+{{- $small := $image.Resize "480x webp q80" -}}
+{{- $large := $image.Resize "960x webp q80" -}}
+<figure class="editorial-cover">
+  <img src="{{ $large.RelPermalink }}" srcset="{{ $small.RelPermalink }} 480w, {{ $large.RelPermalink }} 960w" sizes="{{ .sizes }}" width="{{ $large.Width }}" height="{{ $large.Height }}" alt="{{ .copy.alt }}" loading="lazy" decoding="async">
+  <figcaption>{{ cond .ko "AI 여행 일러스트 · 실제 현장 사진 아님" "AI travel illustration · Not a location photograph" }}</figcaption>
+</figure>

@@ -65,6 +65,7 @@ weight: 20
 
 ## 관련 한국어 가이드
 
+- 음식 뒤에 있는 물건 구경: [오사카 도구야스지 그릇·음식 모형 반나절](/ko/itinerary/osaka-doguyasuji-kitchenware-walk/). 난바 쇼핑 일부와 바꾸는 코스입니다.
 - 3일 일본 후보 전체 보기: [서울 출발 일본 3일 여행지 추천](/ko/from-seoul/japan-3-day-trips/)
 - 첫 일본 여행 도시 비교: [도쿄 vs 오사카](/ko/compare/tokyo-vs-osaka/)
 - 예산 항목 정리: [서울 출발 일본 여행 예산](/ko/from-seoul/japan-travel-budget/)

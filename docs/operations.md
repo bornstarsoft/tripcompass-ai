@@ -19,7 +19,7 @@ Run the public live check from the repo root:
 bash scripts/check_launch_health.sh
 ```
 
-The launch health check runs the live English/Korean/API checks and confirms that all monitored URLs remain in the production sitemap. It uses a HEAD request for `/go` redirect QA so the check does not create a D1 click row.
+The launch health check runs the live English/Korean/API checks, checks both Fukuoka preparation pages and their shared assets, and confirms that all monitored URLs remain in the production sitemap. Preparation persistence, language switching and reset still require browser QA; an HTTP 200 alone is not an interaction test. It uses a HEAD request for `/go` redirect QA so the check does not create a D1 click row.
 
 The public check does not require secrets and must not print Cloudflare or OpenAI environment values. After completing Cloudflare CLI authentication manually, add the aggregate D1 report with `bash scripts/check_launch_health.sh --with-d1`.
 
@@ -40,14 +40,16 @@ After deploying SEO content changes, use Google Search Console to:
 - Submit `https://tripcompass.ai/sitemap.xml`.
 - Inspect `https://tripcompass.ai/`.
 - Inspect `https://tripcompass.ai/ko/`.
-- Inspect the 22 current English and Korean SEO landing pages (10 English and 12 Korean).
+- Inspect the 40 current English and Korean SEO landing pages (20 English and 20 Korean) after the matching content release is deployed.
 - Run `bash scripts/list_gsc_urls.sh` for the current copy/paste URL inventory.
 - Run `bash scripts/check_gsc_inventory.sh` to confirm every listed page appears in the generated sitemap.
 - Monitor coverage, indexing status, and query impressions for both English and Korean pages.
 
 ## Trust Boundaries
 
-The content-first Korean pilot is documented in `docs/content-pilot.md`, including the three existing course URLs, photo licenses and post-deployment measurements. Its public QA copy checks require the new deployment; local checks alone do not establish that production has changed.
+The Fukuoka preparation MVP at `/my-trip/` and `/ko/my-trip/` is documented in `docs/trip-preparation.md`. It saves only browser-local choices and checklist flags, reuses guide bookmarks and adds no analytics or AI call. It is local implementation until separately deployed. The monitored URL inventory includes these two workspaces; existing backend/cache/click-log responsibilities are unchanged.
+
+The content-first bilingual guides are documented in `docs/content-pilot.md`, including course URLs, photo licenses, English parity scope and post-deployment measurements. `docs/image-provenance.md` separately records the owner's confirmation that the hero was generated with Codex. Public QA copy checks require the corresponding deployment; local checks alone do not establish that production has changed.
 
 The finder stops waiting after 60 seconds and restores its submit button and starting ideas on request failure. This browser-side timeout does not guarantee cancellation of an AI request already running on the server or prevent provider charges. A successful fallback response is presented as starting ideas, not as newly personalized recommendations; internal diagnostic fields are not displayed.
 

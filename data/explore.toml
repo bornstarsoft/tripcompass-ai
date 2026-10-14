@@ -1,0 +1,135 @@
+order = ["fukuoka", "osaka", "tokyo", "parents", "stay"]
+hero = "img/editorial/short-trip-hero.png"
+
+[[filters]]
+id = "all"
+en = "All guides"
+ko = "전체"
+[[filters]]
+id = "weekend"
+en = "Weekend"
+ko = "주말"
+[[filters]]
+id = "food"
+en = "Food"
+ko = "먹거리"
+[[filters]]
+id = "shopping"
+en = "Cafes & shopping"
+ko = "카페·쇼핑"
+[[filters]]
+id = "family"
+en = "With parents"
+ko = "부모님과"
+[[filters]]
+id = "stay"
+en = "Where to stay"
+ko = "숙소"
+[[filters]]
+id = "saved"
+en = "Saved"
+ko = "저장한 글"
+
+[guides.fukuoka]
+path = "/from-seoul/seoul-to-fukuoka-weekend-trip/"
+cover = "img/editorial/fukuoka-weekend.png"
+tags = ["weekend", "food"]
+[guides.fukuoka.en]
+title = "Friday to Fukuoka, with Saturday left for yourself"
+meta = "3 days, 2 nights · Couples & friends"
+summary = "A late arrival, a park walk and one shopping area. A weekend with room to change your mind."
+hook = "What should you leave off a short weekend?"
+takeaways = ["Keep arrival night near the hotel", "Group the park and Tenjin on the full day", "Leave the final day flexible for the flight"]
+alt = "AI illustration of travelers beside a lake and a small food counter, inspired by a Fukuoka weekend"
+[guides.fukuoka.ko]
+title = "금요일엔 후쿠오카로, 토요일은 내 마음대로"
+meta = "2박 3일 · 커플·친구"
+summary = "늦은 도착, 공원 산책, 한 곳에서 쇼핑. 하고 싶은 일이 바뀌어도 여유가 남는 주말."
+hook = "짧은 주말에는 무엇을 빼는 게 좋을까요?"
+takeaways = ["도착일은 숙소 주변에서 짧게", "온전한 하루에 공원과 텐진 묶기", "마지막 날은 항공편에 맞춰 비워 두기"]
+alt = "호숫가 여행자와 작은 음식점을 그린 후쿠오카 주말여행 테마 AI 일러스트"
+
+[guides.osaka]
+path = "/itinerary/seoul-to-osaka-4-day-itinerary/"
+cover = "img/editorial/osaka-food.png"
+tags = ["food", "shopping"]
+[guides.osaka.en]
+title = "Osaka for four days. Does Kyoto make the cut?"
+meta = "4 days, 3 nights · First Kansai trip"
+summary = "Food, neighborhood walks and a clear choice: another Osaka day or a day in Kyoto."
+hook = "Add Kyoto, or give Osaka another day?"
+takeaways = ["Start around your Namba base", "Keep food and shopping in one neighborhood", "Replace a day with Kyoto, rather than adding more"]
+alt = "AI illustration of friends at a food stall beside an imagined Osaka-inspired canal"
+[guides.osaka.ko]
+title = "오사카 4일, 교토까지 넣을까 말까?"
+meta = "3박 4일 · 첫 간사이 여행"
+summary = "먹고, 걷고, 구경한 뒤 한 가지 선택. 하루 더 오사카에 머물지, 교토로 갈지 비교해요."
+hook = "교토 하루와 오사카 하루, 무엇을 고를까요?"
+takeaways = ["난바 숙소 주변에서 가볍게 시작", "먹거리와 쇼핑을 한 권역에 묶기", "교토를 넣으면 다른 하루를 덜어내기"]
+alt = "가상의 운하 옆에서 친구들이 먹거리를 고르는 오사카 테마 AI 일러스트"
+
+[guides.tokyo]
+path = "/itinerary/seoul-to-tokyo-4-day-itinerary/"
+cover = "img/editorial/tokyo-neighborhoods.png"
+tags = ["shopping"]
+[guides.tokyo.en]
+title = "A Tokyo day for cafes, another for old neighborhoods"
+meta = "4 days, 3 nights · Solo or together"
+summary = "Harajuku and Omotesando, then Asakusa and Ueno. Fewer crossings, more time in each area."
+hook = "Which neighborhoods belong on the same day?"
+takeaways = ["Pair Harajuku with Omotesando", "Keep Asakusa and Ueno on another day", "Choose one indoor alternative when plans change"]
+alt = "AI illustration of a leafy Tokyo-inspired street with a cafe terrace and unbranded shops"
+[guides.tokyo.ko]
+title = "도쿄, 하루는 카페에 하루는 오래된 동네에"
+meta = "3박 4일 · 혼자 또는 둘"
+summary = "하라주쿠와 오모테산도, 아사쿠사와 우에노. 도시를 가로지르기보다 동네에 머무는 시간."
+hook = "어떤 동네끼리 하루에 묶으면 좋을까요?"
+takeaways = ["하라주쿠와 오모테산도를 함께", "아사쿠사와 우에노는 다른 하루에", "계획이 바뀌면 실내 대안 한 곳만 선택"]
+alt = "카페 테라스와 상점이 있는 가로수 거리를 그린 도쿄 테마 AI 일러스트"
+
+[guides.parents]
+path = "/itinerary/fukuoka-with-parents-3-days/"
+cover = "img/editorial/fukuoka-parents.png"
+tags = ["family", "weekend"]
+[guides.parents.en]
+title = "Fukuoka with parents: leave time to sit and talk"
+meta = "3 days, 2 nights · Rest comes first"
+summary = "One outing, a meal together and time back at the hotel. Plan around your family's own pace."
+hook = "What changes when a hotel rest is part of the plan?"
+takeaways = ["Choose the park or shopping, not both", "Plan an afternoon return to the hotel", "Check rooms and transfers with the whole group"]
+alt = "AI illustration of parents and their adult daughter resting on a lakeside bench"
+[guides.parents.ko]
+title = "부모님과 후쿠오카, 앉아서 이야기할 여유까지"
+meta = "2박 3일 · 휴식 우선"
+summary = "한 번의 외출, 함께 먹는 밥, 숙소에서의 휴식. 우리 가족의 속도에 맞춰 짜는 여행."
+hook = "숙소 휴식을 넣으면 일정이 어떻게 달라질까요?"
+takeaways = ["공원과 쇼핑 중 한 가지 선택", "오후에 숙소로 돌아올 시간 확보", "객실과 이동 조건을 일행과 함께 확인"]
+alt = "호숫가 벤치에서 부모님과 성인 자녀가 쉬는 모습을 그린 AI 일러스트"
+
+[guides.stay]
+path = "/from-seoul/fukuoka-hakata-vs-tenjin-hotels/"
+cover = "img/editorial/hotel-neighborhood.png"
+tags = ["stay", "family", "weekend"]
+[guides.stay.en]
+title = "Hakata or Tenjin? Pick the neighborhood first"
+meta = "Hotel-area guide · Before you book"
+summary = "Arrival plans, the actual station exit and where you will spend the day matter more than a hotel name."
+hook = "A nearby station is only part of the hotel decision."
+takeaways = ["Compare where your day starts and ends", "Check the actual exit and luggage route", "Compare room and cancellation terms equally"]
+alt = "AI illustration of a traveler considering an abstract map beside luggage at a cafe window, not a real hotel"
+[guides.stay.ko]
+title = "하카타 vs 텐진, 호텔 이름보다 위치부터"
+meta = "숙소 권역 가이드 · 예약 전 비교"
+summary = "도착 시간, 실제 역 출구, 하루를 보낼 동네. 호텔 이름보다 먼저 비교할 기준을 정리해요."
+hook = "역과 가깝다는 말만으로 숙소를 골라도 될까요?"
+takeaways = ["하루를 시작하고 마칠 동네 비교", "실제 출구와 짐을 들고 갈 동선 확인", "객실과 취소 조건을 같은 기준으로 비교"]
+alt = "여행자가 짐 옆에서 추상적인 지도를 살펴보는 숙소 선택 테마 AI 일러스트로 실제 호텔이 아님"
+
+# Planning-guide cover only; the homepage search/save order remains unchanged.
+[guides.nara]
+path = "/itinerary/osaka-to-nara-temple-park-day/"
+cover = "img/editorial/nara-park-day.png"
+[guides.nara.en]
+alt = "AI illustration of two travelers observing deer from a distance in an imagined Nara-inspired park, not a location photograph"
+[guides.nara.ko]
+alt = "가상의 나라 테마 공원에서 여행자 두 명이 멀리 있는 사슴을 바라보는 AI 일러스트로 실제 현장 사진이 아님"

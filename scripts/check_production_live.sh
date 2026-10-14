@@ -147,6 +147,15 @@ for old_copy in \
 done
 pass "English homepage does not show old mock UI copy"
 
+for en_copy in \
+  "Explore recommended itineraries" \
+  "Which itinerary fits your next trip?" \
+  "/itinerary/fukuoka-with-parents-3-days/" \
+  "/from-seoul/fukuoka-hakata-vs-tenjin-hotels/"; do
+  assert_contains "$home_html" "$en_copy" "English homepage"
+done
+pass "English homepage shows recommended itineraries and support guides"
+
 for ko_copy in \
   "한국에서 떠나는 짧은 해외여행" \
   "내 상황에 맞는 여행 코스를 고르고, 예약 전 비교하세요." \
@@ -157,6 +166,28 @@ for ko_copy in \
   assert_contains "$ko_html" "$ko_copy" "Korean homepage"
 done
 pass "Korean homepage shows hero and live finder copy"
+
+for language in en ko; do
+  prefix=""
+  title="My Fukuoka trip"
+  if [[ "$language" == "ko" ]]; then
+    prefix="/ko"
+    title="내 후쿠오카 여행 준비함"
+  fi
+  prep_html="$TMP_DIR/prep-$language.html"
+  assert_http_200 "$BASE_URL$prefix/my-trip/" "$prep_html" "$language Fukuoka preparation"
+  for expected in "$title" "data-trip-prep" "data-prep-create" "data-prep-check" \
+    "data-prep-delete" "data-save-guide" "/js/trip-prep.js" "/css/trip-prep.css" \
+    "$prefix/itinerary/fukuoka-rainy-day-plan/"; do
+    assert_contains "$prep_html" "$expected" "$language Fukuoka preparation"
+  done
+done
+for asset in js/trip-prep.js js/trip-prep-core.js css/trip-prep.css js/guide-explorer.js; do
+  assert_http_200 "$BASE_URL/$asset" "$TMP_DIR/${asset##*/}" "$asset"
+done
+assert_contains "$TMP_DIR/trip-prep.js" "mountTripPrep" "Preparation controller"
+assert_contains "$TMP_DIR/trip-prep-core.js" "tripcompass.trip-prep.v1" "Preparation state module"
+pass "Both preparation pages and their shared assets are published; interactive QA remains a browser check"
 
 unique_suffix="$(date +%s)"
 en_budget="under ${unique_suffix} USD"

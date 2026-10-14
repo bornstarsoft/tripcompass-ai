@@ -44,3 +44,33 @@ author = "gog.creator"
 source = "https://commons.wikimedia.org/wiki/File:Omotesando_Avenue_at_sunset_from_pedestrian_bridge,_Jingumae,_Shibuya,_Tokyo.jpg"
 license = "CC BY 4.0"
 licenseURL = "https://creativecommons.org/licenses/by/4.0/"
+
+[fukuoka.en]
+page = "/from-seoul/seoul-to-fukuoka-weekend-trip/"
+title = "Friday evening to Fukuoka: a weekend itinerary"
+duration = "3 days, 2 nights"
+audience = "Couples · Friends · Short weekends"
+summary = "Leave a late arrival day free, then spend Saturday on food, a park walk and a focused shopping area."
+route = "Hakata → Ohori Park → Tenjin"
+alt = "Lake, trees and boats at Ohori Park in Fukuoka"
+caption = "Ohori Park · Photographed May 2017"
+
+[osaka.en]
+page = "/itinerary/seoul-to-osaka-4-day-itinerary/"
+title = "First time in Osaka: should you add Kyoto?"
+duration = "4 days, 3 nights"
+audience = "First Kansai visit · Food"
+summary = "A light arrival day, a full day in Osaka and a clear choice about what to leave out if Kyoto matters."
+route = "Namba → Shinsaibashi → Umeda or Kyoto"
+alt = "Dotonbori River, shops and riverside paths in Osaka"
+caption = "Dotonbori · Photographed June 2023"
+
+[tokyo.en]
+page = "/itinerary/seoul-to-tokyo-4-day-itinerary/"
+title = "Tokyo cafes and shopping: four days by area"
+duration = "4 days, 3 nights"
+audience = "Cafes · Shopping · Solo or couples"
+summary = "One day around Harajuku and Omotesando, another around Asakusa and Ueno, with fewer cross-city trips."
+route = "Harajuku → Omotesando / Asakusa → Ueno"
+alt = "Trees, shops and the road along Omotesando on a summer evening in Tokyo"
+caption = "Omotesando · Photographed August 2026"

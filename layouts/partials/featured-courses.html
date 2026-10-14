@@ -1,32 +1,62 @@
-<section class="course-section" id="recommended-courses" aria-labelledby="courses-title">
+{{ $ko := eq .Params.htmlLang "ko" }}
+{{ $lang := cond $ko "ko" "en" }}
+{{ $prefix := cond $ko "/ko" "" }}
+<section class="course-section" id="recommended-courses" aria-labelledby="courses-title" data-guide-experience data-guide-ids="{{ delimit (partial "saved-guide-ids.html" .) "," }}">
   <div class="section-inner">
     <div class="section-heading">
-      <p class="eyebrow">한국 출발 · 일본 짧은 여행</p>
-      <h2 id="courses-title">이번 여행, 어떤 코스가 좋을까요?</h2>
-      <p>주말에 짧게, 첫 여행은 여유 있게, 좋아하는 동네는 천천히. 일자별 동선과 숙소 권역, 비 오는 날 대안까지 살펴보세요.</p>
+      <p class="eyebrow">{{ cond $ko "한국 출발 · 일본 짧은 여행" "From Korea · Short Japan trips" }}</p>
+      <h2 id="courses-title">{{ cond $ko "이번 여행, 어떤 코스가 좋을까요?" "Which itinerary fits your next trip?" }}</h2>
+      <p>{{ cond $ko "먹고 싶은 것, 걷고 싶은 동네, 함께 가는 사람. 마음이 가는 이야기부터 골라 보세요." "A meal worth slowing down for, a neighborhood to explore, someone to travel with. Start with what interests you." }}</p>
     </div>
-    <div class="course-grid">
-      {{ range .Site.Data.courses.featured }}
-        {{ $course := index $.Site.Data.courses . }}
-        {{ $page := $.Site.GetPage $course.page }}
-        <article class="course-card" data-featured-course="{{ . }}">
-          {{ partial "course-photo.html" (dict "course" $course "sizes" "(max-width: 760px) 100vw, 360px") }}
+    <div class="explore-controls" data-explore-controls hidden>
+      <fieldset class="explore-interests">
+        <legend>{{ cond $ko "관심사" "Your interests" }}</legend>
+        {{ range .Site.Data.explore.filters }}
+        <label><input type="radio" name="guide-interest" value="{{ .id }}"{{ if eq .id "all" }} checked{{ end }}><span>{{ index . $lang }}</span></label>
+        {{ end }}
+      </fieldset>
+      <label class="explore-search"><span>{{ cond $ko "코스 검색" "Find a guide" }}</span><input type="search" maxlength="100" placeholder="{{ cond $ko "예: 후쿠오카, 부모님, 카페" "Try Fukuoka, parents, cafes" }}" data-guide-search></label>
+      <p class="explore-count" data-explore-count role="status" aria-live="polite" aria-atomic="true"></p>
+    </div>
+    <p class="explore-feedback" data-guide-feedback role="status" aria-live="polite" aria-atomic="true"></p>
+    <div class="course-grid" data-explore-grid>
+      {{ range .Site.Data.explore.order }}
+        {{ $id := . }}
+        {{ $guide := index $.Site.Data.explore.guides . }}
+        {{ $copy := index $guide $lang }}
+        {{ $page := $.Site.GetPage (printf "%s%s" $prefix $guide.path) }}
+        <article class="course-card" data-explore-card="{{ $id }}" data-interests="{{ delimit $guide.tags " " }}" data-search="{{ $guide.en.title }} {{ $guide.en.summary }} {{ $guide.ko.title }} {{ $guide.ko.summary }}"{{ if in $.Site.Data.courses.featured $id }} data-featured-course="{{ $id }}"{{ end }}>
+          <div class="course-card__image">
+            <a href="{{ $page.RelPermalink }}" tabindex="-1" aria-hidden="true">{{ partial "editorial-cover.html" (dict "guide" $guide "copy" $copy "ko" $ko "sizes" "(max-width: 640px) 100vw, (max-width: 960px) 50vw, 360px") }}</a>
+            {{ partial "save-guide.html" (dict "id" $id "title" $copy.title "ko" $ko) }}
+          </div>
           <div class="course-card__body">
-            <p class="course-meta">{{ $course.duration }} · {{ $course.audience }}</p>
-            <h3><a href="{{ $page.RelPermalink }}">{{ $course.title }}</a></h3>
-            <p>{{ $course.summary }}</p>
-            <p class="course-route">{{ $course.route }}</p>
-            <a class="course-read" href="{{ $page.RelPermalink }}" aria-label="{{ $course.title }} 전체 일정 보기">전체 일정 보기 <span aria-hidden="true">→</span></a>
+            <p class="course-meta">{{ $copy.meta }}</p>
+            <h3><a href="{{ $page.RelPermalink }}">{{ $copy.title }}</a></h3>
+            <p>{{ $copy.summary }}</p>
+            <p class="course-hook">{{ $copy.hook }}</p>
+            <a class="course-read" href="{{ $page.RelPermalink }}">{{ cond $ko "이야기와 일정 보기" "Explore the guide" }} <span aria-hidden="true">→</span></a>
           </div>
         </article>
       {{ end }}
     </div>
-    <p class="fine-print">공식 관광 자료를 참고한 편집 코스입니다. 직접 방문한 후기나 예약 상품이 아니며, 사진은 촬영 당시의 모습입니다.</p>
-    <h3>여행 상황에 맞춰 더 보기</h3>
-    <ul>
-      <li><a href="{{ "/ko/itinerary/fukuoka-with-parents-3-days/" | relURL }}">부모님과 후쿠오카 2박 3일</a>: 하루 한 권역과 숙소 휴식을 중심으로.</li>
-      <li><a href="{{ "/ko/from-seoul/fukuoka-hakata-vs-tenjin-hotels/" | relURL }}">하카타 vs 텐진 숙소 위치</a>: 도착 시간과 실제 이동 동선으로 비교.</li>
-    </ul>
-    <p><a href="{{ "/ko/itinerary/" | relURL }}">여행 일정 더 보기</a> · <a href="{{ "/ko/compare/" | relURL }}">여행지 비교</a> · <a href="{{ "/ko/best-short-family-trips-from-korea/" | relURL }}">가족 여행지 비교</a></p>
+    <div class="explore-empty" data-explore-empty hidden>
+      <h3>{{ cond $ko "아직 맞는 글이 없네요" "No guides here yet" }}</h3>
+      <p>{{ cond $ko "다른 관심사나 검색어로 찾아보세요. 저장한 글은 같은 브라우저에서 다시 볼 수 있습니다." "Try another interest or search term. Saved guides are available in the same browser." }}</p>
+      <button type="button" data-explore-reset>{{ cond $ko "전체 글 보기" "Show all guides" }}</button>
+    </div>
+    <p class="fine-print">{{ cond $ko "공식 관광 자료를 참고한 편집 코스입니다. 직접 방문한 후기나 예약 상품이 아니며, 표지 이미지는 AI로 만든 상상 장면입니다." "Editorial guides based on official tourism sources, not firsthand reviews or bookable packages. Cover images are AI-generated imagined scenes." }}</p>
+    <section class="planning-questions" aria-labelledby="planning-questions-title">
+      <h3 id="planning-questions-title">{{ cond $ko "이럴 땐 하루를 어떻게 바꿀까요?" "What if the day needs a rethink?" }}</h3>
+      <ul>
+        {{ range where .Site.RegularPages.ByWeight "Params.planningGuide" true }}
+          {{ if eq (eq .Params.htmlLang "ko") $ko }}
+          <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a><p>{{ .Description }}</p></li>
+          {{ end }}
+        {{ end }}
+      </ul>
+    </section>
+    <p class="explore-more"><a href="{{ printf "%s/itinerary/" $prefix | relURL }}">{{ cond $ko "여행 일정 더 보기" "More itineraries" }}</a> · <a href="{{ printf "%s/compare/" $prefix | relURL }}">{{ cond $ko "여행지 비교" "Compare destinations" }}</a> · <a href="{{ printf "%s/best-short-family-trips-from-korea/" $prefix | relURL }}">{{ cond $ko "가족 여행지 비교" "Compare family trips" }}</a></p>
   </div>
 </section>
+<script src="{{ "js/guide-explorer.js" | relURL }}" defer></script>

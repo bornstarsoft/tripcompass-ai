@@ -23,6 +23,6 @@ An invalid shared snapshot opens blank defaults without overwriting the local sa
 
 ## Verification
 
-`bash scripts/check_phase2.sh` runs `scripts/check_decision.mjs` plus the existing generated-content and finder tests. Phase 5 validates the expanded GSC inventory of 32 clean page URLs (the original 28, two decision boards and two Korean support guides). Do not submit snapshot fragments to search engines.
+`bash scripts/check_phase2.sh` runs `scripts/check_decision.mjs` plus the existing generated-content and finder tests. Phase 5 validates the expanded GSC inventory of 34 clean page URLs (the original 28, two decision boards and four English/Korean support guides). Do not submit snapshot fragments to search engines.
 
 Browser QA should exercise both locales, blank and partial costs, a complete group budget, overnight dates, changed city choices, save/reload/reset, language switching, valid/invalid shared links, unavailable storage/clipboard, and mobile layout. All fixtures must be synthetic, not current fare claims.

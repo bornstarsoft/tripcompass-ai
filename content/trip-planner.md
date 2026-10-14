@@ -19,6 +19,8 @@ The destination finder offers AI recommendations. This page and the linked itine
 
 ## Choose an Itinerary
 
+Start with the [itinerary comparison](/itinerary/) for trip length and traveler fit, including the [Fukuoka weekend](/from-seoul/seoul-to-fukuoka-weekend-trip/) and [Fukuoka with parents](/itinerary/fukuoka-with-parents-3-days/).
+
 - [Tokyo 3 day itinerary](/itinerary/tokyo-3-days/)
 - [Osaka 4 day itinerary](/itinerary/osaka-4-days/)
 - [Seoul to Tokyo in 4 days](/itinerary/seoul-to-tokyo-4-day-itinerary/)

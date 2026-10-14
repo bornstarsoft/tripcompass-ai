@@ -119,7 +119,9 @@ assert.match(homepage, /Live AI planning assistant/);
 assert.match(homepage, /Get AI recommendations/);
 assert.match(homepage, /AI recommendation results/);
 assert.match(homepage, /Destination matches for short trips from Korea/);
-assert.match(homepage, /AI destination finder and trip planner/);
+assert.match(homepage, /Short overseas trips from Korea/);
+assert.match(homepage, /Explore recommended itineraries/);
+assert.match(homepage, /Which itinerary fits your next trip/);
 assert.match(homepage, /Start with the finder/);
 assert.match(homepage, /Compare destinations/);
 assert.match(homepage, />Finder</);
@@ -140,7 +142,7 @@ assert.doesNotMatch(homepage, /MOCK API PREVIEW|Mock API preview|View sample mat
 const koreanHome = await readFile(join(outDir, "ko", "index.html"), "utf8");
 assert.match(koreanHome, /data-language="?ko"?/);
 assert.match(koreanHome, /js\/destination-finder\.js/);
-assert.match(koreanHome, /img\/tripcompass-hero\.png/);
+assert.match(koreanHome, /img\/editorial\/short-trip-hero[^\s>]+\.webp/);
 assert.match(koreanHome, /한국에서 떠나는 짧은 해외여행/);
 assert.match(koreanHome, /TripCompass AI/);
 assert.match(koreanHome, /내 상황에 맞는 여행 코스를 고르고, 예약 전 비교하세요\./);
@@ -646,7 +648,7 @@ assertHeadSeo(homepage, {
   alternateKo: "https://tripcompass.ai/ko/",
   lang: "en",
   titlePattern: /<title>TripCompass AI \| Find where to go, plan what to do, compare what to book\.<\/title>/,
-  descriptionPattern: /<meta name=description content="Find where to go, plan what to do, compare what to book with TripCompass AI\.">/
+  descriptionPattern: /<meta name=description content="Explore short Japan itineraries from Korea, compare hotel areas and narrow destination options with AI\. Practical routes, rainy-day alternatives and booking checks\.">/
 });
 
 assertHeadSeo(koreanHome, {

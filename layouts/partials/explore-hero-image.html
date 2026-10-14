@@ -1,0 +1,4 @@
+{{- $image := resources.Get .Site.Data.explore.hero -}}
+{{- $small := $image.Resize "900x webp q82" -}}
+{{- $large := $image.Resize "1600x webp q82" -}}
+<img src="{{ $large.RelPermalink }}" srcset="{{ $small.RelPermalink }} 900w, {{ $large.RelPermalink }} 1600w" sizes="100vw" width="{{ $large.Width }}" height="{{ $large.Height }}" alt="{{ cond (eq .Params.htmlLang "ko") "가상의 일본 수변 마을을 걷는 여행자들을 그린 AI 일러스트" "AI illustration of travelers walking through an imagined Japanese waterfront neighborhood" }}" fetchpriority="high" decoding="async">

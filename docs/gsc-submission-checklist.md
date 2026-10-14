@@ -16,10 +16,12 @@ Before submission, verify that the current inventory matches the generated Hugo 
 bash scripts/check_gsc_inventory.sh
 ```
 
-The check builds the site locally and verifies that all 32 listed page URLs appear in `sitemap.xml`. The inventory currently includes 22 SEO landing pages: 10 English and 12 Korean, plus the English/Korean trip decision boards. Inspect the clean decision-board URLs, not private shared snapshot links containing fragments.
+The check builds the site locally and verifies that all 52 listed page URLs appear in `sitemap.xml`. The inventory currently includes 40 SEO landing pages: 20 English and 20 Korean, plus the English/Korean trip decision boards and Fukuoka preparation workspaces at `/my-trip/` and `/ko/my-trip/`. Inspect clean URLs, not private shared snapshot links containing fragments. The preparation workspaces and the Osaka/Kyoto day-choice, Fukuoka rain-plan, Tokyo Jimbocho, Osaka Doguyasuji, Dazaifu, Kiyosumi-Shirakawa, Nara and arrival/departure-day pairs must be deployed before their production URLs can be inspected; a local sitemap check does not establish a release.
 
-The two Korean-only support guides have no English counterpart; do not create false translation alternates:
+The support guides now have reciprocal English/Korean counterparts. Inspect the two new English URLs after deployment:
 
+- `https://tripcompass.ai/itinerary/fukuoka-with-parents-3-days/`
+- `https://tripcompass.ai/from-seoul/fukuoka-hakata-vs-tenjin-hotels/`
 - `https://tripcompass.ai/ko/itinerary/fukuoka-with-parents-3-days/`
 - `https://tripcompass.ai/ko/from-seoul/fukuoka-hakata-vs-tenjin-hotels/`
 
@@ -56,6 +58,16 @@ English:
 - `https://tripcompass.ai/itinerary/seoul-to-tokyo-4-day-itinerary/`
 - `https://tripcompass.ai/from-seoul/best-japan-cities-first-time-travelers/`
 - `https://tripcompass.ai/best-short-family-trips-from-korea/`
+- `https://tripcompass.ai/itinerary/fukuoka-with-parents-3-days/`
+- `https://tripcompass.ai/from-seoul/fukuoka-hakata-vs-tenjin-hotels/`
+- `https://tripcompass.ai/itinerary/osaka-or-kyoto-day-trip/`
+- `https://tripcompass.ai/itinerary/fukuoka-rainy-day-plan/`
+- `https://tripcompass.ai/itinerary/tokyo-jimbocho-books-cafes/`
+- `https://tripcompass.ai/itinerary/osaka-doguyasuji-kitchenware-walk/`
+- `https://tripcompass.ai/itinerary/fukuoka-dazaifu-shrine-museum-day/`
+- `https://tripcompass.ai/itinerary/tokyo-kiyosumi-shirakawa-garden-art-coffee/`
+- `https://tripcompass.ai/itinerary/osaka-to-nara-temple-park-day/`
+- `https://tripcompass.ai/itinerary/japan-arrival-departure-day-plan/`
 
 Korean:
 
@@ -69,6 +81,16 @@ Korean:
 - `https://tripcompass.ai/ko/itinerary/seoul-to-tokyo-4-day-itinerary/`
 - `https://tripcompass.ai/ko/from-seoul/best-japan-cities-first-time-travelers/`
 - `https://tripcompass.ai/ko/best-short-family-trips-from-korea/`
+- `https://tripcompass.ai/ko/itinerary/fukuoka-with-parents-3-days/`
+- `https://tripcompass.ai/ko/from-seoul/fukuoka-hakata-vs-tenjin-hotels/`
+- `https://tripcompass.ai/ko/itinerary/osaka-or-kyoto-day-trip/`
+- `https://tripcompass.ai/ko/itinerary/fukuoka-rainy-day-plan/`
+- `https://tripcompass.ai/ko/itinerary/tokyo-jimbocho-books-cafes/`
+- `https://tripcompass.ai/ko/itinerary/osaka-doguyasuji-kitchenware-walk/`
+- `https://tripcompass.ai/ko/itinerary/fukuoka-dazaifu-shrine-museum-day/`
+- `https://tripcompass.ai/ko/itinerary/tokyo-kiyosumi-shirakawa-garden-art-coffee/`
+- `https://tripcompass.ai/ko/itinerary/osaka-to-nara-temple-park-day/`
+- `https://tripcompass.ai/ko/itinerary/japan-arrival-departure-day-plan/`
 
 ## Cautions
 

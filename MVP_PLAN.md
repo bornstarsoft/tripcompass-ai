@@ -2,9 +2,11 @@
 
 ## Current Status
 
-The phase descriptions below preserve the original implementation sequence, not the current product's feature list. As of the September 2026 content review, the repository contains live English/Korean destination finders, a shared Worker AI Gateway, optional KV recommendation caching, GET-only D1 click logging, and 22 English/Korean SEO landing pages. Itinerary pages are written guides; `/api/itinerary` remains a mock endpoint.
+The phase descriptions below preserve the original implementation sequence, not the current product's feature list. As of the September 2026 content review, the repository contains live English/Korean destination finders, a shared Worker AI Gateway, optional KV recommendation caching, GET-only D1 click logging, and 40 English/Korean SEO landing pages. The new planning guides are local implementation work until a separate deployment is confirmed. Itinerary pages are written guides; `/api/itinerary` remains a mock endpoint.
 
 Use `docs/operations.md` for current deployment and validation commands. GitHub workflow permission was restored and the content-first release was deployed on 2026-09-12. Verify GitHub CI independently of Pages deployment status. Keep historical launch measurements separate from fresh production checks.
+
+The October 2026 local retention pilot adds `/my-trip/` and `/ko/my-trip/`: a browser-local Fukuoka course choice, alternative and five preparation checks using existing bilingual guides and bookmarks. See `docs/trip-preparation.md` and `docs/CURRENT_STATE.md`. This is not a deployed release, booking verification or evidence of improved retention; backend and affiliate behavior are unchanged.
 
 ## Tech stack
 - Hugo static site
