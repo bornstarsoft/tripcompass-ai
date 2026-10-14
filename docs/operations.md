@@ -115,6 +115,15 @@ CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call producti
 - Launch health passed both overviews and six workspaces, EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and all 58 monitored sitemap URLs. Six deployed JS/CSS files matched the commit by SHA-256.
 - Return context is a fixed fragment, with no storage, arbitrary redirect, tracking or API call. No backend/gateway, D1/KV, environment, `/go` or affiliate changes. Physical-device/Safari, D1 reporting and retention measurement were not run.
 
+## Guide Task Editing Release: 2026-10-15
+
+- Application commit: `4cb399b8d10fef015261167ab313e35efdb09336`, pushed to GitHub `main` with owner approval. Phase 1-5, strict Hugo and whitespace checks passed locally; content/inventory counts remain 67/58.
+- GitHub CI: [run 38589182847](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/38589182847), success for that SHA.
+- Cloudflare Pages: deployment `80c99148-5bdb-4e89-a365-47be761d2dcc`, success for the same SHA. [Immutable deployment](https://80c99148.tripcompass-ai.pages.dev).
+- Production Chromium passed 30 EN/KO article check/uncheck/return flows, top/bottom controls, keyboard, record isolation, language/reload, overview/workspace two-way sync and 320/390/768/920/1440px layouts. Failure/retry, stale/reset protection, read-only navigation and no-JS/empty/corrupt/blocked fallbacks passed. Existing overview and bookmark-undo regressions passed; screenshots inspected. Details: `docs/trip-preparation.md`.
+- Launch health passed both overviews and six workspaces, EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and all 58 monitored sitemap URLs. Eight deployed navigation/editing/preparation/bookmark assets matched the commit by SHA-256.
+- The shared edit helper retains the overview's existing write rules. No new storage key/migration, backend/gateway, D1/KV, environment, `/go` or affiliate changes. Physical-device/Safari, D1 reporting and retention measurement were not run.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:
