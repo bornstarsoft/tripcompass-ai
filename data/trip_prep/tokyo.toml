@@ -1,0 +1,87 @@
+id = "tokyo"
+path = "/my-trip/tokyo/"
+en = "Tokyo"
+ko = "도쿄"
+enEyebrow = "Tokyo · 4 days, 3 nights"
+koEyebrow = "도쿄 · 3박 4일"
+cover = "tokyo"
+enNote = "Keep arrival and departure light. Choose your Day 3 pace and, optionally, replace one Day 2 shopping half-day. Jimbocho and Kiyosumi-Shirakawa are alternatives, not extra districts to collect."
+koNote = "도착일과 출국일은 가볍게. 셋째 날의 여유를 정하고, 원하면 둘째 날 쇼핑 반나절만 바꿔 보세요. 진보초와 기요스미시라카와는 모두 추가하는 동네가 아니라 서로 바꿔 넣는 선택지입니다."
+
+[[courses]]
+id = "tokyo"
+path = "/itinerary/seoul-to-tokyo-4-day-itinerary/"
+en = "Cafes, shopping and contrasting neighborhoods"
+ko = "카페·쇼핑과 서로 다른 동네"
+enNote = "Day 2: Harajuku and Omotesando. Day 3: Asakusa, with Ueno only if energy and the actual journey allow."
+koNote = "둘째 날은 하라주쿠·오모테산도. 셋째 날은 아사쿠사, 체력과 실제 이동이 맞을 때만 우에노까지."
+
+[[courses]]
+id = "asakusa"
+path = "/itinerary/seoul-to-tokyo-4-day-itinerary/"
+en = "A slower Day 3: Asakusa without Ueno"
+ko = "셋째 날: 아사쿠사만"
+enNote = "Keep the same Day 2, but leave out Ueno on Day 3. Allow a meal, a pause and time back at the hotel. This is not an accessibility guarantee."
+koNote = "둘째 날은 유지하고 셋째 날 우에노는 빼요. 식사·휴식과 숙소로 돌아갈 여유를 남겨요. 이동 편의가 보장되는 코스는 아닙니다."
+
+[[alternatives]]
+id = "none"
+en = "Keep the Day 2 shopping plan"
+ko = "둘째 날 쇼핑 일정 유지"
+enNote = "Stay with Harajuku and Omotesando, shortening the route when needed. No extra district."
+koNote = "하라주쿠·오모테산도에서 필요하면 동선을 줄여요. 다른 동네를 더하지 않아요."
+
+[[alternatives]]
+id = "jimbocho"
+path = "/itinerary/tokyo-jimbocho-books-cafes/"
+en = "Replace a Day 2 half-day with Jimbocho"
+ko = "둘째 날 반나절 대신 진보초"
+enNote = "One bookshop and a break instead of part of the shopping day. Check the transfer from the area you keep; do not add Kiyosumi-Shirakawa."
+koNote = "쇼핑 일부 대신 책방 하나와 휴식. 남길 권역에서의 이동을 확인하고 기요스미시라카와는 더하지 않아요."
+
+[[alternatives]]
+id = "kiyosumi"
+path = "/itinerary/tokyo-kiyosumi-shirakawa-garden-art-coffee/"
+en = "Replace a Day 2 half-day with Kiyosumi-Shirakawa"
+ko = "둘째 날 반나절 대신 기요스미시라카와"
+enNote = "Choose a garden or an exhibition, plus a break, instead of shopping. Check the actual exhibition, weather and transfer. Leave Jimbocho for another trip."
+koNote = "쇼핑 대신 정원 또는 전시 하나와 휴식. 실제 전시·날씨·이동을 확인해요. 진보초는 다른 여행으로 남겨요."
+
+[[tasks]]
+id = "flights"
+en = "Check Haneda or Narita, terminals and usable days"
+ko = "하네다·나리타, 실제 터미널과 온전한 여행일 확인"
+path = "/itinerary/japan-arrival-departure-day-plan/"
+[[tasks]]
+id = "hotel"
+en = "Compare hotel access, room conditions and total cost"
+ko = "숙소 접근 경로·객실 조건과 총비용 비교"
+path = "/itinerary/seoul-to-tokyo-4-day-itinerary/"
+[[tasks]]
+id = "transport"
+en = "Check airport travel and transfers for the areas you chose"
+ko = "공항 이동과 고른 권역 사이의 실제 경로 확인"
+path = "/itinerary/seoul-to-tokyo-4-day-itinerary/"
+[[tasks]]
+id = "weather"
+en = "Review weather, venue notices and what to leave out"
+ko = "날씨·방문지 공지와 뺄 일정 다시 확인"
+path = "/itinerary/seoul-to-tokyo-4-day-itinerary/"
+[[tasks]]
+id = "departure"
+en = "Confirm bag collection and the return airport separately"
+ko = "짐 회수와 돌아갈 공항을 따로 확인"
+path = "/itinerary/japan-arrival-departure-day-plan/"
+
+[[guides]]
+id = "tokyo"
+path = "/itinerary/seoul-to-tokyo-4-day-itinerary/"
+[[guides]]
+id = "tokyo-jimbocho"
+path = "/itinerary/tokyo-jimbocho-books-cafes/"
+[[guides]]
+id = "tokyo-kiyosumi"
+path = "/itinerary/tokyo-kiyosumi-shirakawa-garden-art-coffee/"
+[[guides]]
+id = "travel-days"
+path = "/itinerary/japan-arrival-departure-day-plan/"

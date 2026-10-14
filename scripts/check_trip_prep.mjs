@@ -127,7 +127,7 @@ assert.equal(TRIPS.fukuoka.storageKey, "tripcompass.trip-prep.v1", "Do not migra
 assert.notEqual(TRIPS.osaka.storageKey, TRIPS.fukuoka.storageKey);
 assert.throws(() => parseState(JSON.stringify(initialState()), "osaka"));
 assert.throws(() => parseState(JSON.stringify(initialState("osaka"))));
-for (const destination of ["tokyo", "__proto__", "constructor"]) assert.throws(() => initialState(destination));
+for (const destination of ["sapporo", "__proto__", "constructor"]) assert.throws(() => initialState(destination));
 for (const destination of Object.keys(TRIPS)) {
   for (const raw of ["broken", "x".repeat(2049), JSON.stringify({ ...initialState(destination), alternative: "unknown" }),
     JSON.stringify({ ...initialState(destination), checks: { hotel: "true" } })]) assert.throws(() => parseState(raw, destination));
@@ -163,6 +163,40 @@ const fukuoka = harness({ storageMap: shared });
 fukuoka.click("reset"); fukuoka.click("delete");
 assert.equal(shared.get(TRIPS.osaka.storageKey), osakaRecord, "Fukuoka reset must preserve Osaka");
 
+const cities = Object.keys(TRIPS);
+assert.equal(new Set(cities.map(id => TRIPS[id].storageKey)).size, 3);
+assert.equal(TRIPS.osaka.storageKey, "tripcompass.trip-prep.osaka.v1");
+for (const city of cities) {
+  for (const otherCity of cities.filter(id => id !== city)) {
+    assert.throws(() => parseState(JSON.stringify(initialState(city)), otherCity), "Reject another city's record");
+  }
+  const records = new Map(cities.map(id => [TRIPS[id].storageKey, JSON.stringify({ ...initialState(id),
+    course: TRIPS[id].courses[1], alternative: TRIPS[id].alternatives[2] })]));
+  records.set("tripcompass.saved-guides.v1", '["fukuoka-rain","osaka-nara","tokyo-jimbocho"]');
+  const previous = new Map(records);
+  const ui = harness({ destination: city, storageMap: records });
+  const home = harness({ home: true, storageMap: records, entryIds: cities });
+  assert.equal(ui.io.writes, 0, "Reading must not migrate existing records");
+  assert.deepEqual(home.entries.map(entry => entry.textContent), cities.map(id => `Continue ${id}`));
+  ui.check("hotel");
+  const otherTab = harness({ destination: city, storageMap: records, language: "ko" });
+  otherTab.check("flights"); ui.check("departure");
+  assert.ok(ui.state().checks.flights, "Keep another tab's edit");
+  otherTab.events.storage({ key: TRIPS[city].storageKey });
+  assert.equal(otherTab.fields.progress.value, 3);
+  ui.click("reset"); ui.click("delete");
+  home.events.storage({ key: TRIPS[city].storageKey });
+  otherTab.events.storage({ key: TRIPS[city].storageKey });
+  assert.equal(otherTab.fields.workspace.hidden, true);
+  assert.deepEqual(home.entries.map(entry => entry.textContent), cities.map(id => `${id === city ? "Prepare" : "Continue"} ${id}`));
+  for (const [key, value] of previous) if (key !== TRIPS[city].storageKey) assert.equal(records.get(key), value, "Preserve every other city and bookmarks byte-for-byte");
+  ui.click("create");
+  ui.choose("alternative", TRIPS[city].alternatives[1]); ui.check("transport");
+  ui.choose("alternative", TRIPS[city].alternatives[2]);
+  assert.equal(ui.state().checks.transport, false);
+  for (const [key, value] of previous) if (key !== TRIPS[city].storageKey) assert.equal(records.get(key), value, "Restart and changes must stay city-local");
+}
+
 const tabs = harness({ stored: JSON.stringify(initialState()) });
 const other = clone(initialState()); other.checks.hotel = true;
 tabs.storage.set(STORAGE_KEY, JSON.stringify(other));
@@ -191,11 +225,11 @@ const script = await readFile(resolve(root, "js/trip-prep.js"), "utf8");
 assert.doesNotMatch(script, /fetch\(|XMLHttpRequest|sendBeacon|innerHTML|console\.|\/api\/|OPENAI/);
 for (const prefix of ["", "ko/"]) {
  for (const destination of Object.keys(TRIPS)) {
-  const path = destination === "fukuoka" ? "my-trip/" : "my-trip/osaka/";
+  const path = destination === "fukuoka" ? "my-trip/" : `my-trip/${destination}/`;
   const html = await readFile(resolve(root, prefix, path, "index.html"), "utf8");
   assert.match(html, /data-trip-prep/);
   assert.equal((html.match(/data-prep-check=/g) || []).length, 5);
-  assert.equal((html.match(/data-save-guide=/g) || []).length, destination === "fukuoka" ? 6 : 5);
+  assert.equal((html.match(/data-save-guide=/g) || []).length, { fukuoka: 6, osaka: 5, tokyo: 4 }[destination]);
   assert.match(html, /data-prep-workspace hidden/);
   assert.match(html, /<noscript>/);
   assert.match(html, /fukuoka-rain/);
@@ -208,6 +242,9 @@ for (const prefix of ["", "ko/"]) {
   assert.ok(html.includes(`https://tripcompass.ai/${prefix}${path}`));
   assert.match(html, /my-trip\/osaka\//);
   assert.match(html, /osaka-nara/);
+  assert.match(html, /my-trip\/tokyo\//);
+  assert.match(html, /tokyo-jimbocho/);
+  assert.match(html, /tokyo-kiyosumi/);
   for (const id of TRIPS[destination].courses) assert.ok(html.includes(`value=${id}`));
   for (const id of TRIPS[destination].alternatives) assert.ok(html.includes(`value=${id}`));
  }
@@ -216,11 +253,17 @@ for (const prefix of ["", "ko/"]) {
   assert.match(home, /data-guide-ids=[^ >]*travel-days/);
   assert.match(home, /data-trip-entry=osaka/);
   assert.match(home, /data-trip-entry=fukuoka/);
+  assert.match(home, /data-trip-entry=tokyo/);
   for (const id of ["osaka-kyoto", "osaka-nara", "osaka-doguyasuji"]) assert.ok(home.includes(id));
   for (const slug of ["seoul-to-osaka-4-day-itinerary", "osaka-or-kyoto-day-trip", "osaka-to-nara-temple-park-day", "osaka-doguyasuji-kitchenware-walk"]) {
     const guide = await readFile(resolve(root, prefix, "itinerary", slug, "index.html"), "utf8");
     assert.match(guide, /data-trip-entry=osaka/);
     assert.doesNotMatch(guide, /data-trip-entry=fukuoka/);
+  }
+  for (const slug of ["seoul-to-tokyo-4-day-itinerary", "tokyo-jimbocho-books-cafes", "tokyo-kiyosumi-shirakawa-garden-art-coffee"]) {
+    const guide = await readFile(resolve(root, prefix, "itinerary", slug, "index.html"), "utf8");
+    assert.match(guide, /data-trip-entry=tokyo/);
+    assert.doesNotMatch(guide, /data-trip-entry=(fukuoka|osaka)/);
   }
 }
 console.log("Trip preparation check passed: EN/KO state, persistence, progress, alternatives, cross-tab merge, reset isolation, failure handling, no network and built pages.");

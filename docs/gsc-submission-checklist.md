@@ -16,7 +16,7 @@ Before submission, verify that the current inventory matches the generated Hugo 
 bash scripts/check_gsc_inventory.sh
 ```
 
-The check builds the site locally and verifies that all 54 listed page URLs appear in `sitemap.xml`. The inventory currently includes 40 SEO landing pages: 20 English and 20 Korean, plus the English/Korean trip decision boards, Fukuoka preparation workspaces at `/my-trip/` and `/ko/my-trip/`, and Osaka preparation at `/my-trip/osaka/` and `/ko/my-trip/osaka/`. Inspect clean URLs, not private shared snapshot links containing fragments. New preparation workspaces must be deployed before their production URLs can be inspected; a local sitemap check does not establish a release.
+The check builds the site locally and verifies that all 56 listed page URLs appear in `sitemap.xml`. The inventory currently includes 40 SEO landing pages: 20 English and 20 Korean, plus the English/Korean trip decision boards and preparation workspaces for Fukuoka (`/my-trip/`), Osaka (`/my-trip/osaka/`) and Tokyo (`/my-trip/tokyo/`), with Korean equivalents under `/ko/`. Inspect clean URLs, not private shared snapshot links containing fragments. New preparation workspaces must be deployed before their production URLs can be inspected; a local sitemap check does not establish a release.
 
 The support guides now have reciprocal English/Korean counterparts. Inspect the two new English URLs after deployment:
 

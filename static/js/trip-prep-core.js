@@ -5,7 +5,8 @@ export const TASKS = ["flights", "hotel", "transport", "weather", "departure"];
 // Keep the released Fukuoka key and record shape intact; each trip owns its reset.
 export const TRIPS = {
   fukuoka: { storageKey: STORAGE_KEY, courses: COURSES, alternatives: ALTERNATIVES },
-  osaka: { storageKey: "tripcompass.trip-prep.osaka.v1", courses: ["osaka", "doguyasuji"], alternatives: ["none", "kyoto", "nara"] }
+  osaka: { storageKey: "tripcompass.trip-prep.osaka.v1", courses: ["osaka", "doguyasuji"], alternatives: ["none", "kyoto", "nara"] },
+  tokyo: { storageKey: "tripcompass.trip-prep.tokyo.v1", courses: ["tokyo", "asakusa"], alternatives: ["none", "jimbocho", "kiyosumi"] }
 };
 
 function config(destination) {

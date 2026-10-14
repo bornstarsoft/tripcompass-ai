@@ -10,6 +10,8 @@ The October 2026 retention pilot adds `/my-trip/` and `/ko/my-trip/`: a browser-
 
 The authorized Osaka expansion adds `/my-trip/osaka/` and `/ko/my-trip/osaka/` using existing guides and independent browser-local state. It preserves Fukuoka data and shares guide bookmarks; it does not change the AI, booking-search or infrastructure behavior. Consult the current-state and operations notes for release status.
 
+The authorized Tokyo expansion adds `/my-trip/tokyo/` and `/ko/my-trip/tokyo/`, reusing existing bilingual guides and bookmarks with a third independent browser-local record. Fukuoka and Osaka records are preserved without migration. Current release evidence is in `docs/CURRENT_STATE.md` and `docs/trip-preparation.md`.
+
 ## Tech stack
 - Hugo static site
 - GitHub repository

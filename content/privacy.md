@@ -30,11 +30,11 @@ Saving a guide stores only its guide identifier in this browser's localStorage. 
 
 Guide search and interest filters run locally and do not send the search text or saved list to the AI API or a separate analytics service. Normal page requests still reach our hosting provider, and the existing click logging applies when you follow `/go/` booking-search links. If browser storage is blocked, saved choices last only on the current page.
 
-## Fukuoka and Osaka Trip Preparation
+## Fukuoka, Osaka and Tokyo Trip Preparation
 
-The [Fukuoka preparation workspace](/my-trip/) and [Osaka preparation workspace](/my-trip/osaka/) each save your selected base course, one alternative and five checklist values in this browser after you start that trip. Changes are saved locally; no account, cloud synchronization, AI request or analytics event is created. No dates, names, booking references or free-text notes are collected by the workspace.
+The [Fukuoka preparation workspace](/my-trip/), [Osaka preparation workspace](/my-trip/osaka/) and [Tokyo preparation workspace](/my-trip/tokyo/) each save your selected base course, one alternative and five checklist values in this browser after you start that trip. Changes are saved locally; no account, cloud synchronization, AI request or analytics event is created. No dates, names, booking references or free-text notes are collected by the workspace.
 
-English and Korean use the same preparation state for each city on this browser profile. The two cities use separate records; starting, editing or resetting Osaka does not migrate or delete Fukuoka preparation, and vice versa. People sharing that profile may see it. Resetting preparation removes only that city's storage key, not other trips, saved guides, language settings or decision-board data. Clearing site data removes all of these local choices. A storage failure is shown as page-only progress, not a successful save. Saved guides in both workspaces use the same bookmark list as the existing guide explorer.
+English and Korean use the same preparation state for each city on this browser profile. The three cities use separate records; starting, editing or resetting one does not migrate or delete either other city's preparation. People sharing that profile may see it. Resetting preparation removes only that city's storage key, not other trips, saved guides, language settings or decision-board data. Clearing site data removes all of these local choices. A storage failure is shown as page-only progress, not a successful save. Saved guides in all workspaces use the same bookmark list as the existing guide explorer.
 
 Checklist marks are personal notes, not booking confirmations. Following a `/go` link still uses the search-click logging described above. The workspace does not send checklist values to those links.
 

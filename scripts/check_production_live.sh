@@ -189,13 +189,21 @@ for language in en ko; do
     "data-save-guide=osaka-nara" "$prefix/itinerary/osaka-or-kyoto-day-trip/" "destination=osaka"; do
     assert_contains "$osaka_html" "$expected" "$language Osaka preparation"
   done
+  tokyo_title="My Tokyo trip"
+  if [[ "$language" == "ko" ]]; then tokyo_title="내 도쿄 여행 준비함"; fi
+  tokyo_html="$TMP_DIR/prep-tokyo-$language.html"
+  assert_http_200 "$BASE_URL$prefix/my-trip/tokyo/" "$tokyo_html" "$language Tokyo preparation"
+  for expected in "$tokyo_title" "data-trip-prep=tokyo" "data-prep-create" "data-prep-delete" \
+    "data-save-guide=tokyo-jimbocho" "$prefix/itinerary/tokyo-kiyosumi-shirakawa-garden-art-coffee/" "destination=tokyo"; do
+    assert_contains "$tokyo_html" "$expected" "$language Tokyo preparation"
+  done
 done
 for asset in js/trip-prep.js js/trip-prep-core.js css/trip-prep.css js/guide-explorer.js; do
   assert_http_200 "$BASE_URL/$asset" "$TMP_DIR/${asset##*/}" "$asset"
 done
 assert_contains "$TMP_DIR/trip-prep.js" "mountTripPrep" "Preparation controller"
 assert_contains "$TMP_DIR/trip-prep-core.js" "tripcompass.trip-prep.v1" "Preparation state module"
-pass "All four preparation pages and their shared assets are published; interactive QA remains a browser check"
+pass "All six preparation pages and their shared assets are published; interactive QA remains a browser check"
 
 unique_suffix="$(date +%s)"
 en_budget="under ${unique_suffix} USD"

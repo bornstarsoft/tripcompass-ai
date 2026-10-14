@@ -126,6 +126,8 @@ def check(root):
             assert planning[en_path] in image.path, f"{path}: incorrect planning-guide cover"
         elif en_path == "/my-trip/osaka/":
             assert "osaka-food" in image.path, f"{path}: incorrect Osaka preparation cover"
+        elif en_path == "/my-trip/tokyo/":
+            assert "tokyo-neighborhoods" in image.path, f"{path}: incorrect Tokyo preparation cover"
         else:
             assert "short-trip-hero" in image.path, f"{path}: wrong generic sharing illustration"
 

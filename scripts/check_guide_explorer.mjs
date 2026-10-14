@@ -174,4 +174,7 @@ assert.deepEqual(JSON.parse(prepBookmarks.state.stored), ["tokyo", "fukuoka-rain
 const bothTrips = harness({ stored: '["fukuoka-rain","osaka-nara","osaka-kyoto","osaka-doguyasuji"]', extraIds: ["fukuoka-rain", "osaka-nara", "osaka-kyoto", "osaka-doguyasuji"] });
 bothTrips.save("parents");
 assert.deepEqual(JSON.parse(bothTrips.state.stored), ["fukuoka-rain", "osaka-nara", "osaka-kyoto", "osaka-doguyasuji", "parents"]);
+const threeTrips = harness({ stored: '["fukuoka-rain","osaka-nara","tokyo-jimbocho","tokyo-kiyosumi"]', extraIds: ["fukuoka-rain", "osaka-nara", "tokyo-jimbocho", "tokyo-kiyosumi"] });
+threeTrips.save("tokyo");
+assert.deepEqual(JSON.parse(threeTrips.state.stored), ["fukuoka-rain", "osaka-nara", "tokyo-jimbocho", "tokyo-kiyosumi", "tokyo"]);
 console.log("Guide explorer check passed: EN/KO filters, search, saved guides, safe storage fallback and cross-tab state.");

@@ -1,5 +1,15 @@
 # Trip Preparation Workspaces
 
+## Tokyo Expansion
+
+Tokyo uses `/my-trip/tokyo/` and `/ko/my-trip/tokyo/`, the existing Tokyo illustration and four bilingual guides. The base 4-day course offers an Asakusa-only Day 3 instead of optional Ueno. A separate, exclusive Day 2 replacement can be Jimbocho books/cafes or Kiyosumi-Shirakawa garden-or-exhibition plus a break. These replace a shopping half-day, not add districts or extend departure day. Actual transfers, opening arrangements, exhibitions and weather still require travelers' checks.
+
+The existing shared controller/layout is unchanged. `data/trip_prep/tokyo.toml` supplies localized choices and guide links; the state registry adds `tripcompass.trip-prep.tokyo.v1`. Released Fukuoka/Osaka keys and record shapes remain untouched, with no migration or visit-time writes. City navigation and home/itinerary/related-guide entries come from the same registry data. Bookmark IDs now include `tokyo-jimbocho` and `tokyo-kiyosumi`, preserving all 13 supported guide IDs across new pages.
+
+The Phase 2 tests exercise all three cities in both languages and verify independent resets, unchanged other-city records, cross-city record rejection, same-city tab merges and independent home resume labels. Generated-page checks cover controls, localized safe search URLs, reciprocal language links and the four-guide library. The GSC inventory adds the two workspaces for 56 page URLs, without changing the 40 SEO landing pages. No backend, AI Gateway, D1/KV, API, environment, /go or affiliate changes are included.
+
+Local verification on 2026-10-14: Phase 1-5 passed, covering 65 built content pages. Isolated Chromium passed Tokyo EN/KO at 320/390/1440px: loaded images, no horizontal overflow, 44px choice/check/city-link targets, unobscured next-task anchors, reload, language switching, keyboard input, two-tab synchronization and reset cancel/confirm. Fukuoka/Osaka records remained byte-equivalent and rendered correctly in both languages at 320px. All three homepage resume links fit and worked independently; saving on the homepage preserved the new Tokyo bookmarks. Separate 320px contexts passed no-JavaScript guide access, blocked-storage notices and corrupt-state recovery in both languages. No preparation API/search calls or application page errors occurred. Physical-device/Safari tests and production QA are not established by these local checks.
+
 ## Osaka Expansion
 
 The Osaka workspace uses `/my-trip/osaka/` and `/ko/my-trip/osaka/`, the existing Osaka artwork and five bilingual guides. Choose the base Namba/Shinsaibashi day or replace part of its shopping with Doguyasuji. Separately choose one Day 3: stay in Osaka, replace it with one Kyoto area, or replace it with Nara. The choices do not combine Kyoto and Nara or add extra days. Workshops and travel conditions require the traveler's own checks.

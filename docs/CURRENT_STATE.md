@@ -1,13 +1,13 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (TOKYO-TRIP-PREP; bilingual Tokyo preparation, validation, commit, deployment and production QA; main/current worktree; 2026-10-14 KST)
 
-- Last AI: CODEX; WORK-ID: OSAKA-TRIP-PREP; DONE 2026-10-14 KST. Writer released after production verification.
-- Phase: release complete; documentation follow-up records the outcome.
-- Owner approval: extend preparation to Osaka using existing bilingual guides/bookmarks; validate, commit, deploy and verify production. Starting HEAD e7349aa, main clean, no active writer.
-- Scope: Osaka pages, city-specific shared UI/state, discovery links and verification. Preserve Fukuoka URLs and stored records. No backend, AI Gateway, D1/KV, environment, API, /go or affiliate changes.
-- HEAD/WIP: application commit 14d1dfd on main, pushed and deployed; this documentation follow-up records evidence only. No owner WIP discarded.
-- QA PASS: Phase 1-5, strict Hugo build, git diff --check, GitHub CI and Pages deployment. 63 content pages, 54 monitored sitemap URLs. Local and production Chromium EN/KO at 320/390/1440px, keyboard, reload, language switch, independent home resume, legacy Fukuoka/bookmark preservation, two-tab synchronization, reset isolation, no-JS reading, blocked storage and corrupt recovery. Production EN/KO backend responses, repeat cache hit, HEAD 302 and five asset hashes passed.
-- QA NOT_RUN: physical-device/Safari tests, remote D1 queries and retention measurement.
-- NEXT_SINGLE_TASK: collect owner/user feedback on the two-city preparation flow before another feature expansion.
-- BLOCKER: none. Existing GitHub-to-Pages integration deployed successfully. See docs/operations.md and docs/trip-preparation.md for evidence; no future unrelated work is authorized by this release.
+- Last completed work: OSAKA-TRIP-PREP, CODEX; application 14d1dfd and notes a79d80e deployed. Evidence remains in docs/operations.md and docs/trip-preparation.md.
+- Phase: Tokyo release preparation.
+- Owner approval: extend to Tokyo using existing bilingual guides/bookmarks; preserve Fukuoka and Osaka records, verify mobile, then commit/deploy if sound. Starting HEAD a79d80e on main, clean and no active writer.
+- Scope: Tokyo pages, data/state registration and tests. Existing controller/layout reused. No backend, AI Gateway, D1/KV, environment, API, /go or affiliate changes.
+- HEAD/WIP: a79d80e plus this task's implementation and tests only; no owner WIP discarded. Commit and deployment pending.
+- QA PASS: Phase 1-5, 65 built content pages, 56 monitored sitemap URLs. Local Chromium Tokyo EN/KO at 320/390/1440px; keyboard, reload, language switch, independent three-city home resume, unchanged legacy records/bookmarks, two-tab edits, isolated reset, no-JS reading, blocked storage and corrupt recovery.
+- QA NOT_RUN: Tokyo production QA pending deployment; physical-device/Safari tests, remote D1 queries and retention measurement.
+- NEXT_SINGLE_TASK: finish release gates, commit/push, verify production and record the outcome.
+- BLOCKER: none. Use existing GitHub-to-Pages integration; do not inspect credentials or change infrastructure.

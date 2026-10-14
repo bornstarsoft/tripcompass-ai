@@ -687,7 +687,7 @@ assert.match(launchHealthScript, /bash scripts\/list_gsc_urls\.sh/);
 assert.match(launchHealthScript, /rg -Fq "<loc>\$\{url\}<\/loc>"/);
 assert.match(launchHealthScript, /--with-d1/);
 assert.match(launchHealthScript, /bash scripts\/report_clicks\.sh/);
-assert.match(launchHealthScript, /expected 54 production page URLs/);
+assert.match(launchHealthScript, /expected 56 production page URLs/);
 assert.doesNotMatch(launchHealthScript, /OPENAI_API_KEY|AI_BACKEND_SECRET|CLOUDFLARE_API_TOKEN|Authorization/i);
 
 const operationsNote = await readFile("docs/operations.md", "utf8");
@@ -861,6 +861,8 @@ assert.ok(gscUrlScript.includes("https://tripcompass.ai/my-trip/"));
 assert.ok(gscUrlScript.includes("https://tripcompass.ai/ko/my-trip/"));
 assert.ok(gscUrlScript.includes("https://tripcompass.ai/my-trip/osaka/"));
 assert.ok(gscUrlScript.includes("https://tripcompass.ai/ko/my-trip/osaka/"));
+assert.ok(gscUrlScript.includes("https://tripcompass.ai/my-trip/tokyo/"));
+assert.ok(gscUrlScript.includes("https://tripcompass.ai/ko/my-trip/tokyo/"));
 assert.match(gscUrlScript, /^#!\/usr\/bin\/env bash/);
 assert.doesNotMatch(gscUrlScript, /curl|fetch|googleapis|gcloud|OPENAI_API_KEY|AI_BACKEND_SECRET|wrangler/i);
 for (const expectedUrl of [
