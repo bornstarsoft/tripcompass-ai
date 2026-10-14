@@ -106,6 +106,15 @@ CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call producti
 - Public launch QA passed both overviews and six workspaces, EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and all 58 monitored sitemap URLs. Five deployed JS/CSS hashes matched the commit.
 - No JavaScript/storage logic, new keys, migration, backend, gateway, infrastructure, environment, `/go` or affiliate changes. Physical-device/Safari, D1 reporting and retention measurement were not run.
 
+## My Trips Guide Return Release: 2026-10-15
+
+- Application commit: `dfc9320e1400ff9fe87c9f890ca07ebaa88225b2`, pushed to GitHub `main` with owner approval. Phase 1-5, strict Hugo and whitespace checks passed locally; content/inventory counts remain 67/58.
+- GitHub CI: [run 38586981913](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/38586981913), success for that SHA. The earlier overlapping run was cancelled; the replacement completed successfully.
+- Cloudflare Pages: deployment `b016fdb1-4392-499d-b368-1facc96aa0f2`, success for the same SHA. [Immutable deployment](https://b016fdb1.tripcompass-ai.pages.dev).
+- Production Chromium passed 30 EN/KO task-guide round trips, top/bottom keyboard links, task focus, language switching/reload, unchanged saved records and 320/390/768/920/1440px layouts. Invalid contexts and no-JS/empty/corrupt/blocked states passed. Screenshots inspected. Checklist/workspace sync/bookmark undo/save-failure/reset regressions passed; details in `docs/trip-preparation.md`.
+- Launch health passed both overviews and six workspaces, EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and all 58 monitored sitemap URLs. Six deployed JS/CSS files matched the commit by SHA-256.
+- Return context is a fixed fragment, with no storage, arbitrary redirect, tracking or API call. No backend/gateway, D1/KV, environment, `/go` or affiliate changes. Physical-device/Safari, D1 reporting and retention measurement were not run.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:
