@@ -106,5 +106,6 @@
     <script src="{{ "js/language.js" | relURL }}" defer></script>
     <script type="module" src="{{ "js/trip-prep.js" | relURL }}"></script>
     {{ if or (.Store.Get "hasTripGuideReturn") .Params.myTrips }}<script type="module" src="{{ "js/trip-guide-return.js" | relURL }}"></script>{{ end }}
+    {{ if .Store.Get "hasTripGuideReturn" }}<script type="module" src="{{ "js/trip-guide-check.js" | relURL }}"></script>{{ end }}
   </body>
 </html>

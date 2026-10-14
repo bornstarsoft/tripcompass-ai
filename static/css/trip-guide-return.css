@@ -2,4 +2,8 @@
 .trip-guide-return[hidden] { display: none; }
 .trip-guide-return a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 750; overflow-wrap: anywhere; }
 .trip-guide-return p { margin: .25rem 0 0; color: var(--muted); }
+.trip-guide-return .guide-task-check { display: grid; grid-template-columns: 20px minmax(0, 1fr); align-items: center; gap: .75rem; min-height: 44px; padding: .5rem 0; margin: .25rem 0; line-height: 1.5; cursor: pointer; }
+.guide-task-check input { width: 20px; height: 20px; margin: 0; accent-color: var(--teal); }
+.guide-task-check input:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+.trip-guide-return [data-guide-check-status]:empty { margin: 0; }
 @media print { .trip-guide-return { display: none; } }

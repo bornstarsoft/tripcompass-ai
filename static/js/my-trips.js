@@ -1,4 +1,5 @@
 import { TRIPS, TASKS, parseState, progress } from "./trip-prep-core.js";
+import { saveExistingCheck } from "./trip-check-edit.js";
 
 const SAVED_GUIDES_KEY = "tripcompass.saved-guides.v1";
 
@@ -161,23 +162,8 @@ export function mountMyTrips(doc, win) {
       const checked = input.checked;
       let feedback = "";
       try {
-        const key = TRIPS[id].storageKey;
-        const raw = win.localStorage.getItem(key);
-        const current = parseState(raw, id);
-        const previous = displayed.get(id);
-        if (!current || !previous) feedback = text.tripMissing;
-        else if (current.course !== previous.course || current.alternative !== previous.alternative) feedback = text.tripChanged;
-        else {
-          // Preserve other fields and fresh other-tab checks, changing only this boolean.
-          if (current.checks[task] !== checked) {
-            const next = JSON.parse(raw);
-            next.checks[task] = checked;
-            const serialized = JSON.stringify(next);
-            if (serialized.length > 2048) throw Error("invalid");
-            win.localStorage.setItem(key, serialized);
-          }
-          feedback = text.checkSaved(tasks[task], checked);
-        }
+        const result = saveExistingCheck(win.localStorage, id, task, checked, displayed.get(id));
+        feedback = result === "missing" ? text.tripMissing : result === "changed" ? text.tripChanged : text.checkSaved(tasks[task], checked);
       } catch { feedback = text.checkFailed; }
       render();
       card.querySelector("[data-trip-check-feedback]").textContent = feedback;

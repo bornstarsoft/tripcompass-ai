@@ -1,5 +1,15 @@
 # Trip Preparation Workspaces
 
+## Editing a Task While Reading
+
+An article opened through a My trips task link shows that task's checkbox in both return areas. Its localized label comes from the same city/task mapping, and the existing return link remains a separate action. Reading or returning never marks a task automatically. Explicit check/uncheck updates only that boolean in an existing saved preparation record. Both article controls refresh together; only the control used announces a successful save. Checks remain personal notes, not booking or travel-condition guarantees.
+
+`trip-check-edit.js` extracts the overview's existing write rule for reuse by `my-trips.js` and `trip-guide-check.js`: reread/validate the latest city record, reject missing records or stale course/alternative choices, preserve other checks and extra fields, and write only an actual change. There is no new storage key, migration, bookmark write or backend call. This is latest-record merging, not an atomic multi-tab transaction. The workspace's existing write behavior is unchanged.
+
+The article controller accepts only its prebuilt fragment context and city/task mapping. Other-tab storage changes, reload, history restoration and context changes refresh its controls. Missing/corrupt/blocked records disable editing and retain the return link. Failed writes restore the readable saved value and show a localized retry notice; a reset is never recreated. Invalid or absent context never enables editing. The navigation-only return module remains read-only. No-JS pages retain the existing workspace/overview navigation; bookmark undo is still page-memory only.
+
+Local validation on 2026-10-15 passed Phase 1-5, strict Hugo and whitespace checks. Unit tests cover all 30 bilingual contexts, targeted edits, latest-state merging, extra-field/other-city/bookmark preservation, failure/retry and stale/reset protection. Isolated Chromium passed all 30 check/uncheck/return flows, top/bottom synchronization, keyboard input, language/reload, two-way article/overview/workspace updates and failed-write rollback/retry. Both languages passed 320/390/768/920/1440px with 44px labels and no overflow; screenshots were inspected. Read-only round trips, invalid context, no-JS/empty/corrupt/blocked fallbacks and existing overview/bookmark-undo regressions passed. No application errors or preparation API/search calls occurred. Physical-device/Safari and production QA are not established by local checks.
+
 ## Returning from Task Guides
 
 My trips task-guide links carry a fixed `#prep-city-task` fragment. The article renders return links above and below the content only when that exact context is one of its existing TOML task mappings. They return to the localized overview's `#trip-city-task` anchor and focus/scroll to the corresponding checkbox after saved state is restored. If the city's record is absent, invalid or unreadable, the workspace action receives focus instead; navigation does not create a record. The same shared article can return to different cities without guessing from its content or the referrer.

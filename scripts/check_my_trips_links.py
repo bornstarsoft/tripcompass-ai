@@ -57,6 +57,9 @@ for prefix in ("", "/ko"):
             assert guide_html.count(f"data-guide-return={context}") + guide_html.count(f'data-guide-return="{context}"') == 2
             assert f"{prefix}/my-trips/#{target}" in guide_html
             assert 'js/trip-guide-return.js' in guide_html and 'css/trip-guide-return.css' in guide_html
+            assert 'js/trip-guide-check.js' in guide_html
+            assert guide_html.count('data-guide-check-status') == guide_html.count('data-guide-return=')
+            assert guide_html.count('data-guide-check ') == guide_html.count('data-guide-return=')
             expected[f"{city}:{task}"] = href + context
     assert overview == expected, f"Overview/workspace task guide mismatch: {prefix or 'en'}"
     assert html.count("관련 가이드" if prefix else "Related guide") == 30
