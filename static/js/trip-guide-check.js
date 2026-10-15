@@ -1,5 +1,6 @@
 import { TRIPS, TASKS, parseState, progress } from "./trip-prep-core.js";
 import { saveExistingCheck } from "./trip-check-edit.js";
+import { mountGuideHistory } from "./trip-guide-history.js";
 
 const copy = {
   en: {
@@ -97,11 +98,18 @@ export function mountGuideChecks(doc, win) {
     for (const input of item.allInputs) input.addEventListener("change", () => edit(item, input, input.dataset.guideAllCheck, item.allStatus));
   }
   render();
+  const historyView = mountGuideHistory(doc, win);
+  let focusRevision = 0;
   function refreshContext(event) {
+    // Rapid Back can deliver the previous navigation's hashchange after popstate.
+    if (event?.type === "hashchange" && event.newURL && event.newURL !== win.location.href) return;
+    const revision = ++focusRevision;
     render();
+    if (historyView.restore(event)) return;
     if (event?.persisted) return;
     // A next task can share this article; reveal its panel before moving keyboard focus.
     win.requestAnimationFrame(() => {
+      if (revision !== focusRevision) return;
       const item = panels.find(active);
       if (!item) return;
       const target = item.input.disabled ? item.panel.querySelector("a") : item.input;
@@ -111,6 +119,7 @@ export function mountGuideChecks(doc, win) {
   }
   win.addEventListener("hashchange", refreshContext);
   win.addEventListener("pageshow", refreshContext);
+  win.addEventListener("popstate", event => { focusRevision++; render(); historyView.restore(event); });
   win.addEventListener("storage", event => {
     if (event.key === null || panels.some(item => active(item) && TRIPS[item.city].storageKey === event.key)) render();
   });

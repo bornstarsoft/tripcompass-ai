@@ -1,5 +1,15 @@
 # Trip Preparation Workspaces
 
+## Returning to an Expanded Guide Checklist
+
+Following a full-checklist Related guide link records the source entry's top/bottom disclosure states and clicked link's viewport position in a namespaced `history.state` value. Browser Back/Forward restores that entry's open lists, reading position and link focus, for both cross-document visits and different task fragments in the same article. The link offset anchors restoration if the page layout changes. Fresh visits and reloads remain compact. Modified/new-tab clicks and links to the already-current URL are not intercepted.
+
+The helper preserves unrelated history state and never reads or writes localStorage/sessionStorage. It stores UI state only, not preparation checks, bookmarks or course choices. The existing guide controller rereads current preparation records on traversal before restoring the UI: edits made while reading stay current, and missing/reset records fall back to the outer return link instead of being recreated. Invalid or unavailable History API state degrades to native navigation. Native link behavior and browser scrollRestoration are unchanged. Deferred focus from an obsolete navigation and delayed hashchange events are ignored so rapid Back does not jump to the first task.
+
+Local validation on 2026-10-15 passed Phase 1-5, strict Hugo and whitespace checks. New unit tests cover three cities/both languages, per-entry isolation, BFCache/cold history, independent disclosures, position/focus, unrelated state, invalid/blocked history, modified clicks, reset fallback and superseded navigation. Isolated Chromium passed 24 EN/KO round trips with cold restoration and another 24 with actual BFCache restoration, each including same-document fragments and repeated Back/Forward. Both runs passed 320/390/768/920/1440px and byte-equivalent preparation/bookmark/decision records; screenshots inspected. Existing full-checklist regression passed 30 contexts/60 edits, synchronized controls, cross-tab updates, failure/retry and stale/reset protection. Physical-device/Safari remains NOT_RUN; production evidence follows after deployment.
+
+Touch-enabled mobile contexts in both browser configurations also passed EN/KO latest-check preservation after returning, reset fallback without record recreation, History API failure with native navigation, and unchanged bookmarks. Existing overview/workspace and saved-guide removal/undo regressions passed. These checks use isolated test records, not the owner's browser profile.
+
 ## Related Guides in the Full Checklist
 
 Every item in the expanded guide checklist has a separate Related guide / 관련 가이드 link, including marked items and the current task. Links come from the existing localized city/task mappings and retain the `#prep-city-task` context. The destination's return link leads to the same item in My trips. Links sit outside checkbox labels, have task-specific accessible names and at least 44px targets. They remain available after all five items are marked; revisiting a guide does not change a check.

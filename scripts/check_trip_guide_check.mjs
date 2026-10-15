@@ -3,7 +3,7 @@ import { initialState, TRIPS, parseState, TASKS } from "../static/js/trip-prep-c
 import { saveExistingCheck } from "../static/js/trip-check-edit.js";
 import { mountGuideChecks } from "../static/js/trip-guide-check.js";
 
-function fixture(lang = "en", city = "fukuoka", task = "hotel", hash = `#prep-${city}-${task}`) {
+function fixture(lang = "en", city = "fukuoka", task = "hotel", hash = `#prep-${city}-${task}`, deferFrames = false) {
   const values = new Map(Object.entries(TRIPS).map(([id, trip]) => [trip.storageKey, JSON.stringify({ ...initialState(id), extra: "keep", checks: { ...initialState(id).checks, future: "keep" } })]));
   values.set("tripcompass.saved-guides.v1", '["stay","stay","future-id"]');
   values.set("tripcompass.decision.v1", "unchanged");
@@ -13,7 +13,8 @@ function fixture(lang = "en", city = "fukuoka", task = "hotel", hash = `#prep-${
     getItem(key) { if (this.blocked) throw Error("PRIVATE"); return values.get(key) ?? null; },
     setItem(key, value) { if (this.failWrite) throw Error("PRIVATE"); writes.push(key); values.set(key, value); }
   };
-  const win = { localStorage: storage, location: { hash }, requestAnimationFrame: fn => fn(), addEventListener: (event, fn) => { events[event] = fn; } };
+  const frames = [];
+  const win = { localStorage: storage, location: { hash }, requestAnimationFrame: fn => deferFrames ? frames.push(fn) : fn(), addEventListener: (event, fn) => { events[event] = fn; } };
   const panels = Array.from({ length: 2 }, () => {
     const input = { checked: false, disabled: true, addEventListener(_, fn) { this.change = fn; }, focus() { doc.activeElement = input; }, scrollIntoView() {} };
     const status = { textContent: "" }, link = { focus() { doc.activeElement = link; }, scrollIntoView() {} };
@@ -33,8 +34,19 @@ function fixture(lang = "en", city = "fukuoka", task = "hotel", hash = `#prep-${
   mountGuideChecks(doc, win);
   const edit = (checked, index = 0) => { panels[index].input.checked = checked; doc.activeElement = panels[index].input; panels[index].input.change(); };
   const editAll = (task, checked, index = 0) => { const input = panels[index].allInputs.find(input => input.dataset.guideAllCheck === task); input.checked = checked; doc.activeElement = input; input.change(); };
-  return { values, writes, events, storage, win, panels, doc, edit, editAll, key: TRIPS[city].storageKey };
+  return { values, writes, events, storage, win, panels, doc, edit, editAll, frames, key: TRIPS[city].storageKey };
 }
+
+const rapidHistory = fixture("en", "fukuoka", "hotel", "#prep-fukuoka-hotel", true);
+rapidHistory.events.hashchange({ type: "hashchange" });
+rapidHistory.events.popstate({ type: "popstate" });
+rapidHistory.frames.shift()();
+assert.equal(rapidHistory.doc.activeElement, null, "A superseded navigation must not steal restored history focus");
+rapidHistory.win.location.href = "https://tripcompass.ai/guide/#prep-fukuoka-hotel";
+rapidHistory.events.hashchange({ type: "hashchange", newURL: "https://tripcompass.ai/guide/#prep-fukuoka-departure" });
+assert.equal(rapidHistory.frames.length, 0, "Ignore a delayed hash event for a superseded destination");
+rapidHistory.events.hashchange({ type: "hashchange", newURL: rapidHistory.win.location.href }); rapidHistory.frames.shift()();
+assert.equal(rapidHistory.doc.activeElement, rapidHistory.panels[0].input, "New task navigation still focuses its control");
 
 for (const lang of ["en", "ko"]) for (const city of Object.keys(TRIPS)) for (const task of TASKS) {
   const f = fixture(lang, city, task), before = new Map(f.values);
