@@ -7,6 +7,7 @@
   {{- $trip := . -}}
   {{- range .tasks -}}
     {{- if eq $page.RelPermalink (printf "%s%s" $prefix .path) -}}
+      {{- $currentTask := .id -}}
       {{- $page.Store.Set "hasTripGuideReturn" true -}}
 <aside class="trip-guide-return"{{ if $top }} id="prep-{{ $trip.id }}-{{ .id }}"{{ end }} data-guide-return="{{ printf "#prep-%s-%s" $trip.id .id }}" data-guide-city="{{ $trip.id }}" data-guide-task="{{ .id }}" aria-label="{{ cond $ko "여행 준비" "Travel preparation" }}" hidden>
   <div class="section-inner">
@@ -14,6 +15,17 @@
     <label class="guide-task-check"><input type="checkbox" data-guide-check disabled><span>{{ index . $lang }}</span></label>
     <p class="fine-print">{{ cond $ko "체크는 개인 메모이며 예약 완료나 여행 조건 확인을 보장하지 않습니다." "Checks are personal notes, not booking confirmations or verified travel conditions." }}</p>
     <p class="fine-print" data-guide-check-status role="status" aria-live="polite" aria-atomic="true"></p>
+    <section class="guide-progress" data-guide-progress hidden aria-label="{{ cond $ko (printf "%s 준비 진행률" $trip.ko) (printf "%s preparation progress" $trip.en) }}">
+      <h2>{{ cond $ko (printf "%s 준비 진행률" $trip.ko) (printf "%s preparation progress" $trip.en) }}</h2>
+      <p data-guide-progress-text></p>
+      <progress data-guide-progress-bar value="0" max="{{ len $trip.tasks }}" aria-label="{{ cond $ko (printf "%s 준비 진행률" $trip.ko) (printf "%s preparation progress" $trip.en) }}"></progress>
+      <h3 data-guide-remaining-heading>{{ cond $ko "남은 준비 항목" "Remaining items" }}</h3>
+      <ul class="guide-remaining">
+        {{ range $trip.tasks }}
+        <li data-guide-remaining-task="{{ .id }}" hidden>{{ if eq .id $currentTask }}<span>{{ index . $lang }} <small>({{ cond $ko "현재 항목" "Current item" }})</small></span>{{ else }}<a href="{{ printf "%s%s#prep-%s-%s" $prefix .path $trip.id .id | relURL }}">{{ index . $lang }}</a>{{ end }}</li>
+        {{ end }}
+      </ul>
+    </section>
     <section class="guide-next" data-guide-next hidden aria-label="{{ cond $ko "다음 남은 준비" "Next remaining item" }}">
       <h2>{{ cond $ko "다음 남은 준비" "Next remaining item" }}</h2>
       {{ range $trip.tasks }}

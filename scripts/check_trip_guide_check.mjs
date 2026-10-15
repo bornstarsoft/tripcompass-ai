@@ -19,9 +19,12 @@ function fixture(lang = "en", city = "fukuoka", task = "hotel", hash = `#prep-${
     const status = { textContent: "" }, link = { focus() { doc.activeElement = link; }, scrollIntoView() {} };
     const nextSection = { hidden: true }, complete = { hidden: true };
     const nextRows = TASKS.map(id => ({ dataset: { guideNextTask: id }, hidden: true, contains(el) { return el === this; } }));
-    return { dataset: { guideReturn: `#prep-${city}-${task}`, guideCity: city, guideTask: task }, input, status, link, nextSection, complete, nextRows,
-      querySelectorAll: () => nextRows,
-      querySelector: selector => ({ "[data-guide-check]": input, "[data-guide-check-status]": status, "[data-guide-next]": nextSection, "[data-guide-next-complete]": complete, a: link })[selector] };
+    const progressSection = { hidden: true }, progressText = { textContent: "" }, remainingHeading = { hidden: true };
+    const progressBar = { value: 0, setAttribute(name, value) { this[name] = value; } };
+    const remainingRows = TASKS.map(id => ({ dataset: { guideRemainingTask: id }, hidden: true, contains(el) { return el === this; } }));
+    return { dataset: { guideReturn: `#prep-${city}-${task}`, guideCity: city, guideTask: task }, input, status, link, nextSection, complete, nextRows, progressSection, progressText, progressBar, remainingHeading, remainingRows,
+      querySelectorAll: selector => selector === "[data-guide-next-task]" ? nextRows : remainingRows,
+      querySelector: selector => ({ "[data-guide-check]": input, "[data-guide-check-status]": status, "[data-guide-next]": nextSection, "[data-guide-next-complete]": complete, "[data-guide-progress]": progressSection, "[data-guide-progress-text]": progressText, "[data-guide-progress-bar]": progressBar, "[data-guide-remaining-heading]": remainingHeading, a: link })[selector] };
   });
   const doc = { documentElement: { lang }, activeElement: null, querySelectorAll: () => panels };
   mountGuideChecks(doc, win);
@@ -94,6 +97,14 @@ for (const lang of ["en", "ko"]) for (const city of Object.keys(TRIPS)) for (con
     f.events.storage({ key: f.key });
     const next = state.checks[task] ? TASKS.find(id => !state.checks[id]) : null;
     for (const panel of f.panels) {
+      const remaining = TASKS.filter(id => !state.checks[id]);
+      const done = TASKS.length - remaining.length;
+      assert.equal(panel.progressSection.hidden, false);
+      assert.equal(panel.progressBar.value, done);
+      assert.equal(panel.progressText.textContent, lang === "ko" ? `5개 중 ${done}개 체크 (${done * 20}%) · ${remaining.length}개 남음` : `${done}/5 marked (${done * 20}%) · ${remaining.length} remaining`);
+      assert.equal(panel.progressBar["aria-valuetext"], panel.progressText.textContent);
+      assert.equal(panel.remainingHeading.hidden, !remaining.length);
+      assert.deepEqual(panel.remainingRows.filter(row => !row.hidden).map(row => row.dataset.guideRemainingTask), remaining);
       assert.equal(panel.nextSection.hidden, !next);
       assert.equal(panel.complete.hidden, !state.checks[task] || !!next);
       assert.deepEqual(panel.nextRows.filter(row => !row.hidden).map(row => row.dataset.guideNextTask), next ? [next] : []);
@@ -120,3 +131,25 @@ assert.equal(next.doc.activeElement, next.panels[0].input, "New context focuses 
 next.doc.activeElement = next.panels[1].input; next.events.pageshow({ persisted: true });
 assert.equal(next.doc.activeElement, next.panels[1].input, "History restoration does not force top focus");
 console.log("Next task checks passed: 960 state/context combinations, saved-state-only progression, completion/uncheck, storage updates, invalid context and focus recovery.");
+
+const summary = fixture("ko");
+summary.storage.failWrite = true; summary.edit(true);
+assert.ok(summary.panels.every(p => p.progressBar.value === 0 && p.remainingRows.every(r => !r.hidden)), "Failed writes retain saved progress");
+summary.storage.failWrite = false; summary.edit(true);
+assert.ok(summary.panels.every(p => p.progressBar.value === 1 && p.remainingRows[1].hidden));
+summary.doc.activeElement = summary.panels[1].remainingRows[0];
+const updated = JSON.parse(summary.values.get(summary.key)); updated.checks.flights = true;
+summary.values.set(summary.key, JSON.stringify(updated)); summary.events.storage({ key: summary.key });
+assert.equal(summary.doc.activeElement, summary.panels[1].input, "Removed remaining link recovers focus");
+assert.ok(summary.panels.every(p => p.progressBar.value === 2));
+for (const mode of ["missing", "corrupt", "blocked", "invalid-context"]) {
+  const s = fixture();
+  if (mode === "missing") s.values.delete(s.key);
+  if (mode === "corrupt") s.values.set(s.key, "PRIVATE invalid");
+  if (mode === "blocked") s.storage.blocked = true;
+  if (mode === "invalid-context") s.win.location.hash = "#unknown";
+  s.events.pageshow();
+  assert.ok(s.panels.every(p => p.progressSection.hidden && p.progressText.textContent === "" && p.remainingRows.every(r => r.hidden)), "Unavailable progress is hidden, not claimed zero");
+  assert.equal(s.writes.length, 0);
+}
+console.log("Guide city progress passed: 960 localized states, exact remaining order/count, accessible progress, rollback, unavailable-state hiding and focus recovery without new writes.");

@@ -3,6 +3,7 @@ import { saveExistingCheck } from "./trip-check-edit.js";
 
 const copy = {
   en: {
+    progress: (done, total) => `${done}/${total} marked (${Math.round(done / total * 100)}%) · ${total - done} remaining`,
     missing: "No saved preparation for this city. Return to My trips to open its workspace; no record was created.",
     unavailable: "Saved preparation could not be read. Existing records have not been changed.",
     changed: "Your course or alternative changed in another tab. Review the updated trip before checking again.",
@@ -10,6 +11,7 @@ const copy = {
     marked: "Marked. Saved in this browser.", unmarked: "Unmarked. Saved in this browser."
   },
   ko: {
+    progress: (done, total) => `${total}개 중 ${done}개 체크 (${Math.round(done / total * 100)}%) · ${total - done}개 남음`,
     missing: "이 도시의 저장된 준비 내용이 없어요. 내 여행에서 준비함을 열어 주세요. 기록을 새로 만들지 않았습니다.",
     unavailable: "저장한 준비 내용을 읽지 못했어요. 기존 기록은 그대로 두었습니다.",
     changed: "다른 탭에서 코스나 대안이 바뀌었어요. 변경된 여행 내용을 확인한 뒤 다시 체크해 주세요.",
@@ -24,7 +26,10 @@ export function mountGuideChecks(doc, win) {
     panel, city: panel.dataset.guideCity, task: panel.dataset.guideTask,
     input: panel.querySelector("[data-guide-check]"), status: panel.querySelector("[data-guide-check-status]"),
     nextSection: panel.querySelector("[data-guide-next]"), complete: panel.querySelector("[data-guide-next-complete]"),
-    nextRows: [...panel.querySelectorAll("[data-guide-next-task]")]
+    nextRows: [...panel.querySelectorAll("[data-guide-next-task]")],
+    progressSection: panel.querySelector("[data-guide-progress]"), progressText: panel.querySelector("[data-guide-progress-text]"),
+    progressBar: panel.querySelector("[data-guide-progress-bar]"), remainingHeading: panel.querySelector("[data-guide-remaining-heading]"),
+    remainingRows: [...panel.querySelectorAll("[data-guide-remaining-task]")]
   })).filter(item => item.input && item.status && Object.hasOwn(TRIPS, item.city) && TASKS.includes(item.task));
   const displayed = new Map();
   const active = item => item.panel.dataset.guideReturn === win.location.hash;
@@ -43,9 +48,19 @@ export function mountGuideChecks(doc, win) {
       item.input.checked = !!state?.checks[item.task];
       item.input.disabled = !state;
       item.status.textContent = message;
+      const summary = state ? progress(state) : null;
+      item.progressSection.hidden = !state;
+      item.progressText.textContent = summary ? text.progress(summary.done, TASKS.length) : "";
+      item.progressBar.value = summary?.done ?? 0;
+      item.progressBar.setAttribute("aria-valuetext", item.progressText.textContent);
+      item.remainingHeading.hidden = !summary || summary.done === TASKS.length;
       const ready = !!state?.checks[item.task];
-      const next = ready ? progress(state).next : null;
+      const next = ready ? summary.next : null;
       let hiddenFocus = false;
+      for (const row of item.remainingRows) {
+        row.hidden = !state || state.checks[row.dataset.guideRemainingTask];
+        if (row.hidden && row.contains(doc.activeElement)) hiddenFocus = true;
+      }
       for (const row of item.nextRows) {
         row.hidden = row.dataset.guideNextTask !== next;
         if (row.hidden && row.contains(doc.activeElement)) hiddenFocus = true;

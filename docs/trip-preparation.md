@@ -1,5 +1,15 @@
 # Trip Preparation Workspaces
 
+## City Progress While Reading
+
+A guide opened with a valid city/task context now shows that city's saved preparation progress in both return areas, even before the current item is marked. A localized count, percentage and native progress bar summarize the five existing checks. Remaining items appear in checklist order with the current item identified as plain text; other items link to their existing localized guide with the correct city/task context. Visits and these links do not write records or automatically mark tasks. The next-task actions remain available after the current task is checked.
+
+Counts and remaining items are derived from the existing parsed city record, not a new storage field. Check/uncheck, reload, language changes, history and cross-tab updates refresh both summaries. Missing/corrupt/blocked records and invalid contexts hide the summary rather than claiming zero progress. Failed writes retain the saved count; when another tab checks a focused remaining link, focus returns to the current task control. At five checks the remaining heading/list is empty and the existing cautious recheck message remains. Progress measures personal notes only, not booking or travel-condition verification.
+
+Local Phase 1-5, strict Hugo and whitespace checks passed on 2026-10-15. Unit tests cover 960 localized check-state/context combinations, accessible progress text, remaining order, failed writes, unavailable data and focus recovery. Isolated Chromium verified all 30 bilingual task contexts and 30 remaining-guide links, correct city labels, counts before/after edits, reload/language, cross-tab focus, completion/uncheck, retry and no-JS/empty/corrupt/blocked states. EN/KO passed 320/390/768/920/1440px with 44px links and no overflow; screenshots inspected. Existing next-step navigation passed 30 marks, 8 same-article and 16 cross-article transitions. Other preparation fields/cities, saved guides and decision data were preserved; no application errors or preparation API/search calls occurred. Physical-device/Safari remains NOT_RUN. Production verification is recorded separately.
+
+Existing overview/workspace two-way synchronization, bookmark removal/undo, failed-save retry, stale reset and unavailable/no-JS regression checks also passed locally.
+
 ## Continuing to the Next Task
 
 When the current article task is checked in the readable saved record, both return areas show the first remaining unchecked item in the existing checklist order. This can surface an earlier omission, not just the item after the current one. Separate links open its related guide or its exact My trips row. Nothing navigates automatically. When two tasks share an article, the guide link switches the fragment context and focuses the new task control. Completing all items replaces the next links with a reminder to recheck choices and travel conditions before departure; checks are still personal notes, not booking confirmations.

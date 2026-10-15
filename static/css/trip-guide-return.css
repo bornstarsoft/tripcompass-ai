@@ -6,6 +6,15 @@
 .guide-task-check input { width: 20px; height: 20px; margin: 0; accent-color: var(--teal); }
 .guide-task-check input:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
 .trip-guide-return [data-guide-check-status]:empty { margin: 0; }
+.guide-progress { border-top: 1px solid var(--line); margin-top: .75rem; padding-top: .75rem; }
+.guide-progress[hidden], .guide-progress [hidden] { display: none; }
+.guide-progress h2, .guide-progress h3 { font-size: 1rem; margin: 0 0 .25rem; }
+.guide-progress progress { display: block; width: 100%; max-width: 40rem; height: .65rem; margin: .5rem 0 .75rem; accent-color: var(--teal); }
+.guide-remaining { display: grid; gap: 0 1.5rem; list-style: none; padding: 0; margin: 0; }
+.guide-remaining li { min-width: 0; }
+.guide-remaining a, .guide-remaining span { display: flex; align-items: center; flex-wrap: wrap; min-height: 44px; padding-block: .4rem; line-height: 1.5; }
+.guide-remaining small { margin-inline-start: .4em; color: var(--muted); }
+@media (min-width: 700px) { .guide-remaining { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .guide-next { border-top: 1px solid var(--line); margin-top: .75rem; padding-top: .75rem; }
 .guide-next[hidden], .guide-next [hidden], .guide-next-complete[hidden] { display: none; }
 .guide-next h2 { font-size: 1rem; margin: 0 0 .25rem; }
