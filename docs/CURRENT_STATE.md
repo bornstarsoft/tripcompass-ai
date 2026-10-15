@@ -1,12 +1,13 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (MY-TRIPS-READING-UNDO; reading deletion undo, EN/KO mobile QA, commit/deploy approved; main/current worktree; 2026-10-15)
+ACTIVE_WRITER = NONE
 
-- Last AI: CODEX; WORK-ID: MY-TRIPS-READING-UNDO; IN_PROGRESS on 2026-10-15.
-- Phase: release preparation. Owner approved reading-position deletion undo, existing-record preservation, EN/KO mobile QA, commit and deployment. Started clean at e8fbfe6 on main; no previous active writer.
+- Last AI: CODEX; WORK-ID: MY-TRIPS-READING-UNDO; DONE on 2026-10-15.
+- Phase: deployed and production-validated. Owner approved reading-position deletion undo, existing-record preservation, EN/KO mobile QA, commit and deployment. Started clean at e8fbfe6 on main; no previous active writer.
 - Scope: per-city current-page-only undo in the reading overview module, localized icon/button/status, focus and stale-state protection, tests and privacy/docs. Existing preparation/bookmark/decision storage keys and writers are unchanged; only the selected reading key is removed/restored. No new storage keys, backend/gateway, D1/KV, environment, API, /go or affiliate changes.
-- HEAD/WIP: main at e8fbfe6; intended application/test/docs changes awaiting commit. No owner WIP discarded.
+- HEAD/WIP: application commit 72b12e43ceb62b2b8bb0e4c40bf56951e031f05e on main is pushed/deployed; this accompanying documentation update records release evidence. No owner WIP discarded.
 - QA PASS: Phase 1-5, strict Hugo, git diff --check; 67 content pages/58 monitored URLs. Local Chromium passed 30 EN/KO task contexts for delete/undo/exact reading restoration/resume/reload, with byte-equivalent original records and keyboard focus. EN/KO 320/390/768/920/1440px, 44px undo targets, no overflow; screenshots inspected. Twenty-four touch-mobile failure/retry/newer/reset/checklist-only/independent-city/reload/language cases, six actual-BFCache undo-lifetime cases and six overview Back/resume/Forward regressions passed. Overview/workspace/checklist/bookmark-undo and unavailable/no-JS regressions passed. No application errors or preparation API/search calls.
-- QA NOT_RUN: production release checks (pending deployment), physical-device/Safari, D1 queries and retention measurement.
-- NEXT_SINGLE_TASK: commit/push this approved change, confirm same-SHA CI/Pages, then verify production undo/resume and launch health before recording completion.
-- BLOCKER: none. Use existing GitHub-to-Pages integration without infrastructure or credential changes. Release references: docs/operations.md and docs/trip-preparation.md.
+- Production QA PASS: same-SHA CI/Pages; 30 EN/KO delete/undo/resume/reload contexts with exact original records, five widths and inspected screenshots; 24 touch-mobile failure/retry/newer/reset/checklist-only/independent-city/page-lifetime cases; six actual-BFCache undo-lifetime cases and six overview Back/resume/Forward regressions. Overview/workspace/checklist/bookmark-undo and unavailable/no-JS regressions passed. Six deployed assets match; privacy published. Launch health: EN/KO backend, repeated cache, HEAD 302 and 58 sitemap URLs. No application errors or preparation API/search calls.
+- QA NOT_RUN: physical-device/Safari, D1 queries and retention measurement.
+- NEXT_SINGLE_TASK: with owner approval, review actual use of reading resume/undo and choose the next retention improvement; functional tests do not establish business gains.
+- BLOCKER: none. Existing GitHub-to-Pages integration used without infrastructure or credential changes. Release references: docs/operations.md and docs/trip-preparation.md.

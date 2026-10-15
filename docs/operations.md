@@ -201,6 +201,16 @@ CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call producti
 - Nine deployed assets matched the commit by SHA-256; privacy notice published. Launch health passed EN/KO `source=backend`, repeated `source=cache`, HEAD 302 and 58 monitored sitemap URLs.
 - One bounded reading record per city and one guarded single-use session handoff are new. Preparation reset keeps its prior scope; Forget reading position removes only the selected city's reading record. No preparation/bookmark/decision migration or writer changes, backend/gateway/D1/KV/environment/API/redirect/affiliate changes. Physical-device/Safari, D1 reporting and retention measurement were not run. Details: `docs/trip-preparation.md`.
 
+## My Trips Reading Undo Release: 2026-10-15
+
+- Application commit: `72b12e43ceb62b2b8bb0e4c40bf56951e031f05e`, pushed to GitHub `main` with owner approval. Phase 1-5, strict Hugo and whitespace checks passed; content/inventory counts remain 67/58.
+- GitHub CI: [run 38716522313](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/38716522313), success for that SHA.
+- Cloudflare Pages: deployment `2e7b7321-18fd-4bf7-9c17-e79c3fc12425`, success for the same SHA. [Immutable deployment](https://2e7b7321.tripcompass-ai.pages.dev). Existing Git integration used without infrastructure or credential changes.
+- Production Chromium passed 30 EN/KO city/task delete-undo-resume-reload contexts with exact original reading records, keyboard focus and unchanged preparation/bookmark/decision records. Both languages passed 320/390/768/920/1440px, 44px undo targets and screenshot inspection.
+- Twenty-four touch-mobile cases passed failures/retry, newer or unreadable replacement protection, reset/course changes, checklist-only edits, independent city undo and reload/language page lifetime. Six actual-BFCache deletion-lifetime cases and six ordinary overview Back/resume/Forward regressions passed. Existing overview/workspace/checklist/bookmark-undo and unavailable/no-JS behavior passed, with no application errors or preparation API/search calls.
+- Six deployed JS/CSS assets matched the commit by SHA-256; privacy notice published. Launch health passed EN/KO `source=backend`, repeated `source=cache`, HEAD 302 and 58 monitored sitemap URLs.
+- Undo holds one deleted record per city in current-page memory only. No new storage key or persistent deletion history, preparation/bookmark/decision migration, backend/gateway/D1/KV/environment/API/redirect/affiliate changes. Physical-device/Safari, D1 queries and retention measurement were not run. Details: `docs/trip-preparation.md`.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:
