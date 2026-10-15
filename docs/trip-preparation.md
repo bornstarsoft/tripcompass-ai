@@ -10,6 +10,14 @@ Local validation on 2026-10-15 passed Phase 1-5, strict Hugo and whitespace chec
 
 The existing overview/workspace regression also passed locally: two-way checks, saved-guide removal/undo, record isolation, failed-write retry, stale/reset and unavailable/no-JS cases.
 
+### Full Checklist Links Production Verification: 2026-10-15
+
+Application commit `0a6f777` passed same-SHA GitHub CI and Pages deployment. Isolated production Chromium passed all 60 EN/KO keyboard guide/overview round trips (24 marked-item visits, 28 same-article transitions), 60 visible links in fully marked lists, completed-item revisits, reload and language changes. Preparation records, extra fields, other cities, raw bookmarks and decision data stayed byte-equivalent during navigation. Both languages passed 320/390/768/920/1440px with separate 44px targets and no overflow/overlap; screenshots inspected. No application errors or preparation API/search calls occurred.
+
+Eight deployed assets matched local files by SHA-256, and both languages contained the new template links. Launch health passed EN/KO backend responses, repeated cache, HEAD 302 and 58 monitored sitemap URLs. The focused-link/other-tab reset case also passed locally, recovering focus to the outer return link. Physical-device/Safari, D1 reporting and retention measurement remain NOT_RUN. These are functional checks, not evidence of booking readiness or improved retention. Release references are in `docs/operations.md`.
+
+Production full-checklist regression passed 30 contexts/60 edits, current/top/bottom synchronization, keyboard disclosure, completion/uncheck, reload/language, cross-tab updates, failed-write retry and stale/reset protection. Overview/workspace synchronization, saved-guide removal/undo, failures and unavailable/no-JS regressions also passed without application errors or preparation API/search calls.
+
 ## Full Checklist in Guides
 
 For an existing saved trip opened through a valid guide task context, both progress areas include a native, initially collapsed All preparation items / 전체 준비 항목 disclosure. Its five labeled checkboxes include completed items, which can be unmarked without leaving the article. The current task is identified in the list. Expansion/collapse does not save anything or navigate. Editing and other-tab updates do not force a disclosure closed; a fresh page load starts compact. Expanded state is not a new persisted preference.

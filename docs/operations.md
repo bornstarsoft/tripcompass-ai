@@ -151,6 +151,16 @@ CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call producti
 - Launch health passed EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and 58 monitored sitemap URLs. Eight deployed assets matched the commit by SHA-256. Browser preparation tests reported no application errors or API/search calls.
 - No shared storage helper/key/migration, backend/gateway, D1/KV, environment, `/go` or affiliate changes. Physical-device/Safari, D1 reporting and retention measurement were not run. Checks remain personal notes, not verified bookings or travel conditions.
 
+## Full Checklist Guide Links Release: 2026-10-15
+
+- Application commit: `0a6f777763837ce680ca44aa9394081fcfb6dbfb`, pushed to GitHub `main` with owner approval. Phase 1-5, strict Hugo and whitespace checks passed; content/inventory counts remain 67/58.
+- GitHub CI: [run 38692601974](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/38692601974), success for that SHA.
+- Cloudflare Pages: deployment `0a708809-5482-45d9-84f3-bc81c1c3bb4f`, success for the same SHA. [Immutable deployment](https://0a708809.tripcompass-ai.pages.dev).
+- Production Chromium passed 60 EN/KO keyboard guide/overview round trips, including marked/current tasks and same-article navigation. All five links stayed available in fully marked lists. Navigation, reload and language changes preserved raw preparation/bookmark/decision data. EN/KO passed 320/390/768/920/1440px with separate 44px targets; screenshots inspected. Details: `docs/trip-preparation.md`.
+- Production full-checklist regression passed 30 contexts/60 edits, synchronized controls, cross-tab updates, failed-write retry and stale/reset protection. Overview/workspace synchronization, bookmark removal/undo and unavailable/no-JS regressions also passed.
+- Launch health passed EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and 58 monitored sitemap URLs. Eight deployed assets matched local files by SHA-256; both languages contained the template update. Browser navigation reported no application errors or preparation API/search calls.
+- No JavaScript/storage writer/key/migration, backend/gateway, D1/KV, environment, `/go` or affiliate changes. Physical-device/Safari, D1 reporting and retention measurement were not run. Checks remain personal notes, not verified bookings or travel conditions.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:
