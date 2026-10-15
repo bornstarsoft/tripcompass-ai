@@ -142,6 +142,15 @@ CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call producti
 - Launch health passed EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and 58 monitored sitemap URLs. Eight deployed assets matched the commit by SHA-256. Browser preparation tests reported no application errors or API/search calls.
 - No storage writer/key/migration, backend/gateway, D1/KV, environment, `/go` or affiliate changes. Physical-device/Safari, D1 reporting and retention measurement were not run. Progress represents personal preparation notes, not booking or travel-condition guarantees.
 
+## Full Guide Checklist Release: 2026-10-15
+
+- Application commit: `2ebbe8141e26e95880a212217bd4cfcf68a47903`, pushed to GitHub `main` with owner approval. Phase 1-5, strict Hugo and whitespace checks passed; content/inventory counts remain 67/58.
+- GitHub CI: [run 38690897573](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/38690897573), success for that SHA.
+- Cloudflare Pages: deployment `89b6da61-0c6d-4fb7-aa4e-1fcc91630134`, success for the same SHA. [Immutable deployment](https://89b6da61.tripcompass-ai.pages.dev).
+- Production Chromium passed 30 EN/KO contexts and 60 full-list edits, keyboard disclosure, synchronized controls, completion/uncheck, reload/language, two-way overview changes, failure/retry and stale/reset focus recovery. Both languages passed 320/390/768/920/1440px; screenshots inspected. Progress/remaining-guide and overview/bookmark-undo regressions passed. Details: `docs/trip-preparation.md`.
+- Launch health passed EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and 58 monitored sitemap URLs. Eight deployed assets matched the commit by SHA-256. Browser preparation tests reported no application errors or API/search calls.
+- No shared storage helper/key/migration, backend/gateway, D1/KV, environment, `/go` or affiliate changes. Physical-device/Safari, D1 reporting and retention measurement were not run. Checks remain personal notes, not verified bookings or travel conditions.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:
