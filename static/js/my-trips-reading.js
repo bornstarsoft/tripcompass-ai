@@ -1,9 +1,12 @@
 import { TRIPS, parseState } from "./trip-prep-core.js";
 import { READING_KEYS, parseReading, readReading, queueReading } from "./trip-reading.js";
+import { readingUndoReload, undoFresh, UNDO_TTL } from "./trip-reading-undo.js";
 
 export function mountMyTripsReading(doc, win) {
   const ko = doc.documentElement.lang === "ko";
   const cards = [...doc.querySelectorAll("[data-trip-reading]")];
+  const reloadUndo = readingUndoReload(win);
+  win.addEventListener("pageshow", event => { if (event.persisted) reloadUndo.renew(); });
   for (const card of cards) {
     const city = card.dataset.tripReading;
     if (!Object.hasOwn(TRIPS, city)) continue;
@@ -11,8 +14,16 @@ export function mountMyTripsReading(doc, win) {
     const status = card.querySelector("[data-reading-status]");
     const clear = card.querySelector("[data-reading-clear]");
     const undo = card.querySelector("[data-reading-undo]");
-    // One exact deleted value per city, in page memory only; never an undo archive.
-    let removed = null, displayedRaw = null;
+    let removed = reloadUndo.take(city), displayedRaw = null, timer = null;
+    function expire() {
+      if (!removed || undoFresh(removed.at)) return false;
+      removed = null; reloadUndo.discard(city);
+      return true;
+    }
+    function scheduleExpiry() {
+      if (timer !== null) win.clearTimeout?.(timer);
+      timer = removed ? win.setTimeout?.(() => render(), Math.max(0, UNDO_TTL - (Date.now() - removed.at))) : null;
+    }
     const matches = (record, state) => state && record.course === state.course && record.alternative === state.alternative;
     function current() {
       const raw = win.localStorage.getItem(READING_KEYS[city]);
@@ -22,6 +33,7 @@ export function mountMyTripsReading(doc, win) {
     }
     function announce(message) { status.hidden = false; status.textContent = message; }
     function render() {
+      const expired = expire();
       let record = null, failed = false;
       try {
         if (removed && win.localStorage.getItem(READING_KEYS[city]) !== null) removed = null;
@@ -37,11 +49,13 @@ export function mountMyTripsReading(doc, win) {
       undo.hidden = !removed;
       status.hidden = !!row;
       status.textContent = failed ? (ko ? "읽던 위치를 확인할 수 없어요. 기존 기록은 그대로입니다." : "Your reading position is unavailable. Existing records are unchanged.")
-        : removed ? (ko ? "읽던 위치를 지웠어요." : "Reading position removed.")
+        : expired ? (ko ? "취소 가능 시간이 지났어요. 읽던 위치는 삭제된 상태입니다." : "Undo time has expired. The reading position remains removed.")
+        : removed ? (ko ? "읽던 위치를 지웠어요. 삭제 후 2분 동안 취소할 수 있어요." : "Reading position removed. Undo is available for 2 minutes after removal.")
           : (ko ? "최근 읽던 준비 가이드가 없어요." : "No recent preparation guide.");
       if ((focusedRow && focusedRow !== row) || (focusedClear && clear.hidden) || (focusedUndo && undo.hidden)) {
         (removed ? undo : row ? row.querySelector("[data-reading-link]") : status).focus({ preventScroll: true });
       }
+      scheduleExpiry();
     }
     for (const row of rows) {
       const link = row.querySelector("[data-reading-link]");
@@ -58,7 +72,7 @@ export function mountMyTripsReading(doc, win) {
         const latest = current();
         if (!latest.record || latest.raw !== displayedRaw) { render(); return; }
         win.localStorage.removeItem(READING_KEYS[city]);
-        removed = { raw: latest.raw, record: latest.record };
+        removed = { raw: latest.raw, record: latest.record, at: Date.now() };
         render();
       }
       catch {
@@ -67,6 +81,7 @@ export function mountMyTripsReading(doc, win) {
     });
     undo.addEventListener("click", () => {
       if (!removed) return;
+      if (!undoFresh(removed.at)) { render(); return; }
       try {
         if (win.localStorage.getItem(READING_KEYS[city]) !== null) {
           removed = null; render();
@@ -97,8 +112,19 @@ export function mountMyTripsReading(doc, win) {
         render();
       }
     });
-    win.addEventListener("pagehide", () => { removed = null; });
-    win.addEventListener("pageshow", () => render());
+    win.addEventListener("pagehide", () => {
+      try {
+        const latest = current();
+        if (latest.raw !== null || (removed && !matches(removed.record, latest.state))) removed = null;
+      } catch { removed = null; }
+      reloadUndo.save(city, removed);
+      removed = null;
+      if (timer !== null) win.clearTimeout?.(timer);
+    });
+    win.addEventListener("pageshow", event => {
+      if (event.persisted) reloadUndo.discard(city);
+      render();
+    });
   }
 }
 
