@@ -191,6 +191,16 @@ CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call producti
 - Ten deployed assets matched the commit by SHA-256; the privacy notice is published. Launch health passed EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and 58 monitored sitemap URLs.
 - One optional, single-use tab-local UI transfer is added, with a two-minute lifetime and counterpart/referrer/context checks. No preparation/bookmark/decision record migration. Backend/gateway, D1/KV, environment, API, `/go` and affiliate behavior are unchanged. Physical-device/Safari, D1 reporting and retention measurement were not run. Details: `docs/trip-preparation.md`.
 
+## My Trips Reading Resume Release: 2026-10-15
+
+- Application commit: `3ab4358f245e33ec72feb34bbf7d9be960945449`, pushed to GitHub `main` with owner approval. Phase 1-5, strict Hugo and whitespace checks passed; content/inventory counts remain 67/58.
+- GitHub CI: [run 38709488749](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/38709488749), success for that SHA.
+- Cloudflare Pages: deployment `36c23658-8335-44bf-a9a9-da9f69681d6d`, success for the same SHA. [Immutable deployment](https://36c23658.tripcompass-ai.pages.dev).
+- Production Chromium passed 30 EN/KO city/task contexts, localized last-guide/task summaries, opposite-language Continue reading, checklist/semantic-section position, independent/both/collapsed lists, reload and city-isolated forget. Existing preparation/bookmark/decision records were preserved outside deliberate edits. Both languages passed 320/390/768/920/1440px and 44px resume targets; screenshots inspected.
+- Eighteen touch-mobile cases passed same-language resume/edit/reload, blocked/corrupt storage, reset/changed preparation, fresh navigation and cross-tab updates/forget. Six overview return/resume/Forward flows passed with actual BFCache. Overview/workspace, bookmark removal/undo and unavailable/no-JS regressions passed, with no application errors or preparation API/search calls.
+- Nine deployed assets matched the commit by SHA-256; privacy notice published. Launch health passed EN/KO `source=backend`, repeated `source=cache`, HEAD 302 and 58 monitored sitemap URLs.
+- One bounded reading record per city and one guarded single-use session handoff are new. Preparation reset keeps its prior scope; Forget reading position removes only the selected city's reading record. No preparation/bookmark/decision migration or writer changes, backend/gateway/D1/KV/environment/API/redirect/affiliate changes. Physical-device/Safari, D1 reporting and retention measurement were not run. Details: `docs/trip-preparation.md`.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:
