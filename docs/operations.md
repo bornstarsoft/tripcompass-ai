@@ -211,6 +211,16 @@ CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call producti
 - Six deployed JS/CSS assets matched the commit by SHA-256; privacy notice published. Launch health passed EN/KO `source=backend`, repeated `source=cache`, HEAD 302 and 58 monitored sitemap URLs.
 - Undo holds one deleted record per city in current-page memory only. No new storage key or persistent deletion history, preparation/bookmark/decision migration, backend/gateway/D1/KV/environment/API/redirect/affiliate changes. Physical-device/Safari, D1 queries and retention measurement were not run. Details: `docs/trip-preparation.md`.
 
+## Reading Undo Reload Release: 2026-10-15
+
+- Application commit: `c19d1e2f2d168cd3c4585d80a1ea3ae8db8f7ad0`, pushed to GitHub `main` with owner approval. Phase 1-5, strict Hugo and whitespace checks passed; content/inventory counts remain 67/58.
+- GitHub CI: [run 38720027353](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/38720027353), success for that SHA.
+- Cloudflare Pages: deployment `eb66a9b5-4efc-44bf-ba41-76d7dd0b1da0`, success for the same SHA. [Immutable deployment](https://eb66a9b5.tripcompass-ai.pages.dev). No infrastructure or credential changes.
+- Production Chromium passed 30 EN/KO city/task contexts with two reloads before explicit undo, exact reading restoration, disclosures/section position and guide reload. Both languages passed 320/390/768/920/1440px, 44px controls and screenshot inspection.
+- Twenty-four touch-mobile failure/retry/newer/reset/multicity cases, ten deadline/storage/history/fresh-entry guards and six actual-BFCache invalidation cases passed. Existing overview/workspace/checklist/bookmark-undo and unavailable/no-JS regressions passed. Original preparation/bookmark/decision records were preserved outside deliberate edits; no application errors or preparation API/search calls.
+- Six deployed JS assets matched the commit, including `trip-reading-undo.js`; privacy notice published. Launch health passed EN/KO `source=backend`, repeated `source=cache`, HEAD 302 and all 58 monitored sitemap URLs.
+- Undo now expires two minutes after deletion and can survive repeated reloads of the same overview visit. Optional per-city tab snapshots and a rotated history marker do not migrate or change preparation/bookmark/decision records. Ordinary navigation and language changes do not transfer undo. No backend/gateway/D1/KV/environment/API/redirect/affiliate changes. Physical-device/Safari, D1 queries and retention measurement were not run. Details: `docs/trip-preparation.md`.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:
