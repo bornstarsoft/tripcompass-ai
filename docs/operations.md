@@ -171,6 +171,16 @@ CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call producti
 - Launch health passed EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and 58 monitored sitemap URLs. Nine deployed assets matched the commit by SHA-256. Browser history checks reported no application errors or preparation API/search calls.
 - Only per-entry UI state uses `history.state`; no new local/session storage record or migration. Backend/gateway, D1/KV, environment, API, `/go` and affiliate behavior are unchanged. Physical-device/Safari, D1 reporting and retention measurement were not run.
 
+## Guide Reload Restoration Release: 2026-10-15
+
+- Application commit: `1db2b1ef11a9c18354b14ee49831989075cfed76`, pushed to GitHub `main` with owner approval. Phase 1-5, strict Hugo and whitespace checks passed; content/inventory counts remain 67/58.
+- GitHub CI: [run 38701883217](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/38701883217), success for that SHA.
+- Cloudflare Pages: deployment `9455a550-801c-487e-be4b-cc318ddf44c1`, success for the same SHA. [Immutable deployment](https://9455a550.tripcompass-ai.pages.dev).
+- Production Chromium passed 46 EN/KO three-city reloads, independent/both/collapsed checklists, reading position, repeated reloads, fresh visits/new tabs and preserved raw records. Both languages passed 320/390/768/920/1440px; screenshots inspected. Existing history restoration passed 24 actual-BFCache and 24 cold-history round trips, including repeated traversal and same-document tasks.
+- Touch-mobile reload/Back/latest-check/reset/failed-history tests and eight blocked/malformed/wrong-entry/reset cases passed. Full-list 30 contexts/60 edits, overview/workspace, bookmark removal/undo and unavailable/no-JS regressions passed. No application errors or preparation API/search calls.
+- Nine deployed assets matched the commit; the browser-only reading-position privacy note is published. Launch health passed EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and 58 monitored sitemap URLs.
+- Only UI state is added to one optional tab-local `sessionStorage` slot, guarded by a History API entry marker and exact URL context. No preparation/bookmark/decision record migration or writer changes. Backend/gateway, D1/KV, environment, API, `/go` and affiliate behavior are unchanged. Physical-device/Safari, D1 reporting and retention measurement were not run.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:
