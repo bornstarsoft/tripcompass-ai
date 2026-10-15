@@ -1,6 +1,16 @@
 # Trip Preparation Workspaces
 
-## Reload-safe Reading Undo
+## Language-safe Reading Undo
+
+Explicit same-tab header language switching between `/my-trips/` and `/ko/my-trips/` now retains pending reading-position undo for the remainder of the original two-minute deletion window. Repeated switches and reloads do not restart that window. The localized undo control remains available without stealing focus or automatically restoring a record. Explicit undo restores the original city reading value byte-for-byte; Continue reading opens the current language's guide at its semantic position with the same disclosures.
+
+The existing per-city `tripcompass.reading-undo.<city>.v1` session snapshots optionally include the normalized source/destination overview addresses. A single-use transfer requires explicit, unmodified, non-cancelled same-tab header navigation, navigation type `navigate`, the matching same-origin referrer, a valid city record and an unexpired deletion time. No query/fragment, arbitrary external target or new storage key is used. Consumption must succeed. Reload still uses its existing history-entry marker. Ordinary navigation, new-tab links and Back/Forward do not carry undo; BFCache renewal invalidates old snapshots. Missing referrer, denied storage/history, malformed/expired data and changed/newer records fail safely. Preparation/bookmark/decision keys and writers remain unchanged; no server request is introduced.
+
+Unit checks in `scripts/check_reading_undo.mjs` cover repeated EN/KO switches interleaved with reload, all three cities, original timestamps, one-use transfer, exact records and 27 navigation/referrer/deadline/storage/context guards per language. Historical release notes below describe earlier scopes; this section supersedes their language-navigation limitation.
+
+Local QA on 2026-10-15: Phase 1-5, strict Hugo and whitespace checks passed. Chromium passed 30 EN/KO city/task contexts, each with three language switches plus reloads, exact reading-value restoration, localized resume, disclosure/section positions and guide reload. Five viewport widths (320/390/768/920/1440px), 44px undo controls and inspected mobile/desktop screenshots passed. Twenty-four touch-mobile failure/retry/newer/reset/checklist-only/multicity cases, 14 language deadline/storage/history/referrer/navigation guards, ten existing reload guards and six actual-BFCache invalidation cases passed. Existing overview/workspace/checklist/bookmark-undo and no-JS/unavailable-state regressions passed. Original records remained byte-equivalent outside deliberate edits; no application errors or preparation API/search calls occurred. The temporary browser assertion was corrected to accept the existing `/from-seoul/` guide routes as well as itineraries before rerunning the full suite. Physical-device/Safari, D1 queries and retention measurement remain NOT_RUN.
+
+## Initial Reload-only Undo Release
 
 Reading-position undo now has a fixed two-minute lifetime from successful deletion, including repeated reloads of the same My trips history entry. Reload only restores the Undo removal control, not the localStorage reading record; the user must explicitly restore it. The deadline is checked during rendering, before undo and before persisting a snapshot, with a timer to remove an expired control and recover focus. Restoring still writes only the original selected reading value, byte-for-byte. Preparation, bookmarks and decision records are not migrated or written.
 

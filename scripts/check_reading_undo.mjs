@@ -6,7 +6,9 @@ import { UNDO_KEYS, UNDO_TTL } from "../static/js/trip-reading-undo.js";
 
 function fixture(language = "en", prior = null, navigation = "navigate", options = {}) {
   const map = prior?.map || new Map(), session = prior?.session || new Map(), events = {}, writes = [], timers = new Map();
-  const doc = { documentElement: { lang: language }, activeElement: null };
+  const docEvents = {};
+  const doc = { documentElement: { lang: language }, activeElement: null, referrer: options.referrer ?? prior?.win.location.href ?? "",
+    addEventListener(name, fn) { (docEvents[name] ||= []).push(fn); } };
   const node = () => ({ hidden: true, textContent: "", addEventListener(type, fn) { this[type] = fn; }, focus() { doc.activeElement = this; } });
   const cards = Object.keys(TRIPS).map(city => {
     const state = { ...initialState(city), extra: "keep" };
@@ -42,7 +44,12 @@ function fixture(language = "en", prior = null, navigation = "navigate", options
   const emit = (name, event = {}) => events[name]?.forEach(fn => fn(event));
   const control = (city, kind) => cards.find(card => card.dataset.tripReading === city).fields[`[data-reading-${kind}]`];
   const click = (city, kind) => { const button = control(city, kind); button.focus(); button.click(); };
-  return { doc, cards, map, session, win, timers, writes, blocked, emit, control, click };
+  const languageClick = (overrides = {}, eventOverrides = {}) => {
+    const link = { href: `https://tripcompass.ai/${language === "en" ? "ko/" : ""}my-trips/`, target: "", hasAttribute: () => false, ...overrides };
+    const event = { button: 0, target: { closest: () => link }, ...eventOverrides };
+    docEvents.click?.forEach(fn => fn(event)); return event;
+  };
+  return { doc, cards, map, session, win, timers, writes, blocked, emit, control, click, languageClick };
 }
 
 for (const language of ["en", "ko"]) for (const city of Object.keys(TRIPS)) {
@@ -158,3 +165,49 @@ try {
   assert.equal(fixture("en",bf,"reload").control("fukuoka","undo").hidden,true,"BFCache invalidates even a denied snapshot cleanup");
 } finally { Date.now = realNow; }
 console.log("Reload undo passed: EN/KO three cities, repeated reload, original deadline, expiry/focus, entry isolation, blocked storage/history, BFCache invalidation and exact record preservation.");
+
+now = realNow(); Date.now = () => now;
+try {
+  for (const language of ["en", "ko"]) {
+    const f = fixture(language), before=[...f.map].sort(), deletedAt=now;
+    for (const city of Object.keys(TRIPS)) f.click(city,"clear");
+    let current=f, lang=language;
+    for (let i=0;i<3;i++) {
+      current.languageClick(); current.emit("pagehide"); now+=15000;
+      for(const city of Object.keys(TRIPS)) assert.equal(JSON.parse(current.session.get(UNDO_KEYS[city])).at,deletedAt);
+      lang=lang==="en"?"ko":"en";current=fixture(lang,current,"navigate");
+      for(const city of Object.keys(TRIPS)) assert.equal(current.control(city,"undo").hidden,false);
+      assert.equal(current.doc.activeElement,null,"Language arrival does not steal focus");
+      current.emit("pagehide"); current=fixture(lang,current,"reload");
+    }
+    for(const city of ["tokyo","fukuoka","osaka"]) current.click(city,"undo");
+    assert.deepEqual([...current.map].sort(),before,"Language switching preserves exact reading and other records");
+    current.emit("pagehide");
+    assert.equal(current.session.size,0,"Consumed undo is not reissued");
+  }
+  for(const language of ["en","ko"]) for(const mode of ["expired","future","no-click","same-language","external","query","hash","modified","middle","target","download","cancelled","late-cancelled","ordinary-click","no-referrer","wrong-referrer","reload","back_forward","newer","reset","course","checks","blocked-write","blocked-read","blocked-remove","blocked-history","replay"]) {
+    const f=fixture(language),key=READING_KEYS.fukuoka;f.click("fukuoka","clear");
+    const other=language==="en"?"ko":"en",target=`https://tripcompass.ai/${other==="ko"?"ko/":""}my-trips/`;
+    const links={"same-language":{href:f.win.location.href},external:{href:"https://example.com/ko/my-trips/"},query:{href:target+"?x=1"},hash:{href:target+"#x"},target:{target:"_blank"},download:{hasAttribute:()=>true}};
+    const events={modified:{ctrlKey:true},middle:{button:1},cancelled:{defaultPrevented:true}};
+    if(mode!=="no-click") {const event=f.languageClick(links[mode],events[mode]);if(mode==="late-cancelled")event.defaultPrevented=true;}
+    if(mode==="ordinary-click")f.languageClick({}, {target:{closest:()=>null}});
+    if(mode==="blocked-write")f.blocked.sessionWrite=true;
+    f.emit("pagehide");
+    if(mode==="expired")now+=UNDO_TTL;
+    if(mode==="future")now-=1;
+    if(mode==="newer")f.map.set(key,"{");
+    if(mode==="reset")f.map.delete(TRIPS.fukuoka.storageKey);
+    if(["course","checks"].includes(mode)){const s=JSON.parse(f.map.get(TRIPS.fukuoka.storageKey));if(mode==="course")s.course="parents";else s.checks.hotel=true;f.map.set(TRIPS.fukuoka.storageKey,JSON.stringify(s));}
+    const options={sessionRead:mode==="blocked-read",sessionRemove:mode==="blocked-remove",history:mode==="blocked-history"};
+    if(mode==="no-referrer")options.referrer="";
+    if(mode==="wrong-referrer")options.referrer="https://example.com/my-trips/";
+    let arrived=fixture(other,f,["reload","back_forward"].includes(mode)?mode:"navigate",options);
+    if(mode==="replay")arrived=fixture(other,arrived,"navigate");
+    assert.equal(arrived.control("fukuoka","undo").hidden,mode!=="checks",mode);
+    const before=[...arrived.map];arrived.click("fukuoka","undo");
+    if(mode!=="checks")assert.deepEqual([...arrived.map],before,mode+": no stale writes");
+    else assert.equal(JSON.parse(arrived.map.get(TRIPS.fukuoka.storageKey)).checks.hotel,true);
+  }
+} finally { Date.now=realNow; }
+console.log("Language undo passed: EN/KO repeated switches plus reload, original deadline, exact records, guarded navigation/referrer, single-use handoff, failures and newer/reset protection.");

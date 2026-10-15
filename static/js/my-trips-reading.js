@@ -5,7 +5,7 @@ import { readingUndoReload, undoFresh, UNDO_TTL } from "./trip-reading-undo.js";
 export function mountMyTripsReading(doc, win) {
   const ko = doc.documentElement.lang === "ko";
   const cards = [...doc.querySelectorAll("[data-trip-reading]")];
-  const reloadUndo = readingUndoReload(win);
+  const reloadUndo = readingUndoReload(win, doc);
   win.addEventListener("pageshow", event => { if (event.persisted) reloadUndo.renew(); });
   for (const card of cards) {
     const city = card.dataset.tripReading;
