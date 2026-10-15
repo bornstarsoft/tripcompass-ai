@@ -45,6 +45,7 @@
           </div>
           {{ end }}
           <button class="my-trip-reading-clear" data-reading-clear type="button" hidden aria-label="{{ cond $ko (printf "%s 읽던 위치 지우기" $trip.ko) (printf "Forget %s reading position" $trip.en) }}">{{ cond $ko "읽던 위치 지우기" "Forget reading position" }}</button>
+          <button class="my-trip-reading-undo" data-reading-undo type="button" hidden aria-label="{{ cond $ko (printf "%s 읽던 위치 지우기 취소" $trip.ko) (printf "Undo removal of %s reading position" $trip.en) }}" title="{{ cond $ko "읽던 위치 지우기 취소" "Undo reading position removal" }}">{{ partial "icons/undo.html" }}<span>{{ cond $ko "지우기 취소" "Undo removal" }}</span></button>
         </section>
         <div data-trip-details hidden>
           <p data-trip-count></p>

@@ -89,11 +89,12 @@ for (const language of ["en", "ko"]) {
   const doc = { documentElement: { lang: language } }, events = {};
   const status = { hidden: false, focus() { doc.activeElement = this; } };
   const clear = { addEventListener: (_, fn) => { clear.click = fn; } };
+  const undo = { addEventListener: (_, fn) => { undo.click = fn; }, focus() { doc.activeElement = this; } };
   const rows = TASKS.map(task => {
     const link = { href: `https://tripcompass.ai${language === "ko" ? "/ko" : ""}/guide/#prep-fukuoka-${task}`, target: "", hasAttribute: () => false, addEventListener: (_, fn) => { link.click = fn; } };
     return { dataset: { readingTask: task }, hidden: true, contains: node => node === link, querySelector: () => link, link };
   });
-  doc.querySelectorAll = () => [{ dataset: { tripReading: "fukuoka" }, querySelectorAll: () => rows, querySelector: key => key === "[data-reading-status]" ? status : clear }];
+  doc.querySelectorAll = () => [{ dataset: { tripReading: "fukuoka" }, querySelectorAll: () => rows, querySelector: key => ({ "[data-reading-status]": status, "[data-reading-clear]": clear, "[data-reading-undo]": undo })[key] }];
   f.win.location = new URL(`https://tripcompass.ai${language === "ko" ? "/ko" : ""}/my-trips/`);
   f.win.addEventListener = (name, fn) => { events[name] = fn; };
   const before = [...f.win.localStorage.map]; mountMyTripsReading(doc, f.win);
@@ -105,7 +106,7 @@ for (const language of ["en", "ko"]) {
   f.win.localStorage.removeItem = () => { throw Error("PRIVATE"); }; clear.click();
   assert.equal(clear.hidden, false); assert.match(status.textContent, /could not|못했/); assert.doesNotMatch(status.textContent, /PRIVATE/);
   f.win.localStorage.removeItem = remove; doc.activeElement = clear; clear.click();
-  assert.ok(rows.every(r => r.hidden)); assert.equal(doc.activeElement, status);
+  assert.ok(rows.every(r => r.hidden)); assert.equal(doc.activeElement, undo);
   assert.deepEqual([...f.win.localStorage.map], before.filter(([key]) => key !== READING_KEYS.fukuoka));
   f.win.localStorage.map.set(READING_KEYS.fukuoka, "{"); events.storage({ key: READING_KEYS.fukuoka });
   assert.match(status.textContent, /unavailable|확인할 수 없/); assert.ok(rows.every(r => r.hidden));

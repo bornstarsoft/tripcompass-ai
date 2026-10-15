@@ -139,6 +139,8 @@ for prefix in ("", "/ko"):
     assert overview == expected, f"Overview/workspace task guide mismatch: {prefix or 'en'}"
     assert set(TaskLinks(html).resume) == set(expected.values()) and len(TaskLinks(html).resume) == 15
     assert html.count("data-trip-reading=") == 3 and html.count("data-reading-clear") == 3
+    assert html.count("data-reading-undo") == 3
+    assert ("지우기 취소" if prefix else "Undo removal") in html
     assert ("마지막에 읽던 가이드" if prefix else "Last preparation guide") in html
     assert "js/my-trips-reading.js" in html
     assert html.count("관련 가이드" if prefix else "Related guide") == 30
