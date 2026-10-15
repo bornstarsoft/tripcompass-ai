@@ -1,5 +1,15 @@
 # Trip Preparation Workspaces
 
+## Related Guides in the Full Checklist
+
+Every item in the expanded guide checklist has a separate Related guide / 관련 가이드 link, including marked items and the current task. Links come from the existing localized city/task mappings and retain the `#prep-city-task` context. The destination's return link leads to the same item in My trips. Links sit outside checkbox labels, have task-specific accessible names and at least 44px targets. They remain available after all five items are marked; revisiting a guide does not change a check.
+
+This is a template/CSS change, not a new storage or navigation controller. Existing version-1 preparation records, extra fields, saved guides and decision data are preserved. No backend, API, gateway, D1/KV, environment, `/go` or affiliate behavior changes. Checks are personal notes, not booking or travel-condition verification.
+
+Local validation on 2026-10-15 passed Phase 1-5, strict Hugo and whitespace checks. The built-page test checks all 300 checklist links across 30 EN/KO task contexts and both return areas. Isolated Chromium passed 60 keyboard guide/overview round trips, including 24 marked-item visits and 28 same-article transitions. All 60 links in fully marked lists remained visible; completed-item revisits, reload and language changes preserved saved records byte-for-byte. Both languages passed 320/390/768/920/1440px with separate 44px targets, no overlap/overflow and inspected screenshots. Full-checklist regression passed 30 contexts/60 edits, disclosure, synchronized controls, completion/uncheck, cross-tab updates, failed-write retry and stale/reset protection. No application errors or preparation API/search calls occurred. Physical-device/Safari remains NOT_RUN; production evidence is recorded separately after deployment.
+
+The existing overview/workspace regression also passed locally: two-way checks, saved-guide removal/undo, record isolation, failed-write retry, stale/reset and unavailable/no-JS cases.
+
 ## Full Checklist in Guides
 
 For an existing saved trip opened through a valid guide task context, both progress areas include a native, initially collapsed All preparation items / 전체 준비 항목 disclosure. Its five labeled checkboxes include completed items, which can be unmarked without leaving the article. The current task is identified in the list. Expansion/collapse does not save anything or navigate. Editing and other-tab updates do not force a disclosure closed; a fresh page load starts compact. Expanded state is not a new persisted preference.

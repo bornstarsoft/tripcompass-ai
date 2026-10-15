@@ -30,7 +30,10 @@
         <fieldset>
           <legend>{{ cond $ko (printf "%s 준비 체크리스트" $trip.ko) (printf "%s preparation checklist" $trip.en) }}</legend>
           {{ range $trip.tasks }}
-          <label class="guide-task-check"><input type="checkbox" data-guide-all-check="{{ .id }}" disabled><span>{{ index . $lang }}{{ if eq .id $currentTask }} <small>({{ cond $ko "현재 항목" "Current item" }})</small>{{ end }}</span></label>
+          <div class="guide-checklist-item">
+            <label class="guide-task-check"><input type="checkbox" data-guide-all-check="{{ .id }}" disabled><span>{{ index . $lang }}{{ if eq .id $currentTask }} <small>({{ cond $ko "현재 항목" "Current item" }})</small>{{ end }}</span></label>
+            <a data-guide-all-link="{{ .id }}" href="{{ printf "%s%s#prep-%s-%s" $prefix .path $trip.id .id | relURL }}" aria-label="{{ cond $ko (printf "관련 가이드: %s" (index . $lang)) (printf "Related guide: %s" (index . $lang)) }}">{{ cond $ko "관련 가이드" "Related guide" }}</a>
+          </div>
           {{ end }}
         </fieldset>
         <p class="fine-print" data-guide-all-status role="status" aria-live="polite" aria-atomic="true"></p>

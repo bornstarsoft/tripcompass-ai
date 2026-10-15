@@ -22,7 +22,7 @@ class TaskLinks(HTMLParser):
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
         if "data-guide-return" in attrs:
-            self.return_panel = {"context": attrs["data-guide-return"], "guides": {}, "overviews": {}, "remaining": {}, "remaining_links": {}, "checks": [], "disclosure": False}
+            self.return_panel = {"context": attrs["data-guide-return"], "guides": {}, "overviews": {}, "remaining": {}, "remaining_links": {}, "checks": [], "check_guides": {}, "disclosure": False}
             self.return_panels.append(self.return_panel)
         if "data-guide-checklist" in attrs:
             assert tag == "details" and "open" not in attrs, "Use a collapsed native disclosure"
@@ -38,6 +38,13 @@ class TaskLinks(HTMLParser):
         if "data-guide-next-task" in attrs:
             self.next_task = attrs["data-guide-next-task"]
         if tag == "a" and self.return_panel is not None:
+            if "data-guide-all-link" in attrs:
+                task = attrs["data-guide-all-link"]
+                assert self.label_depth == 0, "Checklist links must not toggle a checkbox"
+                assert "target" not in attrs and "onclick" not in attrs and "hidden" not in attrs
+                assert attrs.get("aria-label", "").startswith(("Related guide: ", "관련 가이드: "))
+                assert task not in self.return_panel["check_guides"], "Duplicate checklist guide"
+                self.return_panel["check_guides"][task] = attrs["href"]
             if self.remaining_task:
                 assert self.label_depth == 0
                 self.return_panel["remaining_links"][self.remaining_task] = attrs["href"]
@@ -100,6 +107,7 @@ for prefix in ("", "/ko"):
                 assert set(panel['remaining']) == set(workspace)
                 assert panel['remaining_links'] == {key: path + f"#prep-{city}-{key}" for key, path in workspace.items() if key != task}
                 assert panel['guides'] == {key: path + f"#prep-{city}-{key}" for key, path in workspace.items()}
+                assert panel['check_guides'] == panel['guides'], "Every item, including the current/marked item, needs its guide"
                 assert panel['overviews'] == {key: f"{prefix}/my-trips/#trip-{city}-{key}" for key in workspace}
             assert 'data-guide-next-complete' in guide_html
             assert guide_html.count('data-guide-progress-bar') == guide_html.count('data-guide-return=')
@@ -110,4 +118,4 @@ for prefix in ("", "/ko"):
     assert overview == expected, f"Overview/workspace task guide mismatch: {prefix or 'en'}"
     assert html.count("관련 가이드" if prefix else "Related guide") == 30
 
-print("My trips task guide links passed: 30 localized links, workspace parity, built targets and checkbox separation.")
+print("My trips task guide links passed: 30 contexts, 300 full-checklist links, workspace parity, built targets and checkbox separation.")
