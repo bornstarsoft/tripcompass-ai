@@ -181,6 +181,16 @@ CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call producti
 - Nine deployed assets matched the commit; the browser-only reading-position privacy note is published. Launch health passed EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and 58 monitored sitemap URLs.
 - Only UI state is added to one optional tab-local `sessionStorage` slot, guarded by a History API entry marker and exact URL context. No preparation/bookmark/decision record migration or writer changes. Backend/gateway, D1/KV, environment, API, `/go` and affiliate behavior are unchanged. Physical-device/Safari, D1 reporting and retention measurement were not run.
 
+## Guide Language Continuity Release: 2026-10-15
+
+- Application commit: `89fab05fd423838982ceedb43f9f3584a6fe9c4f`, pushed to GitHub `main` with owner approval. Phase 1-5, strict Hugo and whitespace checks passed; content/inventory counts remain 67/58.
+- GitHub CI: [run 38705314398](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/38705314398), success for that SHA.
+- Cloudflare Pages: deployment `6f118b2b-d6ae-4004-8d6d-b30e429270dc`, success for the same SHA. [Immutable deployment](https://6f118b2b.tripcompass-ai.pages.dev).
+- Production Chromium passed 30 contexts/80 EN/KO switches, checklist/semantic-section position, independent/both/collapsed lists, repeated switches, reload and native Back/Forward. Both languages passed 320/390/768/920/1440px; screenshots inspected. Twelve touch-mobile/keyboard/blocked/expired/reset cases passed. The test waits for initial page load/focus before placing the reading position.
+- Existing history regression passed 24 round trips including actual BFCache. Full-list 30 contexts/60 edits, cross-tab/failure/reset handling, overview/workspace, bookmark removal/undo and unavailable/no-JS regressions passed. Preparation/bookmark/decision records were preserved outside deliberate edits. No application errors or preparation API/search calls occurred.
+- Ten deployed assets matched the commit by SHA-256; the privacy notice is published. Launch health passed EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and 58 monitored sitemap URLs.
+- One optional, single-use tab-local UI transfer is added, with a two-minute lifetime and counterpart/referrer/context checks. No preparation/bookmark/decision record migration. Backend/gateway, D1/KV, environment, API, `/go` and affiliate behavior are unchanged. Physical-device/Safari, D1 reporting and retention measurement were not run. Details: `docs/trip-preparation.md`.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:
