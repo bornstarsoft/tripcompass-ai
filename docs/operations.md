@@ -161,6 +161,16 @@ CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call producti
 - Launch health passed EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and 58 monitored sitemap URLs. Eight deployed assets matched local files by SHA-256; both languages contained the template update. Browser navigation reported no application errors or preparation API/search calls.
 - No JavaScript/storage writer/key/migration, backend/gateway, D1/KV, environment, `/go` or affiliate changes. Physical-device/Safari, D1 reporting and retention measurement were not run. Checks remain personal notes, not verified bookings or travel conditions.
 
+## Guide History Restoration Release: 2026-10-15
+
+- Application commit: `7a112c1b07f5ba26de68f2b1c32e7692d8c985a8`, pushed to GitHub `main` with owner approval. Phase 1-5, strict Hugo and whitespace checks passed; content/inventory counts remain 67/58.
+- GitHub CI: [run 38695631400](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/38695631400), success for that SHA.
+- Cloudflare Pages: deployment `9da0ed99-6b66-4f15-8e4b-3241b359f960`, success for the same SHA. [Immutable deployment](https://9da0ed99.tripcompass-ai.pages.dev).
+- Production Chromium passed 24 EN/KO round trips each with actual BFCache and cold restoration, including same-document task fragments, independently/both expanded panels, repeated Back/Forward, position/focus and compact fresh reloads. Raw preparation/bookmark/decision records stayed unchanged during navigation. Both languages passed 320/390/768/920/1440px; screenshots inspected. Details: `docs/trip-preparation.md`.
+- Production touch-mobile latest-check preservation, reset fallback and blocked-history navigation passed in both browser configurations. Existing full-checklist (30 contexts/60 edits), overview/workspace, saved-guide removal/undo and unavailable/no-JS regressions passed.
+- Launch health passed EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and 58 monitored sitemap URLs. Nine deployed assets matched the commit by SHA-256. Browser history checks reported no application errors or preparation API/search calls.
+- Only per-entry UI state uses `history.state`; no new local/session storage record or migration. Backend/gateway, D1/KV, environment, API, `/go` and affiliate behavior are unchanged. Physical-device/Safari, D1 reporting and retention measurement were not run.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:

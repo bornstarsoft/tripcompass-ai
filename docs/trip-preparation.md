@@ -10,6 +10,14 @@ Local validation on 2026-10-15 passed Phase 1-5, strict Hugo and whitespace chec
 
 Touch-enabled mobile contexts in both browser configurations also passed EN/KO latest-check preservation after returning, reset fallback without record recreation, History API failure with native navigation, and unchanged bookmarks. Existing overview/workspace and saved-guide removal/undo regressions passed. These checks use isolated test records, not the owner's browser profile.
 
+### Guide History Production Verification: 2026-10-15
+
+Application commit `7a112c1` passed same-SHA GitHub CI and Cloudflare Pages deployment. On the production domain, isolated Chromium passed 24 EN/KO round trips with actual BFCache and another 24 with cold page restoration. Both covered same-document task fragments, independent and simultaneously expanded lists, repeated Back/Forward, exact reading position/link focus, compact reloads and byte-equivalent preparation/bookmark/decision records. Both languages passed 320/390/768/920/1440px; restored-screen screenshots were inspected. No application errors or preparation API/search calls occurred.
+
+Nine deployed assets matched the committed files by SHA-256. Launch health passed EN/KO backend responses, repeat cache, HEAD 302 and 58 monitored sitemap URLs. No provider, environment, storage writer/schema, redirect or affiliate behavior changed. Physical-device/Safari, D1 queries and retention measurement remain NOT_RUN. These results establish functional behavior, not improved retention or booking readiness; release references are in `docs/operations.md`.
+
+Production touch-mobile tests passed in both browser configurations: latest checks remained current after Back, reset records were not recreated, blocked history writes did not prevent navigation, and bookmarks stayed unchanged. Full-checklist regression passed 30 contexts/60 edits, synchronization, completion/uncheck, failure/retry and stale/reset protection. Overview/workspace changes, saved-guide removal/undo and unavailable/no-JS regressions passed too.
+
 ## Related Guides in the Full Checklist
 
 Every item in the expanded guide checklist has a separate Related guide / 관련 가이드 link, including marked items and the current task. Links come from the existing localized city/task mappings and retain the `#prep-city-task` context. The destination's return link leads to the same item in My trips. Links sit outside checkbox labels, have task-specific accessible names and at least 44px targets. They remain available after all five items are marked; revisiting a guide does not change a check.
