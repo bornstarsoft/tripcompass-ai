@@ -22,8 +22,15 @@ class TaskLinks(HTMLParser):
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
         if "data-guide-return" in attrs:
-            self.return_panel = {"context": attrs["data-guide-return"], "guides": {}, "overviews": {}, "remaining": {}, "remaining_links": {}}
+            self.return_panel = {"context": attrs["data-guide-return"], "guides": {}, "overviews": {}, "remaining": {}, "remaining_links": {}, "checks": [], "disclosure": False}
             self.return_panels.append(self.return_panel)
+        if "data-guide-checklist" in attrs:
+            assert tag == "details" and "open" not in attrs, "Use a collapsed native disclosure"
+            self.return_panel["disclosure"] = True
+        if "data-guide-all-check" in attrs:
+            assert tag == "input" and attrs.get("type") == "checkbox" and "disabled" in attrs
+            assert self.label_depth == 1, "Full checklist controls need labels"
+            self.return_panel["checks"].append(attrs["data-guide-all-check"])
         if "data-guide-remaining-task" in attrs:
             self.remaining_task = attrs["data-guide-remaining-task"]
             assert self.remaining_task not in self.return_panel["remaining"]
@@ -89,12 +96,15 @@ for prefix in ("", "/ko"):
             panels = [panel for panel in TaskLinks(guide_html).return_panels if panel['context'] == context]
             assert len(panels) == 2
             for panel in panels:
+                assert panel['disclosure'] and panel['checks'] == list(workspace)
                 assert set(panel['remaining']) == set(workspace)
                 assert panel['remaining_links'] == {key: path + f"#prep-{city}-{key}" for key, path in workspace.items() if key != task}
                 assert panel['guides'] == {key: path + f"#prep-{city}-{key}" for key, path in workspace.items()}
                 assert panel['overviews'] == {key: f"{prefix}/my-trips/#trip-{city}-{key}" for key in workspace}
             assert 'data-guide-next-complete' in guide_html
             assert guide_html.count('data-guide-progress-bar') == guide_html.count('data-guide-return=')
+            assert guide_html.count('data-guide-all-status') == guide_html.count('data-guide-return=')
+            assert ('전체 준비 항목' if prefix else 'All preparation items') in guide_html
             assert ('준비 진행률' if prefix else 'preparation progress') in guide_html
             expected[f"{city}:{task}"] = href + context
     assert overview == expected, f"Overview/workspace task guide mismatch: {prefix or 'en'}"

@@ -29,7 +29,9 @@ export function mountGuideChecks(doc, win) {
     nextRows: [...panel.querySelectorAll("[data-guide-next-task]")],
     progressSection: panel.querySelector("[data-guide-progress]"), progressText: panel.querySelector("[data-guide-progress-text]"),
     progressBar: panel.querySelector("[data-guide-progress-bar]"), remainingHeading: panel.querySelector("[data-guide-remaining-heading]"),
-    remainingRows: [...panel.querySelectorAll("[data-guide-remaining-task]")]
+    remainingRows: [...panel.querySelectorAll("[data-guide-remaining-task]")],
+    checklist: panel.querySelector("[data-guide-checklist]"), allStatus: panel.querySelector("[data-guide-all-status]"),
+    allInputs: [...panel.querySelectorAll("[data-guide-all-check]")].filter(input => TASKS.includes(input.dataset.guideAllCheck))
   })).filter(item => item.input && item.status && Object.hasOwn(TRIPS, item.city) && TASKS.includes(item.task));
   const displayed = new Map();
   const active = item => item.panel.dataset.guideReturn === win.location.hash;
@@ -48,6 +50,11 @@ export function mountGuideChecks(doc, win) {
       item.input.checked = !!state?.checks[item.task];
       item.input.disabled = !state;
       item.status.textContent = message;
+      item.allStatus.textContent = "";
+      for (const input of item.allInputs) {
+        input.checked = !!state?.checks[input.dataset.guideAllCheck];
+        input.disabled = !state;
+      }
       const summary = state ? progress(state) : null;
       item.progressSection.hidden = !state;
       item.progressText.textContent = summary ? text.progress(summary.done, TASKS.length) : "";
@@ -67,24 +74,28 @@ export function mountGuideChecks(doc, win) {
       }
       item.nextSection.hidden = !ready || !next;
       item.complete.hidden = !ready || !!next;
-      if ((!state && doc.activeElement === item.input) || hiddenFocus) {
+      if ((!state && (doc.activeElement === item.input || item.checklist.contains(doc.activeElement))) || hiddenFocus) {
         (state ? item.input : item.panel.querySelector("a")).focus({ preventScroll: true });
       }
     }
   }
 
-  for (const item of panels) item.input.addEventListener("change", () => {
+  function edit(item, input, task, status) {
     if (!active(item)) { render(); return; }
-    const checked = item.input.checked;
+    const checked = input.checked;
     let feedback;
     try {
-      const result = saveExistingCheck(win.localStorage, item.city, item.task, checked, displayed.get(item.panel));
+      const result = saveExistingCheck(win.localStorage, item.city, task, checked, displayed.get(item.panel));
       feedback = result === "saved" ? text[checked ? "marked" : "unmarked"] : text[result];
     } catch { feedback = text.failed; }
     render();
-    // Update both checkboxes, but announce the action only where it happened.
-    item.status.textContent = feedback;
-  });
+    // Keep every copy in sync; announce once, outside the disclosure if it became unavailable.
+    (item.progressSection.hidden ? item.status : status).textContent = feedback;
+  }
+  for (const item of panels) {
+    item.input.addEventListener("change", () => edit(item, item.input, item.task, item.status));
+    for (const input of item.allInputs) input.addEventListener("change", () => edit(item, input, input.dataset.guideAllCheck, item.allStatus));
+  }
   render();
   function refreshContext(event) {
     render();

@@ -25,6 +25,16 @@
         <li data-guide-remaining-task="{{ .id }}" hidden>{{ if eq .id $currentTask }}<span>{{ index . $lang }} <small>({{ cond $ko "현재 항목" "Current item" }})</small></span>{{ else }}<a href="{{ printf "%s%s#prep-%s-%s" $prefix .path $trip.id .id | relURL }}">{{ index . $lang }}</a>{{ end }}</li>
         {{ end }}
       </ul>
+      <details class="guide-checklist" data-guide-checklist>
+        <summary>{{ cond $ko "전체 준비 항목" "All preparation items" }}</summary>
+        <fieldset>
+          <legend>{{ cond $ko (printf "%s 준비 체크리스트" $trip.ko) (printf "%s preparation checklist" $trip.en) }}</legend>
+          {{ range $trip.tasks }}
+          <label class="guide-task-check"><input type="checkbox" data-guide-all-check="{{ .id }}" disabled><span>{{ index . $lang }}{{ if eq .id $currentTask }} <small>({{ cond $ko "현재 항목" "Current item" }})</small>{{ end }}</span></label>
+          {{ end }}
+        </fieldset>
+        <p class="fine-print" data-guide-all-status role="status" aria-live="polite" aria-atomic="true"></p>
+      </details>
     </section>
     <section class="guide-next" data-guide-next hidden aria-label="{{ cond $ko "다음 남은 준비" "Next remaining item" }}">
       <h2>{{ cond $ko "다음 남은 준비" "Next remaining item" }}</h2>

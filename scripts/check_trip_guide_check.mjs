@@ -22,14 +22,18 @@ function fixture(lang = "en", city = "fukuoka", task = "hotel", hash = `#prep-${
     const progressSection = { hidden: true }, progressText = { textContent: "" }, remainingHeading = { hidden: true };
     const progressBar = { value: 0, setAttribute(name, value) { this[name] = value; } };
     const remainingRows = TASKS.map(id => ({ dataset: { guideRemainingTask: id }, hidden: true, contains(el) { return el === this; } }));
-    return { dataset: { guideReturn: `#prep-${city}-${task}`, guideCity: city, guideTask: task }, input, status, link, nextSection, complete, nextRows, progressSection, progressText, progressBar, remainingHeading, remainingRows,
-      querySelectorAll: selector => selector === "[data-guide-next-task]" ? nextRows : remainingRows,
-      querySelector: selector => ({ "[data-guide-check]": input, "[data-guide-check-status]": status, "[data-guide-next]": nextSection, "[data-guide-next-complete]": complete, "[data-guide-progress]": progressSection, "[data-guide-progress-text]": progressText, "[data-guide-progress-bar]": progressBar, "[data-guide-remaining-heading]": remainingHeading, a: link })[selector] };
+    const allStatus = { textContent: "" };
+    const allInputs = TASKS.map(id => ({ dataset: { guideAllCheck: id }, checked: false, disabled: true, addEventListener(_, fn) { this.change = fn; } }));
+    const disclosure = {}, checklist = { contains(el) { return el === disclosure || allInputs.includes(el); } };
+    return { dataset: { guideReturn: `#prep-${city}-${task}`, guideCity: city, guideTask: task }, input, status, link, nextSection, complete, nextRows, progressSection, progressText, progressBar, remainingHeading, remainingRows, allStatus, allInputs, checklist, disclosure,
+      querySelectorAll: selector => ({ "[data-guide-next-task]": nextRows, "[data-guide-remaining-task]": remainingRows, "[data-guide-all-check]": allInputs })[selector],
+      querySelector: selector => ({ "[data-guide-check]": input, "[data-guide-check-status]": status, "[data-guide-next]": nextSection, "[data-guide-next-complete]": complete, "[data-guide-progress]": progressSection, "[data-guide-progress-text]": progressText, "[data-guide-progress-bar]": progressBar, "[data-guide-remaining-heading]": remainingHeading, "[data-guide-all-status]": allStatus, "[data-guide-checklist]": checklist, a: link })[selector] };
   });
   const doc = { documentElement: { lang }, activeElement: null, querySelectorAll: () => panels };
   mountGuideChecks(doc, win);
   const edit = (checked, index = 0) => { panels[index].input.checked = checked; doc.activeElement = panels[index].input; panels[index].input.change(); };
-  return { values, writes, events, storage, win, panels, doc, edit, key: TRIPS[city].storageKey };
+  const editAll = (task, checked, index = 0) => { const input = panels[index].allInputs.find(input => input.dataset.guideAllCheck === task); input.checked = checked; doc.activeElement = input; input.change(); };
+  return { values, writes, events, storage, win, panels, doc, edit, editAll, key: TRIPS[city].storageKey };
 }
 
 for (const lang of ["en", "ko"]) for (const city of Object.keys(TRIPS)) for (const task of TASKS) {
@@ -100,6 +104,8 @@ for (const lang of ["en", "ko"]) for (const city of Object.keys(TRIPS)) for (con
       const remaining = TASKS.filter(id => !state.checks[id]);
       const done = TASKS.length - remaining.length;
       assert.equal(panel.progressSection.hidden, false);
+      assert.deepEqual(panel.allInputs.map(input => input.checked), TASKS.map(id => state.checks[id]));
+      assert.ok(panel.allInputs.every(input => !input.disabled));
       assert.equal(panel.progressBar.value, done);
       assert.equal(panel.progressText.textContent, lang === "ko" ? `5개 중 ${done}개 체크 (${done * 20}%) · ${remaining.length}개 남음` : `${done}/5 marked (${done * 20}%) · ${remaining.length} remaining`);
       assert.equal(panel.progressBar["aria-valuetext"], panel.progressText.textContent);
@@ -153,3 +159,54 @@ for (const mode of ["missing", "corrupt", "blocked", "invalid-context"]) {
   assert.equal(s.writes.length, 0);
 }
 console.log("Guide city progress passed: 960 localized states, exact remaining order/count, accessible progress, rollback, unavailable-state hiding and focus recovery without new writes.");
+
+for (const lang of ["en", "ko"]) for (const city of Object.keys(TRIPS)) for (const context of TASKS) for (const task of TASKS) {
+  const f = fixture(lang, city, context), before = new Map(f.values);
+  for (const [checked, index] of [[true, 0], [false, 1]]) {
+    f.editAll(task, checked, index);
+    const expected = new Map(before), state = JSON.parse(before.get(f.key)); state.checks[task] = checked;
+    expected.set(f.key, JSON.stringify(state));
+    assert.deepEqual(f.values, expected, "Only selected boolean changes; other city/bookmark/extra data stays intact");
+    assert.equal(f.doc.activeElement, f.panels[index].allInputs.find(input => input.dataset.guideAllCheck === task), "Focus stays on edited control");
+    assert.ok(f.panels.every(p => p.allInputs.find(input => input.dataset.guideAllCheck === task).checked === checked));
+    assert.ok(f.panels.every(p => p.input.checked === (context === task && checked)));
+    assert.ok(f.panels.every(p => p.progressBar.value === Number(checked)));
+    assert.match(f.panels[index].allStatus.textContent, lang === "ko" ? /저장했어요/ : /Saved in this browser/);
+    assert.equal(f.panels[1-index].allStatus.textContent, "", "No duplicate announcement");
+    assert.ok(f.panels.every(p => p.status.textContent === ""));
+  }
+}
+for (const lang of ["en", "ko"]) {
+  const f = fixture(lang), original = new Map(f.values);
+  f.storage.failWrite = true; f.editAll("weather", true);
+  assert.deepEqual(f.values, original);
+  assert.ok(f.panels.every(p => !p.allInputs[3].checked && p.progressBar.value === 0));
+  assert.match(f.panels[0].allStatus.textContent, lang === "ko" ? /못했어요/ : /could not/);
+  assert.ok(!f.panels[0].allStatus.textContent.includes("PRIVATE"));
+  f.storage.failWrite = false;
+  const latest = JSON.parse(f.values.get(f.key)); latest.checks.transport = true;
+  f.values.set(f.key, JSON.stringify(latest)); f.editAll("weather", true);
+  assert.ok(f.panels.every(p => p.progressBar.value === 2 && p.allInputs[2].checked && p.allInputs[3].checked));
+  latest.checks.weather = true; latest.course = "parents";
+  f.values.set(f.key, JSON.stringify(latest)); f.editAll("departure", true);
+  assert.equal(JSON.parse(f.values.get(f.key)).checks.departure, false, "Reject stale course");
+  assert.match(f.panels[0].allStatus.textContent, lang === "ko" ? /바뀌었어요/ : /changed/);
+  f.values.delete(f.key); f.editAll("departure", true, 1);
+  assert.equal(f.values.has(f.key), false);
+  assert.equal(f.doc.activeElement, f.panels[1].link, "Focus leaves unavailable checklist");
+  assert.ok(f.panels.every(p => p.progressSection.hidden && p.allInputs.every(input => input.disabled)));
+  assert.ok(f.panels[1].status.textContent.length > 0, "Reset notice remains outside hidden summary");
+  f.values.set(f.key, "PRIVATE bad"); f.editAll("flights", true);
+  assert.equal(f.values.get(f.key), "PRIVATE bad");
+  f.storage.blocked = true; f.events.storage({ key: null });
+  assert.ok(f.panels.every(p => p.allInputs.every(input => input.disabled)));
+  f.storage.blocked = false; f.values.set(f.key, JSON.stringify(initialState())); f.events.pageshow({ persisted: true });
+  assert.ok(f.panels.every(p => p.allInputs.every(input => !input.disabled && !input.checked)));
+  f.win.location.hash = "#unknown"; f.events.hashchange(); const count = f.writes.length; f.editAll("hotel", true);
+  assert.equal(f.writes.length, count, "Inactive full checklist cannot write");
+}
+console.log("Guide full checklist passed: 300 targeted edits, synchronized controls, 960 restored states, record isolation, localized feedback, rollback/retry and stale/reset protection.");
+const disclosureReset = fixture();
+disclosureReset.doc.activeElement = disclosureReset.panels[0].disclosure;
+disclosureReset.values.delete(disclosureReset.key); disclosureReset.events.storage({ key: null });
+assert.equal(disclosureReset.doc.activeElement, disclosureReset.panels[0].link, "Unavailable disclosure recovers focus too");

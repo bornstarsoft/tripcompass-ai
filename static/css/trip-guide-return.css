@@ -14,7 +14,14 @@
 .guide-remaining li { min-width: 0; }
 .guide-remaining a, .guide-remaining span { display: flex; align-items: center; flex-wrap: wrap; min-height: 44px; padding-block: .4rem; line-height: 1.5; }
 .guide-remaining small { margin-inline-start: .4em; color: var(--muted); }
-@media (min-width: 700px) { .guide-remaining { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.guide-checklist { border-top: 1px solid var(--line); margin-top: .5rem; }
+.guide-checklist summary { min-height: 44px; padding-block: .65rem; line-height: 1.5; cursor: pointer; font-weight: 750; }
+.guide-checklist summary:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+.guide-checklist fieldset { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 1.5rem; border: 0; padding: 0; margin: .25rem 0 0; min-width: 0; }
+.guide-checklist legend { padding: 0; font-size: .9rem; color: var(--muted); }
+.guide-checklist small { color: var(--muted); }
+.trip-guide-return [data-guide-all-status]:empty { margin: 0; }
+@media (min-width: 700px) { .guide-remaining, .guide-checklist fieldset { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .guide-next { border-top: 1px solid var(--line); margin-top: .75rem; padding-top: .75rem; }
 .guide-next[hidden], .guide-next [hidden], .guide-next-complete[hidden] { display: none; }
 .guide-next h2 { font-size: 1rem; margin: 0 0 .25rem; }
