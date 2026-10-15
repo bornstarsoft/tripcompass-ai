@@ -221,6 +221,16 @@ CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call producti
 - Six deployed JS assets matched the commit, including `trip-reading-undo.js`; privacy notice published. Launch health passed EN/KO `source=backend`, repeated `source=cache`, HEAD 302 and all 58 monitored sitemap URLs.
 - Undo now expires two minutes after deletion and can survive repeated reloads of the same overview visit. Optional per-city tab snapshots and a rotated history marker do not migrate or change preparation/bookmark/decision records. Ordinary navigation and language changes do not transfer undo. No backend/gateway/D1/KV/environment/API/redirect/affiliate changes. Physical-device/Safari, D1 queries and retention measurement were not run. Details: `docs/trip-preparation.md`.
 
+## Reading Undo Language Release: 2026-10-15
+
+- Application commit: `60e2a872cae518fdc4fd68d2dc397d0c05f261ad`, pushed to GitHub `main` with owner approval. Phase 1-5, strict Hugo and whitespace checks passed; content/inventory counts remain 67/58.
+- GitHub CI: [run 38722329055](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/38722329055), success for that SHA.
+- Cloudflare Pages: deployment `e6f3896f-6c66-42eb-930e-de2e3df8e34b`, success for the same SHA. [Immutable deployment](https://e6f3896f.tripcompass-ai.pages.dev). Existing Git integration; no infrastructure or credential changes.
+- Production Chromium passed 30 EN/KO city/task contexts, each with three language switches plus reloads before explicit undo, exact record restoration, localized resume, disclosure/section position and guide reload. Both languages passed 320/390/768/920/1440px, 44px controls and screenshot inspection.
+- Twenty-four touch-mobile failure/retry/newer/reset/multicity cases, 14 language deadline/storage/history/referrer/navigation guards, ten reload guards and six actual-BFCache invalidation cases passed. Existing overview/workspace/checklist/bookmark-undo and no-JS/unavailable-state regressions passed. Preparation/bookmark/decision values remained unchanged outside deliberate edits; no application errors or preparation API/search calls occurred.
+- Six deployed JS assets matched the validated source; privacy notice published. Launch health passed EN/KO `source=backend`, repeated `source=cache`, HEAD 302 and all 58 monitored sitemap URLs. D1 queries were not run.
+- Explicit same-tab header language switching now carries pending undo for the remaining original two-minute deletion window. No timer restart, automatic restoration, new localStorage key or preparation/bookmark migration. Ordinary navigation and Back/Forward do not transfer undo. This supersedes the previous release's language-navigation limitation. No backend/gateway/D1/KV/environment/API/redirect/affiliate changes. Physical-device/Safari and retention measurement remain NOT_RUN. Details: `docs/trip-preparation.md`.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:
