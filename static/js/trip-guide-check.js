@@ -1,4 +1,4 @@
-import { TRIPS, TASKS, parseState } from "./trip-prep-core.js";
+import { TRIPS, TASKS, parseState, progress } from "./trip-prep-core.js";
 import { saveExistingCheck } from "./trip-check-edit.js";
 
 const copy = {
@@ -22,7 +22,9 @@ export function mountGuideChecks(doc, win) {
   const text = copy[doc.documentElement.lang === "ko" ? "ko" : "en"];
   const panels = [...doc.querySelectorAll("[data-guide-return]")].map(panel => ({
     panel, city: panel.dataset.guideCity, task: panel.dataset.guideTask,
-    input: panel.querySelector("[data-guide-check]"), status: panel.querySelector("[data-guide-check-status]")
+    input: panel.querySelector("[data-guide-check]"), status: panel.querySelector("[data-guide-check-status]"),
+    nextSection: panel.querySelector("[data-guide-next]"), complete: panel.querySelector("[data-guide-next-complete]"),
+    nextRows: [...panel.querySelectorAll("[data-guide-next-task]")]
   })).filter(item => item.input && item.status && Object.hasOwn(TRIPS, item.city) && TASKS.includes(item.task));
   const displayed = new Map();
   const active = item => item.panel.dataset.guideReturn === win.location.hash;
@@ -41,7 +43,18 @@ export function mountGuideChecks(doc, win) {
       item.input.checked = !!state?.checks[item.task];
       item.input.disabled = !state;
       item.status.textContent = message;
-      if (!state && doc.activeElement === item.input) item.panel.querySelector("a").focus({ preventScroll: true });
+      const ready = !!state?.checks[item.task];
+      const next = ready ? progress(state).next : null;
+      let hiddenFocus = false;
+      for (const row of item.nextRows) {
+        row.hidden = row.dataset.guideNextTask !== next;
+        if (row.hidden && row.contains(doc.activeElement)) hiddenFocus = true;
+      }
+      item.nextSection.hidden = !ready || !next;
+      item.complete.hidden = !ready || !!next;
+      if ((!state && doc.activeElement === item.input) || hiddenFocus) {
+        (state ? item.input : item.panel.querySelector("a")).focus({ preventScroll: true });
+      }
     }
   }
 
@@ -58,8 +71,20 @@ export function mountGuideChecks(doc, win) {
     item.status.textContent = feedback;
   });
   render();
-  win.addEventListener("hashchange", render);
-  win.addEventListener("pageshow", render);
+  function refreshContext(event) {
+    render();
+    if (event?.persisted) return;
+    // A next task can share this article; reveal its panel before moving keyboard focus.
+    win.requestAnimationFrame(() => {
+      const item = panels.find(active);
+      if (!item) return;
+      const target = item.input.disabled ? item.panel.querySelector("a") : item.input;
+      target.focus({ preventScroll: true });
+      target.scrollIntoView({ block: "start", behavior: "instant" });
+    });
+  }
+  win.addEventListener("hashchange", refreshContext);
+  win.addEventListener("pageshow", refreshContext);
   win.addEventListener("storage", event => {
     if (event.key === null || panels.some(item => active(item) && TRIPS[item.city].storageKey === event.key)) render();
   });

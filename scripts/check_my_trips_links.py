@@ -13,10 +13,24 @@ class TaskLinks(HTMLParser):
         self.pending_task = None
         self.workspace = {}
         self.overview = {}
+        self.return_panels = []
+        self.return_panel = None
+        self.next_task = None
         self.feed(html)
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
+        if "data-guide-return" in attrs:
+            self.return_panel = {"context": attrs["data-guide-return"], "guides": {}, "overviews": {}}
+            self.return_panels.append(self.return_panel)
+        if "data-guide-next-task" in attrs:
+            self.next_task = attrs["data-guide-next-task"]
+        if tag == "a" and self.return_panel is not None:
+            for attr, kind in (("data-guide-next-link", "guides"), ("data-guide-next-overview", "overviews")):
+                if attr in attrs:
+                    assert self.label_depth == 0, "Next links must not toggle a checkbox"
+                    assert self.next_task not in self.return_panel[kind], "Duplicate next task link"
+                    self.return_panel[kind][self.next_task] = attrs["href"]
         if tag == "label":
             self.label_depth += 1
         if tag == "input" and "data-prep-check" in attrs:
@@ -33,6 +47,8 @@ class TaskLinks(HTMLParser):
             self.overview[key] = attrs["href"]
 
     def handle_endtag(self, tag):
+        if tag == "aside":
+            self.return_panel = None
         if tag == "label":
             self.label_depth -= 1
 
@@ -60,6 +76,12 @@ for prefix in ("", "/ko"):
             assert 'js/trip-guide-check.js' in guide_html
             assert guide_html.count('data-guide-check-status') == guide_html.count('data-guide-return=')
             assert guide_html.count('data-guide-check ') == guide_html.count('data-guide-return=')
+            panels = [panel for panel in TaskLinks(guide_html).return_panels if panel['context'] == context]
+            assert len(panels) == 2
+            for panel in panels:
+                assert panel['guides'] == {key: path + f"#prep-{city}-{key}" for key, path in workspace.items()}
+                assert panel['overviews'] == {key: f"{prefix}/my-trips/#trip-{city}-{key}" for key in workspace}
+            assert 'data-guide-next-complete' in guide_html
             expected[f"{city}:{task}"] = href + context
     assert overview == expected, f"Overview/workspace task guide mismatch: {prefix or 'en'}"
     assert html.count("관련 가이드" if prefix else "Related guide") == 30

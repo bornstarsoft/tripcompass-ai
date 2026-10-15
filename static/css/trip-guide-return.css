@@ -6,4 +6,10 @@
 .guide-task-check input { width: 20px; height: 20px; margin: 0; accent-color: var(--teal); }
 .guide-task-check input:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
 .trip-guide-return [data-guide-check-status]:empty { margin: 0; }
+.guide-next { border-top: 1px solid var(--line); margin-top: .75rem; padding-top: .75rem; }
+.guide-next[hidden], .guide-next [hidden], .guide-next-complete[hidden] { display: none; }
+.guide-next h2 { font-size: 1rem; margin: 0 0 .25rem; }
+.guide-next-links { display: flex; flex-wrap: wrap; column-gap: 1.5rem; }
+.guide-next-links a { line-height: 1.5; padding-block: .5rem; }
+.trip-guide-return .guide-next-complete { margin-top: .75rem; }
 @media print { .trip-guide-return { display: none; } }

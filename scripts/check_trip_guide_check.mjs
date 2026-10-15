@@ -13,12 +13,15 @@ function fixture(lang = "en", city = "fukuoka", task = "hotel", hash = `#prep-${
     getItem(key) { if (this.blocked) throw Error("PRIVATE"); return values.get(key) ?? null; },
     setItem(key, value) { if (this.failWrite) throw Error("PRIVATE"); writes.push(key); values.set(key, value); }
   };
-  const win = { localStorage: storage, location: { hash }, addEventListener: (event, fn) => { events[event] = fn; } };
+  const win = { localStorage: storage, location: { hash }, requestAnimationFrame: fn => fn(), addEventListener: (event, fn) => { events[event] = fn; } };
   const panels = Array.from({ length: 2 }, () => {
-    const input = { checked: false, disabled: true, addEventListener(_, fn) { this.change = fn; } };
-    const status = { textContent: "" }, link = { focus() { doc.activeElement = link; } };
-    return { dataset: { guideReturn: `#prep-${city}-${task}`, guideCity: city, guideTask: task }, input, status, link,
-      querySelector: selector => ({ "[data-guide-check]": input, "[data-guide-check-status]": status, a: link })[selector] };
+    const input = { checked: false, disabled: true, addEventListener(_, fn) { this.change = fn; }, focus() { doc.activeElement = input; }, scrollIntoView() {} };
+    const status = { textContent: "" }, link = { focus() { doc.activeElement = link; }, scrollIntoView() {} };
+    const nextSection = { hidden: true }, complete = { hidden: true };
+    const nextRows = TASKS.map(id => ({ dataset: { guideNextTask: id }, hidden: true, contains(el) { return el === this; } }));
+    return { dataset: { guideReturn: `#prep-${city}-${task}`, guideCity: city, guideTask: task }, input, status, link, nextSection, complete, nextRows,
+      querySelectorAll: () => nextRows,
+      querySelector: selector => ({ "[data-guide-check]": input, "[data-guide-check-status]": status, "[data-guide-next]": nextSection, "[data-guide-next-complete]": complete, a: link })[selector] };
   });
   const doc = { documentElement: { lang }, activeElement: null, querySelectorAll: () => panels };
   mountGuideChecks(doc, win);
@@ -81,3 +84,39 @@ assert.throws(() => saveExistingCheck(f.storage, "fukuoka", "hotel", "true", pre
 assert.equal(saveExistingCheck(f.storage, "fukuoka", "hotel", false, previous), "saved");
 assert.equal(f.writes.length, 0, "No redundant write");
 console.log("Guide task editing passed: 30 localized contexts, check/uncheck, record isolation, fresh merges, rollback/retry, stale/reset protection and storage/history updates.");
+
+for (const lang of ["en", "ko"]) for (const city of Object.keys(TRIPS)) for (const task of TASKS) {
+  const f = fixture(lang, city, task);
+  for (let mask = 0; mask < 32; mask++) {
+    const state = initialState(city);
+    TASKS.forEach((id, i) => { state.checks[id] = !!(mask & (1 << i)); });
+    f.values.set(f.key, JSON.stringify(state));
+    f.events.storage({ key: f.key });
+    const next = state.checks[task] ? TASKS.find(id => !state.checks[id]) : null;
+    for (const panel of f.panels) {
+      assert.equal(panel.nextSection.hidden, !next);
+      assert.equal(panel.complete.hidden, !state.checks[task] || !!next);
+      assert.deepEqual(panel.nextRows.filter(row => !row.hidden).map(row => row.dataset.guideNextTask), next ? [next] : []);
+    }
+  }
+  assert.equal(f.writes.length, 0, "Computing next steps never writes");
+}
+const next = fixture();
+next.storage.failWrite = true; next.edit(true);
+assert.ok(next.panels.every(p => p.nextSection.hidden && p.complete.hidden), "Failed check cannot advance");
+next.storage.failWrite = false; next.edit(true);
+assert.equal(next.panels[0].nextRows.find(row => !row.hidden).dataset.guideNextTask, "flights");
+next.doc.activeElement = next.panels[0].nextRows[0];
+const state = JSON.parse(next.values.get(next.key)); state.checks.flights = true;
+next.values.set(next.key, JSON.stringify(state)); next.events.storage({ key: next.key });
+assert.equal(next.doc.activeElement, next.panels[0].input, "Disappearing next link recovers focus");
+assert.equal(next.panels[0].nextRows.find(row => !row.hidden).dataset.guideNextTask, "transport");
+next.storage.blocked = true; next.events.storage({ key: null });
+assert.ok(next.panels.every(p => p.nextSection.hidden && p.complete.hidden));
+next.storage.blocked = false; next.win.location.hash = "#unknown"; next.events.hashchange();
+assert.ok(next.panels.every(p => p.nextSection.hidden && p.complete.hidden));
+next.win.location.hash = "#prep-fukuoka-hotel"; next.events.hashchange();
+assert.equal(next.doc.activeElement, next.panels[0].input, "New context focuses active task");
+next.doc.activeElement = next.panels[1].input; next.events.pageshow({ persisted: true });
+assert.equal(next.doc.activeElement, next.panels[1].input, "History restoration does not force top focus");
+console.log("Next task checks passed: 960 state/context combinations, saved-state-only progression, completion/uncheck, storage updates, invalid context and focus recovery.");
