@@ -3,6 +3,7 @@ title: "Seoul to Tokyo 4 Day Itinerary"
 description: "A Tokyo cafe and shopping itinerary for 4 days and 3 nights: Harajuku and Omotesando, then Asakusa and optional Ueno. Compare hotel areas, rainy-day plans and what to leave out."
 eyebrow: "Cafes and shopping · One area at a time"
 layout: "course"
+readingSections: ["overview","audience","audience","route","hotel","rain","budget","cautions","related","booking","sources"]
 course: "tokyo"
 reviewed: "2026-09-12"
 lastmod: "2026-09-12"

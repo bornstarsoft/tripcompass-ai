@@ -4,6 +4,7 @@ description: "후쿠오카 공원 산책 대신 하카타 또는 텐진에서 �
 eyebrow: "비 오는 날 · 좋은 한 가지는 남기기"
 htmlLang: "ko"
 layout: "planning-guide"
+readingSections: ["overview","audience","duration","area","hakata","tenjin","memories","budget","cautions","next","sources"]
 planningGuide: true
 coverGuide: "stay"
 takeaways:

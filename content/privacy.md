@@ -44,7 +44,7 @@ Checklist marks are personal notes, not booking confirmations. Following a `/go`
 
 ## Guide Reading Position
 
-When reading a guide from a preparation item, this tab can retain its expanded checklist state and reading position for reload and Back/Forward navigation. The site uses browser history state and one temporary sessionStorage snapshot, linked to a local random visit marker and the guide context. The snapshot does not contain preparation checks, saved-guide lists or booking information and is not sent to a server. It is not an account or cross-device reading history. A fresh visit does not resume a different visit's position; blocked browser storage can prevent restoration. Clearing site data removes the snapshot, and ending the browser session may discard it.
+When reading a guide from a preparation item, this tab can retain its expanded checklist state and reading position for reload, Back/Forward navigation and an explicit English/Korean language switch. The site uses browser history state, one temporary sessionStorage reload snapshot and one single-use language-switch snapshot. Reload state is linked to a local random visit marker; a language transfer is checked against the corresponding guide, referring page and a two-minute validity window. These snapshots do not contain preparation checks, saved-guide lists or booking information and are not sent to a server. They are not an account or cross-device reading history. A fresh visit does not resume an unrelated visit's position; blocked browser storage or missing referrer information can prevent language restoration. Clearing site data removes these snapshots, and ending the browser session may discard them.
 
 ## Trip Decision Board
 

@@ -2,6 +2,7 @@
 """Verify overview task links against the existing workspace links."""
 
 import sys
+import json
 from html.parser import HTMLParser
 from pathlib import Path
 
@@ -17,10 +18,19 @@ class TaskLinks(HTMLParser):
         self.return_panel = None
         self.next_task = None
         self.remaining_task = None
+        self.prose_depth = 0
+        self.sections = 0
+        self.reading_keys = []
         self.feed(html)
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
+        if tag == "div" and (self.prose_depth or "prose" in attrs.get("class", "").split()):
+            self.prose_depth += 1
+            if "data-guide-reading-sections" in attrs:
+                self.reading_keys = json.loads(attrs["data-guide-reading-sections"])
+        if tag == "h2" and self.prose_depth == 1:
+            self.sections += 1
         if "data-guide-return" in attrs:
             self.return_panel = {"context": attrs["data-guide-return"], "guides": {}, "overviews": {}, "remaining": {}, "remaining_links": {}, "checks": [], "check_guides": {}, "disclosure": False}
             self.return_panels.append(self.return_panel)
@@ -69,6 +79,8 @@ class TaskLinks(HTMLParser):
             self.overview[key] = attrs["href"]
 
     def handle_endtag(self, tag):
+        if tag == "div" and self.prose_depth:
+            self.prose_depth -= 1
         if tag == "li":
             self.remaining_task = None
         if tag == "aside":
@@ -91,6 +103,11 @@ for prefix in ("", "/ko"):
             article = root / href.lstrip("/") / "index.html"
             assert article.is_file(), f"Missing guide: {href}"
             guide_html = article.read_text()
+            if not prefix:
+                counterpart = (root / "ko" / href.lstrip("/") / "index.html").read_text()
+                en, ko = TaskLinks(guide_html), TaskLinks(counterpart)
+                assert len(en.reading_keys) == en.sections > 0 and len(ko.reading_keys) == ko.sections > 0, f"Missing reading sections: {href}"
+                assert list(dict.fromkeys(en.reading_keys)) == list(dict.fromkeys(ko.reading_keys)), f"Language section meanings/order differ: {href}"
             context = f"#prep-{city}-{task}"
             target = f"trip-{city}-{task}"
             assert f"id={target}" in html or f'id="{target}"' in html

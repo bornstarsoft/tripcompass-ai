@@ -3,6 +3,7 @@ title: "Seoul to Osaka 4 Day Itinerary"
 description: "Plan a first Osaka trip around Namba and Shinsaibashi over 4 days and 3 nights. Compare a Kyoto replacement day, hotel areas, rainy-day alternatives and budget categories."
 eyebrow: "First Kansai visit · Kyoto is optional"
 layout: "course"
+readingSections: ["overview","audience","audience","route","hotel","rain","budget","cautions","related","booking","sources"]
 course: "osaka"
 reviewed: "2026-09-12"
 lastmod: "2026-09-12"

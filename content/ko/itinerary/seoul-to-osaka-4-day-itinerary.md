@@ -6,6 +6,7 @@ htmlLang: "ko"
 alternateEn: "/itinerary/seoul-to-osaka-4-day-itinerary/"
 weight: 30
 layout: "course"
+readingSections: ["overview","audience","route","hotel","rain","budget","cautions","related","booking","sources"]
 course: "osaka"
 reviewed: "2026-09-12"
 lastmod: "2026-09-12"

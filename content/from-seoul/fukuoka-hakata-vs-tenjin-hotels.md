@@ -4,6 +4,7 @@ description: "Compare Hakata and Tenjin hotel areas by arrival plans, food and s
 eyebrow: "Fukuoka hotels · Choose the area first"
 alternateKo: "/ko/from-seoul/fukuoka-hakata-vs-tenjin-hotels/"
 layout: "course"
+readingSections: ["overview","audience","comparison","duration","airport","compare","budget","cautions","next"]
 course: "fukuoka"
 guide: true
 audience: "Weekend trips · Travel with parents · Hotel comparisons"

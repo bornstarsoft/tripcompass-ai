@@ -3,6 +3,7 @@ title: "Fukuoka in the Rain: A One-Area Backup Day"
 description: "Replace a rainy Fukuoka park day with a Hakata or Tenjin plan. Keep a meal, one personal interest and a rest, with budget, access and departure-day checks."
 eyebrow: "Rainy-day plans · Keep one good part of the day"
 layout: "planning-guide"
+readingSections: ["overview","audience","duration","area","hakata","tenjin","memories","budget","cautions","next","sources"]
 planningGuide: true
 coverGuide: "stay"
 takeaways:

@@ -5,6 +5,7 @@ eyebrow: "후쿠오카 숙소 · 권역부터 선택"
 htmlLang: "ko"
 alternateEn: "/from-seoul/fukuoka-hakata-vs-tenjin-hotels/"
 layout: "course"
+readingSections: ["overview","audience","comparison","duration","airport","compare","budget","cautions","next"]
 course: "fukuoka"
 guide: true
 audience: "주말 여행 · 부모님 동반 · 숙소 비교"

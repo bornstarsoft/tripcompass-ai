@@ -1,3 +1,5 @@
+import { mountGuideLanguage } from "./trip-guide-language.js";
+
 const KEY = "tripcompassGuideView";
 const ENTRY = "tripcompassGuideEntry";
 const RELOAD = "tripcompass.guide-view.v1";
@@ -8,6 +10,7 @@ export function mountGuideHistory(doc, win) {
   const panels = [...doc.querySelectorAll("[data-guide-return]")];
   const active = () => panels.filter(panel => panel.dataset.guideReturn === win.location.hash);
   const address = () => win.location.pathname + win.location.search + win.location.hash;
+  const languageView = mountGuideLanguage(doc, win, active, () => rememberDeparture());
   let traversalAddress = null;
   let revision = 0;
   let departing = null;
@@ -81,10 +84,11 @@ export function mountGuideHistory(doc, win) {
       (event?.type === "pageshow" && ["back_forward", "reload"].includes(win.performance?.getEntriesByType?.("navigation")?.[0]?.type)) ||
       (event?.type === "hashchange" && traversalAddress === here);
     traversalAddress = event?.type === "popstate" ? here : null;
-    if (!traversal) return false;
+    const translated = languageView.take(event);
+    if (!traversal && !translated) return false;
     try {
       const state = win.history.state;
-      let saved = state?.[KEY];
+      let saved = translated || state?.[KEY];
       if (event?.type === "pageshow" && win.performance?.getEntriesByType?.("navigation")?.[0]?.type === "reload") {
         try {
           const snapshot = JSON.parse(win.sessionStorage.getItem(RELOAD));
@@ -109,7 +113,10 @@ export function mountGuideHistory(doc, win) {
           fallback.scrollIntoView({ block: "start", behavior: "instant" });
           return;
         }
-        if (link?.getClientRects().length) {
+        if (translated) {
+          win.scrollTo({ left: 0, top: languageView.scrollTop(translated.reading), behavior: "instant" });
+          remember(panel);
+        } else if (link?.getClientRects().length) {
           link.focus({ preventScroll: true });
           win.scrollTo({ left: saved.x, top: Math.max(0, win.scrollY + link.getBoundingClientRect().top - saved.offset), behavior: "instant" });
         } else {

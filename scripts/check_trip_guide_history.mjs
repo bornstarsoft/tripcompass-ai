@@ -36,7 +36,7 @@ function fixture(prefix = "", city = "fukuoka", reloadStorage = false) {
       contains: element => element === link || element === details,
       querySelectorAll: () => [link], querySelector: selector => ({ "[data-guide-checklist]": details, "[data-guide-progress]": progress, "[data-guide-return-link]": fallback })[selector] };
   });
-  doc.querySelectorAll = () => panels;
+  doc.querySelectorAll = selector => selector === "[data-guide-return]" ? panels : [];
   const view = mountGuideHistory(doc, win);
   const click = (index = 1, event = {}) => panels[index].link.click({ button: 0, ...event });
   const flush = () => { while (frames.length) frames.shift()(); };

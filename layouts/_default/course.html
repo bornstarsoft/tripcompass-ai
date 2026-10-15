@@ -31,7 +31,7 @@
       <h2>{{ if $ko }}{{ cond $isGuide "이 가이드에서 보기" "이 코스에서 보기" }}{{ else }}In this guide{{ end }}</h2>
       {{ .TableOfContents }}
     </aside>
-    <div class="prose">{{ .Content }}</div>
+    <div class="prose"{{ with .Params.readingSections }} data-guide-reading-sections="{{ . | jsonify }}"{{ end }}>{{ .Content }}</div>
   </div>
   {{ if not $isGuide }}
   <section class="reference-photo" aria-labelledby="reference-photo-title">

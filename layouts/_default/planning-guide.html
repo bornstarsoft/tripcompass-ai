@@ -24,7 +24,7 @@
       <h2>{{ cond $ko "이 가이드에서 보기" "In this guide" }}</h2>
       {{ .TableOfContents }}
     </aside>
-    <div class="prose">{{ .Content }}</div>
+    <div class="prose"{{ with .Params.readingSections }} data-guide-reading-sections="{{ . | jsonify }}"{{ end }}>{{ .Content }}</div>
   </div>
   <aside class="trust-note" aria-label="{{ cond $ko "여행 계획 확인 안내" "Planning disclaimer" }}">
     <strong>{{ cond $ko "예약 전 확인:" "Before booking:" }}</strong> {{ cond $ko "최신 가격, 영업시간, 비자 규정, 예약 가능 여부, 예약 조건을 직접 확인하세요. 이 글은 실시간 견적이나 안전·입국·예약 보장을 제공하지 않습니다." "Check current prices, opening hours, visa rules, availability and booking terms yourself. This guide provides no real-time quotes or safety, entry or booking guarantees." }}

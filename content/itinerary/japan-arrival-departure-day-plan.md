@@ -3,6 +3,7 @@ title: "Japan Arrival and Departure Days: Luggage First, One Small Plan"
 description: "Plan the first and last day of a short Japan trip: confirm bag storage, separate check-in from arrival, work backward from the flight and keep one optional outing."
 eyebrow: "Short-trip essentials · Leave room at both ends"
 layout: "planning-guide"
+readingSections: ["overview","audience","duration","bags","arrival","departure","airports","notes","budget","next","sources"]
 planningGuide: true
 coverGuide: "stay"
 takeaways:

@@ -18,6 +18,7 @@ python3 scripts/check_my_trips_links.py "$OUT_DIR"
 node scripts/check_trip_guide_return.mjs
 node scripts/check_trip_guide_check.mjs
 node scripts/check_trip_guide_history.mjs
+node scripts/check_trip_guide_language.mjs
 python3 scripts/check_content.py "$OUT_DIR"
 python3 scripts/check_courses.py "$OUT_DIR"
 python3 scripts/check_discovery.py "$OUT_DIR"

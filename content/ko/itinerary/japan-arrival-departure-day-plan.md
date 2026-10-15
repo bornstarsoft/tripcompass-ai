@@ -4,6 +4,7 @@ description: "후쿠오카·오사카·도쿄 짧은 여행의 첫날과 마지�
 eyebrow: "짧은 여행 준비 · 양끝에 여유 남기기"
 htmlLang: "ko"
 layout: "planning-guide"
+readingSections: ["overview","audience","duration","bags","arrival","departure","airports","notes","budget","next","sources"]
 planningGuide: true
 coverGuide: "stay"
 takeaways:
