@@ -8,7 +8,13 @@ Counts and remaining items are derived from the existing parsed city record, not
 
 Local Phase 1-5, strict Hugo and whitespace checks passed on 2026-10-15. Unit tests cover 960 localized check-state/context combinations, accessible progress text, remaining order, failed writes, unavailable data and focus recovery. Isolated Chromium verified all 30 bilingual task contexts and 30 remaining-guide links, correct city labels, counts before/after edits, reload/language, cross-tab focus, completion/uncheck, retry and no-JS/empty/corrupt/blocked states. EN/KO passed 320/390/768/920/1440px with 44px links and no overflow; screenshots inspected. Existing next-step navigation passed 30 marks, 8 same-article and 16 cross-article transitions. Other preparation fields/cities, saved guides and decision data were preserved; no application errors or preparation API/search calls occurred. Physical-device/Safari remains NOT_RUN. Production verification is recorded separately.
 
-Existing overview/workspace two-way synchronization, bookmark removal/undo, failed-save retry, stale reset and unavailable/no-JS regression checks also passed locally.
+Existing overview/workspace two-way synchronization, bookmark removal/undo, failed-save retry, stale reset and unavailable/no-JS regression checks also passed locally. A further 30-context local article-editing regression passed top/bottom synchronization and stale course/reset protection.
+
+### City Progress Production Verification: 2026-10-15
+
+Application commit `f3b0674` passed GitHub CI and deployed through Pages Git integration. Isolated production Chromium verified all 30 EN/KO city/task contexts and remaining-guide links, saved counts/percentages, current-item labels, edits, reload/language, cross-tab focus recovery, completion/uncheck, failure/retry and unavailable/no-JS states. EN/KO passed 320/390/768/920/1440px with no overflow and 44px links; screenshots were inspected. Other fields/cities, bookmarks and decision data were preserved outside explicit edits.
+
+Existing next-step navigation passed 30 marks, 8 same-article and 16 cross-article transitions. Overview/workspace synchronization, bookmark removal/undo, failures and reset regressions passed. No application errors or preparation API/search calls occurred. Eight deployed JS/CSS assets matched the committed files by SHA-256. Launch health passed EN/KO backend responses, repeat cache, HEAD 302 and 58 monitored sitemap URLs. Physical-device/Safari, D1 reporting and retention measurement remain NOT_RUN. Functional QA does not establish improved retention or verified bookings. CI/deployment references are in `docs/operations.md`.
 
 ## Continuing to the Next Task
 
