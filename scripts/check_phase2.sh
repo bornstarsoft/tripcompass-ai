@@ -19,6 +19,7 @@ node scripts/check_trip_guide_return.mjs
 node scripts/check_trip_guide_check.mjs
 node scripts/check_trip_guide_history.mjs
 node scripts/check_trip_guide_language.mjs
+node scripts/check_trip_reading.mjs
 python3 scripts/check_content.py "$OUT_DIR"
 python3 scripts/check_courses.py "$OUT_DIR"
 python3 scripts/check_discovery.py "$OUT_DIR"

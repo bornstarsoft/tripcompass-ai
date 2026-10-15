@@ -14,6 +14,7 @@ class TaskLinks(HTMLParser):
         self.pending_task = None
         self.workspace = {}
         self.overview = {}
+        self.resume = []
         self.return_panels = []
         self.return_panel = None
         self.next_task = None
@@ -25,6 +26,9 @@ class TaskLinks(HTMLParser):
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
+        if tag == "a" and "data-reading-link" in attrs:
+            assert attrs.get("aria-label", "").startswith(("Continue reading: ", "읽던 위치에서 계속: "))
+            self.resume.append(attrs["href"])
         if tag == "div" and (self.prose_depth or "prose" in attrs.get("class", "").split()):
             self.prose_depth += 1
             if "data-guide-reading-sections" in attrs:
@@ -133,6 +137,10 @@ for prefix in ("", "/ko"):
             assert ('준비 진행률' if prefix else 'preparation progress') in guide_html
             expected[f"{city}:{task}"] = href + context
     assert overview == expected, f"Overview/workspace task guide mismatch: {prefix or 'en'}"
+    assert set(TaskLinks(html).resume) == set(expected.values()) and len(TaskLinks(html).resume) == 15
+    assert html.count("data-trip-reading=") == 3 and html.count("data-reading-clear") == 3
+    assert ("마지막에 읽던 가이드" if prefix else "Last preparation guide") in html
+    assert "js/my-trips-reading.js" in html
     assert html.count("관련 가이드" if prefix else "Related guide") == 30
 
 print("My trips task guide links passed: 30 contexts, 300 full-checklist links, workspace parity, built targets and checkbox separation.")

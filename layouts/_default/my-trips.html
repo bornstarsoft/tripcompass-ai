@@ -9,7 +9,7 @@
     <p class="eyebrow">{{ cond $ko "다시, 여행을 생각할 시간" "A little closer to your next trip" }}</p>
     <h1>{{ .Title }}</h1>
     <p>{{ cond $ko "고른 코스와 남은 준비, 여기서 이어가세요." "Your chosen courses and next steps, ready to return to." }}</p>
-    <p class="fine-print">{{ cond $ko "준비 내용과 저장한 글은 이 브라우저에만 남습니다. 다른 기기에 동기화되지 않으며 사이트 데이터를 지우면 사라집니다." "Preparation and saved guides stay in this browser only. They do not sync to other devices and are removed when site data is cleared." }}</p>
+    <p class="fine-print">{{ cond $ko "준비 내용, 저장한 글과 읽던 위치는 이 브라우저에만 남습니다. 다른 기기에 동기화되지 않으며 사이트 데이터를 지우면 사라집니다." "Preparation, saved guides and reading positions stay in this browser only. They do not sync to other devices and are removed when site data is cleared." }}</p>
   </header>
   <p class="my-trips-summary" data-trips-summary role="status" aria-live="polite">{{ cond $ko "어느 여행을 이어갈까요?" "Which trip will you return to?" }}</p>
   <nav class="my-trips-jump" aria-label="{{ cond $ko "도시별 준비 상태 바로가기" "Jump to a trip summary" }}">
@@ -33,6 +33,19 @@
         <p class="fine-print">{{ index $trip (printf "%sEyebrow" $lang) }}</p>
         <h2 id="trip-title-{{ . }}">{{ index $trip $lang }}</h2>
         <p class="my-trip-status" data-trip-status>{{ cond $ko "준비함에서 코스와 가이드 보기" "Explore courses and guides in the workspace" }}</p>
+        <section class="my-trip-reading" data-trip-reading="{{ . }}" aria-labelledby="reading-title-{{ . }}">
+          <h3 id="reading-title-{{ . }}">{{ cond $ko "마지막에 읽던 가이드" "Last preparation guide" }}</h3>
+          <p class="fine-print" data-reading-status role="status" tabindex="-1">{{ cond $ko "읽던 위치를 표시하려면 JavaScript가 필요합니다." "JavaScript is needed to show your reading position." }}</p>
+          {{ range $trip.tasks }}
+          {{ $guide := $.Site.GetPage (printf "%s%s" $prefix .path) }}
+          <div data-reading-task="{{ .id }}" hidden>
+            <p class="my-trip-reading-title"><strong>{{ $guide.Title }}</strong></p>
+            <p class="fine-print">{{ index . $lang }}</p>
+            <a data-reading-link href="{{ printf "%s%s#prep-%s-%s" $prefix .path $trip.id .id | relURL }}" aria-label="{{ cond $ko "읽던 위치에서 계속" "Continue reading" }}: {{ $guide.Title }} · {{ index . $lang }}">{{ cond $ko "읽던 위치에서 계속" "Continue reading" }} <span aria-hidden="true">&rarr;</span></a>
+          </div>
+          {{ end }}
+          <button class="my-trip-reading-clear" data-reading-clear type="button" hidden aria-label="{{ cond $ko (printf "%s 읽던 위치 지우기" $trip.ko) (printf "Forget %s reading position" $trip.en) }}">{{ cond $ko "읽던 위치 지우기" "Forget reading position" }}</button>
+        </section>
         <div data-trip-details hidden>
           <p data-trip-count></p>
           <progress data-trip-progress value="0" max="5" aria-label="{{ cond $ko (printf "%s 직접 확인한 항목" $trip.ko) (printf "%s items you checked" $trip.en) }}"></progress>
@@ -82,4 +95,5 @@
   <p><a href="{{ printf "%s/itinerary/" $prefix | relURL }}">{{ cond $ko "다른 코스도 둘러보기" "Explore more courses" }}</a> · <a href="{{ printf "%s/decision-board/" $prefix | relURL }}">{{ cond $ko "여행 결정표" "Trip decision board" }}</a></p>
 </article>
 <script type="module" src="{{ "js/my-trips.js" | relURL }}"></script>
+<script type="module" src="{{ "js/my-trips-reading.js" | relURL }}"></script>
 {{ end }}

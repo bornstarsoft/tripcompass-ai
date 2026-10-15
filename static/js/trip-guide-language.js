@@ -114,5 +114,5 @@ export function mountGuideLanguage(doc, win, active, rememberSource = () => {}) 
     }
     return reading.ratio * pageRange();
   }
-  return { take, scrollTop };
+  return { take, scrollTop, capture: () => capturePosition(active()) };
 }

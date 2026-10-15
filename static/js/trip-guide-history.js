@@ -1,4 +1,5 @@
 import { mountGuideLanguage } from "./trip-guide-language.js";
+import { mountGuideReading } from "./trip-reading.js";
 
 const KEY = "tripcompassGuideView";
 const ENTRY = "tripcompassGuideEntry";
@@ -11,6 +12,7 @@ export function mountGuideHistory(doc, win) {
   const active = () => panels.filter(panel => panel.dataset.guideReturn === win.location.hash);
   const address = () => win.location.pathname + win.location.search + win.location.hash;
   const languageView = mountGuideLanguage(doc, win, active, () => rememberDeparture());
+  const recentView = mountGuideReading(doc, win, active, languageView);
   let traversalAddress = null;
   let revision = 0;
   let departing = null;
@@ -50,6 +52,7 @@ export function mountGuideHistory(doc, win) {
   }
 
   function rememberDeparture() {
+    recentView.save();
     const target = departing;
     if (target && active().includes(target.panel) && target.link.getClientRects().length) remember(target.panel, target.link);
     else {
@@ -84,7 +87,7 @@ export function mountGuideHistory(doc, win) {
       (event?.type === "pageshow" && ["back_forward", "reload"].includes(win.performance?.getEntriesByType?.("navigation")?.[0]?.type)) ||
       (event?.type === "hashchange" && traversalAddress === here);
     traversalAddress = event?.type === "popstate" ? here : null;
-    const translated = languageView.take(event);
+    const translated = languageView.take(event) || recentView.take(event);
     if (!traversal && !translated) return false;
     try {
       const state = win.history.state;
