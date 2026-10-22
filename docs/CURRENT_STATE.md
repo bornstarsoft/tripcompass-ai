@@ -1,13 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (PLAN-B-DAILY-CHOICES; bilingual editorial content, validation and deployment; main/current worktree; 2026-10-23)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: PLAN-B-DAILY-CHOICES; CODEX; 2026-10-23. Phase: release preparation. Started clean on main at 382ecb048cbff219dff6dd0eff68a9da7a9cb304; no previous active writer. Owner authorized a scoped improvement, validation, commit and deployment.
+- Last AI: CODEX; WORK-ID: PLAN-B-DAILY-CHOICES; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean on main at 382ecb048cbff219dff6dd0eff68a9da7a9cb304; no previous active writer. Owner authorized a scoped improvement, validation, commit and deployment.
 - Scope: expand the existing EN/KO Plan B guide for long queues/unavailable seating and different group preferences, including short next-visit note examples. Existing bookmark, city links and section IDs remain; two new section keys and native contents/quick-reset links are added. No new pages, homepage controls, frontend code, storage, backend or affiliate changes. Editorial suggestions only, no fresh venue verification or availability claims.
-- QA so far PASS: Phase 1-5 and whitespace; EN/KO save/reload/language, shared three-city bookmark undo, cross-tab changes, exact legacy records and draft return, no-JS/blocked storage and four viewport widths. No application errors or API/search calls. New-section visual checks and production verification pending.
-- NEXT_SINGLE_TASK: complete content/mobile/build checks, commit/push and verify production. BLOCKER: none. Physical-device/Safari and retention measurement NOT_RUN.
+- Local QA PASS: Phase 1-5, strict Hugo and whitespace; EN/KO section navigation/reload/city round trips, save/reload/language, shared three-city bookmark undo, cross-tab changes, exact legacy records and draft return, no-JS/blocked storage and 320/390/768/1440px. Screenshots inspected. No application errors or API/search calls during browser QA. EN/KO homepages and My trips HTML are byte-identical; 69 content pages and 60 monitored URLs remain. A no-JS test synchronization issue was corrected in the harness; Korean emphasis rendering was repaired and covered by a visible-text regression check. Passing reruns use the final code.
+- HEAD/WIP: application commits dcb41b1c5bb16817a248928288db19e4a5d3465e and 06446166b6fc3c56a4471056d9e36fc6f8d4a9cb pushed to main; this accompanying documentation update records release evidence. No owner WIP discarded.
+- Production QA PASS: final implementation SHA GitHub CI run 39823877473 and Cloudflare Pages checks succeeded. Both homepages, My trips pages, Plan B guides and three existing bookmark/note/overview assets match the validated build byte-for-byte. The same EN/KO section navigation, reload, city round trips, save/language/shared undo/cross-tab, exact legacy records, draft recovery, no-JS/blocked storage and four-width checks passed on production; screenshots inspected. No application errors or API/search calls during browser QA. Launch health passed EN/KO backend, repeated cache, HEAD 302 and all 60 monitored sitemap URLs.
+- NEXT_SINGLE_TASK: gather traveler feedback on choosing a smaller day before adding more controls; do not collect private note contents or infer retention gains from successful QA. BLOCKER: none. Physical-device/Safari, D1 queries and retention measurement NOT_RUN.
 
 ## Previous Comparison Release
 
