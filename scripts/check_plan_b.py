@@ -60,6 +60,7 @@ def check(root):
         url = prefix + path
         page = read(url)
         text = " ".join(page.text)
+        assert "**" not in text, "Markdown emphasis markers must not leak into visible copy"
         assert title in page.title and editorial in text and safety in text
         assert page.canonicals == ["https://tripcompass.ai" + url]
         assert "<loc>https://tripcompass.ai" + url + "</loc>" in sitemap
