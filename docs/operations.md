@@ -249,6 +249,17 @@ CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call producti
 - Local and production Chromium passed eight draft-recovery/failure cases, six save/record-preservation flows, 16 edge cases, six checklist/bookmark/reading regressions and six actual-BFCache save/discard/edit cases. Both languages passed 320/390/768/1440px with inspected screenshots, no overflow and 44px controls. No application errors or preparation API/search calls occurred.
 - Four deployed assets match source and the privacy notice is published. Launch health passed EN/KO backend recommendations, repeated cache, HEAD 302 and 58 sitemap URLs. Physical-device/Safari, D1 queries and retention measurement NOT_RUN. Details and storage limitations: `docs/next-visit-notes.md`.
 
+## Plan B Guide Release: 2026-10-23
+
+- Application commit: `1d7f27375a60c83bacfa420ed8602d7a77edf85d`, pushed to GitHub `main` with owner approval. Phase 1-5, strict Hugo and whitespace checks passed locally; inventory is now 69 content pages and 60 monitored URLs.
+- Cloudflare Pages: deployment `43853b13-ce3e-4957-87f9-0a8d6eaafd19`, success for the same SHA. [Immutable deployment](https://43853b13.tripcompass-ai.pages.dev). Existing Git integration; no infrastructure or credential changes.
+- GitHub CI: [run 39815176854](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/39815176854) was queued at the last successful status read. A later public API read returned HTTP 403. Remote CI is unconfirmed, not PASS; check the latest main run after this documentation update.
+- New guides: `/itinerary/japan-plan-b/` and `/ko/itinerary/japan-plan-b/`. Rain, low energy and a late start each lead to a smaller-day decision, with Fukuoka/Osaka/Tokyo sections, existing related guides and links back to each city's My trips. City overviews, itinerary hubs, arrival/departure and Fukuoka rain guides provide entry links. The guide reuses an existing AI planning illustration and clearly identifies editorial review rather than new official-source verification.
+- Both homepages remain byte-identical to the pre-change build. No new controls, storage keys or writers were added. Existing saved notes and same-tab drafts remain separate; the guide explains their limits without promising reminders or offline access. Return-visit value is a product hypothesis, not a measured retention improvement.
+- Local and production Chromium passed six EN/KO city round trips, 320/390/768/1440px with inspected screenshots and 44px entry links, visible section targets, no-JS access, exact legacy records and draft recovery. Six existing checklist/bookmark/reading undo/resume regressions passed. No application errors or preparation API/search calls occurred.
+- An initial publication-date UTC mismatch and cramped mobile table were fixed before local passing reruns. Production image checks were corrected to await image loading; the full suite then passed. A fresh fixed-viewport capture confirmed the Korean 320px layout after a viewport-switch screenshot artifact.
+- Four deployed storage assets match source. Launch health passed EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and all 60 monitored sitemap URLs. No backend/gateway, D1/KV, environment, API, `/go` or affiliate behavior changed. No real-time price, availability, entry-rule, safety or booking guarantees were added. Physical-device/Safari, D1 queries and retention measurement remain NOT_RUN.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:

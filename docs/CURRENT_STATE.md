@@ -1,10 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (PLAN-B-RETURN-GUIDE; owner-approved bilingual content, My trips links, validation, commit and deployment; main; 2026-10-23)
+ACTIVE_WRITER = NONE
 
-- Current task: PLAN-B-RETURN-GUIDE; release preparation. Started clean at 121e224. Owner authorized choosing a small content/return-visit improvement, validation and deployment. Added an editorial plan-change guide in EN/KO with city-specific links from My trips; no new storage, homepage controls, backend or affiliate behavior. Reuses the existing AI planning illustration. Return-visit usefulness is a hypothesis, not a measured retention gain.
+- Last AI: CODEX; WORK-ID: PLAN-B-RETURN-GUIDE; DONE on 2026-10-23. Phase: deployed and production-validated; remote CI confirmation remains pending. Started clean at 121e224. Owner authorized choosing a small content/return-visit improvement, validation and deployment. Added an editorial plan-change guide in EN/KO with city-specific links from My trips; no new storage, homepage controls, backend or affiliate behavior. Reuses the existing AI planning illustration. Return-visit usefulness is a hypothesis, not a measured retention gain.
 - Current local QA PASS: Phase 1-5, strict Hugo, whitespace; 69 content pages/60 monitored URLs. EN/KO six city round trips, 320/390/768/1440px and inspected screenshots, visible target headings/44px entry links, no-JS access, exact stored records and draft recovery. Six existing checklist/bookmark/reading undo/resume regressions passed. No application errors or preparation API/search calls. Main EN/KO HTML is byte-identical. Initial UTC future-date exclusion and narrow mobile table were fixed before passing reruns.
-- Current NEXT_SINGLE_TASK: commit/push validated files, verify same-SHA CI/Pages and production behavior, then record DONE. Physical-device/Safari and retention measurement NOT_RUN; production QA pending. BLOCKER: none.
+- HEAD/WIP: application commit 1d7f27375a60c83bacfa420ed8602d7a77edf85d on main is pushed/deployed; this accompanying documentation update records release evidence. No owner WIP discarded.
+- Production QA PASS: same-SHA Pages deployment, both new guides, six EN/KO city round trips, four viewport widths and inspected screenshots, no-JS access, exact existing records and draft recovery. Six existing checklist/bookmark/reading undo/resume regressions passed. Four deployed storage assets match source. Launch health passed EN/KO backend, repeated cache, HEAD 302 and all 60 monitored sitemap URLs. No application errors or preparation API/search calls in browser checks.
+- Remote CI: run 39815176854 was queued at the last successful status read; a later public API read returned HTTP 403. Do not infer CI success from local checks or Pages success. See docs/operations.md for evidence.
+- QA NOT_RUN: physical-device/Safari, D1 queries and actual retention measurement.
+- NEXT_SINGLE_TASK: confirm the latest GitHub CI result when available; investigate only if it fails. Then gather owner/traveler feedback on the Plan B guide before adding more controls, without collecting private note contents.
+- BLOCKER: remote CI completion is unconfirmed; production deployment and functional QA are complete. No infrastructure or credential changes.
 
 ## Previous Task
 
