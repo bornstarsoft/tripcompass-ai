@@ -1,0 +1,23 @@
+{{ $ko := .ko }}
+{{ $prefix := cond $ko "/ko" "" }}
+<details class="trip-moments" id="trip-moments">
+  <summary>{{ cond $ko "여행 중 다시 펼칠 가이드" "Guides for the moment you are in" }}</summary>
+  <ul>
+    <li>
+      <a href="{{ printf "%s/itinerary/japan-plan-b/#evening" $prefix | relURL }}">{{ cond $ko "오늘 저녁: 내일의 우선순위 하나" "Tonight: one priority for tomorrow" }}</a>
+      <p>{{ cond $ko "오늘 좋았던 것 하나, 힘들었던 이동 하나. 내일 꼭 남길 것과 먼저 뺄 것을 정해요." "One thing you enjoyed, one journey that took energy. Agree what to keep tomorrow and what to drop first." }}</p>
+    </li>
+    <li>
+      <a href="{{ printf "%s/itinerary/japan-plan-b/#morning" $prefix | relURL }}">{{ cond $ko "아침: 그대로 가기, 줄이기, 쉬기" "This morning: keep, shorten or rest" }}</a>
+      <p>{{ cond $ko "어젯밤 계획보다 오늘의 컨디션과 직접 확인한 조건을 기준으로 삼아요." "Let today's energy and the conditions you checked matter more than last night's full itinerary." }}</p>
+    </li>
+    <li>
+      <a href="{{ printf "%s/itinerary/japan-plan-b/#reset" $prefix | relURL }}">{{ cond $ko "계획이 바뀐 날: 새 장소보다 작은 일정" "Plans changed: make the day smaller" }}</a>
+      <p>{{ cond $ko "비, 긴 줄, 서로 다른 취향. 대체 명소를 더하기 전에 선택 이동 하나부터 덜어내요." "Rain, a long queue or different interests: remove an optional journey before adding another attraction." }}</p>
+    </li>
+    <li>
+      <a href="{{ printf "%s/itinerary/japan-arrival-departure-day-plan/#before-checkout" $prefix | relURL }}">{{ cond $ko "귀국하는 날: 짐과 공항 이동부터" "Going home: bags and the airport first" }}</a>
+      <p>{{ cond $ko "짐 수령 조건과 최신 항공사·교통 안내부터 확인해요. 마지막 쇼핑은 선택 일정으로 남겨요." "Recheck bag collection and current airline/operator guidance. Keep the final shopping stop optional." }}</p>
+    </li>
+  </ul>
+</details>

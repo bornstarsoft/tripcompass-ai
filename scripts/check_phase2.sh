@@ -16,6 +16,7 @@ node scripts/check_trip_prep.mjs "$OUT_DIR"
 node scripts/check_my_trips.mjs "$OUT_DIR"
 node scripts/check_saved_comparison.mjs "$OUT_DIR"
 python3 scripts/check_my_trips_links.py "$OUT_DIR"
+python3 scripts/check_trip_moments.py "$OUT_DIR"
 node scripts/check_trip_guide_return.mjs
 node scripts/check_trip_guide_check.mjs
 node scripts/check_trip_guide_history.mjs

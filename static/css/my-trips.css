@@ -12,6 +12,13 @@
 .my-trips-comparison-cities { font-weight: 700; }
 .my-trips-comparison-links { display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; }
 .my-trips-comparison-links a { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; }
+.trip-moments { margin-bottom: 1.25rem; border-bottom: 1px solid var(--line); padding-bottom: .5rem; }
+.trip-moments summary { min-height: 44px; padding: .65rem 0; color: var(--teal); font-weight: 700; cursor: pointer; }
+.trip-moments ul { list-style: none; padding: 0; margin: .25rem 0 .5rem; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem 2rem; }
+.trip-moments li { min-width: 0; overflow-wrap: anywhere; }
+.trip-moments a { display: flex; align-items: center; min-height: 44px; padding: .4rem 0; font-weight: 700; line-height: 1.5; }
+.trip-moments p { margin: 0; color: var(--muted); font-size: .9rem; line-height: 1.6; }
+.trip-moments summary:focus-visible, .trip-moments a:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
 .my-trip-action-city { margin-left: .25rem; }
 .my-trips-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
 .my-trip-card { min-width: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--panel); display: flex; flex-direction: column; }
@@ -77,6 +84,7 @@
 .my-trip-action { margin-top: .5rem; min-height: 44px; text-align: center; }
 .my-trips > .trust-note { margin-top: 1.5rem; }
 @media (max-width: 800px) {
+  .trip-moments ul { grid-template-columns: 1fr; }
   .my-trips-grid { grid-template-columns: 1fr; }
   .my-trip-card > img { max-height: 180px; }
   .my-trip-body { padding: 1rem; }

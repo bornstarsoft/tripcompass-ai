@@ -49,6 +49,10 @@ The existing EN/KO Plan B guide now includes long queues/unavailable seating and
 
 Released 2026-10-23 in `dcb41b1c5bb16817a248928288db19e4a5d3465e`, with the Korean emphasis correction in final implementation `06446166b6fc3c56a4471056d9e36fc6f8d4a9cb`. Phase 1-5, strict Hugo and whitespace passed on the final code; [GitHub CI 39823877473](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/39823877473) and same-SHA Cloudflare Pages checks succeeded. Production EN/KO homepages, My trips pages, Plan B guides and checked bookmark/note/overview assets match the validated build. Local and production Chromium passed section navigation/reload/city round trips, save/language/shared undo/cross-tab, exact legacy records and draft recovery, no-JS/blocked storage and 320/390/768/1440px checks; screenshots inspected. No application errors or API/search calls during browser QA. Homepages and My trips HTML remain unchanged. Launch health passed EN/KO backend, repeated cache, HEAD 302 and all 60 monitored sitemap URLs. Physical-device/Safari, D1 queries and retention measurement were not run. No credentials, infrastructure or affiliate behavior changed.
 
+## My Trips: Moment-Based Guides
+
+The My trips overview includes one collapsed native "Guides for the moment you are in" section (Korean: "여행 중 다시 펼칠 가이드"). Its four links open existing evening, morning, changed-plan and checkout guide sections. The short editorial prompts do not verify current conditions or modify notes, bookmarks or preparation records. It works without JavaScript and does not expand the homepage. `scripts/check_trip_moments.py` runs in Phase 2 to validate bilingual labels, actual anchors and native read-only links. Browser QA additionally checks keyboard/touch navigation, narrow layouts and existing records. Publication evidence is recorded in `docs/CURRENT_STATE.md`; successful QA does not establish a retention gain.
+
 ## Continuous Integration
 
 The configured GitHub Actions workflow is `.github/workflows/ci.yml`, for pushes to `main`, pull requests, and manual dispatches. The workflow runs Phase 1-5 checks, the strict Hugo build, and `git diff --check`.
