@@ -1,13 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (MY-TRIPS-COMPARISON; saved comparison resume, EN/KO QA and deployment; main/current worktree; 2026-10-23)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: MY-TRIPS-COMPARISON; CODEX; 2026-10-23. Phase: release preparation. Started clean on main at c2dd1f15536ccacd2664ba02f712fbd1348eda07; no other active writer. Owner authorized a scoped return-visit improvement, validation, commit and deployment.
+- Last AI: CODEX; WORK-ID: MY-TRIPS-COMPARISON; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean on main at c2dd1f15536ccacd2664ba02f712fbd1348eda07; no other active writer. Owner authorized a scoped return-visit improvement, validation, commit and deployment.
 - Scope: My trips shows the two cities in an existing valid saved decision board, with a localized resume link and budget recheck guide. Reads the existing record only; no new storage/writers, prices/dates in URLs, homepage changes, backend or affiliate changes. Missing, invalid or blocked saves hide the strip without deleting records. Budget guides explain how to return to the saved comparison.
-- QA PASS so far: Phase 1-5; read-only unit coverage for EN/KO city pairs, missing/corrupt/blocked records, reset, cross-tab and pageshow. Chromium EN/KO resume, save/reload/Back/language, cross-tab update/reset, guide round trip, exact legacy records, no-JS/blocked/corrupt storage, 320/390/768/1440px and 44px targets. Screenshots inspected. No application errors or API/search calls. Final production checks pending.
-- NEXT_SINGLE_TASK: finish regression/build checks, commit/push and verify production. BLOCKER: none. Physical-device/Safari and measured retention NOT_RUN.
+- Local QA PASS: Phase 1-5, strict Hugo and whitespace; read-only unit coverage for EN/KO city pairs, missing/corrupt/blocked records, reset, cross-tab and pageshow. Chromium EN/KO resume, save/reload/Back/language, cross-tab update/reset, guide round trip, exact legacy records, no-JS/blocked/corrupt storage, 320/390/768/1440px and 44px targets. Screenshots inspected. Six existing checklist/bookmark/reading undo/resume regressions passed. No application errors or API/search calls. EN/KO homepages are byte-identical; 69 content pages and 60 monitored URLs remain.
+- HEAD/WIP: application commit 33b742c7eda635fce95c7023f03ef623fec4bebe pushed to main; this accompanying documentation update records release evidence. No owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 39821603586 and Cloudflare Pages succeeded. Both homepages, My trips pages and budget guides, comparison JS/CSS and existing decision/note assets match the validated build byte-for-byte. The same EN/KO browser flow, four widths, record preservation and failure cases passed, plus six existing checklist/bookmark/reading undo/resume flows. Screenshots inspected. No application errors or API/search calls during browser QA. Launch health passed EN/KO backend, repeated cache, HEAD 302 and all 60 monitored sitemap URLs.
+- NEXT_SINGLE_TASK: collect traveler feedback on finding saved comparisons before adding new controls; do not collect private budget or note contents. BLOCKER: none. Physical-device/Safari, D1 queries and measured retention NOT_RUN.
 
 ## Previous Budget Release
 
