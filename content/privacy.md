@@ -26,6 +26,8 @@ Your selected language and whether you dismissed the Korean-language suggestion 
 
 ## Saved Guides and Content Filters
 
+The My trips situation-guide list keeps only its open/closed choice in this tab's sessionStorage (`tripcompass.moments-open.v1`) after you toggle it. English and Korean share that preference for reloads and returns in the same tab. It contains no guide history, note text or preparation answers and is not sent to a server. It does not restore a scroll position or synchronize across devices. Storage blocking can prevent restoration; the native list remains usable. Tab storage normally ends with the tab session, but browser session restoration or opening a related tab can retain or copy it. Clearing site data removes the preference.
+
 Saving a guide stores only its guide identifier in this browser's localStorage. It does not create an account or download an offline copy. English and Korean versions share the saved list. You can remove an individual guide with its save button or clear site data to remove the list. People using the same browser profile may see these choices.
 
 Guide search and interest filters run locally and do not send the search text or saved list to the AI API or a separate analytics service. Normal page requests still reach our hosting provider, and the existing click logging applies when you follow `/go/` booking-search links. If browser storage is blocked, saved choices last only on the current page.

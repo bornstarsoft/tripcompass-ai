@@ -55,6 +55,12 @@ The My trips overview includes one collapsed native "Guides for the moment you a
 
 Released 2026-10-23 in `a77e80cf5104581faacedff65ecadba074b01415`. Phase 1-5, strict Hugo and whitespace passed; [GitHub CI 39825483727](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/39825483727) and same-SHA Cloudflare Pages checks succeeded. Published EN/KO homepages and overviews, overview CSS and existing overview/note JS match the validated build. Local and production Chromium passed native section links, keyboard/touch, Back, note drafts across reload/language, exact legacy records, no-JS/blocked storage and 320/390/768/1440px with 44px controls and inspected screenshots. Six existing checklist/bookmark/reading undo/resume regressions passed. Homepages are unchanged. Launch health passed EN/KO backend responses, repeated cache, HEAD 302 and all 60 monitored sitemap URLs. Physical-device/Safari, D1 queries and actual retention measurement were not run. No credentials, bindings or affiliate behavior changed.
 
+### Disclosure Session Preference
+
+The situation-guide disclosure now optionally remembers only `open` or `closed` in `sessionStorage` under `tripcompass.moments-open.v1`. This is a separate UI preference, not a trip record. Mount and restored toggle events do not write; an actual changed choice is saved, including a pending toggle on page departure. BFCache returns reread the tab's latest valid preference unless this page has a newer unsaved choice. Missing/invalid/blocked storage leaves native behavior intact. There is no scroll/focus restoration, cross-device sync or guaranteed persistence beyond the tab session. Browser restoration or related-tab creation may retain/copy sessionStorage. Privacy copy records this lifetime. No homepage or existing storage writer changes.
+
+`scripts/check_trip_moments.mjs` covers restoration without writes, departure flushing, BFCache refresh, invalid/blocked storage and isolation from personal records. Native links and anchors remain covered by `scripts/check_trip_moments.py`.
+
 ## Continuous Integration
 
 The configured GitHub Actions workflow is `.github/workflows/ci.yml`, for pushes to `main`, pull requests, and manual dispatches. The workflow runs Phase 1-5 checks, the strict Hugo build, and `git diff --check`.

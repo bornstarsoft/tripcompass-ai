@@ -1,8 +1,16 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (MOMENTS-SESSION-RESUME; scoped disclosure memory, validation and deployment; main/current worktree; 2026-10-23)
 
 ## Current Task
+
+- WORK-ID: MOMENTS-SESSION-RESUME; CODEX; 2026-10-23. Phase: implementation. Started clean on main at a514c3e471cd126caf94d2a3b60d8a3d47bd2ea2; no previous active writer. Owner authorized choosing a scoped improvement, validation, commit and deployment.
+- Scope: remember only the My trips situation-guide disclosure choice in a separate tab-session preference across reload, same-tab return and EN/KO. Preserve the native control when JavaScript/storage fails. No homepage expansion, personal-record migration, backend or affiliate changes. No new travel claims.
+- Local QA PASS: Phase 1-5, strict Hugo and whitespace; unit coverage for read-only restoration, departure flush, BFCache latest/failed-write protection and storage failure/invalid values. Chromium EN/KO open/closed reload/language/Back/same-tab return, isolated fresh-tab preference, exact preparation/bookmark/reading/note records and note drafts, no-JS/blocked/invalid storage, 320/390/768/1440px and 44px controls with inspected screenshots. Six existing preparation/bookmark/reading undo/resume regressions passed. No application errors or API/search calls during browser QA; local default favicon request returned 404. Both homepages are byte-identical; 69 pages and 60 monitored URLs remain.
+- Latest-choice Back checks passed, but this browser-context run reported pageshow.persisted=false; actual BFCache execution is not claimed. BFCache branches are unit-tested. Physical-device/Safari, D1 queries and retention measurement NOT_RUN.
+- NEXT_SINGLE_TASK: commit/push and verify production. BLOCKER: none.
+
+## Previous Moments Release
 
 - Last AI: CODEX; WORK-ID: MY-TRIPS-MOMENTS; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean on main at 74f30079991c1328b9a9e39b736f671d1151e86c; no previous active writer. Owner authorized a scoped return-visit improvement, validation, commit and production deployment.
 - Scope: one collapsed, native EN/KO situation-based guide list on My trips, linking to existing evening, morning, changed-plan and checkout sections with short editorial prompts. No homepage expansion, new page, JavaScript/storage/backend/affiliate change or current travel claims.
