@@ -9,9 +9,9 @@ const { mountMyTrips } = await import(pathToFileURL(resolve(root, "js/my-trips.j
 const ids = Object.keys(TRIPS);
 const bookmarkKey = "tripcompass.saved-guides.v1";
 const cityGuides = {
-  fukuoka: ["fukuoka", "parents", "stay", "fukuoka-rain", "fukuoka-dazaifu", "travel-days"],
-  osaka: ["osaka", "osaka-kyoto", "osaka-nara", "osaka-doguyasuji", "travel-days"],
-  tokyo: ["tokyo", "tokyo-jimbocho", "tokyo-kiyosumi", "travel-days"]
+  fukuoka: ["fukuoka", "parents", "stay", "fukuoka-rain", "fukuoka-dazaifu", "travel-days", "plan-b"],
+  osaka: ["osaka", "osaka-kyoto", "osaka-nara", "osaka-doguyasuji", "travel-days", "plan-b"],
+  tokyo: ["tokyo", "tokyo-jimbocho", "tokyo-kiyosumi", "travel-days", "plan-b"]
 };
 
 function harness(language = "en", records = new Map(), blocked = []) {
@@ -125,7 +125,7 @@ for (const language of ["en", "ko"]) {
   assert.ok(ui.cards[0].fields["guides-list"].hidden);
   records.set(bookmarkKey, JSON.stringify(Object.values(cityGuides).flat()));
   ui.events.pageshow({ persisted: true });
-  assert.deepEqual(visible().map(guides => guides.length), [6, 5, 4]);
+  assert.deepEqual(visible().map(guides => guides.length), [7, 6, 5]);
   for (const bad of ["broken PRIVATE", "{}", "null", "", "x".repeat(65537)]) {
     records.set(bookmarkKey, bad);
     ui.events.storage({ key: bookmarkKey });
@@ -160,13 +160,13 @@ for (const prefix of ["", "/ko"]) {
   assert.match(html, /js\/my-trips.js/);
   assert.match(html, /css\/my-trips.css/);
   assert.match(html, /data-task-labels=/);
-  assert.equal((html.match(/data-trip-saved-guide=/g) || []).length, 15);
+  assert.equal((html.match(/data-trip-saved-guide=/g) || []).length, 18);
   assert.equal((html.match(/data-trip-guides-status/g) || []).length, 3);
-  assert.equal((html.match(/<small>(Shared guide|공통 가이드)<\/small>/g) || []).length, 3);
+  assert.equal((html.match(/<small>(Shared guide|공통 가이드)<\/small>/g) || []).length, 6);
   assert.match(html, prefix ? /저장한 가이드/ : /Saved guides/);
   assert.doesNotMatch(html, /js\/guide-explorer.js|data-save-guide=/, "Only the overview controller handles edits here");
-  assert.equal((html.match(/data-guide-remove\b/g) || []).length, 15);
-  assert.equal((html.match(/data-guide-undo/g) || []).length, 15);
+  assert.equal((html.match(/data-guide-remove\b/g) || []).length, 18);
+  assert.equal((html.match(/data-guide-undo/g) || []).length, 18);
   assert.equal((html.match(/data-trip-guides-feedback/g) || []).length, 3);
   assert.equal((html.match(/data-trip-check=/g) || []).length, 15);
   assert.equal((html.match(/data-trip-check-feedback/g) || []).length, 3);

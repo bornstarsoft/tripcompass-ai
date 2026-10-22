@@ -260,6 +260,13 @@ CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call producti
 - An initial publication-date UTC mismatch and cramped mobile table were fixed before local passing reruns. Production image checks were corrected to await image loading; the full suite then passed. A fresh fixed-viewport capture confirmed the Korean 320px layout after a viewport-switch screenshot artifact.
 - Four deployed storage assets match source. Launch health passed EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and all 60 monitored sitemap URLs. No backend/gateway, D1/KV, environment, API, `/go` or affiliate behavior changed. No real-time price, availability, entry-rule, safety or booking guarantees were added. Physical-device/Safari, D1 queries and retention measurement remain NOT_RUN.
 
+## Plan B Saved-guide Follow-up: 2026-10-23
+
+- Scope: the existing EN/KO Plan B guide now includes an evening priority/drop decision and a morning keep/shorten/rest review. This is editorial planning content, not fresh verification of travel conditions or measured retention improvement. No additional URLs or homepage cards; inventory stays at 69 content pages/60 monitored URLs.
+- A stable `plan-b` bookmark uses the existing saved-guide controller and key. Both language articles and all three city libraries offer Save guide; My trips shows it as a shared guide with existing removal/undo. Removing the shared bookmark affects all three city lists. No new storage, automatic reminders, account sync or offline availability is claimed. Other preparation, reading and note writers are unchanged.
+- Local QA passed Phase 1-5, strict Hugo, whitespace, EN/KO save/reload/language, three-city shared undo, cross-tab updates, homepage saves retaining the new ID, no-JS and blocked-storage feedback. Chromium at 320/390/768/1440px passed with inspected screenshots and 44px controls. Existing records/drafts survived navigation, and six checklist/bookmark/reading regressions passed. No application errors or preparation API/search requests. Homepage HTML is identical except its non-visible allowed bookmark IDs. Initial fixture counts were updated for the added library entries before passing reruns.
+- Deployment and production verification: pending for this follow-up. Physical-device/Safari, D1 queries and retention measurement NOT_RUN. No backend/gateway, D1/KV, environment, API, `/go` or affiliate changes; static JS/CSS are unchanged.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:

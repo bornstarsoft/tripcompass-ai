@@ -16,10 +16,10 @@ function node(dataset = {}) {
   };
 }
 
-function harness({ language = "en", stored = "[]", blocked = false, readBlocked = false, single = false, absent = false, extraIds = [] } = {}) {
+function harness({ language = "en", stored = "[]", blocked = false, readBlocked = false, single = false, singleId = "parents", absent = false, extraIds = [] } = {}) {
   const state = { stored, writes: 0 };
   const feedback = node();
-  const buttons = (single ? ["parents"] : ids).map(id => {
+  const buttons = (single ? [singleId] : ids).map(id => {
     const button = node({ saveGuide: id, guideTitle: id });
     button.hidden = true;
     button.label = node();
@@ -177,4 +177,24 @@ assert.deepEqual(JSON.parse(bothTrips.state.stored), ["fukuoka-rain", "osaka-nar
 const threeTrips = harness({ stored: '["fukuoka-rain","osaka-nara","tokyo-jimbocho","tokyo-kiyosumi"]', extraIds: ["fukuoka-rain", "osaka-nara", "tokyo-jimbocho", "tokyo-kiyosumi"] });
 threeTrips.save("tokyo");
 assert.deepEqual(JSON.parse(threeTrips.state.stored), ["fukuoka-rain", "osaka-nara", "tokyo-jimbocho", "tokyo-kiyosumi", "tokyo"]);
-console.log("Guide explorer check passed: EN/KO filters, search, saved guides, safe storage fallback and cross-tab state.");
+for (const language of ["en", "ko"]) {
+  const extraIds = ["plan-b", "travel-days", "osaka-nara", "tokyo-kiyosumi"];
+  const original = '["fukuoka","travel-days","osaka-nara","tokyo-kiyosumi"]';
+  const guide = harness({ language, single: true, singleId: "plan-b", stored: original, extraIds });
+  assert.equal(guide.state.writes, 0);
+  assert.equal(guide.state.stored, original, "Reading does not change bookmarks");
+  guide.save("plan-b");
+  assert.deepEqual(JSON.parse(guide.state.stored), [...JSON.parse(original), "plan-b"]);
+  const translated = harness({ language: language === "en" ? "ko" : "en", single: true, singleId: "plan-b", stored: guide.state.stored, extraIds });
+  assert.equal(translated.buttons[0].attributes["aria-pressed"], "true");
+  const home = harness({ stored: guide.state.stored, extraIds });
+  home.save("parents");
+  assert.ok(JSON.parse(home.state.stored).includes("plan-b"), "Other pages must retain the shared bookmark");
+  translated.save("plan-b");
+  assert.equal(translated.state.stored, original);
+  const blocked = harness({ language, single: true, singleId: "plan-b", blocked: true, extraIds });
+  blocked.save("plan-b");
+  assert.equal(blocked.state.writes, 0);
+  assert.match(blocked.feedback.textContent, /page only|페이지에서만/);
+}
+console.log("Guide explorer check passed: EN/KO filters, search, saved guides, safe storage fallback, Plan B continuity and cross-tab state.");

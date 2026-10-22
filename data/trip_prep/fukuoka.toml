@@ -89,3 +89,6 @@ path = "/itinerary/fukuoka-dazaifu-shrine-museum-day/"
 [[guides]]
 id = "travel-days"
 path = "/itinerary/japan-arrival-departure-day-plan/"
+[[guides]]
+id = "plan-b"
+path = "/itinerary/japan-plan-b/"

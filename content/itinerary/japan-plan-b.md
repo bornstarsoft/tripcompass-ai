@@ -7,7 +7,8 @@ planningGuide: true
 hideFromHome: true
 editorialOnly: true
 coverGuide: "stay"
-readingSections: ["start", "reset", "rain", "energy", "late", "fukuoka", "osaka", "tokyo", "budget", "next", "scope"]
+savedGuideId: "plan-b"
+readingSections: ["start", "reset", "rain", "energy", "late", "fukuoka", "osaka", "tokyo", "budget", "evening", "morning", "next", "scope"]
 takeaways:
   - "Keep one thing you still want, not the whole original route"
   - "Remove a journey before choosing a replacement stop"
@@ -90,11 +91,35 @@ Before buying a replacement activity, compare extra transport, a second ticket a
 
 Use the [Japan budget guide](/from-seoul/japan-travel-budget/) or [decision board](/decision-board/) with amounts you checked yourself. This guide supplies no current prices, availability or partner offers.
 
+## Tonight: agree on one good thing for tomorrow {#evening}
+
+Before everyone starts collecting more places, ask: **what felt worthwhile today, and what took more energy than expected?** Keep the answer small. A good meal together might matter more than the extra district you never reached.
+
+1. **Keep one shared priority.** Let each person name one preference, then agree on the main one. A quiet morning counts; do not turn every answer into a stop.
+2. **Name the first thing to drop.** Choose the optional journey or queue you would remove if tomorrow feels too full. Do not buy a replacement just to fill the gap.
+3. **Separate fixed commitments from wishes.** Check actual reservation terms and the return plan yourself. A note here does not modify a booking or mark preparation as complete.
+
+Try a short note: **“Keep: one bookshop. Drop: the second district. Recheck: after breakfast.”** For Fukuoka, that main interest might be one city area; for Osaka, choose the city day or one outing; for Tokyo, keep one neighborhood. Use the city sections above to revisit the tradeoff.
+
+If you disagree, keep the unresolved choice in the note rather than forcing a full itinerary tonight. Tomorrow is not a debt owed to today's unfinished list.
+
+## Tomorrow morning: keep, shorten or rest {#morning}
+
+Read yesterday's note before opening a new list of recommendations. Check how the group feels, current official weather/transport notices and the conditions for any fixed booking. Yesterday's plan is a starting point, not confirmation that it still works.
+
+- **Keep it** if the priority still matters and the arrangements you checked fit.
+- **Shorten it** by removing the optional journey or waiting you named last night. Recheck what that changes for the return trip.
+- **Rest instead** if no smaller outing suits the group. Follow official/provider instructions when conditions are disrupted; this is not an emergency guide.
+
+Example: “Books, then maybe a cafe” can become “one shop, then back,” not “a different neighborhood to make up for the cafe.” After deciding, replace the note with the next unresolved question. There is no need to keep a diary of every change.
+
 ## Leave a useful starting point for your next visit {#next}
 
 In [My trips](/my-trips/), leave a short note with **one thing to keep, one thing to drop and when to reconsider**. Use your own wording rather than copying the whole itinerary. Do not enter passport details, booking references or payment information.
 
-Reading this page does not change your course, preparation checks or saved guides. Adjust them only if you decide to. Notes stay in your browser; drafts are tab-local, and Save note keeps a note for later visits. There is no automatic reminder or offline guide download.
+Reading this page does not change your course, preparation checks or saved guides. Adjust them only if you decide to. Save this guide to find it in the saved guides for Fukuoka, Osaka and Tokyo in [My trips](/my-trips/). It is one shared bookmark: removing it removes it from all three city lists, with the existing Undo option in My trips.
+
+Bookmarks and notes stay in this browser, not in an account or on other devices. Drafts are tab-local, and Save note keeps a note for later visits. Clearing site data removes these records. There is no automatic reminder or offline guide download.
 
 Still choosing a city? The [AI finder](/#destination-finder) suggests starting options; it does not verify whether today's route is workable.
 

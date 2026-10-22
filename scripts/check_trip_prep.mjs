@@ -229,7 +229,8 @@ for (const prefix of ["", "ko/"]) {
   const html = await readFile(resolve(root, prefix, path, "index.html"), "utf8");
   assert.match(html, /data-trip-prep/);
   assert.equal((html.match(/data-prep-check=/g) || []).length, 5);
-  assert.equal((html.match(/data-save-guide=/g) || []).length, { fukuoka: 6, osaka: 5, tokyo: 4 }[destination]);
+  assert.equal((html.match(/data-save-guide=/g) || []).length, { fukuoka: 7, osaka: 6, tokyo: 5 }[destination]);
+  assert.match(html, /data-save-guide=plan-b/);
   assert.match(html, /data-prep-workspace hidden/);
   assert.match(html, /<noscript>/);
   assert.match(html, /fukuoka-rain/);
@@ -251,6 +252,7 @@ for (const prefix of ["", "ko/"]) {
   const home = await readFile(resolve(root, prefix, "index.html"), "utf8");
   assert.match(home, /data-trip-entry/);
   assert.match(home, /data-guide-ids=[^ >]*travel-days/);
+  assert.match(home, /data-guide-ids=[^ >]*plan-b/);
   assert.match(home, /data-trip-entry=osaka/);
   assert.match(home, /data-trip-entry=fukuoka/);
   assert.match(home, /data-trip-entry=tokyo/);

@@ -1,6 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (PLAN-B-SAVE-RETURN; owner-approved bilingual content, existing save integration, validation, commit and deployment; main; 2026-10-23)
+
+## Current Task
+
+- WORK-ID: PLAN-B-SAVE-RETURN; release preparation. Started clean at 3045b75. Added evening/morning decision content to the existing Plan B guide and reused guide bookmarks across three city libraries. Homepage presentation, existing preparation/note/reading state and backend behavior are unchanged. No new storage or reminders; usefulness is not a measured retention gain.
+- Prior release reconciliation: public GitHub run 39816412572 for the documentation commit is Success, confirmed on 2026-10-23. This resolves the previous remote-CI pending note below.
+- Local QA PASS: Phase 1-5, strict Hugo and whitespace checks; 69 content pages/60 monitored URLs unchanged. EN/KO bookmark save, reload/language, three-city remove/undo, cross-tab changes, homepage save preservation, exact preparation/note/reading records and draft return. Chromium at 320/390/768/1440px, screenshots inspected, 44px save, no-JS and blocked-storage feedback. Six existing checklist/bookmark/reading undo/resume regressions passed. No application errors or preparation API/search requests. Homepages match before/after except their non-visible bookmark ID registry. Static JS/CSS and backend are unchanged.
+- NEXT_SINGLE_TASK: commit/push validated files, confirm CI/Pages and production QA, then record DONE. Production, physical-device/Safari, D1 queries and retention measurement NOT_RUN. BLOCKER: none.
+
+## Previous Content Release
 
 - Last AI: CODEX; WORK-ID: PLAN-B-RETURN-GUIDE; DONE on 2026-10-23. Phase: deployed and production-validated; remote CI confirmation remains pending. Started clean at 121e224. Owner authorized choosing a small content/return-visit improvement, validation and deployment. Added an editorial plan-change guide in EN/KO with city-specific links from My trips; no new storage, homepage controls, backend or affiliate behavior. Reuses the existing AI planning illustration. Return-visit usefulness is a hypothesis, not a measured retention gain.
 - Current local QA PASS: Phase 1-5, strict Hugo, whitespace; 69 content pages/60 monitored URLs. EN/KO six city round trips, 320/390/768/1440px and inspected screenshots, visible target headings/44px entry links, no-JS access, exact stored records and draft recovery. Six existing checklist/bookmark/reading undo/resume regressions passed. No application errors or preparation API/search calls. Main EN/KO HTML is byte-identical. Initial UTC future-date exclusion and narrow mobile table were fixed before passing reruns.

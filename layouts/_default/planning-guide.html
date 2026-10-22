@@ -3,14 +3,17 @@
 {{ $lang := cond $ko "ko" "en" }}
 {{ $prefix := cond $ko "/ko" "" }}
 {{ $cover := index .Site.Data.explore.guides .Params.coverGuide }}
-<article class="page-shell course-guide">
+{{ $entry := dict }}
+{{ with .Params.savedGuideId }}{{ $entry = dict "id" . "copy" (dict "title" $.Title) }}{{ end }}
+<article class="page-shell course-guide"{{ with $entry }} data-guide-experience data-guide-ids="{{ delimit (partial "saved-guide-ids.html" $) "," }}"{{ end }}>
   <header class="page-hero">
     <p><a href="{{ printf "%s/itinerary/" $prefix | relURL }}">{{ cond $ko "여행 일정 가이드" "Itinerary guides" }}</a></p>
     <p class="eyebrow">{{ .Params.eyebrow }}</p>
     <h1>{{ .Title }}</h1>
     <p>{{ .Description }}</p>
     <p class="fine-print">{{ if .Params.editorialOnly }}{{ cond $ko "TripCompass AI · 편집 검토" "TripCompass AI · Editorial review" }}{{ else }}{{ cond $ko "TripCompass AI 편집 가이드 · 자료 확인" "TripCompass AI editorial guide · Sources reviewed" }}{{ end }} <time datetime="{{ .Params.reviewed }}">{{ .Params.reviewed }}</time></p>
-    {{ partial "course-tools.html" (dict "page" . "ko" $ko) }}
+    {{ partial "course-tools.html" (dict "page" . "ko" $ko "entry" $entry) }}
+    {{ with $entry }}<p class="explore-feedback" data-guide-feedback role="status" aria-live="polite" aria-atomic="true"></p>{{ end }}
     <p class="course-print-url">{{ cond $ko "원문" "Original guide" }}: {{ .Permalink }}</p>
   </header>
   {{ partial "editorial-cover.html" (dict "guide" $cover "copy" (index $cover $lang) "ko" $ko "sizes" "(max-width: 960px) 100vw, 960px") }}
@@ -31,4 +34,5 @@
   </aside>
 </article>
 <script src="{{ "js/course-tools.js" | relURL }}" defer></script>
+{{ with $entry }}<script src="{{ "js/guide-explorer.js" | relURL }}" defer></script>{{ end }}
 {{ end }}

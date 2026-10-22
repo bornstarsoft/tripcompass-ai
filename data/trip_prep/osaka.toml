@@ -88,3 +88,6 @@ path = "/itinerary/osaka-doguyasuji-kitchenware-walk/"
 [[guides]]
 id = "travel-days"
 path = "/itinerary/japan-arrival-departure-day-plan/"
+[[guides]]
+id = "plan-b"
+path = "/itinerary/japan-plan-b/"
