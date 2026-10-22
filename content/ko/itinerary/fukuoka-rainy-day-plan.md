@@ -101,6 +101,8 @@ weight: 51
 
 ## 다음에 할 일
 
+비뿐 아니라 피곤함이나 늦은 출발 때문에 하루를 줄여야 할 때는 [세 도시 플랜 B 가이드](/ko/itinerary/japan-plan-b/#fukuoka)를 보세요. 작은 결정 하나를 남기고 내 후쿠오카 여행으로 돌아갈 수 있습니다.
+
 [주말 코스](/ko/from-seoul/seoul-to-fukuoka-weekend-trip/)에 대안 하나만 반영하세요. 쉬는 시간이 중요하다면 [부모님 동반 코스](/ko/itinerary/fukuoka-with-parents-3-days/)를 일행과 함께 보세요. 무엇을 뺄지 고르는 또 다른 예는 [오사카에서 교토 하루를 넣을지 비교하는 글](/ko/itinerary/osaka-or-kyoto-day-trip/)입니다. 도시부터 고민이라면 [한국어 AI 추천](/ko/#destination-finder)으로 후보를 좁힐 수 있지만, AI가 이 글을 자동 수정하거나 날씨를 확인하지는 않습니다.
 
 아래 링크는 실내·우천 운영이 확인된 결과가 아닌 일반 검색입니다. 목적지 사이트에서 위치, 운영 상태와 취소 조건을 확인하세요.

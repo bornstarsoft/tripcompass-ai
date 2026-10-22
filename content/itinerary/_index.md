@@ -11,6 +11,8 @@ Already picked a course? Decide [whether Kyoto belongs in an Osaka day](/itinera
 
 Before filling the first and last day, make a [luggage, check-in and airport plan](/itinerary/japan-arrival-departure-day-plan/). Confirm the essentials, then leave room for one small meal or walk instead of another district.
 
+Already traveling, or returning to your saved plan? Use the [Japan Plan B guide](/itinerary/japan-plan-b/) when rain, low energy or a late start calls for a smaller day. Keep one interest, remove a journey and leave a useful note in My trips.
+
 If Todaiji is the reason to leave Osaka, choose [a Nara temple-and-park day](/itinerary/osaka-to-nara-temple-park-day/). It replaces the Kyoto or Umeda day, with a short park visit and no required deer feeding.
 
 For a more personal Tokyo afternoon, swap a shopping block for [Jimbocho books and cafes](/itinerary/tokyo-jimbocho-books-cafes/). Start with one shop and let curiosity decide whether to continue.

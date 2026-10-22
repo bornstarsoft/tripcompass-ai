@@ -76,6 +76,7 @@ def check(root):
         "/itinerary/tokyo-kiyosumi-shirakawa-garden-art-coffee/": "tokyo-neighborhoods",
         "/itinerary/osaka-to-nara-temple-park-day/": "nara-park-day",
         "/itinerary/japan-arrival-departure-day-plan/": "hotel-neighborhood",
+        "/itinerary/japan-plan-b/": "hotel-neighborhood",
     }
     origin = "https://tripcompass.ai"
     pages = {}

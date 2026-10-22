@@ -687,7 +687,7 @@ assert.match(launchHealthScript, /bash scripts\/list_gsc_urls\.sh/);
 assert.match(launchHealthScript, /rg -Fq "<loc>\$\{url\}<\/loc>"/);
 assert.match(launchHealthScript, /--with-d1/);
 assert.match(launchHealthScript, /bash scripts\/report_clicks\.sh/);
-assert.match(launchHealthScript, /expected 58 production page URLs/);
+assert.match(launchHealthScript, /expected 60 production page URLs/);
 assert.doesNotMatch(launchHealthScript, /OPENAI_API_KEY|AI_BACKEND_SECRET|CLOUDFLARE_API_TOKEN|Authorization/i);
 
 const operationsNote = await readFile("docs/operations.md", "utf8");
@@ -705,8 +705,8 @@ assert.match(operationsNote, /no real-time prices/i);
 assert.match(operationsNote, /no availability guarantees/i);
 assert.match(operationsNote, /no visa guarantees/i);
 assert.match(operationsNote, /no booking guarantees/i);
-assert.match(operationsNote, /40 current English and Korean SEO landing pages/i);
-assert.match(operationsNote, /20 English and 20 Korean/i);
+assert.match(operationsNote, /42 current English and Korean SEO landing pages/i);
+assert.match(operationsNote, /21 English and 21 Korean/i);
 assert.match(operationsNote, /scripts\/list_gsc_urls\.sh/);
 assert.match(operationsNote, /scripts\/check_gsc_inventory\.sh/);
 assert.match(operationsNote, /scripts\/check_launch_health\.sh/);
@@ -750,8 +750,8 @@ for (const expectedText of [
   "submit sitemap",
   "inspect homepage",
   "inspect /ko/",
-  "inspect the 40 SEO landing pages",
-  "20 English and 20 Korean",
+  "inspect the 42 SEO landing pages",
+  "21 English and 21 Korean",
   "scripts/list_gsc_urls.sh",
   "scripts/check_gsc_inventory.sh",
   "bash scripts/check_launch_health.sh",
@@ -915,8 +915,8 @@ for (const expectedText of [
   "Google Search Console URL Submission Checklist",
   "scripts/list_gsc_urls.sh",
   "scripts/check_gsc_inventory.sh",
-  "40 SEO landing pages",
-  "20 English and 20 Korean",
+  "42 SEO landing pages",
+  "21 English and 21 Korean",
   "Submit sitemap.xml",
   "Inspect homepage and /ko/",
   "Inspect SEO landing pages",

@@ -68,6 +68,7 @@
         </div>
         <p class="fine-print" data-trip-check-feedback role="status" aria-live="polite" aria-atomic="true"></p>
         <a class="button button--primary my-trip-action" data-trip-action href="{{ printf "%s%s" $prefix $trip.path | relURL }}"><span data-trip-action-label>{{ cond $ko "준비함 열기" "Open workspace" }}</span><span class="my-trip-action-city"> · {{ index $trip $lang }}</span></a>
+        <p class="fine-print"><a class="my-trip-browse" data-trip-plan-b="{{ . }}" href="{{ printf "%s/itinerary/japan-plan-b/#%s" $prefix . | relURL }}">{{ cond $ko "비·피곤함·늦은 출발: 줄일 일정 고르기" "Rain, low energy or a late start? Pick a smaller day" }}</a></p>
         <section class="my-trip-guides" aria-labelledby="saved-title-{{ . }}">
           <h3 id="saved-title-{{ . }}">{{ cond $ko "저장한 가이드" "Saved guides" }}</h3>
           <p class="fine-print" data-trip-guides-status>{{ cond $ko "저장 목록을 표시하려면 JavaScript가 필요합니다." "JavaScript is needed to show your saved list." }}</p>

@@ -50,7 +50,7 @@
       <h3 id="planning-questions-title">{{ cond $ko "이럴 땐 하루를 어떻게 바꿀까요?" "What if the day needs a rethink?" }}</h3>
       <ul>
         {{ range where .Site.RegularPages.ByWeight "Params.planningGuide" true }}
-          {{ if eq (eq .Params.htmlLang "ko") $ko }}
+          {{ if and (not .Params.hideFromHome) (eq (eq .Params.htmlLang "ko") $ko) }}
           <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a><p>{{ .Description }}</p></li>
           {{ end }}
         {{ end }}

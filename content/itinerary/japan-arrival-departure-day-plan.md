@@ -108,6 +108,8 @@ Free storage can still mean a long return to the hotel. A later checkout may cos
 
 ## Put it into your chosen course
 
+If the trip has started and the day no longer fits, use the [Plan B guide for rain, low energy or a late start](/itinerary/japan-plan-b/). It helps choose what to remove before adding another outing.
+
 Keep the middle days for the main interests in [Fukuoka](/from-seoul/seoul-to-fukuoka-weekend-trip/), [Osaka](/itinerary/seoul-to-osaka-4-day-itinerary/) or [Tokyo](/itinerary/seoul-to-tokyo-4-day-itinerary/). Before choosing a Fukuoka base, use the [Hakata versus Tenjin hotel-area guide](/from-seoul/fukuoka-hakata-vs-tenjin-hotels/). Still choosing the city? Return to the [English AI finder](/#destination-finder); it does not verify luggage services or calculate a flight-safe departure time.
 
 These are generic hotel searches, not properties with verified storage or late check-in. Confirm those conditions directly before booking.

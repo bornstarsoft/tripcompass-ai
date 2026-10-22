@@ -9,7 +9,7 @@
     <p class="eyebrow">{{ .Params.eyebrow }}</p>
     <h1>{{ .Title }}</h1>
     <p>{{ .Description }}</p>
-    <p class="fine-print">{{ cond $ko "TripCompass AI 편집 가이드 · 자료 확인" "TripCompass AI editorial guide · Sources reviewed" }} <time datetime="{{ .Params.reviewed }}">{{ .Params.reviewed }}</time></p>
+    <p class="fine-print">{{ if .Params.editorialOnly }}{{ cond $ko "TripCompass AI · 편집 검토" "TripCompass AI · Editorial review" }}{{ else }}{{ cond $ko "TripCompass AI 편집 가이드 · 자료 확인" "TripCompass AI editorial guide · Sources reviewed" }}{{ end }} <time datetime="{{ .Params.reviewed }}">{{ .Params.reviewed }}</time></p>
     {{ partial "course-tools.html" (dict "page" . "ko" $ko) }}
     <p class="course-print-url">{{ cond $ko "원문" "Original guide" }}: {{ .Permalink }}</p>
   </header>

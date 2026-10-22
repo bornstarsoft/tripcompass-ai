@@ -56,7 +56,8 @@ print_group "English SEO landing pages" \
   "https://tripcompass.ai/itinerary/fukuoka-dazaifu-shrine-museum-day/" \
   "https://tripcompass.ai/itinerary/tokyo-kiyosumi-shirakawa-garden-art-coffee/" \
   "https://tripcompass.ai/itinerary/osaka-to-nara-temple-park-day/" \
-  "https://tripcompass.ai/itinerary/japan-arrival-departure-day-plan/"
+  "https://tripcompass.ai/itinerary/japan-arrival-departure-day-plan/" \
+  "https://tripcompass.ai/itinerary/japan-plan-b/"
 
 print_group "Korean SEO landing pages" \
   "https://tripcompass.ai/ko/from-seoul/japan-3-day-trips/" \
@@ -78,4 +79,5 @@ print_group "Korean SEO landing pages" \
   "https://tripcompass.ai/ko/itinerary/fukuoka-dazaifu-shrine-museum-day/" \
   "https://tripcompass.ai/ko/itinerary/tokyo-kiyosumi-shirakawa-garden-art-coffee/" \
   "https://tripcompass.ai/ko/itinerary/osaka-to-nara-temple-park-day/" \
-  "https://tripcompass.ai/ko/itinerary/japan-arrival-departure-day-plan/"
+  "https://tripcompass.ai/ko/itinerary/japan-arrival-departure-day-plan/" \
+  "https://tripcompass.ai/ko/itinerary/japan-plan-b/"

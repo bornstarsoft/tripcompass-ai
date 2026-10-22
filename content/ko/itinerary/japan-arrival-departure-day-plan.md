@@ -109,6 +109,8 @@ weight: 57
 
 ## 고른 코스에 적용하기
 
+여행이 시작된 뒤 하루가 원래 계획과 맞지 않게 됐다면 [비·피곤함·늦은 출발을 위한 플랜 B](/ko/itinerary/japan-plan-b/)를 보세요. 다른 외출을 더하기 전에 무엇을 뺄지 고르는 데 도움이 됩니다.
+
 가운데 온전한 날은 [후쿠오카](/ko/from-seoul/seoul-to-fukuoka-weekend-trip/), [오사카](/ko/itinerary/seoul-to-osaka-4-day-itinerary/), [도쿄](/ko/itinerary/seoul-to-tokyo-4-day-itinerary/)에서 가장 하고 싶은 일에 남겨 두세요. 후쿠오카 거점을 고르기 전에는 [하카타·텐진 숙소 위치 가이드](/ko/from-seoul/fukuoka-hakata-vs-tenjin-hotels/)를 볼 수 있습니다. 도시부터 고민한다면 [한국어 AI 추천](/ko/#destination-finder)으로 돌아가세요. 짐 보관 서비스를 확인하거나 탑승을 보장하는 출발 시각을 계산하는 도구는 아닙니다.
 
 아래는 일반 호텔 검색입니다. 짐 보관이나 늦은 체크인이 확인된 숙소 목록이 아니므로 예약 전 해당 숙소에 직접 확인하세요.

@@ -1,6 +1,12 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (PLAN-B-RETURN-GUIDE; owner-approved bilingual content, My trips links, validation, commit and deployment; main; 2026-10-23)
+
+- Current task: PLAN-B-RETURN-GUIDE; release preparation. Started clean at 121e224. Owner authorized choosing a small content/return-visit improvement, validation and deployment. Added an editorial plan-change guide in EN/KO with city-specific links from My trips; no new storage, homepage controls, backend or affiliate behavior. Reuses the existing AI planning illustration. Return-visit usefulness is a hypothesis, not a measured retention gain.
+- Current local QA PASS: Phase 1-5, strict Hugo, whitespace; 69 content pages/60 monitored URLs. EN/KO six city round trips, 320/390/768/1440px and inspected screenshots, visible target headings/44px entry links, no-JS access, exact stored records and draft recovery. Six existing checklist/bookmark/reading undo/resume regressions passed. No application errors or preparation API/search calls. Main EN/KO HTML is byte-identical. Initial UTC future-date exclusion and narrow mobile table were fixed before passing reruns.
+- Current NEXT_SINGLE_TASK: commit/push validated files, verify same-SHA CI/Pages and production behavior, then record DONE. Physical-device/Safari and retention measurement NOT_RUN; production QA pending. BLOCKER: none.
+
+## Previous Task
 
 - Last AI: CODEX; WORK-ID: MY-TRIPS-NOTE-DRAFT; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean at a102066. Owner authorized implementation, validation, commit and deployment. Same-tab drafts restore across reload and EN/KO; saved notes and all preparation/bookmark/reading records remain separate. No homepage or backend changes.
 - Current local QA PASS: Phase 1-5, strict Hugo, whitespace check, byte-identical EN/KO homepage HTML; eight draft/failure cases, six save/record-preservation flows, 16 edge cases, six existing checklist/bookmark/reading regressions and six actual-BFCache save/discard/edit cases. EN/KO at 320/390/768/1440px; screenshots inspected, no overflow, 44px controls. No application errors or preparation API/search calls. Physical-device/Safari NOT_RUN.

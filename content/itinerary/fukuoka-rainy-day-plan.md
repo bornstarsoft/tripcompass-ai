@@ -100,6 +100,8 @@ Confirm shop and dining operation for your date; facilities and access arrangeme
 
 ## Next steps
 
+Rain is not the only reason to shorten a day. Use the [three-city Plan B guide](/itinerary/japan-plan-b/#fukuoka) for low energy or a late start, then return to your Fukuoka trip with one small decision to keep.
+
 Return to the [weekend itinerary](/from-seoul/seoul-to-fukuoka-weekend-trip/) with one replacement plan. Share the [parents itinerary](/itinerary/fukuoka-with-parents-3-days/) if rest needs drive the decision. For another example of leaving things out, read [Osaka or Kyoto for one day](/itinerary/osaka-or-kyoto-day-trip/). Still choosing a city? The [English AI finder](/#destination-finder) can suggest a shortlist, but it does not update these written plans or check the weather.
 
 These are generic searches, not indoor-only or weather-verified results. Confirm the location, operating arrangements and cancellation conditions on the destination site.
