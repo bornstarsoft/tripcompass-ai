@@ -1,8 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (MY-TRIPS-COMPARISON; saved comparison resume, EN/KO QA and deployment; main/current worktree; 2026-10-23)
 
 ## Current Task
+
+- WORK-ID: MY-TRIPS-COMPARISON; CODEX; 2026-10-23. Phase: release preparation. Started clean on main at c2dd1f15536ccacd2664ba02f712fbd1348eda07; no other active writer. Owner authorized a scoped return-visit improvement, validation, commit and deployment.
+- Scope: My trips shows the two cities in an existing valid saved decision board, with a localized resume link and budget recheck guide. Reads the existing record only; no new storage/writers, prices/dates in URLs, homepage changes, backend or affiliate changes. Missing, invalid or blocked saves hide the strip without deleting records. Budget guides explain how to return to the saved comparison.
+- QA PASS so far: Phase 1-5; read-only unit coverage for EN/KO city pairs, missing/corrupt/blocked records, reset, cross-tab and pageshow. Chromium EN/KO resume, save/reload/Back/language, cross-tab update/reset, guide round trip, exact legacy records, no-JS/blocked/corrupt storage, 320/390/768/1440px and 44px targets. Screenshots inspected. No application errors or API/search calls. Final production checks pending.
+- NEXT_SINGLE_TASK: finish regression/build checks, commit/push and verify production. BLOCKER: none. Physical-device/Safari and measured retention NOT_RUN.
+
+## Previous Budget Release
 
 - Last AI: CODEX; WORK-ID: BUDGET-RETURN-FLOW; DONE on 2026-10-23. Phase: deployed and production-validated. Owner authorized a scoped return-visit improvement, validation, commit and production deployment. Started clean on main at aea903fb0b3b6f31ceac27561910842a52c218aa; no previous active writer.
 - Scope: expand existing EN/KO Japan budget guides with quote rechecks, budget tradeoffs and explicit-save guidance. Link guides to the existing decision board and three city notes; link board to localized guide in a new tab with noopener and 44px related-link targets. No new storage, automatic saving, price retrieval, homepage controls, backend or affiliate changes.

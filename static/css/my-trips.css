@@ -5,6 +5,13 @@
 .my-trips-jump { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; margin: 0 0 1.25rem; border-block: 1px solid var(--line); }
 .my-trips-jump a { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .25rem; min-height: 56px; padding: .5rem 0; font-weight: 700; }
 .my-trips-jump span { color: var(--muted); font-size: .85rem; font-weight: 400; }
+.my-trips-comparison { margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); }
+.my-trips-comparison[hidden] { display: none; }
+.my-trips-comparison h2 { font-size: 1.15rem; margin: 0; }
+.my-trips-comparison p { margin: .5rem 0; max-width: 720px; }
+.my-trips-comparison-cities { font-weight: 700; }
+.my-trips-comparison-links { display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; }
+.my-trips-comparison-links a { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; }
 .my-trip-action-city { margin-left: .25rem; }
 .my-trips-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
 .my-trip-card { min-width: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--panel); display: flex; flex-direction: column; }

@@ -81,6 +81,8 @@ Choose **Save on this device** before leaving if you want to reopen the comparis
 
 The board's budget-help link opens in a new tab so you can consult this guide without leaving unfinished inputs in the original tab. Keep that tab open and save there when ready; opening help does not save anything for you.
 
+On your next visit, [My trips](/my-trips/#saved-comparison) shows the two cities in your saved comparison and a link to continue. It reads the same browser-local save, not unsaved edits in another tab. If there is no readable saved comparison, use the decision-board link at the bottom of My trips.
+
 Once you choose a city, leave one short question for your next visit in [Fukuoka My trips](/my-trips/#trip-fukuoka), [Osaka My trips](/my-trips/#trip-osaka) or [Tokyo My trips](/my-trips/#trip-tokyo). For example: “Recheck whether the room total covers everyone.” Save the note explicitly; avoid booking references, payment details or other private information.
 
 ## Cautions

@@ -33,6 +33,12 @@ Regression coverage in `scripts/check_decision.mjs` checks localized reciprocal 
 
 Released 2026-10-23 in `60d2cdf58db7b7869be7668370f196d685e049e5`. Phase 1-5, strict Hugo and whitespace checks passed. [GitHub CI 39820501801](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/39820501801) and the same-SHA Cloudflare Pages check succeeded. Production EN/KO guides, boards, homepages and checked board/note assets match the validated build. Local and production Chromium checks passed at 320/390/768/1440px, including 44px related links, new-tab input preservation, explicit save/reload/language, exact legacy storage preservation and no-JS access; screenshots inspected. The homepages are unchanged. Launch health passed EN/KO backend results, repeat cache, HEAD 302 and all 60 monitored sitemap URLs. Physical-device/Safari, D1 queries and retention measurement were not run. No credentials or infrastructure changed.
 
+## Saved Comparison on My Trips
+
+My trips reads the existing `tripcompass.decision.v1` snapshot through the decision core validator. It shows only the two localized city names and a clean localized decision-board link, plus the budget recheck guide. It does not copy saved costs/dates into HTML or links, save unsaved board edits, introduce storage or change the existing explicit-save workflow. Missing, blocked or invalid records hide the strip without deleting or rewriting data; the static footer decision-board link remains available without JavaScript. `pageshow` and relevant `storage` events refresh the display after returning or changes in another tab. The homepage is unchanged.
+
+`scripts/check_saved_comparison.mjs` runs in Phase 2 and checks read-only behavior, EN/KO labels/links, corruption/privacy handling and refresh events. Browser QA additionally covers saved board resume, reload/Back/language, actual cross-tab save/reset, existing records, guide round trips, four viewport widths and no-JS/blocked storage. Production release evidence is recorded after deployment; usefulness is not a measured retention gain.
+
 ## Continuous Integration
 
 The configured GitHub Actions workflow is `.github/workflows/ci.yml`, for pushes to `main`, pull requests, and manual dispatches. The workflow runs Phase 1-5 checks, the strict Hugo build, and `git diff --check`.
