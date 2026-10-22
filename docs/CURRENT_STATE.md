@@ -1,13 +1,17 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (PLAN-B-SAVE-RETURN; owner-approved bilingual content, existing save integration, validation, commit and deployment; main; 2026-10-23)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: PLAN-B-SAVE-RETURN; release preparation. Started clean at 3045b75. Added evening/morning decision content to the existing Plan B guide and reused guide bookmarks across three city libraries. Homepage presentation, existing preparation/note/reading state and backend behavior are unchanged. No new storage or reminders; usefulness is not a measured retention gain.
+- Last AI: CODEX; WORK-ID: PLAN-B-SAVE-RETURN; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean at 3045b75. Owner approved choosing a small improvement, validation, commit and deployment. Added evening/morning decision content to the existing Plan B guide and reused guide bookmarks across three city libraries. Homepage presentation, existing preparation/note/reading state and backend behavior are unchanged. No new storage or reminders; usefulness is not a measured retention gain.
 - Prior release reconciliation: public GitHub run 39816412572 for the documentation commit is Success, confirmed on 2026-10-23. This resolves the previous remote-CI pending note below.
 - Local QA PASS: Phase 1-5, strict Hugo and whitespace checks; 69 content pages/60 monitored URLs unchanged. EN/KO bookmark save, reload/language, three-city remove/undo, cross-tab changes, homepage save preservation, exact preparation/note/reading records and draft return. Chromium at 320/390/768/1440px, screenshots inspected, 44px save, no-JS and blocked-storage feedback. Six existing checklist/bookmark/reading undo/resume regressions passed. No application errors or preparation API/search requests. Homepages match before/after except their non-visible bookmark ID registry. Static JS/CSS and backend are unchanged.
-- NEXT_SINGLE_TASK: commit/push validated files, confirm CI/Pages and production QA, then record DONE. Production, physical-device/Safari, D1 queries and retention measurement NOT_RUN. BLOCKER: none.
+- HEAD/WIP: application commit 5f91afe7177a6eebc1d027e959d268efb5c2cac4 pushed to main. This accompanying docs update records release evidence. No owner WIP discarded.
+- Production QA PASS: GitHub CI run 39817590051 Success; public EN/KO guide and overview HTML plus four storage assets match the validated build byte-for-byte. EN/KO save/reload/language, shared three-city removal/undo, cross-tab changes, homepage save preservation, stored records/drafts, 320/390/768/1440px screenshots, no-JS and blocked-storage cases passed. Six checklist/bookmark/reading undo/resume regressions passed. No application errors or preparation API/search requests. Launch health passed EN/KO backend, repeat cache, HEAD 302 and all 60 monitored sitemap URLs.
+- Verification limit: GitHub's public checks API returned 403, so the Pages deployment ID/same-SHA control-plane check was not obtained; publication is verified by exact page/asset hashes and live behavior, not an inferred deployment ID. No credentials or infrastructure changed.
+- QA NOT_RUN: physical-device/Safari, D1 queries and actual retention measurement. BLOCKER: none for this content release.
+- NEXT_SINGLE_TASK: review owner/traveler feedback on saving and reopening Plan B before adding new controls; use aggregate signals and never collect private note contents.
 
 ## Previous Content Release
 
