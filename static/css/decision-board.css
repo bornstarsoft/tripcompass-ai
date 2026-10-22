@@ -26,6 +26,7 @@
 .decision-opinions fieldset { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; min-width: 0; }
 .decision-opinions legend { margin-bottom: 0.75rem; }
 .decision-buttons, .decision-related { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.decision-related a { display: inline-flex; align-items: center; min-height: 44px; }
 .decision-buttons .button:not(.button--primary), [data-board-copy] { background: white; border: 1px solid #9cafaa; color: var(--ink); }
 .decision-error { padding: 0.75rem; border-left: 3px solid #a62925; color: #852622; background: #fff0ee; }
 .decision-board [hidden] { display: none !important; }

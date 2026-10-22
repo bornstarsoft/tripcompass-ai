@@ -25,6 +25,12 @@ The public check does not require secrets and must not print Cloudflare or OpenA
 
 The public QA submits two distinct AI requests plus a repeated cache check; these can consume provider usage and populate KV. Its HEAD redirect check avoids adding new D1 click rows, but older GET-based QA runs may be present in historical click totals. A working public site does not by itself prove which commit Cloudflare deployed.
 
+## Budget Guide Return Flow
+
+The EN/KO Japan budget guides now connect quote rechecks to the existing decision board and city My trips notes. The board's budget-help link opens in a separate tab (`noopener`, localized new-tab label) so consulting it does not navigate away from unsaved inputs. It does not autosave. The board still requires an explicit save, keeps one browser-local snapshot, and does not maintain quote history, fetch prices or synchronize shared links. Guide links do not carry entered costs or travel dates. No homepage, storage schema, backend, `/go` or affiliate behavior changes are part of this release.
+
+Regression coverage in `scripts/check_decision.mjs` checks localized reciprocal links, section anchors and safe new-tab behavior. Browser release QA also checks input preservation, saved snapshot reload, language switching, old records, no-JS access and mobile layout. This is a usability improvement, not evidence of increased retention. Production verification will be recorded after publication.
+
 ## Continuous Integration
 
 The configured GitHub Actions workflow is `.github/workflows/ci.yml`, for pushes to `main`, pull requests, and manual dispatches. The workflow runs Phase 1-5 checks, the strict Hugo build, and `git diff --check`.

@@ -68,6 +68,7 @@
   </form>
   <aside class="trust-note">{{ $copy.disclaimer }}</aside>
   <nav class="decision-related" aria-label="{{ $copy.next }}">
+    <a data-board-budget-guide href="{{ printf "%s/from-seoul/japan-travel-budget/#recheck" $prefix | relURL }}" target="_blank" rel="noopener">{{ cond $ko "예산 비교 가이드 (새 탭)" "Budget comparison guide (new tab)" }}</a>
     <a href="{{ printf "%s/compare/fukuoka-vs-osaka/" $prefix | relURL }}">{{ index $copy.cities "fukuoka" }} / {{ index $copy.cities "osaka" }}</a>
     <a href="{{ printf "%s/compare/tokyo-vs-osaka/" $prefix | relURL }}">{{ index $copy.cities "tokyo" }} / {{ index $copy.cities "osaka" }}</a>
     <a href="{{ printf "%s/#destination-finder" $prefix | relURL }}">{{ $copy.finder }}</a>

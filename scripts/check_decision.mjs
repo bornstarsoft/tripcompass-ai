@@ -84,5 +84,21 @@ for (const prefix of ["", "ko/"]) {
   assert.ok(sitemap.includes(`https://tripcompass.ai/${prefix}decision-board/`));
   const home = await readFile(join(out, prefix, "index.html"), "utf8");
   assert.ok(home.includes(`/${prefix}decision-board/`));
+  const budget = await readFile(join(out, prefix, "from-seoul/japan-travel-budget/index.html"), "utf8");
+  for (const id of ["recheck", "tradeoffs", "continue"]) {
+    assert.match(budget, new RegExp(`id=["']?${id}["' >]`));
+  }
+  assert.ok(budget.includes(`/${prefix}decision-board/#trip-settings`));
+  for (const city of ["fukuoka", "osaka", "tokyo"]) {
+    assert.ok(budget.includes(`/${prefix}my-trips/#trip-${city}`));
+  }
+  const help = html.match(/<a\b[^>]*data-board-budget-guide[^>]*>[\s\S]*?<\/a>/)?.[0];
+  assert.ok(help, "Budget help must remain available without JavaScript");
+  assert.ok(help.includes(`/${prefix}from-seoul/japan-travel-budget/#recheck`));
+  assert.match(help, /target=["']?_blank["' >]/);
+  assert.match(help, /rel=["']?noopener["' >]/);
+  assert.ok(help.includes(prefix ? "새 탭" : "new tab"));
+  assert.ok(!help.includes("#plan=") && !help.includes("?"), "Do not attach board inputs to help links");
+  assert.ok(budget.includes(prefix ? "이 기기에 저장" : "Save on this device"));
 }
-console.log("Decision board check passed: budget units, missing values, time windows, validation, snapshots, safe CTAs and EN/KO pages.");
+console.log("Decision board check passed: budget units, validation, snapshots, safe CTAs, EN/KO budget return links and new-tab help.");

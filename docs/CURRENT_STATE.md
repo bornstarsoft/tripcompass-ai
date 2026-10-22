@@ -1,8 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (BUDGET-RETURN-FLOW; bilingual budget guide and decision-board links, validation and deployment; main/current worktree; 2026-10-23)
 
 ## Current Task
+
+- WORK-ID: BUDGET-RETURN-FLOW; CODEX; 2026-10-23. Phase: release preparation. Owner authorized a scoped return-visit improvement, validation, commit and production deployment. Started clean on main at aea903fb0b3b6f31ceac27561910842a52c218aa; no previous active writer.
+- Scope: expand existing EN/KO Japan budget guides with quote rechecks, budget tradeoffs and explicit-save guidance. Link guides to the existing decision board and three city notes; link board to localized guide in a new tab with noopener and 44px related-link targets. No new storage, automatic saving, price retrieval, homepage controls, backend or affiliate changes.
+- QA so far PASS: Phase 1-5; Chromium EN/KO help popup isolation, unsaved input preservation, explicit save/reload/language handoff, exact legacy storage preservation, no-JS, 320/390/768/1440px overflow and 44px link checks. Screenshots inspected. No application errors or API/search calls. Final strict build and production verification pending.
+- NEXT_SINGLE_TASK: finish release checks, commit/push and verify the deployed pages and existing launch health. BLOCKER: none. Physical-device/Safari and actual retention measurement NOT_RUN.
+
+## Previous Travel-day Release
 
 - Last AI: CODEX; WORK-ID: RETURN-DAY-REVISIT; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean at c2e76bf. Improved the existing arrival/departure guide with an evening/before-checkout review and enabled its existing travel-days bookmark in the article. No new page, homepage controls, storage key, checklist task or backend behavior. Existing reading section keys and source-review date are preserved; added material is editorial, not a new verification of airport facts.
 - Owner approved choosing a small improvement, validation, commit and deployment. Local QA PASS: Phase 1-5, strict Hugo, whitespace, byte-identical EN/KO homepages, 69 content pages/60 monitored URLs. Chromium EN/KO save/reload/language, three-city removal/undo, cross-tab updates, existing records and draft return, no-JS/blocked storage, 320/390/768/1440px with inspected screenshots and 44px controls. Six existing checklist/bookmark/reading undo/resume regressions passed. No application errors or preparation API/search calls.
