@@ -1,6 +1,12 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (MY-TRIPS-NOTE-DRAFT; owner-approved draft persistence, validation, commit and deployment; main; 2026-10-23)
+
+- Current task: MY-TRIPS-NOTE-DRAFT; release preparation. Started clean at a102066. Owner authorized implementation, validation, commit and deployment. Same-tab drafts restore across reload and EN/KO; saved notes and all preparation/bookmark/reading records remain separate. No homepage or backend changes.
+- Current local QA PASS: Phase 1-5, strict Hugo, whitespace check, byte-identical EN/KO homepage HTML; eight draft/failure cases, six save/record-preservation flows, 16 edge cases, six existing checklist/bookmark/reading regressions and six actual-BFCache save/discard/edit cases. EN/KO at 320/390/768/1440px; screenshots inspected, no overflow, 44px controls. No application errors or preparation API/search calls. Physical-device/Safari NOT_RUN.
+- Current NEXT_SINGLE_TASK: commit/push validated exact files; verify same-SHA CI/Pages and production behavior before recording DONE. Production QA pending; no blocker.
+
+## Previous Release
 
 - Last AI: CODEX; WORK-ID: MY-TRIPS-RETURN-NOTE; DONE on 2026-10-23.
 - Phase: deployed and production-validated. Owner authorized choosing a small retention improvement, keeping the homepage simple, validation and production deployment. Started clean at 62a84f3 on main; no previous active writer.

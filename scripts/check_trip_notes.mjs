@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { mountTripNotes, parseNote, NOTE_KEYS, NOTE_LIMIT } from "../static/js/trip-note.js";
+import { mountTripNotes, parseNote, parseDraft, NOTE_KEYS, DRAFT_KEYS, NOTE_LIMIT } from "../static/js/trip-note.js";
 
 const cities = Object.keys(NOTE_KEYS);
 const raw = text => JSON.stringify({ version: 1, text });
@@ -10,7 +10,7 @@ assert.equal(parseNote(raw("한영 <script> note")), "한영 <script> note");
 assert.equal(parseNote(raw("가".repeat(NOTE_LIMIT))).length, NOTE_LIMIT);
 for (const invalid of ["{", "null", "[]", raw("x".repeat(241)), JSON.stringify({ version: 2, text: "new" }), JSON.stringify({ version: 1, text: 10 }), " ".repeat(4097)]) assert.throws(() => parseNote(invalid));
 
-function harness(language, records = new Map(), fail = {}) {
+function harness(language, records = new Map(), fail = {}, drafts = new Map()) {
   const events = {}, writes = [], doc = { documentElement: { lang: language }, activeElement: null };
   const node = () => ({ value: "", textContent: "", hidden: false, disabled: false, open: false,
     addEventListener(name, fn) { this[name] = fn; }, focus() { doc.activeElement = this; } });
@@ -20,6 +20,11 @@ function harness(language, records = new Map(), fail = {}) {
   });
   doc.querySelectorAll = () => roots;
   const win = {
+    sessionStorage: {
+      getItem(k) { if (fail.draftRead) throw Error("PRIVATE"); return drafts.get(k) ?? null; },
+      setItem(k,v) { if (fail.draftWrite) throw Error("PRIVATE"); assert.ok(Object.values(DRAFT_KEYS).includes(k)); drafts.set(k,v); },
+      removeItem(k) { if (fail.draftRemove) throw Error("PRIVATE"); assert.ok(Object.values(DRAFT_KEYS).includes(k)); drafts.delete(k); }
+    },
     localStorage: {
       getItem(k) { if (fail.read) throw Error("PRIVATE"); return records.get(k) ?? null; },
       setItem(k,v) { if (fail.write) throw Error("PRIVATE"); assert.ok(Object.values(NOTE_KEYS).includes(k)); writes.push(k); records.set(k,v); },
@@ -29,7 +34,7 @@ function harness(language, records = new Map(), fail = {}) {
     removeEventListener(name,fn) { events[name]?.delete(fn); }
   };
   mountTripNotes(doc,win);
-  return { records, roots, doc, writes, fail, fields: city => roots[cities.indexOf(city)].fields,
+  return { records, drafts, roots, doc, writes, fail, fields: city => roots[cities.indexOf(city)].fields,
     dirty: () => events.beforeunload?.size || 0,
     emit: (name, event = {}) => events[name]?.forEach(fn => fn(event)),
     type(city,text) { const f = this.fields(city); f.input.value=text; f.input.input(); },
@@ -47,8 +52,8 @@ for (const language of ["en","ko"]) {
   for (const city of cities) {
     const f=h.fields(city); assert.equal(f.save.disabled,true); assert.equal(f.preview.hidden,true);
     const note=language==="ko"?`${city}: 취소 조건 비교\n내일 다시 확인`:`${city}: Compare cancellation terms\nCheck again tomorrow`;
-    h.type(city,note); assert.equal(f.save.disabled,false); assert.equal(h.dirty(),1);
-    assert.match(f.status.textContent,/Unsaved|저장하지/);
+    h.type(city,note); assert.equal(f.save.disabled,false); assert.equal(h.dirty(),0);
+    assert.match(f.status.textContent,/Draft kept|임시 보관/);
     h.save(city); assert.equal(h.dirty(),0); assert.equal(f.preview.textContent,note);
     assert.equal(f.details.open,false); assert.equal(h.doc.activeElement,f.summary);
     assert.equal(h.records.get(NOTE_KEYS[city]),raw(note));
@@ -62,7 +67,9 @@ for (const language of ["en","ko"]) {
   }
   for (const [k,v] of protectedRecords) assert.equal(h.records.get(k),v);
   h.type("fukuoka","first draft"); h.type("osaka","second draft"); h.save("fukuoka");
-  assert.equal(h.dirty(),1,"Another city still has an unsaved draft");
+  assert.equal(h.dirty(),0,"Persisted drafts do not interrupt language switching");
+  h.fail.draftWrite=true; h.type("osaka","unprotected draft");
+  assert.equal(h.dirty(),1,"Failed draft persistence still warns before departure");
   let prevented=false; h.emit("beforeunload",{preventDefault(){prevented=true;}}); assert.ok(prevented);
   h.fields("osaka").reload.click(); assert.equal(h.dirty(),0,"No guard after every draft is saved or discarded");
   const noOp=[...h.records]; h.save("fukuoka"); assert.deepEqual([...h.records],noOp);
@@ -78,7 +85,7 @@ for (const language of ["en","ko"]) {
     if(mode==="bfcache") f.emit("pageshow",{persisted:true});
     const before=[...r]; f.save("fukuoka");
     if(mode==="other-city") assert.equal(r.get(NOTE_KEYS.fukuoka),raw("my draft"));
-    else { assert.deepEqual([...r],before); assert.equal(ui.input.value,"my draft"); assert.equal(f.dirty(),1); }
+    else { assert.deepEqual([...r],before); assert.equal(ui.input.value,"my draft"); assert.equal(f.dirty(),0); }
     assert.ok(!ui.status.textContent.includes("PRIVATE"));
   }
   const r=new Map([[NOTE_KEYS.fukuoka,raw("old")]]), h2=harness(language,r), ui=h2.fields("fukuoka");
@@ -93,6 +100,69 @@ for (const language of ["en","ko"]) {
   fail.write=false; h4.save("fukuoka"); assert.equal(h4.records.get(NOTE_KEYS.fukuoka),raw("retry"));
 }
 
+for (const language of ["en", "ko"]) {
+  const h=harness(language);
+  for(const city of cities) h.type(city,`  ${city} 메모\nDraft  `);
+  assert.equal(h.writes.length,0,"Typing must not save or overwrite durable notes");
+  for(const next of [language,language==="ko"?"en":"ko"]) {
+    const resumed=harness(next,h.records,{},h.drafts);
+    for(const city of cities) {
+      const ui=resumed.fields(city);
+      assert.equal(ui.input.value,`  ${city} 메모\nDraft  `);
+      assert.equal(ui.details.open,true); assert.equal(ui.preview.hidden,true);
+      assert.equal(resumed.doc.activeElement,null,"Restoration must not steal focus");
+    }
+    assert.equal(resumed.writes.length,0); assert.equal(resumed.dirty(),0);
+  }
+  const saved=harness(language,h.records,{},h.drafts);
+  saved.save("fukuoka"); assert.equal(saved.drafts.has(DRAFT_KEYS.fukuoka),false);
+  h.emit("pageshow",{persisted:true});
+  assert.equal(h.fields("fukuoka").input.value,"fukuoka 메모\nDraft","BFCache must not revive a saved draft");
+  saved.fields("osaka").reload.click(); h.emit("pageshow",{persisted:true});
+  assert.equal(h.fields("osaka").input.value,"","BFCache must not revive a discarded draft");
+  assert.equal(h.fields("tokyo").input.value,"  tokyo 메모\nDraft  ");
+  h.type("fukuoka","");
+  const deletion=harness(language,h.records,{},h.drafts);
+  assert.equal(deletion.fields("fukuoka").input.value,"");
+  assert.equal(deletion.fields("fukuoka").save.disabled,false,"Intentional empty drafts survive reload");
+  deletion.save("fukuoka"); assert.equal(h.records.has(NOTE_KEYS.fukuoka),false);
+
+  const conflict=harness(language,new Map([[NOTE_KEYS.fukuoka,raw("old")]]));
+  conflict.type("fukuoka","my draft"); conflict.records.set(NOTE_KEYS.fukuoka,raw("new"));
+  const resumed=harness(language,conflict.records,{},conflict.drafts), ui=resumed.fields("fukuoka");
+  assert.equal(ui.input.value,"my draft"); assert.equal(ui.preview.textContent,"new"); assert.equal(ui.save.disabled,true);
+  resumed.save("fukuoka"); assert.equal(resumed.records.get(NOTE_KEYS.fukuoka),raw("new"));
+  resumed.fail.draftRemove=true; ui.reload.click(); assert.equal(ui.input.value,"my draft");
+  resumed.fail.draftRemove=false; ui.reload.click(); assert.equal(ui.input.value,"new");
+  assert.equal(resumed.drafts.has(DRAFT_KEYS.fukuoka),false);
+
+  const failed=harness(language,new Map(),{draftWrite:true}); failed.type("tokyo","retain me");
+  assert.equal(failed.dirty(),1); assert.equal(failed.fields("tokyo").input.value,"retain me");
+  assert.ok(!failed.fields("tokyo").status.textContent.includes("PRIVATE"));
+  failed.fail.draftWrite=false; failed.type("tokyo","retain me now"); assert.equal(failed.dirty(),0);
+  failed.fail.draftRemove=true; failed.save("tokyo");
+  const stale=harness(language,failed.records,{},failed.drafts);
+  assert.equal(stale.fields("tokyo").input.value,"retain me now"); assert.equal(stale.fields("tokyo").save.disabled,true);
+  assert.equal(stale.drafts.has(DRAFT_KEYS.tokyo),false,"Cleanup failure must not resurrect a saved draft");
+  const whitespace=harness(language,new Map([[NOTE_KEYS.osaka,raw("same")]]));
+  whitespace.type("osaka","same "); whitespace.fail.draftRemove=true; whitespace.save("osaka");
+  assert.equal(whitespace.fields("osaka").input.value,"same ","Failed no-change cleanup retains the edit for retry");
+  whitespace.fail.draftRemove=false; whitespace.save("osaka"); assert.equal(whitespace.drafts.has(DRAFT_KEYS.osaka),false);
+  const revert=harness(language);
+  revert.type("tokyo","older draft"); revert.fail.draftRemove=true; revert.type("tokyo","");
+  assert.equal(revert.dirty(),1,"Failed draft removal still guards against stale recovery");
+  revert.emit("pageshow",{persisted:true}); assert.equal(revert.fields("tokyo").input.value,"");
+  revert.emit("storage",{key:NOTE_KEYS.tokyo}); assert.equal(revert.fields("tokyo").input.value,"");
+  revert.fail.draftRemove=false; revert.fields("tokyo").reload.click(); assert.equal(revert.dirty(),0);
+  for(const invalid of ["{","null",JSON.stringify({version:2,text:"bad",base:null}),JSON.stringify({version:1,text:"bad"}),JSON.stringify({version:1,text:"x".repeat(241),base:null}),"x".repeat(16385)]) {
+    assert.throws(()=>parseDraft(invalid));
+    const broken=harness(language,new Map([[NOTE_KEYS.fukuoka,raw("safe")]]),{},new Map([[DRAFT_KEYS.fukuoka,invalid]]));
+    assert.equal(broken.fields("fukuoka").input.value,"safe"); assert.equal(broken.writes.length,0);
+  }
+  const blocked=harness(language,new Map(),{draftRead:true}); blocked.type("osaka","new draft");
+  assert.equal(blocked.dirty(),0,"Read failure need not prevent a later successful draft write");
+}
+
 if(process.argv[2]) for(const [prefix,title] of [["","For your next visit"],["ko/","다음에 확인할 메모"]]) {
   const html=await readFile(resolve(process.argv[2],prefix+"my-trips/index.html"),"utf8");
   assert.ok(html.includes(title)); assert.ok(html.includes("js/trip-note.js"));
@@ -100,4 +170,4 @@ if(process.argv[2]) for(const [prefix,title] of [["","For your next visit"],["ko
   const home=await readFile(resolve(process.argv[2],prefix+"index.html"),"utf8");
   assert.ok(!home.includes("data-trip-note")); assert.ok(!home.includes("js/trip-note.js"));
 }
-console.log("Trip notes passed: EN/KO, three-city isolation, explicit local saves, reload/language, length limits, safe text, draft/conflict/failure handling and unchanged legacy records/homepage.");
+console.log("Trip notes passed: EN/KO, three-city isolation, explicit saves, tab drafts across reload/language/BFCache, blank drafts, length limits, safe text, conflicts/storage failures and unchanged legacy records/homepage.");
