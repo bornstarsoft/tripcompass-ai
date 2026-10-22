@@ -6,12 +6,13 @@ layout: "planning-guide"
 readingSections: ["overview","audience","duration","bags","arrival","departure","airports","notes","budget","next","sources"]
 planningGuide: true
 coverGuide: "stay"
+savedGuideId: "travel-days"
 takeaways:
   - "Confirm luggage arrangements before counting free time"
   - "Work backward from the correct airport and terminal"
   - "Keep one optional treat, with permission to skip it"
 reviewed: "2026-09-22"
-lastmod: "2026-09-23"
+lastmod: "2026-10-23T00:00:00+09:00"
 alternateKo: "/ko/itinerary/japan-arrival-departure-day-plan/"
 weight: 57
 ---
@@ -64,6 +65,8 @@ Keep travel documents, essential medication and other items you may need accessi
 
 ## Departure day: work backward, including the bag detour
 
+Returning to this guide? Start with [the night-before review](#night-before-return) or [the check before leaving the accommodation](#before-checkout). These are prompts for your own checks, not a live flight or transport status service.
+
 1. Confirm the departure airport, terminal and flight on your booking and current airline information. Do not infer the return airport from the arrival airport.
 2. Use your airline's current guidance to set the airport-arrival target. Check-in, bag-drop and boarding deadlines are distinct; the flight's departure time is not a check-in deadline.
 3. Check the date-specific route to that terminal, including walks, waiting, changes and any required tickets. Review disruption notices again on the day.
@@ -71,6 +74,22 @@ Keep travel documents, essential medication and other items you may need accessi
 5. Set a time to end the optional outing. If the confirmed journey no longer fits, remove the outing first and reassess the transport plan.
 
 There is no universal “leave the hotel this many hours before the flight” rule here. A rail journey time is not the whole hotel-to-terminal journey, and a taxi is not a guaranteed rescue from traffic or disruption. Seek current airline and operator guidance when the plan is no longer workable.
+
+### The night before: close the loose ends {#night-before-return}
+
+- **Put the return plan before the final treat.** Reopen your own flight details and airline guidance. Identify which details still need confirmation rather than relying on the arrival-day plan.
+- **Agree where the bags will be.** Confirm the actual collection arrangement with the provider. If it is unresolved, keep a smaller plan that does not depend on leaving luggage there.
+- **Choose the first thing to skip.** A meal, shop or walk is optional. Agree with your companions which one you would drop if the checked plan changes.
+
+A short note could be: **“Recheck the terminal / confirm bag collection / skip the extra shop if the plan changes.”** Keep booking references and travel documents in your own appropriate records, not in TripCompass notes or the AI finder. Writing the note does not confirm a service or complete a preparation item.
+
+### Before checkout: use today's information {#before-checkout}
+
+Read the note again and check current airline/operator notices, your actual starting point and the agreed bag-collection conditions. Yesterday's check is not confirmation that today's arrangements are unchanged.
+
+If a detail is unresolved, pause the optional outing and contact the relevant provider. Do not replace missing information with a guessed transfer time. If the plan still fits the information you checked, keep the outing small and respect the stop time you set; this does not guarantee reaching a flight.
+
+Before leaving the accommodation, agree who is checking the route and where the group will regroup if you are not moving together. A different hotel, storage point or terminal means revisiting the route, not simply reusing an old screenshot. For changing the leisure portion, use [Plan B](/itinerary/japan-plan-b/#late).
 
 ## Airport checks for the three city courses
 
@@ -80,7 +99,7 @@ There is no universal “leave the hotel this many hours before the flight” ru
 
 ## A small travel-day note
 
-Fill this in with confirmed details and keep it accessible offline. It is a private planning note; there is no need to put your flight booking reference or passport details into the AI finder.
+Fill this in with confirmed details and keep a separate personal copy you can access without internet, such as your own note or printout. Saving a guide on TripCompass is a bookmark, not an offline download. It is a private planning note; there is no need to put your flight booking reference or passport details into the AI finder.
 
 | Item | Your confirmed detail |
 | --- | --- |
@@ -92,6 +111,10 @@ Fill this in with confirmed details and keep it accessible offline. It is a priv
 | First thing to drop | The extra shop, walk or queued meal you can leave for next time |
 
 For a final small ritual, each person can pick one favorite moment from the trip over a meal already on the route. It adds something to the day without another ticket or district.
+
+Keep only a short, non-sensitive next question in your [Fukuoka](/my-trips/#trip-fukuoka), [Osaka](/my-trips/#trip-osaka) or [Tokyo](/my-trips/#trip-tokyo) note. Save note keeps it for later visits in this browser; drafts are tab-local. There is no automatic reminder, account sync or booking verification. Do not store passport details, booking references, payment information or room-access codes here.
+
+Save this guide to find it under all three cities in My trips, even without starting a preparation checklist. It is one shared bookmark: removing it affects all three lists, with the existing Undo option in My trips. Clearing site data removes browser-local saved records. Reading or saving this guide does not mark any preparation item as checked.
 
 ## Budget considerations
 
@@ -121,5 +144,7 @@ These are generic hotel searches, not properties with verified storage or late c
 ## Sources and review scope
 
 The three linked airport pages were reviewed on **22 September 2026** for access-reference context. The decision steps, message and note are our editorial suggestions, not airline instructions. No hotel, storage place, travel-date transport, opening hours or availability was confirmed. The existing AI illustration depicts luggage and an imagined planning scene, not a real hotel, storage facility or airport map.
+
+The night-before and checkout prompts and return-visit links were added on **23 October 2026** as editorial guidance. This was not a new check of the airport references or any current travel conditions.
 
 Check current prices, opening hours, visa rules, availability and booking terms yourself. This guide provides no real-time quote or safety, entry, connection or booking guarantee.

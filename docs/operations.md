@@ -270,6 +270,13 @@ CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call producti
 - Production Chromium passed the same save/reload/language/shared-undo/cross-tab/homepage-preservation and no-JS/blocked-storage checks at 320/390/768/1440px; screenshots inspected. Existing records/drafts and six checklist/bookmark/reading undo/resume regressions passed, with no application errors or preparation API/search requests. Launch health passed EN/KO `source=backend`, repeat `source=cache`, HEAD 302 and all 60 monitored sitemap URLs.
 - Physical-device/Safari, D1 queries and retention measurement NOT_RUN. No backend/gateway, D1/KV, environment, API, `/go` or affiliate changes; static JS/CSS are unchanged.
 
+## Return-day Revisit Follow-up: 2026-10-23
+
+- Existing EN/KO arrival/departure guides now include night-before and before-checkout prompts, anchored links, and links to each city's My trips note. The article enables the existing `travel-days` bookmark rather than creating a new ID or storage key. It can be saved without starting a trip; shared removal/undo retains its existing scope. Notes and preparation checks remain independent.
+- Homepage HTML is byte-identical before/after in both languages. No new page, image, JavaScript, CSS, template, checklist task, backend/gateway, D1/KV, environment, `/go` or affiliate behavior. Inventory stays at 69 content pages/60 monitored URLs. Reading section keys and the September source-review date are unchanged; the October editorial addition is explicitly distinguished from current fact verification. Offline copies must be prepared separately; saving is not an offline download or reminder.
+- Local Phase 1-5, strict Hugo and whitespace checks passed. Chromium EN/KO save/reload/language, shared removal/undo, cross-tab changes, record/draft preservation, no-JS and blocked-storage feedback passed at 320/390/768/1440px with inspected screenshots, visible anchored headings and 44px save controls. Six preparation/bookmark/reading undo/resume regressions passed; no application errors or preparation API/search calls.
+- Production verification pending. Physical-device/Safari, D1 queries and actual retention measurement NOT_RUN. The benefit is a return-visit hypothesis, not a measured business result.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:

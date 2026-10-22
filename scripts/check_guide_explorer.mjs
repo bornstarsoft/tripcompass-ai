@@ -198,3 +198,21 @@ for (const language of ["en", "ko"]) {
   assert.match(blocked.feedback.textContent, /page only|페이지에서만/);
 }
 console.log("Guide explorer check passed: EN/KO filters, search, saved guides, safe storage fallback, Plan B continuity and cross-tab state.");
+
+for (const language of ["en", "ko"]) {
+  const extraIds = ["travel-days", "plan-b", "fukuoka-rain", "osaka-nara", "tokyo-jimbocho"];
+  const original = '["plan-b","fukuoka-rain","osaka-nara","tokyo-jimbocho"]';
+  const guide = harness({ language, single: true, singleId: "travel-days", stored: original, extraIds });
+  assert.equal(guide.state.writes, 0);
+  guide.save("travel-days");
+  assert.deepEqual(JSON.parse(guide.state.stored), [...JSON.parse(original), "travel-days"]);
+  const translated = harness({ language: language === "en" ? "ko" : "en", single: true, singleId: "travel-days", stored: guide.state.stored, extraIds });
+  assert.equal(translated.buttons[0].attributes["aria-pressed"], "true");
+  translated.save("travel-days");
+  assert.equal(translated.state.stored, original);
+  const blocked = harness({ language, single: true, singleId: "travel-days", stored: original, blocked: true, extraIds });
+  blocked.save("travel-days");
+  assert.equal(blocked.state.stored, original);
+  assert.match(blocked.feedback.textContent, /page only|페이지에서만/);
+}
+console.log("Travel-day article bookmarks passed: EN/KO, reload/language state, existing bookmarks and failed-write preservation.");

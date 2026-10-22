@@ -15,11 +15,15 @@ class PlanningPage(CoursePage):
         self.takeaways = 0
         self.in_highlights = False
         self.dates = []
+        self.save_ids = []
         super().__init__(source)
 
     def handle_starttag(self, tag, attrs):
         super().handle_starttag(tag, attrs)
         attrs = dict(attrs)
+        if "data-save-guide" in attrs:
+            assert tag == "button" and "hidden" in attrs and attrs.get("aria-label")
+            self.save_ids.append(attrs["data-save-guide"])
         if tag == "section" and "guide-highlights" in attrs.get("class", "").split():
             self.in_highlights = True
         if tag == "li" and self.in_highlights:
@@ -200,6 +204,16 @@ def check(root):
             assert "/js/course-tools.js" in page.scripts and not page.finder_forms
             assert len(page.tools) == 1 and "hidden" in page.tools[0]
             assert page.tools[0]["data-canonical-url"] == origin + url
+            if path == "/itinerary/japan-arrival-departure-day-plan/":
+                assert page.save_ids == ["travel-days"]
+                assert "/js/guide-explorer.js" in page.scripts
+                assert {"night-before-return", "before-checkout"} <= page.ids
+                assert {"#night-before-return", "#before-checkout"} <= set(page.links)
+                assert prefix + "/itinerary/japan-plan-b/#late" in page.links
+                for city in ["fukuoka", "osaka", "tokyo"]:
+                    assert prefix + "/my-trips/#trip-" + city in page.links
+                for term in (["The night before:", "Before checkout:", "not an offline download", "not a new check", "does not mark any preparation item"] if language == "en" else ["출국 전날:", "체크아웃 직전:", "오프라인 다운로드가 아닙니다", "새로 확인한 것은 아닙니다", "준비 항목이 체크되지는 않습니다"]):
+                    assert term in text
             for incoming in ["/", "/itinerary/", *expected["incoming"]]:
                 assert url in read(prefix + incoming).links, f"{url}: missing incoming link from {incoming}"
             for related in expected["related"]:

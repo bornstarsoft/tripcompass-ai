@@ -1,8 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (RETURN-DAY-REVISIT; owner-approved bilingual content, existing bookmark integration, validation, commit and deployment; main; 2026-10-23)
 
 ## Current Task
+
+- WORK-ID: RETURN-DAY-REVISIT; release preparation. Started clean at c2e76bf. Improved the existing arrival/departure guide with an evening/before-checkout review and enabled its existing travel-days bookmark in the article. No new page, homepage controls, storage key, checklist task or backend behavior. Existing reading section keys and source-review date are preserved; added material is editorial, not a new verification of airport facts.
+- Owner approved choosing a small improvement, validation, commit and deployment. Local QA PASS: Phase 1-5, strict Hugo, whitespace, byte-identical EN/KO homepages, 69 content pages/60 monitored URLs. Chromium EN/KO save/reload/language, three-city removal/undo, cross-tab updates, existing records and draft return, no-JS/blocked storage, 320/390/768/1440px with inspected screenshots and 44px controls. Six existing checklist/bookmark/reading undo/resume regressions passed. No application errors or preparation API/search calls.
+- NEXT_SINGLE_TASK: commit/push and verify CI plus actual production behavior. Production, physical-device/Safari, D1 queries and retention measurement NOT_RUN. BLOCKER: none.
+
+## Previous Saved-guide Release
 
 - Last AI: CODEX; WORK-ID: PLAN-B-SAVE-RETURN; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean at 3045b75. Owner approved choosing a small improvement, validation, commit and deployment. Added evening/morning decision content to the existing Plan B guide and reused guide bookmarks across three city libraries. Homepage presentation, existing preparation/note/reading state and backend behavior are unchanged. No new storage or reminders; usefulness is not a measured retention gain.
 - Prior release reconciliation: public GitHub run 39816412572 for the documentation commit is Success, confirmed on 2026-10-23. This resolves the previous remote-CI pending note below.
