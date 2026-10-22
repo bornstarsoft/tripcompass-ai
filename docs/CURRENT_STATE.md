@@ -1,12 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (RETURN-DAY-REVISIT; owner-approved bilingual content, existing bookmark integration, validation, commit and deployment; main; 2026-10-23)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: RETURN-DAY-REVISIT; release preparation. Started clean at c2e76bf. Improved the existing arrival/departure guide with an evening/before-checkout review and enabled its existing travel-days bookmark in the article. No new page, homepage controls, storage key, checklist task or backend behavior. Existing reading section keys and source-review date are preserved; added material is editorial, not a new verification of airport facts.
+- Last AI: CODEX; WORK-ID: RETURN-DAY-REVISIT; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean at c2e76bf. Improved the existing arrival/departure guide with an evening/before-checkout review and enabled its existing travel-days bookmark in the article. No new page, homepage controls, storage key, checklist task or backend behavior. Existing reading section keys and source-review date are preserved; added material is editorial, not a new verification of airport facts.
 - Owner approved choosing a small improvement, validation, commit and deployment. Local QA PASS: Phase 1-5, strict Hugo, whitespace, byte-identical EN/KO homepages, 69 content pages/60 monitored URLs. Chromium EN/KO save/reload/language, three-city removal/undo, cross-tab updates, existing records and draft return, no-JS/blocked storage, 320/390/768/1440px with inspected screenshots and 44px controls. Six existing checklist/bookmark/reading undo/resume regressions passed. No application errors or preparation API/search calls.
-- NEXT_SINGLE_TASK: commit/push and verify CI plus actual production behavior. Production, physical-device/Safari, D1 queries and retention measurement NOT_RUN. BLOCKER: none.
+- HEAD/WIP: application commit dd3288335a44927a485cd6059ee8c903d35975ce pushed to main; this accompanying documentation update records release evidence. No owner WIP discarded.
+- Production QA PASS: CI run 39818800459 Success with matching implementation SHA. Both guides, both homepages and four existing storage assets match the validated build byte-for-byte. EN/KO save/reload/language/shared undo/cross-tab and draft/record preservation passed, plus no-JS/blocked storage and 320/390/768/1440px screenshots. Six existing checklist/bookmark/reading undo/resume flows passed. No application errors or preparation API/search calls. Launch health passed EN/KO backend, repeat cache, HEAD 302 and 60 sitemap URLs.
+- QA limits: Pages publication was checked through page/asset hashes and live behavior; no deployment ID/control-plane result was retrieved. Physical-device/Safari, D1 queries and retention measurement NOT_RUN. No credential/infrastructure changes. BLOCKER: none.
+- NEXT_SINGLE_TASK: gather feedback on reopening saved guides during travel before adding more controls; do not collect private note contents or infer retention gains from QA success.
 
 ## Previous Saved-guide Release
 
