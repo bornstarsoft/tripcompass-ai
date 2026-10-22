@@ -1,13 +1,13 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (MY-TRIPS-RETURN-NOTE; city next-visit notes, EN/KO mobile QA, commit/deploy approved; main/current worktree; 2026-10-23)
 
-- Last AI: CODEX; WORK-ID: MY-TRIPS-UNDO-LANGUAGE; DONE on 2026-10-15.
-- Phase: deployed and production-validated. Owner approved same-tab EN/KO reading undo, record preservation, mobile QA, commit and deployment. Started clean at 0a3f2f7 on main; no previous active writer.
-- Scope: explicit header language navigation carries pending undo within the original two-minute deadline using existing session snapshots; tests and privacy/docs. Existing preparation/bookmark/decision storage keys and writers are unchanged. No backend/gateway, D1/KV, environment, API, /go or affiliate changes.
-- HEAD/WIP: application commit 60e2a872cae518fdc4fd68d2dc397d0c05f261ad on main is pushed/deployed; this accompanying documentation update records release evidence. No owner WIP discarded.
-- QA PASS: Phase 1-5, strict Hugo and whitespace checks; 67 content pages/58 monitored URLs. Chromium passed 30 EN/KO city/task contexts with three language switches plus reloads before exact restoration, localized resume, disclosures/position and guide reload. Five widths 320/390/768/920/1440px, 44px controls and inspected screenshots passed. Twenty-four touch-mobile failure/retry/newer/reset/checklist-only/multicity cases, 14 language deadline/storage/history/referrer/navigation guards, ten reload guards and six actual-BFCache invalidation cases passed. Existing overview/workspace/checklist/bookmark-undo and unavailable/no-JS regressions passed. Original records preserved outside explicit edits; no application errors or preparation API/search calls.
-- Production QA PASS: same-SHA CI/Pages; 30 three-switch/reload/undo/resume contexts, 24 touch-mobile cases, 14 language guards, ten reload guards and six actual-BFCache invalidation cases. Five widths and inspected screenshots passed. Existing overview/workspace/checklist/bookmark-undo and no-JS/unavailable-state regressions passed. Original records preserved outside deliberate edits; no application errors or preparation API/search calls. Six deployed JS files match; privacy published. Launch health: EN/KO backend, repeated cache, HEAD 302 and 58 monitored sitemap URLs.
-- QA NOT_RUN: physical-device/Safari, D1 queries and retention measurement.
-- NEXT_SINGLE_TASK: with owner approval, review actual use of reading resume/undo and choose the next retention improvement; functional tests do not establish business gains.
-- BLOCKER: none. Existing GitHub-to-Pages integration used without infrastructure or credential changes. Release references: docs/operations.md and docs/trip-preparation.md.
+- Last AI: CODEX; WORK-ID: MY-TRIPS-RETURN-NOTE; IN_PROGRESS on 2026-10-23.
+- Phase: release preparation. Owner authorized choosing a small retention improvement, keeping the homepage simple, validation and production deployment. Started clean at 62a84f3 on main; no previous active writer.
+- Scope: optional 240-character next-visit note per city on My trips; explicit browser-local save, same note across EN/KO, conflict/draft protection, tests and privacy/docs. English/Korean homepage HTML is unchanged. Existing preparation/bookmark/reading/decision keys and writers are unchanged. No backend/gateway, D1/KV, environment, API, /go or affiliate changes.
+- HEAD/WIP: intended note feature/test/privacy/docs files only; no owner WIP discarded. Commit/push and production validation pending.
+- Local QA PASS: Phase 1-5, note units, strict Hugo and whitespace checks; 67 content pages/58 monitored URLs. Chromium passed six city/language save flows, EN/KO at 320/390/768/1440px with 44px controls and inspected screenshots, draft leave warning/cancel, exact legacy records, 16 mobile conflict/failure/limit/no-JS cases, six existing checklist/bookmark/reading undo/resume regressions and two actual-BFCache refreshes. No application errors or preparation API/search calls.
+- Production QA: NOT_RUN for this change yet.
+- QA NOT_RUN: physical-device/Safari, D1 queries and actual retention measurement.
+- NEXT_SINGLE_TASK: commit/push exact files, verify same-SHA CI/Pages and production browser/launch-health QA, then record evidence and release writer.
+- BLOCKER: none. Existing GitHub-to-Pages integration; no credential or infrastructure changes. Feature rationale, data lifetime and measurement limits: docs/next-visit-notes.md.

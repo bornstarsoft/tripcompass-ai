@@ -21,6 +21,7 @@ node scripts/check_trip_guide_history.mjs
 node scripts/check_trip_guide_language.mjs
 node scripts/check_trip_reading.mjs
 node scripts/check_reading_undo.mjs
+node scripts/check_trip_notes.mjs "$OUT_DIR"
 python3 scripts/check_content.py "$OUT_DIR"
 python3 scripts/check_courses.py "$OUT_DIR"
 python3 scripts/check_discovery.py "$OUT_DIR"

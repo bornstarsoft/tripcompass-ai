@@ -42,6 +42,12 @@ English and Korean use the same preparation state for each city on this browser 
 
 Checklist marks are personal notes, not booking confirmations. Following a `/go` link still uses the search-click logging described above. The workspace does not send checklist values to those links.
 
+## Next-visit Notes
+
+The My trips overview offers an optional next-visit note for each city, such as a hotel comparison to finish. Pressing Save note stores up to 240 characters in this browser's localStorage under `tripcompass.return-note.<city>.v1`. English and Korean show the same user-written text without translating it. Notes are not sent to our server, AI provider or click logs, and are not included in links. Do not enter personal, passport, payment or booking-reference information. People sharing the browser profile may see the notes; they do not sync to another device.
+
+Saving an empty note removes that city's note. Clearing site data removes all notes. Notes are independent of preparation checks, saved guides and reading positions; resetting a preparation workspace does not remove its next-visit note. Visits only read saved notes. Unsaved edits remain in page memory only: a browser departure warning may help, but is not guaranteed on every device or abrupt close. Save before switching language or leaving. Storage failures do not claim success, and an edit based on an older saved note is rejected when a newer value is detected. This is not collaborative editing or a guaranteed backup.
+
 ## Guide Reading Position
 
 When you leave or hide a preparation-context guide, the browser can save one latest reading record per city in separate localStorage keys, `tripcompass.reading.fukuoka.v1`, `tripcompass.reading.osaka.v1` and `tripcompass.reading.tokyo.v1`. Each contains the city/task identifier, course/alternative context, last-save time, checklist disclosure flags and a section or position anchor. It does not contain checklist answers, bookmarks, full browsing history or booking details. My trips shows the corresponding localized guide and task, with an explicit Continue reading link. A single-use sessionStorage handoff restores that position only after this action, on the matching guide within two minutes. No reading data is sent to a server or synced between devices. Normal hosting requests still occur.

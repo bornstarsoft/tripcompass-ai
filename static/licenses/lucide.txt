@@ -1,4 +1,4 @@
-Lucide 0.468.0: copy, printer and bookmark icons
+Lucide 0.468.0: copy, printer, bookmark, undo-2 and save icons
 Source: https://github.com/lucide-icons/lucide/tree/0.468.0/icons
 Changes: aria-hidden and focusable attributes added for decorative use.
 

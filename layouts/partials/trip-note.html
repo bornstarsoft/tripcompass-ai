@@ -1,0 +1,20 @@
+{{ $ko := .ko }}
+{{ $city := .city }}
+<section class="trip-note" data-trip-note="{{ $city }}" hidden aria-labelledby="note-title-{{ $city }}">
+  <h3 id="note-title-{{ $city }}">{{ cond $ko "다음에 확인할 메모" "For your next visit" }}</h3>
+  <p class="trip-note-preview" data-note-preview hidden></p>
+  <details data-note-details>
+    <summary data-note-summary>{{ cond $ko "다음에 확인할 메모 남기기" "Add a next-visit note" }}</summary>
+    <form data-note-form>
+      <label for="note-{{ $city }}">{{ cond $ko "이어 할 일" "What to pick up next" }}</label>
+      <textarea id="note-{{ $city }}" data-note-input rows="3" maxlength="240" aria-describedby="note-help-{{ $city }} note-count-{{ $city }}" placeholder="{{ cond $ko "예: 숙소 두 곳의 취소 조건 비교" "e.g. Compare cancellation terms for two hotels" }}"></textarea>
+      <p class="fine-print" id="note-help-{{ $city }}">{{ cond $ko "이 브라우저에만 저장됩니다. 예약번호·여권·결제 정보는 적지 마세요. 빈 메모를 저장하면 삭제됩니다." "Saved only in this browser. Do not enter booking references, passport or payment details. Saving an empty note removes it." }}</p>
+      <p class="fine-print" data-note-count id="note-count-{{ $city }}">0 / 240</p>
+      <div class="trip-note-actions">
+        <button type="submit" class="button button--primary" data-note-save disabled>{{ partial "icons/save.html" }}<span>{{ cond $ko "메모 저장" "Save note" }}</span></button>
+        <button type="button" class="button" data-note-reload>{{ partial "icons/undo.html" }}<span>{{ cond $ko "저장된 메모 불러오기" "Load saved note" }}</span></button>
+      </div>
+    </form>
+  </details>
+  <p class="fine-print" data-note-status role="status" aria-live="polite" aria-atomic="true"></p>
+</section>
