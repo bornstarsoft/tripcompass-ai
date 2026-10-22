@@ -1,10 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (MY-TRIPS-NOTE-DRAFT; owner-approved draft persistence, validation, commit and deployment; main; 2026-10-23)
+ACTIVE_WRITER = NONE
 
-- Current task: MY-TRIPS-NOTE-DRAFT; release preparation. Started clean at a102066. Owner authorized implementation, validation, commit and deployment. Same-tab drafts restore across reload and EN/KO; saved notes and all preparation/bookmark/reading records remain separate. No homepage or backend changes.
+- Last AI: CODEX; WORK-ID: MY-TRIPS-NOTE-DRAFT; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean at a102066. Owner authorized implementation, validation, commit and deployment. Same-tab drafts restore across reload and EN/KO; saved notes and all preparation/bookmark/reading records remain separate. No homepage or backend changes.
 - Current local QA PASS: Phase 1-5, strict Hugo, whitespace check, byte-identical EN/KO homepage HTML; eight draft/failure cases, six save/record-preservation flows, 16 edge cases, six existing checklist/bookmark/reading regressions and six actual-BFCache save/discard/edit cases. EN/KO at 320/390/768/1440px; screenshots inspected, no overflow, 44px controls. No application errors or preparation API/search calls. Physical-device/Safari NOT_RUN.
-- Current NEXT_SINGLE_TASK: commit/push validated exact files; verify same-SHA CI/Pages and production behavior before recording DONE. Production QA pending; no blocker.
+- HEAD/WIP: application commit dd4a3cf9d5a3fff2c7c3412a0f5fd9b663ed1cb1 on main is pushed/deployed; this accompanying docs update records production evidence. No owner WIP discarded.
+- Production QA PASS: same-SHA CI/Pages; eight draft-recovery/failure cases, six save/preservation flows, 16 edge cases, six existing preparation/bookmark/reading regressions and six actual-BFCache cases. EN/KO at 320/390/768/1440px, inspected screenshots; no overflow, application errors or preparation API/search calls. Four deployed assets match, privacy notice published. Launch health passed EN/KO backend, cache, HEAD 302 and 58 sitemap URLs.
+- QA NOT_RUN: physical-device/Safari, D1 queries and actual retention measurement.
+- NEXT_SINGLE_TASK: with owner approval, gather feedback on the next-visit notes and same-tab recovery before adding controls; do not collect note contents or claim measured retention gains.
+- BLOCKER: none. GitHub-to-Pages integration unchanged. Feature details, limitations and release evidence: docs/next-visit-notes.md and docs/operations.md.
 
 ## Previous Release
 

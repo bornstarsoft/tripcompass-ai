@@ -240,6 +240,15 @@ CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call producti
 - Production Chromium: six city/language flows at 320/390/768/1440px, inspected screenshots, keyboard/touch save, reload/language persistence, deletion, safe text and unsaved-departure warning/cancel passed. Sixteen mobile failure/conflict/limit/no-JS cases, six existing preparation/bookmark/reading undo/resume regressions and two actual-BFCache refreshes passed. An initial cross-tab touch timeout did not recur in the unchanged full suite in a fresh browser. Existing records remained intact outside deliberate test edits; passing runs had no application errors or preparation API/search calls.
 - Five deployed JS/CSS assets matched source and the privacy notice was published. Launch health passed EN/KO backend, repeated cache, HEAD 302 and 58 monitored sitemap URLs. No backend/gateway/D1/KV/environment/API/redirect/affiliate behavior changed. Physical-device/Safari, D1 queries and actual retention impact remain NOT_RUN. Details: `docs/next-visit-notes.md`.
 
+## Note Draft Recovery Release: 2026-10-23
+
+- Application commit: `dd4a3cf9d5a3fff2c7c3412a0f5fd9b663ed1cb1`, pushed to GitHub `main` with owner approval. Phase 1-5, strict Hugo and whitespace checks passed; content/inventory counts remain 67/58.
+- GitHub CI: [run 39812112144](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/39812112144), success for that SHA.
+- Cloudflare Pages: deployment `383da70e-725d-4f4c-b573-21b69178cab5`, success for the same SHA. [Immutable deployment](https://383da70e.tripcompass-ai.pages.dev). Existing Git integration; no credential or infrastructure changes.
+- Per-city tab drafts now survive reload and EN/KO switching without changing saved notes until explicit Save note. Editors reopen without focus stealing; blank drafts, conflicts, blocked storage and stale BFCache pages are handled. No homepage changes or migrations of existing preparation/bookmark/reading records.
+- Local and production Chromium passed eight draft-recovery/failure cases, six save/record-preservation flows, 16 edge cases, six checklist/bookmark/reading regressions and six actual-BFCache save/discard/edit cases. Both languages passed 320/390/768/1440px with inspected screenshots, no overflow and 44px controls. No application errors or preparation API/search calls occurred.
+- Four deployed assets match source and the privacy notice is published. Launch health passed EN/KO backend recommendations, repeated cache, HEAD 302 and 58 sitemap URLs. Physical-device/Safari, D1 queries and retention measurement NOT_RUN. Details and storage limitations: `docs/next-visit-notes.md`.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:

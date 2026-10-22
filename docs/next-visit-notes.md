@@ -30,6 +30,14 @@ Application commit `e5537f5a88bcec29137c041a360e3bbd0ddd7acc` passed same-SHA Gi
 
 Five deployed JS/CSS files matched the validated source, the privacy notice is published, and neither homepage loads the note module or contains note controls. Both built homepage HTML files are byte-identical to the pre-change build. Launch health passed EN/KO backend recommendations, repeated cache, HEAD 302 and all 58 monitored sitemap URLs. No D1 queries, physical-device/Safari tests or retention measurement were performed. Release identifiers are in `docs/operations.md`.
 
+## Draft Recovery Release: 2026-10-23
+
+WORK-ID: MY-TRIPS-NOTE-DRAFT. Application commit `dd4a3cf9d5a3fff2c7c3412a0f5fd9b663ed1cb1` passed same-SHA CI and Pages deployment. This supersedes the initial release's page-memory-only draft limitation. Saved notes retain their original keys and explicit save behavior; temporary per-city snapshots preserve edits across same-tab reload and language switching. Main pages remain byte-identical to the pre-change build.
+
+Phase 1-5, strict Hugo and whitespace checks passed. Local and production Chromium passed eight repeated-reload/language/mobile/failure cases, six save and legacy-record-preservation flows, 16 conflict/storage/limit/no-JS cases, six existing checklist/bookmark/reading undo/resume regressions and six actual-BFCache save/discard/edit cases. Both languages passed 320/390/768/1440px, inspected screenshots, no overflow and 44px touch controls. Blank deletion drafts, untrimmed multiline input, explicit save/discard and failure retry were verified. Passing runs had no application errors or preparation API/search calls.
+
+Four production JS/CSS assets match source; the draft privacy notice is published. Launch health passed EN/KO backend results, repeated cache, HEAD 302 and 58 monitored sitemap URLs. Existing preparation, saved-guide, reading and decision records were unchanged outside intentional regression-test edits. No backend, infrastructure, redirect or affiliate changes. Physical-device/Safari, D1 queries and measured retention impact remain NOT_RUN. Deployment IDs are in `docs/operations.md`.
+
 ## Follow-up Measurement
 
 Do not add more homepage controls solely because this feature shipped. Ask a few travelers whether they can return to an unfinished decision without reconstructing it. Existing Web Analytics and aggregate `/go` reports cannot attribute return visits or conversions specifically to notes. Review that qualitative feedback and owner-provided aggregate traffic before expanding. No note contents should be collected for measurement.
