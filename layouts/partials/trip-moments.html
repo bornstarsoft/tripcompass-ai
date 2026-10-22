@@ -19,5 +19,9 @@
       <a href="{{ printf "%s/itinerary/japan-arrival-departure-day-plan/#before-checkout" $prefix | relURL }}">{{ cond $ko "귀국하는 날: 짐과 공항 이동부터" "Going home: bags and the airport first" }}</a>
       <p>{{ cond $ko "짐 수령 조건과 최신 항공사·교통 안내부터 확인해요. 마지막 쇼핑은 선택 일정으로 남겨요." "Recheck bag collection and current airline/operator guidance. Keep the final shopping stop optional." }}</p>
     </li>
+    <li>
+      <a href="{{ printf "%s/itinerary/japan-arrival-departure-day-plan/#after-trip" $prefix | relURL }}">{{ cond $ko "다녀온 뒤: 다음 여행의 기준 남기기" "Back home: a starting point for next time" }}</a>
+      <p>{{ cond $ko "다시 하고 싶은 것, 줄일 이동, 다음에 확인할 질문 하나를 남겨요." "Keep one thing to repeat, one journey to cut and one question for next time." }}</p>
+    </li>
   </ul>
 </details>

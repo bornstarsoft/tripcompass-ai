@@ -12,7 +12,7 @@ takeaways:
   - "Work backward from the correct airport and terminal"
   - "Keep one optional treat, with permission to skip it"
 reviewed: "2026-09-22"
-lastmod: "2026-10-23T00:00:00+09:00"
+lastmod: "2026-10-23T03:00:00+09:00"
 alternateKo: "/ko/itinerary/japan-arrival-departure-day-plan/"
 weight: 57
 ---
@@ -116,6 +116,24 @@ Keep only a short, non-sensitive next question in your [Fukuoka](/my-trips/#trip
 
 Save this guide to find it under all three cities in My trips, even without starting a preparation checklist. It is one shared bookmark: removing it affects all three lists, with the existing Undo option in My trips. Clearing site data removes browser-local saved records. Reading or saving this guide does not mark any preparation item as checked.
 
+### Back home: three clues for your next trip {#after-trip}
+
+You do not need to turn the trip into a scorecard or plan another one immediately. Once you have rested, keep one useful lesson from the days you actually enjoyed, not a list of places you failed to reach.
+
+1. **Repeat one good ingredient.** Was it eating together without rushing, browsing one shop properly, or leaving the morning open? Name the kind of day you liked before naming the next city.
+2. **Remove one source of friction.** Think about an unnecessary hotel detour, a second district or a queue you no longer wanted. Describe what you would change, rather than judging a companion's pace.
+3. **Leave one question, not a new itinerary.** For example: would you choose fewer transfers, another full day in the city, or a different arrival time next time? Recheck the actual options when you are ready to plan.
+
+Apply it to the course you used:
+
+- **Fukuoka:** if staying in one area made the day easier, make that your starting criterion next time. An outing you skipped is an option, not an unfinished obligation.
+- **Osaka:** consider whether the city day or the day trip felt more rewarding for the effort. That answer can help you choose between them again, without adding both to the next trip.
+- **Tokyo:** distinguish enjoying a particular interest, such as books or art, from enjoying a long neighborhood-hopping day. Keep the interest; reconsider the amount of travel around it.
+
+A short note to adapt: **“Repeat: an unhurried meal. Less: a second district. Next question: one extra full day?”** [Fukuoka](/my-trips/#trip-fukuoka), [Osaka](/my-trips/#trip-osaka) and [Tokyo](/my-trips/#trip-tokyo) each have one next-visit note. Check the existing note before replacing it; it is not a trip-by-trip journal. Keep any longer personal record separately. Reading this example does not save a note, reset preparation or change your bookmarks.
+
+Old checklist marks describe what you checked for the earlier trip, not confirmation for a new departure. Recheck flights, accommodation, transport and other relevant conditions for the new dates yourself. Past prices or a pleasant visit do not establish future prices, availability or suitability. If you later compare cities, start the [decision board](/decision-board/) with newly checked inputs; do not treat an old saved comparison as a current quote.
+
 ## Budget considerations
 
 Compare the whole travel-day cost, not just the airfare. Use the [Japan travel budget guide](/from-seoul/japan-travel-budget/) to keep per-person transport separate from shared room costs.
@@ -145,6 +163,6 @@ These are generic hotel searches, not properties with verified storage or late c
 
 The three linked airport pages were reviewed on **22 September 2026** for access-reference context. The decision steps, message and note are our editorial suggestions, not airline instructions. No hotel, storage place, travel-date transport, opening hours or availability was confirmed. The existing AI illustration depicts luggage and an imagined planning scene, not a real hotel, storage facility or airport map.
 
-The night-before and checkout prompts and return-visit links were added on **23 October 2026** as editorial guidance. This was not a new check of the airport references or any current travel conditions.
+The night-before, checkout and after-trip reflection prompts and return-visit links were added on **23 October 2026** as editorial guidance. This was not a new check of the airport references or any current travel conditions.
 
 Check current prices, opening hours, visa rules, availability and booking terms yourself. This guide provides no real-time quote or safety, entry, connection or booking guarantee.

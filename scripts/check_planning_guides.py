@@ -207,8 +207,13 @@ def check(root):
             if path == "/itinerary/japan-arrival-departure-day-plan/":
                 assert page.save_ids == ["travel-days"]
                 assert "/js/guide-explorer.js" in page.scripts
-                assert {"night-before-return", "before-checkout"} <= page.ids
-                assert {"#night-before-return", "#before-checkout"} <= set(page.links)
+                assert {"night-before-return", "before-checkout", "after-trip"} <= page.ids
+                assert {"#night-before-return", "#before-checkout", "#after-trip"} <= set(page.links)
+                assert "**" not in text, "Do not leak Markdown emphasis into rendered copy"
+                assert prefix + "/decision-board/" in page.links
+                assert "/js/trip-note.js" not in page.scripts, "Reading the reflection must not mount notes"
+                for term in (["Back home: three clues", "not a trip-by-trip journal", "Reading this example does not save", "not confirmation for a new departure"] if language == "en" else ["다녀온 뒤: 다음 여행에 남길 세 가지", "여행별 일지가 아니므로", "예시를 읽는 것만으로", "새 출발의 조건까지 확인됐다는 뜻은 아닙니다"]):
+                    assert term in text
                 assert prefix + "/itinerary/japan-plan-b/#late" in page.links
                 for city in ["fukuoka", "osaka", "tokyo"]:
                     assert prefix + "/my-trips/#trip-" + city in page.links
