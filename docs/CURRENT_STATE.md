@@ -1,13 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (MY-TRIPS-MOMENTS; scoped EN/KO discovery, validation and deployment; main/current worktree; 2026-10-23)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: MY-TRIPS-MOMENTS; CODEX; 2026-10-23. Phase: implementation. Started clean on main at 74f30079991c1328b9a9e39b736f671d1151e86c; no previous active writer. Owner authorized a scoped return-visit improvement, validation, commit and production deployment.
+- Last AI: CODEX; WORK-ID: MY-TRIPS-MOMENTS; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean on main at 74f30079991c1328b9a9e39b736f671d1151e86c; no previous active writer. Owner authorized a scoped return-visit improvement, validation, commit and production deployment.
 - Scope: one collapsed, native EN/KO situation-based guide list on My trips, linking to existing evening, morning, changed-plan and checkout sections with short editorial prompts. No homepage expansion, new page, JavaScript/storage/backend/affiliate change or current travel claims.
 - Local QA PASS: Phase 1-5, strict Hugo and whitespace. Chromium EN/KO four native section links, keyboard/touch disclosure, Back, note drafts across reload/language, exact legacy records, no-JS/blocked storage and 320/390/768/1440px with 44px controls and inspected screenshots. Six existing checklist/bookmark/reading undo/resume regressions passed. No application errors or API/search calls during browser QA (the local browser's default favicon request returned 404). Both homepage HTML files are byte-identical; 69 content pages and 60 monitored URLs remain.
-- NEXT_SINGLE_TASK: commit/push the validated implementation and verify production. BLOCKER: none. Physical-device/Safari, D1 queries and measured retention NOT_RUN.
+- HEAD/WIP: application commit a77e80cf5104581faacedff65ecadba074b01415 pushed to main; this accompanying documentation update records release evidence. No owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 39825483727 and Cloudflare Pages checks succeeded. Both homepages and overviews, overview CSS and existing overview/note JS match the validated build byte-for-byte. Chromium EN/KO native links, keyboard/touch, Back, reload/language draft recovery, exact legacy records, no-JS/blocked storage and 320/390/768/1440px with 44px controls passed; screenshots inspected. Six existing checklist/bookmark/reading undo/resume flows passed. No application errors or API/search requests during browser QA. Launch health passed EN/KO backend, repeated cache, HEAD 302 and all 60 monitored sitemap URLs.
+- NEXT_SINGLE_TASK: collect traveler feedback on finding the right guide at the right moment before adding more controls; do not collect private notes or infer retention from QA. BLOCKER: none. Physical-device/Safari, D1 queries and measured retention NOT_RUN.
 
 ## Previous Daily Choices Release
 
