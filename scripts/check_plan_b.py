@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Validate the bilingual return-visit guide and its existing-trip entry points."""
+import json
 import sys
 from pathlib import Path
 
@@ -16,11 +17,14 @@ class PlanPage(Page):
         self.saves = []
         self.saved = []
         self.guide_ids = []
+        self.reading_sections = []
         super().__init__(source)
 
     def handle_starttag(self, tag, attrs):
         super().handle_starttag(tag, attrs)
         attrs = dict(attrs)
+        if "data-guide-reading-sections" in attrs:
+            self.reading_sections = json.loads(attrs["data-guide-reading-sections"])
         if "data-save-guide" in attrs:
             self.saves.append(attrs["data-save-guide"])
             assert tag == "button" and "hidden" in attrs and attrs.get("aria-label")
@@ -44,7 +48,7 @@ def check(root):
 
     path = "/itinerary/japan-plan-b/"
     sitemap = (root / "sitemap.xml").read_text(encoding="utf-8")
-    sections = ["start", "reset", "rain", "energy", "late", "fukuoka", "osaka", "tokyo", "budget", "evening", "morning", "next", "scope"]
+    sections = ["start", "reset", "rain", "energy", "late", "waiting", "together", "fukuoka", "osaka", "tokyo", "budget", "evening", "morning", "next", "scope"]
     related = ["/itinerary/japan-arrival-departure-day-plan/", "/itinerary/fukuoka-rainy-day-plan/",
                "/itinerary/fukuoka-with-parents-3-days/", "/itinerary/osaka-or-kyoto-day-trip/",
                "/itinerary/osaka-to-nara-temple-park-day/", "/itinerary/tokyo-jimbocho-books-cafes/",
@@ -60,6 +64,16 @@ def check(root):
         assert page.canonicals == ["https://tripcompass.ai" + url]
         assert "<loc>https://tripcompass.ai" + url + "</loc>" in sitemap
         assert all(section in page.sections for section in sections)
+        assert page.reading_sections == sections, "Keep stable reading keys aligned with article sections"
+        assert [key for key in page.sections if key in sections] == sections
+        for anchor in ["#waiting", "#together"]:
+            assert page.links.count(anchor) >= 2, "New scenarios need both contents and quick-reset links"
+        for anchor in ["#fukuoka", "#osaka", "#tokyo"]:
+            assert anchor in page.links
+        assert ("줄이 길거나 만석이라면" if prefix else "A long queue or no table:") in text
+        assert ("취향이 다르면" if prefix else "Different interests:") in text
+        assert ("예상 대기 시간은 착석 시각을 보장" if prefix else "An estimate is not a promised seating time") in text
+        assert ("예시를 읽기만 해서는 메모가 저장되지" if prefix else "reading this example does not save it") in text
         assert not page.finder_forms and not any(link.startswith("/go/") for link in page.links)
         assert "/js/course-tools.js" in page.scripts
         assert "/js/guide-explorer.js" in page.scripts
@@ -87,7 +101,7 @@ def check(root):
             assert url in read(prefix + incoming).links
         assert url + "#fukuoka" in read(prefix + "/itinerary/fukuoka-rainy-day-plan/").links
         assert url not in read(prefix + "/").links, "Do not expand homepage content"
-    print("Plan B passed: EN/KO, three city round trips, editorial scope, reused illustration, related guides, unchanged homepage discovery and sitemap.")
+    print("Plan B passed: EN/KO waiting/group choices, stable section keys, saved-guide continuity, three city return links, cautious editorial scope and unchanged homepage discovery.")
 
 
 if __name__ == "__main__":

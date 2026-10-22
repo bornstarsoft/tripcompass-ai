@@ -1,8 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (PLAN-B-DAILY-CHOICES; bilingual editorial content, validation and deployment; main/current worktree; 2026-10-23)
 
 ## Current Task
+
+- WORK-ID: PLAN-B-DAILY-CHOICES; CODEX; 2026-10-23. Phase: release preparation. Started clean on main at 382ecb048cbff219dff6dd0eff68a9da7a9cb304; no previous active writer. Owner authorized a scoped improvement, validation, commit and deployment.
+- Scope: expand the existing EN/KO Plan B guide for long queues/unavailable seating and different group preferences, including short next-visit note examples. Existing bookmark, city links and section IDs remain; two new section keys and native contents/quick-reset links are added. No new pages, homepage controls, frontend code, storage, backend or affiliate changes. Editorial suggestions only, no fresh venue verification or availability claims.
+- QA so far PASS: Phase 1-5 and whitespace; EN/KO save/reload/language, shared three-city bookmark undo, cross-tab changes, exact legacy records and draft return, no-JS/blocked storage and four viewport widths. No application errors or API/search calls. New-section visual checks and production verification pending.
+- NEXT_SINGLE_TASK: complete content/mobile/build checks, commit/push and verify production. BLOCKER: none. Physical-device/Safari and retention measurement NOT_RUN.
+
+## Previous Comparison Release
 
 - Last AI: CODEX; WORK-ID: MY-TRIPS-COMPARISON; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean on main at c2dd1f15536ccacd2664ba02f712fbd1348eda07; no other active writer. Owner authorized a scoped return-visit improvement, validation, commit and deployment.
 - Scope: My trips shows the two cities in an existing valid saved decision board, with a localized resume link and budget recheck guide. Reads the existing record only; no new storage/writers, prices/dates in URLs, homepage changes, backend or affiliate changes. Missing, invalid or blocked saves hide the strip without deleting records. Budget guides explain how to return to the saved comparison.

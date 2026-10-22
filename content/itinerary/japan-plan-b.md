@@ -8,14 +8,14 @@ hideFromHome: true
 editorialOnly: true
 coverGuide: "stay"
 savedGuideId: "plan-b"
-readingSections: ["start", "reset", "rain", "energy", "late", "fukuoka", "osaka", "tokyo", "budget", "evening", "morning", "next", "scope"]
+readingSections: ["start", "reset", "rain", "energy", "late", "waiting", "together", "fukuoka", "osaka", "tokyo", "budget", "evening", "morning", "next", "scope"]
 takeaways:
   - "Keep one thing you still want, not the whole original route"
   - "Remove a journey before choosing a replacement stop"
   - "Leave one short note for the next time you open your trip"
 reviewed: "2026-10-23"
 date: "2026-10-23T00:00:00+09:00"
-lastmod: "2026-10-23T00:00:00+09:00"
+lastmod: "2026-10-23T02:24:00+09:00"
 alternateKo: "/ko/itinerary/japan-plan-b/"
 weight: 58
 ---
@@ -36,6 +36,8 @@ This is for short Japan trips from Korea, especially when traveling together at 
 - **Rain:** keep one main interest, drop extra outdoor walks, and check warnings and access before leaving.
 - **Low energy:** keep food and rest, drop the second district, and agree on the return plan together.
 - **Late start:** keep the main purpose, drop the bonus stop, and recheck booking terms and your end time.
+- **A long queue or no table:** [decide what makes waiting worthwhile](#waiting) before trying another neighborhood.
+- **Different interests:** [keep one shared part of the day](#together) without combining everyone's entire wish list.
 
 ## Rain: change the route, not just the destination {#rain}
 
@@ -54,6 +56,31 @@ For example, replace “two neighborhoods, shopping and dinner” with “one sh
 A full-day route does not become a half-day route by walking faster. Keep its main interest and remove the rest. Agree on a limit for optional waiting before joining a queue, and be willing to leave.
 
 On the last day, bag collection and airport travel take precedence. Reopen the [arrival and departure day guide](/itinerary/japan-arrival-departure-day-plan/) and work backward using your airline's current guidance. This page does not calculate a flight-safe departure time or guarantee a connection.
+
+## A long queue or no table: keep the meal, not necessarily the venue {#waiting}
+
+First ask what you wanted from the stop: that particular dish, time sitting together, or a specific shop you have looked forward to. Those are different priorities. A nearby meal may serve the second one; it is not a substitute everyone must accept for the first.
+
+1. **Ask before joining.** Check whether the venue is accepting your group, whether there is a queue or booking system, and what staff can tell you about the wait. An estimate is not a promised seating time.
+2. **Choose a reconsideration point together.** Use your next fixed commitment, hunger and energy, rather than a universal “worth waiting” number. Anyone can ask to reassess sooner.
+3. **Keep one fallback in the same area.** Check its current menu, price, access and ability to accommodate your group before moving. Do not assume nearby means open, suitable or available. Confirm any essential dietary requirements directly with the venue; this guide does not assess food suitability.
+4. **Drop an optional stop if you stay.** Do not fit a longer meal into an unchanged afternoon by rushing the rest of the group. If you leave, check any existing reservation's terms rather than assuming it is cancelled.
+
+For [Fukuoka](#fukuoka), keep the area you already chose instead of switching between Hakata and Tenjin only to chase another queue. For [Osaka](#osaka), reassess the optional shopping stop, not the whole city's restaurant list. For [Tokyo](#tokyo), let a bookshop be the main visit and a cafe remain optional. These are ways to shrink the existing courses, not verified dining recommendations.
+
+Note to adapt: **“Keep: lunch together. Reconsider: before the next fixed booking. Drop: the second cafe.”** Use the city links below to save your own short reminder; reading this example does not save it.
+
+## Different interests: one shared moment, not three full itineraries {#together}
+
+Try finishing two sentences each: **“The one thing I would miss is…”** and **“I am happy to skip…”**. Choose one shared meal or visit, then keep a second activity optional. Equal numbers of stops do not necessarily make a fair day if one traveler bears all the transfers or waiting.
+
+- **Stay together:** let today's main interest come from one person and agree when to revisit the other preference. Do not promise an extra outing if the remaining trip cannot fit it.
+- **Separate briefly only by agreement:** decide the meeting place, time, contact method and what to do if plans change. Consider the group's support needs; do not assume splitting up suits children or anyone who needs assistance.
+- **Leave the choice open:** if nobody likes the smaller plan, take a break and reconsider. A shopping companion does not have to become a shopping enthusiast.
+
+Example: “One person wants kitchenware, another wants a relaxed meal” can become one browsing stop followed by a meal if conditions suit, with the second shopping district removed. It does not require adding a workshop or making a booking.
+
+Note to adapt: **“Together: one meal. Optional: one shop. Decide the rest after eating.”** Keep only the next unresolved choice in your city note, not private details about other travelers.
 
 ## Fukuoka: keep one area {#fukuoka}
 

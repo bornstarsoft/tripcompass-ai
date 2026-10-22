@@ -41,6 +41,12 @@ My trips reads the existing `tripcompass.decision.v1` snapshot through the decis
 
 Released 2026-10-23 in `33b742c7eda635fce95c7023f03ef623fec4bebe`. Phase 1-5, strict Hugo and whitespace passed; [GitHub CI 39821603586](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/39821603586) and same-SHA Cloudflare Pages checks succeeded. Production EN/KO homepages, overviews, budget guides and comparison/decision/note assets match the local build. Local and production Chromium passed the flows above at 320/390/768/1440px with 44px targets and inspected screenshots, plus six existing preparation/bookmark/reading undo/resume regressions. Homepages and legacy records remain unchanged outside intentional test edits. Launch health passed EN/KO backend, repeated cache, HEAD 302 and 60 monitored sitemap URLs. Physical-device/Safari, D1 queries and retention measurement were not run. No credentials, infrastructure or affiliate behavior changed.
 
+## Plan B: Everyday Choices
+
+The existing EN/KO Plan B guide now includes long queues/unavailable seating and different travel preferences. These are editorial decision prompts, not restaurant recommendations, wait estimates, reservation changes or suitability guarantees. Two native section links (`waiting`, `together`) join the existing contents and quick-reset list. Prior section IDs, the `plan-b` shared bookmark, city return links and storage behavior are unchanged. No new homepage controls or pages are introduced.
+
+`scripts/check_plan_b.py` checks both languages, stable reading keys aligned to heading order, scenario links, cautious copy and existing three-city bookmark/return paths. Browser release QA checks section navigation, reload, My trips round trips, four viewport widths and existing save/language/undo/draft behavior. Deployment evidence is recorded after publication. Do not infer improved retention from successful QA.
+
 ## Continuous Integration
 
 The configured GitHub Actions workflow is `.github/workflows/ci.yml`, for pushes to `main`, pull requests, and manual dispatches. The workflow runs Phase 1-5 checks, the strict Hugo build, and `git diff --check`.
