@@ -61,6 +61,8 @@ The situation-guide disclosure now optionally remembers only `open` or `closed` 
 
 `scripts/check_trip_moments.mjs` covers restoration without writes, departure flushing, BFCache refresh, invalid/blocked storage and isolation from personal records. Native links and anchors remain covered by `scripts/check_trip_moments.py`.
 
+Released 2026-10-23 in `2a0dea7a2296c295f6f62eaa8be652da2c597501`. Phase 1-5, strict Hugo and whitespace passed; [GitHub CI 39826918627](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/39826918627) and same-SHA Cloudflare Pages checks succeeded. Published homepages, overviews, privacy and checked disclosure/note/overview scripts match the validated build. Local and production Chromium passed EN/KO open/closed reload/language/Back/same-tab returns, latest-choice Back, isolated fresh tab, exact legacy records/drafts, no-JS/blocked/invalid storage and 320/390/768/1440px with 44px controls and inspected screenshots. Six existing checklist/bookmark/reading undo/resume flows passed. Homepages remain byte-identical. Launch health passed EN/KO backend, repeat cache, HEAD 302 and 60 monitored sitemap URLs. The Back checks reported `pageshow.persisted=false`, so BFCache branches are unit-tested, not claimed as exercised by this browser run. Physical-device/Safari, D1 queries and measured retention were not run. No infrastructure or affiliate behavior changed.
+
 ## Continuous Integration
 
 The configured GitHub Actions workflow is `.github/workflows/ci.yml`, for pushes to `main`, pull requests, and manual dispatches. The workflow runs Phase 1-5 checks, the strict Hugo build, and `git diff --check`.

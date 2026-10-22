@@ -1,14 +1,16 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (MOMENTS-SESSION-RESUME; scoped disclosure memory, validation and deployment; main/current worktree; 2026-10-23)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: MOMENTS-SESSION-RESUME; CODEX; 2026-10-23. Phase: implementation. Started clean on main at a514c3e471cd126caf94d2a3b60d8a3d47bd2ea2; no previous active writer. Owner authorized choosing a scoped improvement, validation, commit and deployment.
+- Last AI: CODEX; WORK-ID: MOMENTS-SESSION-RESUME; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean on main at a514c3e471cd126caf94d2a3b60d8a3d47bd2ea2; no previous active writer. Owner authorized choosing a scoped improvement, validation, commit and deployment.
 - Scope: remember only the My trips situation-guide disclosure choice in a separate tab-session preference across reload, same-tab return and EN/KO. Preserve the native control when JavaScript/storage fails. No homepage expansion, personal-record migration, backend or affiliate changes. No new travel claims.
 - Local QA PASS: Phase 1-5, strict Hugo and whitespace; unit coverage for read-only restoration, departure flush, BFCache latest/failed-write protection and storage failure/invalid values. Chromium EN/KO open/closed reload/language/Back/same-tab return, isolated fresh-tab preference, exact preparation/bookmark/reading/note records and note drafts, no-JS/blocked/invalid storage, 320/390/768/1440px and 44px controls with inspected screenshots. Six existing preparation/bookmark/reading undo/resume regressions passed. No application errors or API/search calls during browser QA; local default favicon request returned 404. Both homepages are byte-identical; 69 pages and 60 monitored URLs remain.
 - Latest-choice Back checks passed, but this browser-context run reported pageshow.persisted=false; actual BFCache execution is not claimed. BFCache branches are unit-tested. Physical-device/Safari, D1 queries and retention measurement NOT_RUN.
-- NEXT_SINGLE_TASK: commit/push and verify production. BLOCKER: none.
+- HEAD/WIP: implementation commit 2a0dea7a2296c295f6f62eaa8be652da2c597501 pushed to main; this accompanying documentation update records release evidence. No owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 39826918627 and Cloudflare Pages checks succeeded. Both homepages and overviews, privacy page, new disclosure script and existing note/overview scripts match the validated build byte-for-byte. Chromium EN/KO open/closed reload/language/Back/same-tab return, latest-choice Back, isolated fresh tab, exact legacy records/drafts, no-JS/blocked/invalid storage and 320/390/768/1440px passed with inspected screenshots and 44px controls. Six existing checklist/bookmark/reading undo/resume flows passed. No application errors or API/search calls during browser QA. Actual BFCache was not exercised in the production context either; unit coverage remains the evidence for that branch. Launch health passed EN/KO backend, repeated cache, HEAD 302 and all 60 monitored sitemap URLs.
+- NEXT_SINGLE_TASK: gather traveler feedback on returning to the situation guides before adding controls or content variants; do not collect private notes or claim measured retention. BLOCKER: none.
 
 ## Previous Moments Release
 
