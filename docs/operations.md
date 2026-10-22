@@ -231,6 +231,15 @@ CI uses no TripCompass, Cloudflare, or OpenAI secrets and does not call producti
 - Six deployed JS assets matched the validated source; privacy notice published. Launch health passed EN/KO `source=backend`, repeated `source=cache`, HEAD 302 and all 58 monitored sitemap URLs. D1 queries were not run.
 - Explicit same-tab header language switching now carries pending undo for the remaining original two-minute deletion window. No timer restart, automatic restoration, new localStorage key or preparation/bookmark migration. Ordinary navigation and Back/Forward do not transfer undo. This supersedes the previous release's language-navigation limitation. No backend/gateway/D1/KV/environment/API/redirect/affiliate changes. Physical-device/Safari and retention measurement remain NOT_RUN. Details: `docs/trip-preparation.md`.
 
+## Next-visit Notes Release: 2026-10-23
+
+- Application commit: `e5537f5a88bcec29137c041a360e3bbd0ddd7acc`, pushed to GitHub `main` with owner approval. Phase 1-5, strict Hugo and whitespace checks passed; content/inventory counts remain 67/58.
+- GitHub CI: [run 39804721931](https://github.com/bornstarsoft/tripcompass-ai/actions/runs/39804721931), success for that SHA.
+- Cloudflare Pages: deployment `1bebcd0f-0bda-4eed-b1bc-dc9ba063ed03`, success for the same SHA. [Immutable deployment](https://1bebcd0f.tripcompass-ai.pages.dev). Existing Git integration, no credential/infrastructure changes.
+- English/Korean My trips now offers an optional 240-character next-visit note per city. Explicit local save only, independent keys, shared user-written text across languages, stale-draft protection and safe failure feedback. No note contents are sent to AI/analytics/search links. No homepage controls added; both generated homepages match the pre-change build byte-for-byte.
+- Production Chromium: six city/language flows at 320/390/768/1440px, inspected screenshots, keyboard/touch save, reload/language persistence, deletion, safe text and unsaved-departure warning/cancel passed. Sixteen mobile failure/conflict/limit/no-JS cases, six existing preparation/bookmark/reading undo/resume regressions and two actual-BFCache refreshes passed. An initial cross-tab touch timeout did not recur in the unchanged full suite in a fresh browser. Existing records remained intact outside deliberate test edits; passing runs had no application errors or preparation API/search calls.
+- Five deployed JS/CSS assets matched source and the privacy notice was published. Launch health passed EN/KO backend, repeated cache, HEAD 302 and 58 monitored sitemap URLs. No backend/gateway/D1/KV/environment/API/redirect/affiliate behavior changed. Physical-device/Safari, D1 queries and actual retention impact remain NOT_RUN. Details: `docs/next-visit-notes.md`.
+
 ## Google Search Console Checklist
 
 After deploying SEO content changes, use Google Search Console to:
