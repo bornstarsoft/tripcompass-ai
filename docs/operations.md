@@ -87,6 +87,12 @@ Phase 2 validates both published sections, native anchors, cautious copy and exi
 
 Released 2026-10-23 in `36b939e16b2a95b54b12345db3cd9d39f8f060c2`: Phase 1-5, strict Hugo and whitespace passed; same-SHA CI run `39954358224` and Cloudflare Pages checks succeeded. Published homepages, overviews, travel-day guides and checked existing scripts match the validated build. Local and production Chromium passed EN/KO guide entry, all three city returns, exact legacy records and draft recovery across return/reload/language, no-JS/blocked storage and 320/390/768/1440px with inspected screenshots. Local expanded-menu checks confirmed 44px links at all four widths. Six existing checklist/bookmark/reading undo/resume flows also passed locally and live. Both homepages remain unchanged. Launch health passed EN/KO backend, repeated cache, HEAD 302 and all 60 monitored sitemap URLs. Physical-device/Safari, D1 queries and retention measurement were not run.
 
+## Guide Explorer Return State
+
+The existing EN/KO homepage explorer remembers an explicitly changed interest and up to 100 search characters in its current history entry under `tripcompassExplorerView`. Back/reload can restore that entry's filters without adding visible controls, URL parameters, server requests or localStorage/sessionStorage keys. The pathname is checked, filters are allowlisted and unrelated history fields are preserved. Fresh visits and fresh language-page navigation start fresh. Reset clears only the current entry's view, not bookmarks or older history entries. Article bookmark controls do not create explorer history state.
+
+History failure leaves current filtering usable. BFCache keeps the live selection, including a selection whose history write failed, while the existing bookmark refresh still reads other-tab changes. Browser session restoration may retain history; this is not guaranteed persistence or cross-device sync. Privacy copy describes that lifetime. Phase 2 covers restoration, malformed/oversized snapshots, reset, fresh-language isolation, blocked history and unchanged bookmark writes. Browser release QA must verify real Back/reload, keyboard/touch, EN/KO and narrow layouts; retention impact is not inferred from tests.
+
 ## Continuous Integration
 
 The configured GitHub Actions workflow is `.github/workflows/ci.yml`, for pushes to `main`, pull requests, and manual dispatches. The workflow runs Phase 1-5 checks, the strict Hugo build, and `git diff --check`.

@@ -16,8 +16,8 @@ function node(dataset = {}) {
   };
 }
 
-function harness({ language = "en", stored = "[]", blocked = false, readBlocked = false, single = false, singleId = "parents", absent = false, extraIds = [] } = {}) {
-  const state = { stored, writes: 0 };
+function harness({ language = "en", stored = "[]", blocked = false, readBlocked = false, single = false, singleId = "parents", absent = false, extraIds = [], historyState = null, historyBlocked = false, historyReadBlocked = false } = {}) {
+  const state = { stored, writes: 0, historyState, historyWrites: 0, historyBlocked };
   const feedback = node();
   const buttons = (single ? [singleId] : ids).map(id => {
     const button = node({ saveGuide: id, guideTitle: id });
@@ -60,7 +60,20 @@ function harness({ language = "en", stored = "[]", blocked = false, readBlocked 
   const events = {};
   vm.runInNewContext(script, {
     document: { querySelector: () => absent ? null : root, documentElement: { lang: language } },
-    window: { addEventListener: (type, handler) => { events[type] = handler; } },
+    window: {
+      addEventListener: (type, handler) => { events[type] = handler; },
+      location: { pathname: language === "ko" ? "/ko/" : "/" },
+      history: {
+        get state() { if (historyReadBlocked) throw Error("private history detail"); return state.historyState; },
+        replaceState(value, title, ...url) {
+          assert.deepEqual(url, [], "Never put the search text in the URL");
+          assert.equal(title, "");
+          if (state.historyBlocked) throw Error("private history detail");
+          state.historyState = JSON.parse(JSON.stringify(value));
+          state.historyWrites++;
+        }
+      }
+    },
     localStorage: {
       getItem: name => {
         assert.equal(name, key);
@@ -76,7 +89,7 @@ function harness({ language = "en", stored = "[]", blocked = false, readBlocked 
     }
   });
   return {
-    state, feedback, buttons, cards, controls, count, empty, reset, events, filters,
+    state, feedback, buttons, cards, controls, count, empty, reset, events, filters, searchNode: search,
     visible: () => cards.filter(card => !card.hidden).map(card => card.dataset.exploreCard),
     save: id => buttons.find(button => button.dataset.saveGuide === id).events.click(),
     choose: id => {
@@ -216,3 +229,57 @@ for (const language of ["en", "ko"]) {
   assert.match(blocked.feedback.textContent, /page only|페이지에서만/);
 }
 console.log("Travel-day article bookmarks passed: EN/KO, reload/language state, existing bookmarks and failed-write preservation.");
+
+const viewKey = "tripcompassExplorerView";
+for (const language of ["en", "ko"]) {
+  const path = language === "ko" ? "/ko/" : "/";
+  const bookmarks = '["fukuoka","osaka","tokyo"]';
+  const ui = harness({ language, stored: bookmarks, historyState: { unrelated: { keep: true } } });
+  assert.equal(ui.state.historyWrites, 0, "Mount is read-only");
+  ui.choose("saved"); ui.search(" ＯＳＡＫＡ ");
+  assert.deepEqual(ui.visible(), ["osaka"]);
+  assert.deepEqual(ui.state.historyState, { unrelated: { keep: true }, [viewKey]: { version: 1, path, interest: "saved", search: " ＯＳＡＫＡ " } });
+  const back = harness({ language, stored: bookmarks, historyState: ui.state.historyState });
+  assert.deepEqual(back.visible(), ["osaka"], "Reload/Back reconstructs matching results");
+  assert.equal(back.filters.find(x => x.checked).value, "saved");
+  assert.equal(back.searchNode.value, " ＯＳＡＫＡ ");
+  assert.equal(back.state.historyWrites, 0);
+  back.searchNode.value = "native stale restoration";
+  back.events.pageshow({ persisted: false });
+  assert.equal(back.searchNode.value, " ＯＳＡＫＡ ", "Pageshow aligns restored form and filtering");
+  back.state.stored = '["fukuoka"]';
+  back.events.pageshow({ persisted: true });
+  assert.deepEqual(back.visible(), [], "BFCache refreshes bookmarks, retaining the filter");
+  back.reset.events.click();
+  assert.deepEqual(back.visible(), ids);
+  assert.deepEqual(back.state.historyState[viewKey], { version: 1, path, interest: "all", search: "" });
+  back.state.historyState = ui.state.historyState;
+  back.events.popstate();
+  assert.equal(back.searchNode.value, " ＯＳＡＫＡ ");
+  back.state.historyState = null;
+  back.events.popstate();
+  assert.deepEqual(back.visible(), ids, "An earlier unfiltered entry does not inherit a newer filter");
+  assert.equal(back.searchNode.value, "");
+  assert.equal(ui.state.stored, bookmarks);
+  assert.equal(ui.state.writes, 0, "Filters never write bookmarks");
+  assert.deepEqual(harness({ language }).visible(), ids, "Fresh visits start fresh");
+  assert.deepEqual(harness({ language: language === "en" ? "ko" : "en", historyState: ui.state.historyState }).visible(), ids, "No cross-language snapshot leakage");
+  for (const invalid of [null, {}, {version:2,path,interest:"saved",search:""}, {version:1,path,interest:"unknown",search:""}, {version:1,path,interest:"saved",search:7}, {version:1,path,interest:"saved",search:"x".repeat(101)}]) {
+    assert.deepEqual(harness({ language, historyState: { [viewKey]: invalid } }).visible(), ids);
+  }
+  const failed = harness({ language, historyBlocked: true });
+  failed.choose("food"); failed.search("Osaka"); failed.events.pageshow({persisted:true});
+  assert.deepEqual(failed.visible(), ["osaka"], "Failed writes do not replace live BFCache choices");
+  assert.equal(failed.state.historyWrites, 0);
+  const denied = harness({ language, historyReadBlocked: true });
+  denied.search("Tokyo"); assert.deepEqual(denied.visible(), ["tokyo"]);
+  denied.events.pageshow({persisted:true}); assert.deepEqual(denied.visible(), ["tokyo"]);
+  const primitive = harness({ language, historyState: "keep unrelated state" });
+  primitive.choose("family"); assert.deepEqual(primitive.visible(), ["parents", "stay"]);
+  assert.equal(primitive.state.historyState, "keep unrelated state");
+  const single = harness({ language, single: true });
+  single.save("parents"); single.events.pageshow({persisted:false});
+  assert.equal(single.state.historyWrites, 0, "Article save controls do not store explorer state");
+  ui.search("x".repeat(200)); assert.equal(ui.state.historyState[viewKey].search.length, 100);
+}
+console.log("Explorer history passed: EN/KO same-entry restore, fresh visits, reset, bounded validation, BFCache and blocked-history behavior, no URL or bookmark writes.");

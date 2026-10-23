@@ -22,6 +22,32 @@
   let memoryOnly = false;
   try { saved = parse(localStorage.getItem(key)); } catch { /* Storage is optional. */ }
   let interest = "all";
+  const viewKey = "tripcompassExplorerView";
+
+  function restoreView() {
+    if (!controls) return;
+    try {
+      const view = window.history.state?.[viewKey];
+      const valid = view?.version === 1 && view.path === window.location.pathname &&
+        filters.some(filter => filter.value === view.interest) &&
+        typeof view.search === "string" && view.search.length <= 100;
+      interest = valid ? view.interest : "all";
+      search.value = valid ? view.search : "";
+      filters.forEach(filter => { filter.checked = filter.value === interest; });
+    } catch { /* History is optional; current filtering remains usable. */ }
+  }
+
+  function rememberView() {
+    if (!controls) return;
+    try {
+      const state = window.history.state;
+      if (state !== null && (typeof state !== "object" || Array.isArray(state))) return;
+      // Keep search text out of URLs and preserve unrelated history-entry state.
+      window.history.replaceState({ ...state, [viewKey]: {
+        version: 1, path: window.location.pathname, interest, search: search.value.slice(0, 100)
+      } }, "");
+    } catch { /* A blocked or rate-limited history write must not stop filtering. */ }
+  }
 
   function render() {
     for (const button of buttons) {
@@ -74,18 +100,25 @@
     button.hidden = false;
   }
   if (controls) {
+    // Align DOM controls and filtering even if native form restoration differs.
+    search.value = "";
+    filters.forEach(filter => { filter.checked = filter.value === "all"; });
+    restoreView();
     for (const filter of filters) filter.addEventListener("change", () => {
-      if (filter.checked) { interest = filter.value; render(); }
+      if (filter.checked) { interest = filter.value; render(); rememberView(); }
     });
-    search.addEventListener("input", render);
-    search.addEventListener("search", render);
+    const searchChanged = () => { render(); rememberView(); };
+    search.addEventListener("input", searchChanged);
+    search.addEventListener("search", searchChanged);
     reset.addEventListener("click", () => {
       interest = "all";
       search.value = "";
       filters.forEach(filter => { filter.checked = filter.value === "all"; });
       render();
+      rememberView();
       filters[0].focus();
     });
+    window.addEventListener("popstate", () => { restoreView(); render(); });
     controls.hidden = false;
   }
   window.addEventListener("storage", event => {
@@ -94,9 +127,11 @@
     try { saved = parse(event.key === null ? null : event.newValue); render(); } catch { /* Ignore invalid data. */ }
   });
   window.addEventListener("pageshow", event => {
+    if (!event.persisted) restoreView();
     if (event.persisted && !memoryOnly) {
-      try { saved = parse(localStorage.getItem(key)); render(); } catch { /* Storage is optional. */ }
+      try { saved = parse(localStorage.getItem(key)); } catch { /* Storage is optional. */ }
     }
+    render();
   });
   render();
 })();
