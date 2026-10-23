@@ -27,6 +27,8 @@
 .my-trip-body > .fine-print { margin: 0; }
 .my-trip-card h2 { font-size: 1.5rem; margin: .35rem 0; }
 .my-trip-status { margin: .4rem 0 .75rem; color: var(--muted); }
+.my-trip-guides-jump { display: inline-flex; align-self: flex-start; align-items: center; gap: .5rem; min-height: 44px; max-width: 100%; padding: .5rem 0; margin-bottom: .5rem; font-size: .9rem; }
+.my-trip-guides-jump:focus-visible, .my-trip-guides:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
 .trip-note { border-top: 1px solid var(--line); padding-top: .85rem; margin-bottom: 1rem; }
 .trip-note[hidden], .trip-note [hidden] { display: none; }
 .trip-note h3 { margin: 0; font-size: 1.05rem; }

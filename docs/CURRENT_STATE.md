@@ -1,8 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (SAVED-GUIDE-QUICK-ACCESS; scoped implementation, validation and deployment; main/current worktree; 2026-10-23)
 
 ## Current Task
+
+- WORK-ID: SAVED-GUIDE-QUICK-ACCESS; CODEX; 2026-10-23. Phase: implementation. Started clean on main at b27a5dce45e4da6711b2a319ec03faac1780290b; no other writer. Owner authorized a small return-visit improvement through production deployment.
+- Scope: one native saved-guides jump link below each city's status, with counts from the existing validated list. Keep the homepage, storage records/writers, backend and affiliate behavior unchanged. No new travel claims or pages.
+- Local QA PASS: Phase 1-5 and whitespace; unit coverage for deduplicated/allowlisted counts, zero vs unreadable state, removal/undo, cross-tab/BFCache refresh and old cached markup. Chromium EN/KO three-city keyboard/touch links, target focus/visibility below the sticky header, reading/Back, shared removal/undo and actual cross-tab changes passed. Existing records and note drafts survived return/reload/language. No-JS/blocked/invalid/empty cases and 320/390/768/1440px with 44px targets passed; screenshots inspected. Six existing checklist/bookmark/reading undo/resume flows passed. No application errors or API/search requests during browser QA.
+- Production QA NOT_RUN. Physical-device/Safari, D1 queries and retention measurement NOT_RUN. NEXT_SINGLE_TASK: final strict build, commit/deploy and production verification. BLOCKER: none.
+
+## Previous Draft Guard Release
 
 - Last AI: CODEX; WORK-ID: NOTE-DRAFT-DISCARD-GUARD; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean on main at 07355f42ba8d47284dd053421d1c5264adfcb022; no active writer. Owner authorized a small return-visit improvement, checks, commit and deployment.
 - Scope: request explicit confirmation before Load saved note discards changed text; cancellation preserves the draft. Native localized dialog, no new homepage controls/storage keys/backend or affiliate behavior. Existing saved notes and other trip records stay untouched.

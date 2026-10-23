@@ -71,6 +71,12 @@ Phase 2 checks the published bilingual section, native links, cautious copy and 
 
 Release evidence (2026-10-23): application commit `034815a996983b1201c871181706b402475bec8b` passed Phase 1-5, strict Hugo and whitespace checks; GitHub CI run `39828895185` and the same-SHA Pages check succeeded. Production HTML/scripts match the validated build. EN/KO Chromium checked the fifth link, all three city returns, unchanged records/drafts across reload/language, no-JS/blocked storage, 320/390/768/1440px and screenshots. Six existing checklist/bookmark/reading undo/resume flows also passed. Launch health passed both backend responses, repeated cache, HEAD 302 and 60 sitemap URLs. Both homepages remain unchanged. Physical-device/Safari, D1 queries and retention measurement were not run.
 
+## Saved Guide Quick Access
+
+My trips has one native jump link below each city's status, pointing to its saved-guide section. Counts reuse the overview's existing validated, deduplicated, allowlisted list, including shared guides; pending removal/Undo rows do not count as saved. Empty lists show zero and retain access to the browse link. Unreadable/blocked storage shows a generic label rather than zero. With JavaScript unavailable, the static link still reaches the section's explanation and browse link. The target is keyboard-focusable without adding a tab stop. No new storage, homepage content, API call, travel claim or affiliate behavior is introduced. Old cached markup remains supported by the controller.
+
+`scripts/check_my_trips.mjs` verifies EN/KO counts, native anchors, error states, duplicate/unknown IDs, removal/undo, cross-tab refresh, old markup and existing record isolation. Browser QA covers native keyboard/touch links, target visibility below the sticky header, guide reading/Back, exact records and notes, narrow layouts and no-JS access. Release evidence is in `docs/CURRENT_STATE.md`; usefulness is a hypothesis, not measured retention.
+
 ## Continuous Integration
 
 The configured GitHub Actions workflow is `.github/workflows/ci.yml`, for pushes to `main`, pull requests, and manual dispatches. The workflow runs Phase 1-5 checks, the strict Hugo build, and `git diff --check`.

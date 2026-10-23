@@ -14,14 +14,15 @@ const cityGuides = {
   tokyo: ["tokyo", "tokyo-jimbocho", "tokyo-kiyosumi", "travel-days", "plan-b"]
 };
 
-function harness(language = "en", records = new Map(), blocked = []) {
+function harness(language = "en", records = new Map(), blocked = [], oldMarkup = false) {
   const events = {};
   const doc = { documentElement: { lang: language } };
   const summary = { textContent: "" };
   const quick = Object.fromEntries(ids.map(id => [id, { textContent: "" }]));
   const cards = ids.map(id => {
     const labels = values => JSON.stringify(Object.fromEntries(values.map(value => [value, `${language}:${id}:${value}`])));
-    const fields = Object.fromEntries(["status", "details", "count", "progress", "course", "alternative", "next", "action", "action-label", "guides-status", "guides-list", "guides-feedback", "check-feedback"].map(name => [name, { textContent: "", hidden: true, value: 0, focus() { doc.activeElement = this; } }]));
+    const fields = Object.fromEntries(["status", "details", "count", "progress", "course", "alternative", "next", "action", "action-label", "guides-status", "guides-jump", "guides-list", "guides-feedback", "check-feedback"].map(name => [name, { textContent: "", hidden: true, value: 0, focus() { doc.activeElement = this; } }]));
+    if (oldMarkup) delete fields["guides-jump"];
     const checks = TASKS.map(task => ({ dataset: { tripCheck: task }, checked: false, disabled: true,
       addEventListener(type, fn) { this[type] = fn; }, focus() { doc.activeElement = this; } }));
     const guides = cityGuides[id].map(id => {
@@ -107,6 +108,11 @@ for (const language of ["en", "ko"]) {
   assert.doesNotMatch(denied.summary.textContent, /PRIVATE/);
 }
 mountMyTrips({ querySelector: () => null }, {});
+for (const language of ["en", "ko"]) {
+  const old = harness(language, new Map([[bookmarkKey, '["stay"]']]), [], true);
+  assert.match(old.cards[0].fields["guides-status"].textContent, /1/);
+  assert.equal(old.writes(), 0, "New script tolerates previously cached markup");
+}
 
 for (const language of ["en", "ko"]) {
   const raw = '["stay","osaka-nara","tokyo-jimbocho","travel-days","stay","unknown-future-id","<script>PRIVATE</script>",null,17]';
@@ -117,19 +123,24 @@ for (const language of ["en", "ko"]) {
   assert.deepEqual(visible(), [["stay", "travel-days"], ["osaka-nara", "travel-days"], ["tokyo-jimbocho", "travel-days"]]);
   assert.ok(ui.cards[1].fields.details.hidden, "Bookmarks must work without starting a trip");
   assert.ok(ui.cards.every(card => /2/.test(card.fields["guides-status"].textContent)));
+  assert.ok(ui.cards.every(card => card.fields["guides-jump"].textContent === (language === "ko" ? "저장한 가이드 2개" : "2 saved guides")));
   assert.deepEqual([...records], before, "Unknown and duplicate IDs must remain byte-equivalent");
   records.set(bookmarkKey, '["tokyo-kiyosumi"]');
   ui.events.storage({ key: bookmarkKey, newValue: records.get(bookmarkKey) });
   assert.deepEqual(visible(), [[], [], ["tokyo-kiyosumi"]]);
+  assert.equal(ui.cards[0].fields["guides-jump"].textContent, language === "ko" ? "저장한 가이드 0개" : "0 saved guides");
+  assert.equal(ui.cards[2].fields["guides-jump"].textContent, language === "ko" ? "저장한 가이드 1개" : "1 saved guide");
   assert.match(ui.cards[0].fields["guides-status"].textContent, /No guides|아직/);
   assert.ok(ui.cards[0].fields["guides-list"].hidden);
   records.set(bookmarkKey, JSON.stringify(Object.values(cityGuides).flat()));
   ui.events.pageshow({ persisted: true });
   assert.deepEqual(visible().map(guides => guides.length), [7, 6, 5]);
+  for (const [i, count] of [7, 6, 5].entries()) assert.equal(ui.cards[i].fields["guides-jump"].textContent, language === "ko" ? `저장한 가이드 ${count}개` : `${count} saved guides`);
   for (const bad of ["broken PRIVATE", "{}", "null", "", "x".repeat(65537)]) {
     records.set(bookmarkKey, bad);
     ui.events.storage({ key: bookmarkKey });
     assert.deepEqual(visible(), [[], [], []]);
+    assert.ok(ui.cards.every(card => card.fields["guides-jump"].textContent === (language === "ko" ? "저장한 가이드" : "Saved guides")), "Unreadable is not zero");
     assert.ok(ui.cards.every(card => /could not be read|읽지 못/.test(card.fields["guides-status"].textContent)));
     assert.doesNotMatch(JSON.stringify(ui.cards), /PRIVATE/);
     assert.equal(records.get(bookmarkKey), bad);
@@ -142,6 +153,7 @@ for (const language of ["en", "ko"]) {
   const blocked = harness(language, records, [bookmarkKey]);
   assert.ok(blocked.cards.every(card => card.fields["guides-list"].hidden));
   assert.ok(blocked.cards.every(card => /unavailable|사용할 수 없어/.test(card.fields["guides-status"].textContent)));
+  assert.ok(blocked.cards.every(card => card.fields["guides-jump"].textContent === (language === "ko" ? "저장한 가이드" : "Saved guides")));
   assert.equal(blocked.cards[0].fields.details.hidden, false);
   assert.equal(blocked.writes(), 0);
   assert.equal(ui.writes(), 0);
@@ -162,6 +174,13 @@ for (const prefix of ["", "/ko"]) {
   assert.match(html, /data-task-labels=/);
   assert.equal((html.match(/data-trip-saved-guide=/g) || []).length, 18);
   assert.equal((html.match(/data-trip-guides-status/g) || []).length, 3);
+  assert.equal((html.match(/data-trip-guides-jump/g) || []).length, 3);
+  for (const city of ids) {
+    assert.ok(html.includes(`href=#saved-guides-${city}`));
+    assert.ok(html.includes(`aria-labelledby="trip-title-${city} saved-jump-${city}"`));
+    assert.ok(html.includes(`id=saved-guides-${city} tabindex=-1`));
+    assert.ok(html.includes(`id=saved-jump-${city}`));
+  }
   assert.equal((html.match(/<small>(Shared guide|공통 가이드)<\/small>/g) || []).length, 6);
   assert.match(html, prefix ? /저장한 가이드/ : /Saved guides/);
   assert.doesNotMatch(html, /js\/guide-explorer.js|data-save-guide=/, "Only the overview controller handles edits here");
@@ -180,6 +199,7 @@ for (const prefix of ["", "/ko"]) {
     assert.ok(workspace.includes(`href=${prefix}/my-trips/`));
   }
   const home = await readFile(resolve(root, `.${prefix}/index.html`), "utf8");
+  assert.ok(!home.includes("data-trip-guides-jump"));
   assert.ok(home.includes(`href=${prefix}/my-trips/`));
   const sitemap = await readFile(resolve(root, "sitemap.xml"), "utf8");
   assert.ok(sitemap.includes(`<loc>https://tripcompass.ai${prefix}/my-trips/</loc>`));
@@ -200,11 +220,13 @@ for (const language of ["en", "ko"]) {
   press("fukuoka", "stay", "remove");
   assert.deepEqual(saved(), ["travel-days", "unknown", null, 17]);
   assert.equal(row("fukuoka", "stay").hidden, false, "Undo stays beside the removed guide");
+  assert.equal(ui.cards[0].fields["guides-jump"].textContent, language === "ko" ? "저장한 가이드 1개" : "1 saved guide");
   assert.equal(ui.doc.activeElement, row("fukuoka", "stay").querySelector("[data-guide-undo]"));
   press("osaka", "travel-days", "remove");
   assert.ok(ids.every(city => !row(city, "travel-days").querySelector("[data-guide-undo]").hidden));
   assert.match(ui.cards[0].fields["guides-status"].textContent, /No guides|아직/);
   assert.equal(ui.cards[0].fields["guides-list"].hidden, false, "Last removal must retain undo");
+  assert.equal(ui.cards[0].fields["guides-jump"].textContent, language === "ko" ? "저장한 가이드 0개" : "0 saved guides");
   records.set(bookmarkKey, JSON.stringify([...saved(), "tokyo-jimbocho"]));
   press("fukuoka", "stay", "undo");
   assert.deepEqual(saved(), ["unknown", null, 17, "tokyo-jimbocho", "stay"]);
@@ -213,6 +235,7 @@ for (const language of ["en", "ko"]) {
   assert.equal(ui.cards[1].fields["guides-feedback"].textContent, "", "Clear stale shared-guide feedback in other cities");
   assert.ok(ids.every(city => row(city, "travel-days").querySelector("[data-guide-undo]").hidden));
   assert.equal(saved().filter(id => id === "travel-days").length, 1);
+  assert.deepEqual(ui.cards.map(card => card.fields["guides-jump"].textContent), language === "ko" ? ["저장한 가이드 2개", "저장한 가이드 1개", "저장한 가이드 2개"] : ["2 saved guides", "1 saved guide", "2 saved guides"]);
   ui.failWrites(true);
   const beforeFailure = records.get(bookmarkKey);
   press("fukuoka", "stay", "remove");
@@ -335,4 +358,4 @@ for (const language of ["en", "ko"]) for (const [index, city] of ids.entries()) 
   assert.ok(JSON.parse(records.get(bookmarkKey)).includes("stay"));
   assert.equal(JSON.parse(records.get(key)).checks.flights, true);
 }
-console.log("My trips checks passed: city checklist edits, fresh-state merging, rollback/reset protection, bookmark undo, bilingual links and record isolation.");
+console.log("My trips checks passed: city checklist edits, fresh-state merging, rollback/reset protection, bookmark undo, bilingual guide jump counts/anchors and record isolation.");

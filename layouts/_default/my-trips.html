@@ -44,6 +44,7 @@
         <p class="fine-print">{{ index $trip (printf "%sEyebrow" $lang) }}</p>
         <h2 id="trip-title-{{ . }}">{{ index $trip $lang }}</h2>
         <p class="my-trip-status" data-trip-status>{{ cond $ko "준비함에서 코스와 가이드 보기" "Explore courses and guides in the workspace" }}</p>
+        <a class="my-trip-guides-jump" href="#saved-guides-{{ . }}" aria-labelledby="trip-title-{{ . }} saved-jump-{{ . }}"><span id="saved-jump-{{ . }}" data-trip-guides-jump>{{ cond $ko "저장한 가이드" "Saved guides" }}</span><span aria-hidden="true">&darr;</span></a>
         {{ partial "trip-note.html" (dict "ko" $ko "city" .) }}
         <section class="my-trip-reading" data-trip-reading="{{ . }}" aria-labelledby="reading-title-{{ . }}">
           <h3 id="reading-title-{{ . }}">{{ cond $ko "마지막에 읽던 가이드" "Last preparation guide" }}</h3>
@@ -80,7 +81,7 @@
         <p class="fine-print" data-trip-check-feedback role="status" aria-live="polite" aria-atomic="true"></p>
         <a class="button button--primary my-trip-action" data-trip-action href="{{ printf "%s%s" $prefix $trip.path | relURL }}"><span data-trip-action-label>{{ cond $ko "준비함 열기" "Open workspace" }}</span><span class="my-trip-action-city"> · {{ index $trip $lang }}</span></a>
         <p class="fine-print"><a class="my-trip-browse" data-trip-plan-b="{{ . }}" href="{{ printf "%s/itinerary/japan-plan-b/#%s" $prefix . | relURL }}">{{ cond $ko "비·피곤함·늦은 출발: 줄일 일정 고르기" "Rain, low energy or a late start? Pick a smaller day" }}</a></p>
-        <section class="my-trip-guides" aria-labelledby="saved-title-{{ . }}">
+        <section class="my-trip-guides" id="saved-guides-{{ . }}" tabindex="-1" aria-labelledby="saved-title-{{ . }}">
           <h3 id="saved-title-{{ . }}">{{ cond $ko "저장한 가이드" "Saved guides" }}</h3>
           <p class="fine-print" data-trip-guides-status>{{ cond $ko "저장 목록을 표시하려면 JavaScript가 필요합니다." "JavaScript is needed to show your saved list." }}</p>
           <ul data-trip-guides-list hidden>

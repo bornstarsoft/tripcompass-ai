@@ -13,6 +13,7 @@ const copy = {
     notStarted: "Not started", unavailable: "Unavailable", quick: done => `${done}/5 checked`,
     count: done => `${done} of ${TASKS.length} items checked`,
     guidesCount: count => `${count} saved ${count === 1 ? "guide" : "guides"}`,
+    guidesJump: "Saved guides",
     guidesEmpty: "No guides saved for this city yet.",
     guidesInvalid: "Your saved list could not be read. It has not been changed.",
     guidesBlocked: "Browser storage is unavailable. Your saved list cannot be shown.",
@@ -35,6 +36,7 @@ const copy = {
     notStarted: "시작 전", unavailable: "확인 불가", quick: done => `${done}/5 확인`,
     count: done => `${TASKS.length}개 중 ${done}개 확인`,
     guidesCount: count => `저장한 가이드 ${count}개`,
+    guidesJump: "저장한 가이드",
     guidesEmpty: "아직 이 도시에 저장한 가이드가 없어요.",
     guidesInvalid: "저장 목록을 읽지 못했어요. 기존 기록은 그대로 두었습니다.",
     guidesBlocked: "브라우저 저장소를 사용할 수 없어 저장 목록을 표시할 수 없어요.",
@@ -128,6 +130,8 @@ export function mountMyTrips(doc, win) {
       find("guides-list").hidden = guides.every(guide => guide.hidden);
       find("guides-status").textContent = guideError ? text[guideError]
         : guideCount ? text.guidesCount(guideCount) : text.guidesEmpty;
+      const guideJump = find("guides-jump");
+      if (guideJump) guideJump.textContent = guideError ? text.guidesJump : text.guidesCount(guideCount);
       const quick = root.querySelector(`[data-trip-quick="${id}"]`);
       find("details").hidden = !state;
       if (!state) {
