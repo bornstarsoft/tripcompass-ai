@@ -1,8 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (MY-TRIPS-CITY-RETURN; native bilingual city navigation, validation and authorized deployment; main/current worktree; 2026-10-24)
 
 ## Current Task
+
+- WORK-ID: MY-TRIPS-CITY-RETURN. Phase: implementation. Started clean at b2ebcc6512653b4857a8196eadfcf54035d9bc3a on main; official project remote is GitHub. Owner authorized a small useful improvement through production deployment.
+- Scope: native return links from each city footer to the existing city selector, with keyboard focus and mobile spacing. No homepage, persistence, backend or affiliate changes. No new travel claims or speculative retention claims.
+- Local QA PASS: Phase 1-5, strict Hugo and whitespace; both homepages byte-identical. Chromium passed 24 EN/KO three-city keyboard/touch return flows at 320/390/768/1440px, 44px targets, focus/Tab order, sticky-header spacing, no overflow and inspected screenshots. Exact existing preparation/bookmark/note/decision records and drafts across reload/language were preserved. Native links passed with JavaScript disabled and storage blocked. Six existing checklist/bookmark/reading undo/resume flows passed. No application errors or API/search calls in browser QA. Initial fallback test timing assumed smooth scrolling had completed and used a page-script wait with JavaScript disabled; the corrected complete rerun passed without an application change.
+- Production QA: NOT_RUN. Physical-device/Safari, D1 queries and retention measurement NOT_RUN. NEXT_SINGLE_TASK: commit, deploy and verify the same production build and interactions. BLOCKER: none.
+
+## Previous Saved Note Copy Release
 
 - Last AI: CODEX; WORK-ID: SAVED-NOTE-COPY; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean on main at f02aef6; no other writer. Owner authorized a small return-visit improvement, validation and production deployment.
 - Scope: user-initiated copying of a clean saved city note, with a manual fallback. No draft copying, new storage, automatic sharing, homepage, backend or affiliate changes. Preserve existing records/writers. Privacy copy explains device clipboard lifetime and user-controlled sharing.

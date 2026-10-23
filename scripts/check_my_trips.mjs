@@ -175,6 +175,10 @@ for (const prefix of ["", "/ko"]) {
   assert.equal((html.match(/data-trip-saved-guide=/g) || []).length, 18);
   assert.equal((html.match(/data-trip-guides-status/g) || []).length, 3);
   assert.equal((html.match(/data-trip-guides-jump/g) || []).length, 3);
+  assert.equal((html.match(/id=trip-selector\b/g) || []).length, 1);
+  assert.ok(html.includes('id=trip-selector tabindex=-1'));
+  assert.equal((html.match(/class=my-trip-city-return href=#trip-selector/g) || []).length, 3);
+  assert.match(html, prefix ? /도시 선택으로 돌아가기/ : /Back to trip selection/);
   for (const city of ids) {
     assert.ok(html.includes(`href=#saved-guides-${city}`));
     assert.ok(html.includes(`aria-labelledby="trip-title-${city} saved-jump-${city}"`));
@@ -200,6 +204,7 @@ for (const prefix of ["", "/ko"]) {
   }
   const home = await readFile(resolve(root, `.${prefix}/index.html`), "utf8");
   assert.ok(!home.includes("data-trip-guides-jump"));
+  assert.ok(!home.includes("my-trip-city-return"));
   assert.ok(home.includes(`href=${prefix}/my-trips/`));
   const sitemap = await readFile(resolve(root, "sitemap.xml"), "utf8");
   assert.ok(sitemap.includes(`<loc>https://tripcompass.ai${prefix}/my-trips/</loc>`));

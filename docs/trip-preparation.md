@@ -1,5 +1,11 @@
 # Trip Preparation Workspaces
 
+## Returning to the City Selector
+
+WORK-ID: MY-TRIPS-CITY-RETURN. Each city in My trips ends with a localized native link back to `#trip-selector`. This makes the existing city choices reachable after reading a long preparation checklist or saved-guide list, without adding a floating toolbar or homepage controls. The target accepts focus without an extra tab stop; the next Tab reaches the first city. Links have at least 44px touch height and use the existing reduced-motion and sticky-header scroll spacing.
+
+This is same-page navigation, not a save/reset action. It introduces no JavaScript, storage key, network request or travel claim. Drafts, saved notes, bookmarks and preparation records retain their existing behavior, including with unavailable storage. The links work without JavaScript. Phase 2 checks rendered bilingual anchors and homepage isolation; browser release evidence is in `docs/CURRENT_STATE.md`. A navigation improvement alone does not establish increased retention.
+
 ## Language-safe Reading Undo
 
 Explicit same-tab header language switching between `/my-trips/` and `/ko/my-trips/` now retains pending reading-position undo for the remainder of the original two-minute deletion window. Repeated switches and reloads do not restart that window. The localized undo control remains available without stealing focus or automatically restoring a record. Explicit undo restores the original city reading value byte-for-byte; Continue reading opens the current language's guide at its semantic position with the same disclosures.
