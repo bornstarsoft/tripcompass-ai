@@ -41,13 +41,13 @@ class MomentsPage(Page):
 
 
 root = Path(sys.argv[1])
-targets = ["/itinerary/japan-arrival-departure-day-plan/#before-leaving-home",
+targets = ["/itinerary/japan-plan-b/#saved-shortlist", "/itinerary/japan-arrival-departure-day-plan/#before-leaving-home",
            "/itinerary/japan-plan-b/#evening", "/itinerary/japan-plan-b/#morning",
            "/itinerary/japan-plan-b/#reset", "/itinerary/japan-arrival-departure-day-plan/#before-checkout",
            "/itinerary/japan-arrival-departure-day-plan/#after-trip"]
 for prefix, labels in [
-    ("", ["Guides for the moment you are in", "Before leaving home:", "Tonight:", "This morning:", "Plans changed:", "Going home:", "Back home:"]),
-    ("/ko", ["여행 중 다시 펼칠 가이드", "한국에서 출발 전날:", "오늘 저녁:", "아침:", "계획이 바뀐 날:", "귀국하는 날:", "다녀온 뒤:"]),
+    ("", ["Guides for the moment you are in", "Planning again:", "Before leaving home:", "Tonight:", "This morning:", "Plans changed:", "Going home:", "Back home:"]),
+    ("/ko", ["여행 중 다시 펼칠 가이드", "다시 계획할 때:", "한국에서 출발 전날:", "오늘 저녁:", "아침:", "계획이 바뀐 날:", "귀국하는 날:", "다녀온 뒤:"]),
 ]:
     def read(path):
         return MomentsPage((root / path.strip("/") / "index.html").read_text(encoding="utf-8"))
@@ -66,4 +66,4 @@ for prefix, labels in [
         assert url.fragment in read(url.path).ids, f"Missing published anchor: {href}"
     assert not read(prefix + "/").moments, "Keep the homepage unchanged"
 
-print("My trips moments passed: one collapsed EN/KO disclosure, twelve native guide links, published anchors and no homepage module.")
+print("My trips moments passed: one collapsed EN/KO disclosure, fourteen native guide links, published anchors and no homepage module.")

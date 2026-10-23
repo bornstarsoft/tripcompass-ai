@@ -101,6 +101,12 @@ Only when the homepage explorer's Saved filter is selected, it labels the result
 
 Phase 2 tests EN/KO copy/links, other-guide-only saves, empty/invalid/blocked data, restored filters, cross-tab changes and unchanged bookmark writes. Release browser QA should follow the link into each city's saved list and back, check records and drafts, and verify mobile layout. Publication evidence is recorded in `docs/CURRENT_STATE.md`; successful QA is not measured retention.
 
+## Saved Shortlist Review
+
+The existing EN/KO Plan B guide includes a `saved-shortlist` subsection under the next-visit section. It helps a returning traveler compare two saved ideas, pick one and name what it replaces without deleting the other bookmark. Three city examples link to existing guides and native saved-list anchors in My trips. The existing collapsed moments menu adds a single entry; the homepage remains unchanged. This is editorial planning guidance, not a feasibility check or new provider verification. Existing h2 reading keys, bookmarks, notes, storage writers, backend and affiliate behavior stay unchanged.
+
+Phase 2 checks both language variants, the published links/anchors, cautious copy and existing reading keys. Release browser QA covers menu-to-section and city-library return, existing records/drafts, no-JS/blocked storage and mobile layout. See `docs/CURRENT_STATE.md` for actual release evidence; deployment does not establish improved retention.
+
 ## Continuous Integration
 
 The configured GitHub Actions workflow is `.github/workflows/ci.yml`, for pushes to `main`, pull requests, and manual dispatches. The workflow runs Phase 1-5 checks, the strict Hugo build, and `git diff --check`.

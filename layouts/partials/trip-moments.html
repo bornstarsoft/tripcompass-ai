@@ -4,6 +4,10 @@
   <summary>{{ cond $ko "여행 중 다시 펼칠 가이드" "Guides for the moment you are in" }}</summary>
   <ul>
     <li>
+      <a href="{{ printf "%s/itinerary/japan-plan-b/#saved-shortlist" $prefix | relURL }}">{{ cond $ko "다시 계획할 때: 저장한 후보 중 하나 고르기" "Planning again: choose from your saved ideas" }}</a>
+      <p>{{ cond $ko "후보 두 개만 비교하고 하나는 대안으로 남겨요. 이번에 안 가도 저장을 지울 필요는 없어요." "Compare two ideas and keep one as an alternative. Skipping it this time need not mean removing the bookmark." }}</p>
+    </li>
+    <li>
       <a href="{{ printf "%s/itinerary/japan-arrival-departure-day-plan/#before-leaving-home" $prefix | relURL }}">{{ cond $ko "한국에서 출발 전날: 저장한 계획 다시 보기" "Before leaving home: revisit your saved plan" }}</a>
       <p>{{ cond $ko "내 예약 조건과 아직 모르는 것 하나부터 확인하고, 첫날에 뺄 일정을 정해요." "Recheck your own arrangements, resolve one open question and choose what to skip on arrival day." }}</p>
     </li>

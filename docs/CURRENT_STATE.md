@@ -1,8 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (SAVED-SHORTLIST-REVIEW; bilingual editorial guide, validation and deployment; main/current worktree; 2026-10-23)
 
 ## Current Task
+
+- WORK-ID: SAVED-SHORTLIST-REVIEW; CODEX; 2026-10-23. Phase: release preparation. Started clean on main at ee5f5b1; no other writer. Owner authorized a small return-visit improvement through validation and production deployment.
+- Scope: add a bilingual saved-shortlist review subsection to the existing Plan B guide and a native entry in the collapsed My trips guide menu. Keep homepage, existing reading section keys, storage writers, backend and affiliate behavior unchanged. Editorial decision prompts, not new provider facts.
+- Local QA PASS: Phase 1-5, strict Hugo and whitespace. Both homepages are byte-identical; 69 content pages/60 monitored URLs remain. Tests cover EN/KO section copy, published candidate/return links, existing reading keys and native menu links. One test expectation was corrected for Hugo's typographic apostrophe; the full Phase 2 rerun passed. Chromium EN/KO keyboard/touch entry and three-city saved-list return, exact preparation/bookmark/reading/note records, draft recovery across Back/reload/language, no-JS/blocked storage and 320/390/768/1440px passed; screenshots inspected. Six preparation/bookmark/reading undo/resume regression flows passed. No application errors or API/search calls during browser QA; the initial local favicon returned 404.
+- QA NOT_RUN: production, physical-device/Safari, D1 queries and retention measurement. NEXT_SINGLE_TASK: commit, deploy and verify the published build and live flows. BLOCKER: none.
+
+## Previous Saved Discovery Release
 
 - Last AI: CODEX; WORK-ID: SAVED-GUIDE-DISCOVERY; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean on main at 5c66256; no other writer. Owner authorized a small return-visit improvement through validation and production deployment.
 - Scope: only in the existing Saved filter, clarify that homepage results cover its featured guides and link to My trips for city-specific saved guides. Localize empty results. No new storage/writers, default homepage controls, backend or affiliate changes.

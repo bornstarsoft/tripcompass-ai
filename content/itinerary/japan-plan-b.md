@@ -15,7 +15,7 @@ takeaways:
   - "Leave one short note for the next time you open your trip"
 reviewed: "2026-10-23"
 date: "2026-10-23T00:00:00+09:00"
-lastmod: "2026-10-23T02:24:00+09:00"
+lastmod: "2026-10-23T22:00:00+09:00"
 alternateKo: "/ko/itinerary/japan-plan-b/"
 weight: 58
 ---
@@ -141,6 +141,24 @@ Read yesterday's note before opening a new list of recommendations. Check how th
 Example: “Books, then maybe a cafe” can become “one shop, then back,” not “a different neighborhood to make up for the cafe.” After deciding, replace the note with the next unresolved question. There is no need to keep a diary of every change.
 
 ## Leave a useful starting point for your next visit {#next}
+
+### Saved several ideas? Choose one for this day {#saved-shortlist}
+
+A saved guide is a possibility, not a commitment. When you return to a long list, compare just two candidates for the same part of the day. Keep the others saved for later; you do not need to delete an idea to leave it out of this trip.
+
+1. **Read your own note first.** Has the reason you saved each idea changed? Choose the experience you still want, not whichever guide you opened most recently.
+2. **Compare the whole outing.** Consider the journey from your accommodation, time together, rest and the return trip, not just the attraction. Separate fixed bookings from optional ideas and recheck their terms.
+3. **Pick one, and name what it replaces.** Keep a second candidate as an alternative, not an extra stop. If neither fits, leave the choice open rather than booking something to finish the list.
+
+Use the existing guides as pairs, not combined routes:
+
+- **Fukuoka:** compare the [Dazaifu outing](/itinerary/fukuoka-dazaifu-shrine-museum-day/) with [one city area](/itinerary/fukuoka-rainy-day-plan/). Which main interest matters more today? [Reopen saved Fukuoka guides](/my-trips/#saved-guides-fukuoka).
+- **Osaka:** compare the [Nara day](/itinerary/osaka-to-nara-temple-park-day/) with [Doguyasuji browsing](/itinerary/osaka-doguyasuji-kitchenware-walk/). Do you want an outing or to keep the day's main interest in Osaka? [Reopen saved Osaka guides](/my-trips/#saved-guides-osaka).
+- **Tokyo:** compare [Jimbocho books](/itinerary/tokyo-jimbocho-books-cafes/) with [Kiyosumi-Shirakawa's garden, art and coffee ideas](/itinerary/tokyo-kiyosumi-shirakawa-garden-art-coffee/). Choose one interest rather than joining the two courses. [Reopen saved Tokyo guides](/my-trips/#saved-guides-tokyo).
+
+Note to adapt: **“First choice: __. Instead of: __. Still to check: __.”** Check current access, hours and any booking conditions with the relevant providers. These pairs do not establish today's feasibility. Reading or following these links does not change your saved guides or course choice; an edited city note still needs an explicit save.
+
+### Keep only the next unresolved choice
 
 In [My trips](/my-trips/), leave a short note with **one thing to keep, one thing to drop and when to reconsider**. Use your own wording rather than copying the whole itinerary. Do not enter passport details, booking references or payment information.
 

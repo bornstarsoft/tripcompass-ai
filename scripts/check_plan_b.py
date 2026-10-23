@@ -75,6 +75,11 @@ def check(root):
         assert ("취향이 다르면" if prefix else "Different interests:") in text
         assert ("예상 대기 시간은 착석 시각을 보장" if prefix else "An estimate is not a promised seating time") in text
         assert ("예시를 읽기만 해서는 메모가 저장되지" if prefix else "reading this example does not save it") in text
+        assert "saved-shortlist" in page.ids and "#saved-shortlist" in page.links
+        assert ("저장한 후보가 많다면" if prefix else "Saved several ideas?") in text
+        assert ("이번 여행에서 빼기 위해 저장까지 해제할 필요는" if prefix else "do not need to delete an idea") in text
+        assert ("직접 저장해야 남습니다" if prefix else "an explicit save") in text
+        assert ("오늘 일정의 실행 가능성을 확인해 주지는" if prefix else "do not establish today’s feasibility") in text
         assert not page.finder_forms and not any(link.startswith("/go/") for link in page.links)
         assert "/js/course-tools.js" in page.scripts
         assert "/js/guide-explorer.js" in page.scripts
@@ -88,9 +93,16 @@ def check(root):
         for link in related + ["/my-trips/", "/decision-board/", "/#destination-finder"]:
             assert prefix + link in page.links
         overview = read(prefix + "/my-trips/")
+        assert url + "#saved-shortlist" in overview.links
         for city in ["fukuoka", "osaka", "tokyo"]:
             assert overview.entries[city] == url + "#" + city
             assert prefix + "/my-trips/#trip-" + city in page.links
+            assert prefix + "/my-trips/#saved-guides-" + city in page.links
+            assert "saved-guides-" + city in overview.ids
+        for guide in ["fukuoka-dazaifu-shrine-museum-day", "fukuoka-rainy-day-plan", "osaka-to-nara-temple-park-day", "osaka-doguyasuji-kitchenware-walk", "tokyo-jimbocho-books-cafes", "tokyo-kiyosumi-shirakawa-garden-art-coffee"]:
+            candidate = prefix + "/itinerary/" + guide + "/"
+            assert candidate in page.links
+            assert read(candidate).title, "Shortlist candidates must be published"
         assert len(overview.entries) == 3
         assert overview.saved.count("plan-b") == 3
         for workspace in ["/my-trip/", "/my-trip/osaka/", "/my-trip/tokyo/"]:
