@@ -227,9 +227,9 @@ export function mountTripNotes(doc, win) {
     });
     load(); root.hidden = false;
     win.addEventListener("storage", event => { if (event.key === null || event.key === NOTE_KEYS[city]) refresh(); });
-    win.addEventListener("pageshow", event => {
-      if (!event.persisted) return;
-      // Another overview in this tab may have saved/discarded a cached page's draft.
+    win.addEventListener("pageshow", () => {
+      // Native form restoration also happens on non-BFCache history visits.
+      // Reconcile with shared saved/draft state after that restoration.
       if (unprotected) refresh();
       else load();
     });

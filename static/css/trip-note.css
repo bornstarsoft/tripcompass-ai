@@ -1,0 +1,14 @@
+.trip-note { border-top: 1px solid var(--line); padding-top: .85rem; margin-bottom: 1rem; }
+.trip-note[hidden], .trip-note [hidden] { display: none; }
+.trip-note h2, .trip-note h3 { margin: 0; font-size: 1.05rem; }
+.trip-note-preview { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.5; margin: .5rem 0; }
+.trip-note summary { padding: .65rem 0; min-height: 44px; color: var(--teal); cursor: pointer; font-size: .9rem; }
+.trip-note label { display: block; margin: .5rem 0; font-weight: 700; }
+.trip-note textarea { display: block; width: 100%; min-height: 100px; resize: vertical; font: inherit; line-height: 1.5; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: .5rem; }
+.trip-note-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.trip-note-actions button { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; max-width: 100%; font: inherit; cursor: pointer; }
+.trip-note-actions svg { flex: 0 0 24px; }
+.trip-note button:disabled { opacity: .6; cursor: not-allowed; }
+.trip-note summary:focus-visible, .trip-note textarea:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+.trip-note [data-note-status]:empty { margin: 0; }
+.trip-note [data-note-copy-status]:empty { margin: 0; }

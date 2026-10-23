@@ -1,8 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (WORKSPACE-NOTE-CONTINUITY; reuse city notes in workspaces, validation and authorized deployment; main/current worktree; 2026-10-24)
 
 ## Current Task
+
+- WORK-ID: WORKSPACE-NOTE-CONTINUITY. Phase: implementation. Started clean on main at 0b210de; no other active writer. Owner authorized a useful return-visit improvement through production deployment.
+- Scope: reuse the existing city note partial/controller in the six EN/KO workspaces, share note CSS and preserve the same note/draft keys. Reconcile note state on all pageshow events so non-BFCache native form restoration cannot leave a stale textarea over a newer saved note. No homepage, storage schema, backend or affiliate changes. No new travel claims.
+- Local QA PASS: Phase 1-5, strict Hugo and whitespace; both homepages byte-identical. Unit tests include non-BFCache restored textarea reconciliation, preserved unprotected edits, six workspace headings/assets and isolated note roots. Chromium passed all six EN/KO overview/workspace draft round trips, reload/language, saved-note return, real cross-tab conflicts, confirmed discard/cancel, reset preserving notes/drafts and no preparation creation from note saves. Four widths (320/390/768/1440px), 44px controls and screenshots were checked. No-JS, blocked/corrupt storage passed. Six Back/Forward save/draft flows and mocked clipboard/manual fallback at 320px passed. Initial history QA found stale native textarea restoration on non-BFCache Back; lifecycle reconciliation and autocomplete opt-out fixed it, followed by full reruns. Existing records outside intentional note/reset edits were preserved; no application errors or API/search calls in the main browser suite.
+- Production QA: NOT_RUN. Physical-device/Safari, real OS clipboard, D1 queries and retention measurement NOT_RUN. NEXT_SINGLE_TASK: commit, deploy and validate production interactions and published files. BLOCKER: none.
+
+## Previous City Return Release
 
 - Last AI: CODEX; WORK-ID: MY-TRIPS-CITY-RETURN; DONE on 2026-10-24. Phase: deployed and production-validated. Started clean at b2ebcc6512653b4857a8196eadfcf54035d9bc3a on main; official project remote is GitHub. Owner authorized a small useful improvement through production deployment.
 - Scope: native return links from each city footer to the existing city selector, with keyboard focus and mobile spacing. No homepage, persistence, backend or affiliate changes. No new travel claims or speculative retention claims.

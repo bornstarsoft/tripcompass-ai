@@ -4,7 +4,7 @@
 
 WORK-ID: MY-TRIPS-RETURN-NOTE. The owner authorized a small retention improvement and production deployment on 2026-10-23. This is an implementation/validation release, not evidence of increased return visits.
 
-The hypothesis is that remembering an unfinished decision (for example, comparing cancellation terms at two hotels) makes the next visit useful. Each city in My trips has one small next-visit note, visible above the last-read guide and preparation list. The editor is collapsed until opened; saved text remains visible. The English and Korean homepages are unchanged, including their rendered HTML. No banner, notification permission, subscription, account or new AI request is added.
+The hypothesis is that remembering an unfinished decision (for example, comparing cancellation terms at two hotels) makes the next visit useful. Each city in My trips has one small next-visit note, visible above the last-read guide and preparation list. The same note is available in that city's workspace above its preparation controls. The editor is collapsed until opened; saved text remains visible. The English and Korean homepages are unchanged, including their rendered HTML. No banner, notification permission, subscription, account or new AI request is added.
 
 ## Storage and Editing
 
@@ -18,7 +18,11 @@ The hypothesis is that remembering an unfinished decision (for example, comparin
 
 ## Validation
 
-`scripts/check_trip_notes.mjs` runs in Phase 2. It covers both languages, all cities, length limits, safe text, explicit save/delete, no visit writes to saved notes, exact legacy-record preservation, failed read/write/delete, changed-note conflicts, cross-tab refresh and draft departure guards. Draft tests include repeated reload/language restoration, exact whitespace, blank deletion drafts, independent cities, malformed/oversized snapshots, temporary-storage failures/retry, discard failure, stale cleanup and BFCache reconciliation. Generated-page checks assert that only the overviews load the feature.
+`scripts/check_trip_notes.mjs` runs in Phase 2. It covers both languages, all cities, length limits, safe text, explicit save/delete, no visit writes to saved notes, exact legacy-record preservation, failed read/write/delete, changed-note conflicts, cross-tab refresh and draft departure guards. Draft tests include repeated reload/language restoration, exact whitespace, blank deletion drafts, independent cities, malformed/oversized snapshots, temporary-storage failures/retry, discard failure, stale cleanup and BFCache reconciliation. Generated-page checks assert that the overviews and six workspaces load the feature, with one city note per workspace and none on the homepages.
+
+## Workspace Continuity
+
+WORK-ID: WORKSPACE-NOTE-CONTINUITY (2026-10-24). Workspaces reuse the same partial and note controller as My trips, with a level-two heading and shared note stylesheet. No storage migration or duplicate persistence implementation is introduced. Drafts follow same-tab overview/workspace and language navigation through the existing session key. Clean views reread saved notes; stale drafts retain the existing conflict protection. The editor disables native autocomplete and reconciles shared saved/draft state on every pageshow, including non-BFCache history visits where the browser may otherwise restore an obsolete textarea value after module initialization. Failed-persistence edits retain the existing guard instead of being replaced. Notes can be written before Start this trip and remain available after Reset preparation, whose confirmation explicitly says notes stay. Saved text is not a booking confirmation. Browser release QA covers all six workspace/overview pairs, save/discard, reset isolation, another tab's updates, failed storage, no-JS and four viewport widths; evidence belongs in `docs/CURRENT_STATE.md`.
 
 Browser release gates: EN/KO at 320/390/768/1440px; keyboard and touch save; reopening in the other language and after reload; saved-text preview; no horizontal overflow; 44px controls; cross-tab stale drafts and retry; invalid/blocked storage and no-JS; existing checklist/bookmark/reading undo regression tests. Physical-device/Safari and actual retention measurement must be reported separately.
 

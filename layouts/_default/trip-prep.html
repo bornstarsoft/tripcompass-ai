@@ -21,9 +21,10 @@
   <div class="prep-start" data-prep-start hidden>
     <button type="button" class="button--primary" data-prep-create>{{ cond $ko "이 여행 준비 시작" "Start this trip" }}</button>
   </div>
-  <p class="fine-print prep-storage">{{ cond $ko "준비 내용과 저장한 글은 이 브라우저에만 남습니다. 다른 기기에는 동기화되지 않으며, 사이트 데이터를 지우면 사라집니다." "Your preparation and saved guides stay in this browser only. They do not sync to other devices and are removed when site data is cleared." }}</p>
+  <p class="fine-print prep-storage">{{ cond $ko "준비 내용, 메모와 저장한 글은 이 브라우저에만 남습니다. 다른 기기에는 동기화되지 않으며, 사이트 데이터를 지우면 사라집니다." "Your preparation, notes and saved guides stay in this browser only. They do not sync to other devices and are removed when site data is cleared." }}</p>
   <p class="prep-status" data-prep-status role="status" aria-live="polite"></p>
   <noscript><p>{{ cond $ko "아래 가이드는 그대로 읽을 수 있습니다. 준비 상태 저장에는 JavaScript가 필요합니다." "The guides below remain available. Saving preparation requires JavaScript." }}</p></noscript>
+  {{ partial "trip-note.html" (dict "ko" $ko "city" $destination "workspace" true) }}
   <div data-prep-workspace hidden>
     <section class="prep-progress" aria-labelledby="prep-progress-title">
       <h2 id="prep-progress-title">{{ cond $ko "남은 준비" "Your next step" }}</h2>
@@ -68,7 +69,7 @@
     <div class="prep-reset">
       <button type="button" data-prep-reset>{{ cond $ko "준비함 초기화" "Reset preparation" }}</button>
       <div data-prep-confirm hidden>
-        <p>{{ cond $ko "이 여행의 코스 선택과 체크를 지울까요? 다른 여행 준비함, 저장한 글과 여행 결정표는 유지됩니다." "Clear this trip's course choices and checks? Other trips, saved guides and your decision board will stay." }}</p>
+        <p>{{ cond $ko "이 여행의 코스 선택과 체크를 지울까요? 메모, 다른 여행 준비함, 저장한 글과 여행 결정표는 유지됩니다." "Clear this trip's course choices and checks? Notes, other trips, saved guides and your decision board will stay." }}</p>
         <button type="button" data-prep-delete>{{ cond $ko "준비 내용 지우기" "Clear preparation" }}</button>
         <button type="button" data-prep-cancel>{{ cond $ko "취소" "Cancel" }}</button>
       </div>
@@ -97,4 +98,5 @@
   <aside class="trust-note">{{ cond $ko "예약 전 최신 가격, 영업시간, 비자 규정, 예약 가능 여부와 조건을 직접 확인하세요. 실시간 견적이나 안전·입국·예약 보장을 제공하지 않습니다." "Check current prices, opening hours, visa rules, availability and terms before booking. No real-time quotes or safety, entry or booking guarantees are provided." }}</aside>
 </article>
 <script src="{{ "js/guide-explorer.js" | relURL }}" defer></script>
+<script type="module" src="{{ "js/trip-note.js" | relURL }}"></script>
 {{ end }}

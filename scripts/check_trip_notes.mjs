@@ -211,6 +211,28 @@ for (const language of ["en", "ko"]) for (const city of cities) {
   assert.equal(ui.input.value, "newer saved note"); assert.equal(h.dirty(), 0);
 }
 
+for (const language of ["en", "ko"]) for (const city of cities) {
+  const records = new Map([[NOTE_KEYS[city], raw("latest saved")]]);
+  const h = harness(language, records), ui = h.fields(city);
+  // Browser form restoration may replace the value after mount, without an input event.
+  ui.input.value = "obsolete browser value";
+  h.emit("pageshow", {persisted:false});
+  assert.equal(ui.input.value, "latest saved");
+  assert.equal(ui.save.disabled, true);
+  assert.equal(h.writes.length, 0);
+  h.type(city, "current shared draft");
+  ui.input.value = "obsolete browser draft";
+  h.emit("pageshow", {persisted:false});
+  assert.equal(ui.input.value, "current shared draft");
+  assert.equal(ui.details.open, true);
+  h.fail.draftWrite = true;
+  h.type(city, "unprotected current edit");
+  h.emit("pageshow", {persisted:false});
+  assert.equal(ui.input.value, "unprotected current edit");
+  assert.equal(h.dirty(), 1);
+  assert.equal(records.get(NOTE_KEYS[city]), raw("latest saved"));
+}
+
 if(process.argv[2]) for(const [prefix,title] of [["","For your next visit"],["ko/","다음에 확인할 메모"]]) {
   const html=await readFile(resolve(process.argv[2],prefix+"my-trips/index.html"),"utf8");
   assert.ok(html.includes(title)); assert.ok(html.includes("js/trip-note.js"));
@@ -218,8 +240,22 @@ if(process.argv[2]) for(const [prefix,title] of [["","For your next visit"],["ko
   assert.equal((html.match(/data-note-copy-tools hidden/g)||[]).length,3);
   assert.equal((html.match(/data-note-copy-text readonly/g)||[]).length,3);
   assert.ok(html.includes(prefix ? "저장된 메모 복사" : "Copy saved note"));
+  assert.ok(html.includes("css/trip-note.css"));
+  for (const city of cities) {
+    const path = city === "fukuoka" ? "my-trip/" : `my-trip/${city}/`;
+    const workspace = await readFile(resolve(process.argv[2], prefix + path + "index.html"), "utf8");
+    assert.equal((workspace.match(/data-trip-note=/g) || []).length, 1);
+    assert.ok(workspace.includes(`data-trip-note=${city}`));
+    assert.ok(workspace.includes(`<h2 id=note-title-${city}>${title}</h2>`));
+    assert.equal((workspace.match(/js\/trip-note.js/g) || []).length, 1);
+    assert.ok(workspace.includes("css/trip-note.css"));
+    assert.ok(!workspace.includes("css/my-trips.css"));
+    assert.ok(workspace.indexOf(`data-trip-note=${city}`) < workspace.indexOf("data-prep-workspace"), "Notes remain available before starting or after resetting preparation");
+    assert.ok(workspace.includes(prefix ? "메모, 다른 여행 준비함" : "Notes, other trips"));
+  }
   const home=await readFile(resolve(process.argv[2],prefix+"index.html"),"utf8");
   assert.ok(!home.includes("data-trip-note")); assert.ok(!home.includes("js/trip-note.js"));
+  assert.ok(!home.includes("css/trip-note.css"));
 }
 console.log("Trip notes passed: EN/KO, three-city isolation, explicit saves, tab drafts across reload/language/BFCache, confirmed discard/cancel/unavailable dialogs, blank drafts, length limits, safe text, conflicts/storage failures and unchanged legacy records/homepage.");
 

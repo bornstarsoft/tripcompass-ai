@@ -48,7 +48,7 @@ Checklist marks are personal notes, not booking confirmations. Following a `/go`
 
 ## Next-visit Notes
 
-The My trips overview offers an optional next-visit note for each city, such as a hotel comparison to finish. Pressing Save note stores up to 240 characters in this browser's localStorage under `tripcompass.return-note.<city>.v1`. English and Korean show the same user-written text without translating it. Notes are not sent to our server, AI provider or click logs, and are not included in links. Do not enter personal, passport, payment or booking-reference information. People sharing the browser profile may see the notes; they do not sync to another device.
+The My trips overview and each city workspace offer the same optional next-visit note for that city, such as a hotel comparison to finish. They share one saved note and one tab draft, not separate copies. Pressing Save note stores up to 240 characters in this browser's localStorage under `tripcompass.return-note.<city>.v1`. English and Korean show the same user-written text without translating it. Notes are not sent to our server, AI provider or click logs, and are not included in links. Do not enter personal, passport, payment or booking-reference information. People sharing the browser profile may see the notes; they do not sync to another device.
 
 Saving an empty note removes that city's note. Clearing site data removes all notes. Notes are independent of preparation checks, saved guides and reading positions; resetting a preparation workspace does not remove its next-visit note. Visits only read saved notes.
 
