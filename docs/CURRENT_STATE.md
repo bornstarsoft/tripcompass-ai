@@ -1,8 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (BEFORE-LEAVING-REVIEW; scoped bilingual content, validation and deployment; main/current worktree; 2026-10-23)
 
 ## Current Task
+
+- WORK-ID: BEFORE-LEAVING-REVIEW; CODEX; 2026-10-23. Phase: implementation. Started clean on main at 89ab863; no other writer. Owner authorized a small return-visit improvement, validation, commit and production deployment.
+- Scope: a before-leaving-home review in the existing EN/KO travel-day guide, linked from the existing collapsed My trips guide list. Preserve homepage, section reading keys, bookmarks, notes, all storage writers and backend/affiliate behavior. Editorial prompts only; no new travel facts or provider verification.
+- Local QA PASS: Phase 1-5, strict Hugo and whitespace. Both homepages are byte-identical to the starting build; 69 content pages and 60 monitored URLs remain. Chromium EN/KO keyboard/touch guide access, three-city return paths, exact preparation/bookmark/reading/note records and draft recovery across return/reload/language passed. No-JS/blocked storage and 320/390/768/1440px guide/menu layouts, 44px entry links and screenshots passed. Six existing checklist/bookmark/reading undo/resume flows passed. No application errors or API/search calls in browser QA.
+- Production QA NOT_RUN. Physical-device/Safari, D1 queries and retention measurement NOT_RUN. NEXT_SINGLE_TASK: commit, deploy through existing Git integration and validate production. BLOCKER: none.
+
+## Previous Saved Guide Quick Access Release
 
 - Last AI: CODEX; WORK-ID: SAVED-GUIDE-QUICK-ACCESS; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean on main at b27a5dce45e4da6711b2a319ec03faac1780290b; no other writer. Owner authorized a small return-visit improvement through production deployment.
 - Scope: one native saved-guides jump link below each city's status, with counts from the existing validated list. Keep the homepage, storage records/writers, backend and affiliate behavior unchanged. No new travel claims or pages.

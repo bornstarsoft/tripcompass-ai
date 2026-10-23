@@ -12,7 +12,7 @@ takeaways:
   - "Work backward from the correct airport and terminal"
   - "Keep one optional treat, with permission to skip it"
 reviewed: "2026-09-22"
-lastmod: "2026-10-23T03:00:00+09:00"
+lastmod: "2026-10-23T21:00:00+09:00"
 alternateKo: "/ko/itinerary/japan-arrival-departure-day-plan/"
 weight: 57
 ---
@@ -22,6 +22,8 @@ weight: 57
 **A first meal near the hotel or a final coffee can be enough.** The first and last day do not need another neighborhood to count as a good trip. Set the luggage and airport plan first, then choose one small thing you would enjoy if the day allows it.
 
 This is an editorial planning method, not a firsthand hotel review, a luggage-service directory or a verified airport transfer. It helps you adapt the [Fukuoka weekend](/from-seoul/seoul-to-fukuoka-weekend-trip/), [Osaka four-day course](/itinerary/seoul-to-osaka-4-day-itinerary/) and [Tokyo four-day course](/itinerary/seoul-to-tokyo-4-day-itinerary/) to your own flights.
+
+Leaving home tomorrow? Start with [the saved-plan review](#before-leaving-home). Already in Japan? Use [the return-flight review](#night-before-return) instead.
 
 ## Who this page is for
 
@@ -54,6 +56,24 @@ Keep a choice that has no prepaid commitment where possible. For the first meal,
 A short message to adapt: “Can you store two suitcases before check-in and after checkout? Please confirm any fees, size limits and the latest collection time. What should we do if our flight is delayed?” Replace the bag count and dates with your own details; this is a question, not confirmation of a service.
 
 If considering a locker or staffed storage instead, check size, location, access and collection conditions. A map pin does not guarantee an empty locker or an open counter. Have a plan that still works with your luggage. Do not depend on unconfirmed delivery reaching the hotel or airport before you need it.
+
+### Before leaving home: reopen the plan, not every possibility {#before-leaving-home}
+
+The evening before leaving Korea is a useful moment to compare what you saved with what you have actually confirmed. This is a planning review, not a complete departure checklist or a check of entry requirements. Use current official guidance and your providers for those requirements.
+
+1. **Open your own booking details first.** Check the travel date, departure airport and terminal, airline instructions, accommodation address and agreed arrival arrangements. An old screenshot or a checked box is a reminder of an earlier decision, not proof that it still applies.
+2. **Resolve one missing answer before adding an outing.** If bag storage or late arrival is still unconfirmed, contact the accommodation through its official channel. Keep an arrival plan that does not depend on that answer being yes. Do not book another activity to fill time that is not yet usable.
+3. **Keep one first-day pleasure and one thing to skip.** A nearby meal can be the whole leisure plan. Agree with your companions what to remove if arrival takes longer; the extra neighborhood is optional, not a debt to the itinerary.
+
+Use the city you chose to make the review specific:
+
+- **Fukuoka:** does your first stop still fit the accommodation and bag arrangements you confirmed? Revisit the [Hakata/Tenjin base choice](/from-seoul/fukuoka-hakata-vs-tenjin-hotels/) if you changed hotels.
+- **Osaka:** is a day trip crowding out the first city day? Reopen [the city-or-Kyoto choice](/itinerary/osaka-or-kyoto-day-trip/) and keep it a choice, not an extra obligation.
+- **Tokyo:** are you reusing the correct airport-to-accommodation plan? Check your own flight and address before choosing the first neighborhood in the [four-day course](/itinerary/seoul-to-tokyo-4-day-itinerary/).
+
+**Leave only the next question in your note:** “Ask about bags / first meal near the hotel / skip the extra district.” Return to [Fukuoka](/my-trips/#trip-fukuoka), [Osaka](/my-trips/#trip-osaka) or [Tokyo](/my-trips/#trip-tokyo), read the existing note before editing, and save only what you want to keep. Each city has one note, not a new note for every departure. Reading this section does not save text or change preparation checks.
+
+Keep documents, booking references and access codes out of TripCompass notes. Keep essential details separately where you can access them without internet: a saved guide is not an offline copy, and browser-local records are not a backup or account sync. Recheck time-sensitive information again before acting; this review does not confirm prices, availability, entry eligibility or a successful booking.
 
 ## Arrival day: choose the smaller version when delayed
 
@@ -163,6 +183,6 @@ These are generic hotel searches, not properties with verified storage or late c
 
 The three linked airport pages were reviewed on **22 September 2026** for access-reference context. The decision steps, message and note are our editorial suggestions, not airline instructions. No hotel, storage place, travel-date transport, opening hours or availability was confirmed. The existing AI illustration depicts luggage and an imagined planning scene, not a real hotel, storage facility or airport map.
 
-The night-before, checkout and after-trip reflection prompts and return-visit links were added on **23 October 2026** as editorial guidance. This was not a new check of the airport references or any current travel conditions.
+The before-leaving-home, night-before-return, checkout and after-trip reflection prompts and return-visit links were added on **23 October 2026** as editorial guidance. This was not a new check of the airport references or any current travel conditions.
 
 Check current prices, opening hours, visa rules, availability and booking terms yourself. This guide provides no real-time quote or safety, entry, connection or booking guarantee.
