@@ -32,6 +32,8 @@ const copy = {
     unavailable: "Your saved note is unavailable. It has not been changed.",
     conflict: "This note changed in another tab. Your draft is still here. Load the saved note before editing again.",
     loaded: "Saved note loaded.", tooLong: "Keep the note within 240 characters.",
+    discardConfirm: "Discard your current draft and load the saved note? Your other trip records will not change.",
+    kept: "Your draft is unchanged. You can keep editing.",
     count: n => `${n} / 240`
   },
   ko: {
@@ -44,6 +46,8 @@ const copy = {
     unavailable: "저장된 메모를 읽을 수 없어요. 기존 내용은 그대로입니다.",
     conflict: "다른 탭에서 메모가 바뀌었어요. 작성 중인 내용은 남아 있습니다. 저장된 메모를 불러온 뒤 다시 수정해 주세요.",
     loaded: "저장된 메모를 불러왔어요.", tooLong: "메모는 240자 이내로 작성해 주세요.",
+    discardConfirm: "작성 중인 내용을 버리고 저장된 메모를 불러올까요? 다른 여행 기록은 바뀌지 않습니다.",
+    kept: "작성 중인 내용을 그대로 유지했어요. 계속 수정할 수 있습니다.",
     count: n => `${n} / 240`
   }
 };
@@ -157,7 +161,20 @@ export function mountTripNotes(doc, win) {
         controls(); details.open = false; summary.focus({ preventScroll: true });
       } catch { status.textContent = text.failed; }
     });
-    find("reload").addEventListener("click", () => { load(true); if (!blocked) input.focus(); });
+    find("reload").addEventListener("click", () => {
+      if (dirty || unprotected) {
+        // A suppressed or unavailable dialog must never authorize discarding text.
+        let confirmed = false;
+        try { confirmed = win.confirm(text.discardConfirm) === true; } catch { /* Keep the draft. */ }
+        if (!confirmed) {
+          if (!blocked && !conflict && !unprotected) status.textContent = text.kept;
+          if (!blocked) input.focus();
+          return;
+        }
+      }
+      load(true);
+      if (!blocked) input.focus();
+    });
     load(); root.hidden = false;
     win.addEventListener("storage", event => { if (event.key === null || event.key === NOTE_KEYS[city]) refresh(); });
     win.addEventListener("pageshow", event => {

@@ -1,8 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (NOTE-DRAFT-DISCARD-GUARD; scoped implementation, validation and deployment; main/current worktree; 2026-10-23)
 
 ## Current Task
+
+- WORK-ID: NOTE-DRAFT-DISCARD-GUARD; CODEX; 2026-10-23. Phase: implementation. Started clean on main at 07355f42ba8d47284dd053421d1c5264adfcb022; no active writer. Owner authorized a small return-visit improvement, checks, commit and deployment.
+- Scope: request explicit confirmation before Load saved note discards changed text; cancellation preserves the draft. Native localized dialog, no new homepage controls/storage keys/backend or affiliate behavior. Existing saved notes and other trip records stay untouched.
+- Local QA PASS: Phase 1-5 and whitespace; note units cover cancellation/unavailable confirmation, exact blank/whitespace drafts, both languages/all cities, storage failures and conflict warnings. Chromium passed six city/language cases with native confirmation/cancellation, reload/language recovery, clean reload without prompting, exact legacy records, and real cross-tab updates. Six existing checklist/bookmark/reading undo/resume flows passed. EN/KO 320/390/768/1440px, 44px controls and inspected screenshots passed, with no application errors or API/search calls. Physical-device/Safari and retention measurement NOT_RUN.
+- Production QA NOT_RUN. NEXT_SINGLE_TASK: final strict build, commit and deploy through existing GitHub-to-Pages integration; verify production. BLOCKER: none.
+
+## Previous After-Trip Release
 
 - Last AI: CODEX; WORK-ID: RETURN-TRIP-REFLECTION; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean on main at 8c085e72e009218bbc02cdf07d83baab6b4a958c; no previous active writer. Owner authorized a scoped improvement, validation, commit and production deployment.
 - Scope: add an EN/KO after-trip reflection subsection to the existing travel-day guide and a fifth link in the collapsed My trips guide list. Reuse existing city notes and bookmarks without new writers or migrations. Keep homepage, prior reading keys, backend and affiliate behavior unchanged. Editorial prompts only; no new provider/travel-fact verification.
