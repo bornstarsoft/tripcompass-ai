@@ -1,13 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (MY-TRIPS-CITY-RETURN; native bilingual city navigation, validation and authorized deployment; main/current worktree; 2026-10-24)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: MY-TRIPS-CITY-RETURN. Phase: implementation. Started clean at b2ebcc6512653b4857a8196eadfcf54035d9bc3a on main; official project remote is GitHub. Owner authorized a small useful improvement through production deployment.
+- Last AI: CODEX; WORK-ID: MY-TRIPS-CITY-RETURN; DONE on 2026-10-24. Phase: deployed and production-validated. Started clean at b2ebcc6512653b4857a8196eadfcf54035d9bc3a on main; official project remote is GitHub. Owner authorized a small useful improvement through production deployment.
 - Scope: native return links from each city footer to the existing city selector, with keyboard focus and mobile spacing. No homepage, persistence, backend or affiliate changes. No new travel claims or speculative retention claims.
 - Local QA PASS: Phase 1-5, strict Hugo and whitespace; both homepages byte-identical. Chromium passed 24 EN/KO three-city keyboard/touch return flows at 320/390/768/1440px, 44px targets, focus/Tab order, sticky-header spacing, no overflow and inspected screenshots. Exact existing preparation/bookmark/note/decision records and drafts across reload/language were preserved. Native links passed with JavaScript disabled and storage blocked. Six existing checklist/bookmark/reading undo/resume flows passed. No application errors or API/search calls in browser QA. Initial fallback test timing assumed smooth scrolling had completed and used a page-script wait with JavaScript disabled; the corrected complete rerun passed without an application change.
-- Production QA: NOT_RUN. Physical-device/Safari, D1 queries and retention measurement NOT_RUN. NEXT_SINGLE_TASK: commit, deploy and verify the same production build and interactions. BLOCKER: none.
+- HEAD/WIP: application commit 4b161de1cb4da5d334334f7c7c09cf1298e0bc08 pushed to main; this documentation update records release evidence. No owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 39996793125 and Cloudflare Pages succeeded. Both homepages, My trips pages, overview CSS and checked overview/note scripts match the validated build. Chromium passed 24 EN/KO three-city return flows at 320/390/768/1440px, touch/keyboard focus and Tab order, sticky-header spacing, 44px links, no overflow and inspected screenshots. Exact legacy records and drafts across reload/language, no-JS and blocked-storage navigation passed. Six existing checklist/bookmark/reading undo/resume flows passed. No application errors or API/search calls during browser QA. Launch health passed EN/KO backend results, repeat cache, HEAD 302 and all 60 monitored sitemap URLs.
+- QA NOT_RUN: physical-device/Safari, D1 queries and retention measurement. NEXT_SINGLE_TASK: collect traveler feedback on finding and returning to saved next steps before expanding controls or pages; do not collect private notes or infer retention from QA. BLOCKER: none.
 
 ## Previous Saved Note Copy Release
 
