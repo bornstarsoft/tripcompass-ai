@@ -1,13 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (NOTE-DRAFT-DISCARD-GUARD; scoped implementation, validation and deployment; main/current worktree; 2026-10-23)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: NOTE-DRAFT-DISCARD-GUARD; CODEX; 2026-10-23. Phase: implementation. Started clean on main at 07355f42ba8d47284dd053421d1c5264adfcb022; no active writer. Owner authorized a small return-visit improvement, checks, commit and deployment.
+- Last AI: CODEX; WORK-ID: NOTE-DRAFT-DISCARD-GUARD; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean on main at 07355f42ba8d47284dd053421d1c5264adfcb022; no active writer. Owner authorized a small return-visit improvement, checks, commit and deployment.
 - Scope: request explicit confirmation before Load saved note discards changed text; cancellation preserves the draft. Native localized dialog, no new homepage controls/storage keys/backend or affiliate behavior. Existing saved notes and other trip records stay untouched.
 - Local QA PASS: Phase 1-5 and whitespace; note units cover cancellation/unavailable confirmation, exact blank/whitespace drafts, both languages/all cities, storage failures and conflict warnings. Chromium passed six city/language cases with native confirmation/cancellation, reload/language recovery, clean reload without prompting, exact legacy records, and real cross-tab updates. Six existing checklist/bookmark/reading undo/resume flows passed. EN/KO 320/390/768/1440px, 44px controls and inspected screenshots passed, with no application errors or API/search calls. Physical-device/Safari and retention measurement NOT_RUN.
-- Production QA NOT_RUN. NEXT_SINGLE_TASK: final strict build, commit and deploy through existing GitHub-to-Pages integration; verify production. BLOCKER: none.
+- Final strict Hugo build and whitespace PASS; both EN/KO homepages and My trips HTML are byte-identical to the starting build. HEAD/WIP: application commit 2423a5666c04934eb0ab6133476dd3eb543a816e pushed to main; this accompanying documentation update records release evidence. No owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 39951816847 and Cloudflare Pages checks succeeded. Four HTML pages and the note/overview/disclosure scripts match the validated build. Chromium passed the six EN/KO city cases for native confirm/cancel, blank drafts, reload/language, clean reload, cross-tab latest-note conflicts and exact legacy records. Four viewport widths and screenshots were checked. Six existing checklist/bookmark/reading undo/resume flows passed. No application errors or API/search calls during browser QA. Launch health passed EN/KO backend responses, repeated cache, HEAD 302 and all 60 monitored sitemap URLs.
+- QA NOT_RUN: physical-device/Safari, D1 queries and retention measurement. NEXT_SINGLE_TASK: obtain traveler feedback on notes and situation-guide discoverability before expanding controls; do not collect private note contents or infer retention from QA. BLOCKER: none.
 
 ## Previous After-Trip Release
 
