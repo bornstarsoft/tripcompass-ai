@@ -95,6 +95,12 @@ History failure leaves current filtering usable. BFCache keeps the live selectio
 
 Released 2026-10-23 in `05219446ef6b254f0ca2a1fd17c14b4f5208f9d4`: Phase 1-5, strict Hugo and whitespace passed; same-SHA CI run `39955729024` and Cloudflare Pages checks succeeded. Published homepages, overviews, privacy and checked scripts match the validated build. Local and live Chromium passed EN/KO Back/reload/reset/fresh-language behavior, cross-tab bookmarks, exact legacy records and draft recovery, no-JS/denied-history behavior and 320/390/768/1440px with inspected screenshots. Four actual BFCache returns including failed writes, native same-page Back/Forward and six existing preparation/bookmark/reading undo/resume flows also passed locally and live. Homepage and My trips HTML are unchanged; explorer behavior alone is enhanced. Launch health passed EN/KO backend, repeat cache, HEAD 302 and all 60 monitored URLs. Physical-device/Safari, D1 queries and retention measurement were not run.
 
+## Saved Guide Discovery
+
+Only when the homepage explorer's Saved filter is selected, it labels the results as that homepage's featured-guide subset and offers a native localized link to My trips. Empty results use scoped copy instead of suggesting that all saved city guides are absent. City-specific bookmarks such as Plan B, travel days and rainy-day guides still live in the existing My trips lists; the homepage does not duplicate or delete them. The notice is hidden by default and without JavaScript, and follows existing filter restoration/reset. No new storage, default-page controls, backend or affiliate behavior is added. Older cached markup is tolerated.
+
+Phase 2 tests EN/KO copy/links, other-guide-only saves, empty/invalid/blocked data, restored filters, cross-tab changes and unchanged bookmark writes. Release browser QA should follow the link into each city's saved list and back, check records and drafts, and verify mobile layout. Publication evidence is recorded in `docs/CURRENT_STATE.md`; successful QA is not measured retention.
+
 ## Continuous Integration
 
 The configured GitHub Actions workflow is `.github/workflows/ci.yml`, for pushes to `main`, pull requests, and manual dispatches. The workflow runs Phase 1-5 checks, the strict Hugo build, and `git diff --check`.

@@ -27,6 +27,10 @@
 .explore-search { min-width: 0; }
 .explore-search input { display: block; width: 100%; min-height: 44px; padding: 0.5rem 0.65rem; border: 1px solid #9cafaa; border-radius: 4px; background: #fff; color: var(--ink); font: inherit; font-size: 0.9rem; }
 .explore-count { grid-column: 1 / -1; margin: 0; min-height: 1.5rem; color: var(--muted); font-size: 0.85rem; }
+.explore-saved-context { grid-column: 1 / -1; font-size: .9rem; }
+.explore-saved-context p { margin: 0; color: var(--muted); }
+.explore-saved-context a { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; max-width: 100%; padding: .5rem 0; }
+.explore-saved-context a:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
 .explore-feedback { margin: 0 0 0.65rem; min-height: 1.4rem; font-size: 0.85rem; color: var(--teal-dark); }
 .explore-empty { padding: 2rem 0; border-block: 1px solid var(--line); }
 .explore-empty h3 { margin: 0; }

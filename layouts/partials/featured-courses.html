@@ -17,6 +17,10 @@
       </fieldset>
       <label class="explore-search"><span>{{ cond $ko "코스 검색" "Find a guide" }}</span><input type="search" maxlength="100" placeholder="{{ cond $ko "예: 후쿠오카, 부모님, 카페" "Try Fukuoka, parents, cafes" }}" data-guide-search></label>
       <p class="explore-count" data-explore-count role="status" aria-live="polite" aria-atomic="true"></p>
+      <div class="explore-saved-context" data-explore-saved-context hidden>
+        <p>{{ cond $ko "메인에 소개한 가이드 중 저장한 글입니다." "Saved guides from this homepage's featured list." }}</p>
+        <a href="{{ printf "%s/my-trips/" $prefix | relURL }}">{{ cond $ko "내 여행에서 도시별 저장 가이드 보기" "View saved city guides in My trips" }} <span aria-hidden="true">&rarr;</span></a>
+      </div>
     </div>
     <p class="explore-feedback" data-guide-feedback role="status" aria-live="polite" aria-atomic="true"></p>
     <div class="course-grid" data-explore-grid>
@@ -41,8 +45,8 @@
       {{ end }}
     </div>
     <div class="explore-empty" data-explore-empty hidden>
-      <h3>{{ cond $ko "아직 맞는 글이 없네요" "No guides here yet" }}</h3>
-      <p>{{ cond $ko "다른 관심사나 검색어로 찾아보세요. 저장한 글은 같은 브라우저에서 다시 볼 수 있습니다." "Try another interest or search term. Saved guides are available in the same browser." }}</p>
+      <h3 data-explore-empty-title data-default="{{ cond $ko "아직 맞는 글이 없네요" "No guides here yet" }}" data-saved="{{ cond $ko "이 목록에 맞는 저장 코스가 없어요" "No saved featured guides match" }}">{{ cond $ko "아직 맞는 글이 없네요" "No guides here yet" }}</h3>
+      <p data-explore-empty-description data-default="{{ cond $ko "다른 관심사나 검색어로 찾아보세요. 저장한 글은 같은 브라우저에서 다시 볼 수 있습니다." "Try another interest or search term. Saved guides are available in the same browser." }}" data-saved="{{ cond $ko "도시별 저장 가이드 목록은 ‘내 여행’에 있습니다. 검색어가 있으면 이 목록의 결과도 줄어듭니다." "City-specific saved guides have their own lists in My trips. A search term also narrows the results here." }}">{{ cond $ko "다른 관심사나 검색어로 찾아보세요. 저장한 글은 같은 브라우저에서 다시 볼 수 있습니다." "Try another interest or search term. Saved guides are available in the same browser." }}</p>
       <button type="button" data-explore-reset>{{ cond $ko "전체 글 보기" "Show all guides" }}</button>
     </div>
     <p class="fine-print">{{ cond $ko "공식 관광 자료를 참고한 편집 코스입니다. 직접 방문한 후기나 예약 상품이 아니며, 표지 이미지는 AI로 만든 상상 장면입니다." "Editorial guides based on official tourism sources, not firsthand reviews or bookable packages. Cover images are AI-generated imagined scenes." }}</p>

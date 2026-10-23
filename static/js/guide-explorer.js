@@ -13,6 +13,9 @@
   const count = root.querySelector("[data-explore-count]");
   const empty = root.querySelector("[data-explore-empty]");
   const reset = root.querySelector("[data-explore-reset]");
+  const savedContext = root.querySelector("[data-explore-saved-context]");
+  const emptyTitle = root.querySelector("[data-explore-empty-title]");
+  const emptyDescription = root.querySelector("[data-explore-empty-description]");
   const normalize = value => value.normalize("NFKC").toLocaleLowerCase().trim();
   const parse = value => {
     const ids = JSON.parse(value || "[]");
@@ -68,6 +71,10 @@
       if (!card.hidden) visible++;
     }
     count.textContent = ko ? `${cards.length}개 중 ${visible}개 가이드` : `${visible} of ${cards.length} guides`;
+    if (savedContext) savedContext.hidden = interest !== "saved";
+    for (const element of [emptyTitle, emptyDescription]) {
+      if (element) element.textContent = element.dataset[interest === "saved" ? "saved" : "default"];
+    }
     empty.hidden = visible !== 0;
   }
 

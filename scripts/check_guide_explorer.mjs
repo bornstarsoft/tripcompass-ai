@@ -16,7 +16,7 @@ function node(dataset = {}) {
   };
 }
 
-function harness({ language = "en", stored = "[]", blocked = false, readBlocked = false, single = false, singleId = "parents", absent = false, extraIds = [], historyState = null, historyBlocked = false, historyReadBlocked = false } = {}) {
+function harness({ language = "en", stored = "[]", blocked = false, readBlocked = false, single = false, singleId = "parents", absent = false, extraIds = [], historyState = null, historyBlocked = false, historyReadBlocked = false, legacy = false } = {}) {
   const state = { stored, writes: 0, historyState, historyWrites: 0, historyBlocked };
   const feedback = node();
   const buttons = (single ? [singleId] : ids).map(id => {
@@ -39,6 +39,10 @@ function harness({ language = "en", stored = "[]", blocked = false, readBlocked 
   const count = node();
   const empty = node();
   const reset = node();
+  const savedContext = node();
+  savedContext.hidden = true;
+  const emptyTitle = node({ default: language === "ko" ? "아직 맞는 글이 없네요" : "No guides here yet", saved: language === "ko" ? "이 목록에 맞는 저장 코스가 없어요" : "No saved featured guides match" });
+  const emptyDescription = node({ default: "default description", saved: "saved description" });
   const filters = ["all", "weekend", "food", "shopping", "family", "stay", "saved"].map(id => {
     const filter = node();
     filter.value = id;
@@ -48,7 +52,10 @@ function harness({ language = "en", stored = "[]", blocked = false, readBlocked 
   const selectors = {
     "[data-guide-feedback]": feedback, "[data-explore-controls]": controls,
     "[data-guide-search]": search, "[data-explore-count]": count,
-    "[data-explore-empty]": empty, "[data-explore-reset]": reset
+    "[data-explore-empty]": empty, "[data-explore-reset]": reset,
+    "[data-explore-saved-context]": legacy || single ? null : savedContext,
+    "[data-explore-empty-title]": legacy || single ? null : emptyTitle,
+    "[data-explore-empty-description]": legacy || single ? null : emptyDescription
   };
   const root = {
     dataset: { guideIds: [...ids, ...extraIds].join(",") }, querySelector: selector => selectors[selector],
@@ -89,7 +96,7 @@ function harness({ language = "en", stored = "[]", blocked = false, readBlocked 
     }
   });
   return {
-    state, feedback, buttons, cards, controls, count, empty, reset, events, filters, searchNode: search,
+    state, feedback, buttons, cards, controls, count, empty, reset, events, filters, searchNode: search, savedContext, emptyTitle, emptyDescription,
     visible: () => cards.filter(card => !card.hidden).map(card => card.dataset.exploreCard),
     save: id => buttons.find(button => button.dataset.saveGuide === id).events.click(),
     choose: id => {
@@ -283,3 +290,41 @@ for (const language of ["en", "ko"]) {
   ui.search("x".repeat(200)); assert.equal(ui.state.historyState[viewKey].search.length, 100);
 }
 console.log("Explorer history passed: EN/KO same-entry restore, fresh visits, reset, bounded validation, BFCache and blocked-history behavior, no URL or bookmark writes.");
+
+for (const language of ["en", "ko"]) {
+  const original = '["travel-days","plan-b","fukuoka-rain"]';
+  const ui = harness({ language, stored: original, extraIds: ["travel-days", "plan-b", "fukuoka-rain"] });
+  assert.equal(ui.savedContext.hidden, true, "Default homepage gains no visible control");
+  ui.choose("saved");
+  assert.deepEqual(ui.visible(), [], "Homepage cards are not the city guide library");
+  assert.equal(ui.savedContext.hidden, false, "Other saved guides remain discoverable");
+  assert.equal(ui.emptyTitle.textContent, ui.emptyTitle.dataset.saved);
+  assert.equal(ui.emptyDescription.textContent, "saved description");
+  assert.equal(ui.state.stored, original);
+  assert.equal(ui.state.writes, 0, "Discovery never changes bookmarks");
+  ui.events.storage({key, newValue:'["osaka","travel-days"]'});
+  assert.deepEqual(ui.visible(), ["osaka"]);
+  assert.equal(ui.savedContext.hidden, false, "Scope link remains with nonempty saved results");
+  ui.search("no match"); assert.equal(ui.empty.hidden, false);
+  assert.equal(ui.emptyTitle.textContent, ui.emptyTitle.dataset.saved);
+  ui.reset.events.click();
+  assert.equal(ui.savedContext.hidden, true);
+  assert.equal(ui.emptyTitle.textContent, ui.emptyTitle.dataset.default);
+  assert.equal(ui.emptyDescription.textContent, "default description");
+  const restored = harness({ language, historyState: {[viewKey]: {version:1,path:language==="ko"?"/ko/":"/",interest:"saved",search:""}} });
+  assert.equal(restored.savedContext.hidden, false, "Restored filter also restores its scope notice");
+  for (const options of [{readBlocked:true},{stored:"invalid"},{stored:"[]"},{stored:'["unknown"]'}]) {
+    const failed = harness({language,...options}); failed.choose("saved");
+    assert.equal(failed.savedContext.hidden, false);
+    assert.equal(failed.emptyTitle.textContent, failed.emptyTitle.dataset.saved);
+    assert.equal(failed.state.writes, 0);
+  }
+  const old = harness({language,legacy:true}); old.choose("saved"); old.reset.events.click();
+  assert.deepEqual(old.visible(),ids,"New script tolerates old cached markup");
+  const home = await readFile(join(process.argv[2], language==="ko"?"ko/index.html":"index.html"),"utf8");
+  const notice = home.match(/<div class=explore-saved-context[^>]*>[\s\S]*?<\/div>/)?.[0];
+  assert.ok(notice && /data-explore-saved-context hidden/.test(notice),"Notice hidden without JS");
+  assert.ok(notice.includes(`href=${language==="ko"?"/ko":""}/my-trips/`),"Native localized My trips link");
+  assert.ok(notice.includes(language==="ko"?"도시별 저장 가이드 보기":"View saved city guides"));
+}
+console.log("Saved-guide discovery passed: scoped EN/KO empty copy, native city-library links, default-hidden state, filter restoration, cross-tab refresh and old-markup safety.");
