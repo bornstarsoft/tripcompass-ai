@@ -1,13 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (SAVED-GUIDE-DISCOVERY; scoped saved-list clarity, validation and deployment; main/current worktree; 2026-10-23)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: SAVED-GUIDE-DISCOVERY; CODEX; 2026-10-23. Phase: release preparation. Started clean on main at 5c66256; no other writer. Owner authorized a small return-visit improvement through validation and production deployment.
+- Last AI: CODEX; WORK-ID: SAVED-GUIDE-DISCOVERY; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean on main at 5c66256; no other writer. Owner authorized a small return-visit improvement through validation and production deployment.
 - Scope: only in the existing Saved filter, clarify that homepage results cover its featured guides and link to My trips for city-specific saved guides. Localize empty results. No new storage/writers, default homepage controls, backend or affiliate changes.
 - Local QA PASS: Phase 1-5, strict Hugo and whitespace. Both My trips pages remain byte-identical; 69 content pages and 60 monitored URLs remain. Units cover scoped EN/KO empty copy, localized links, other-guide-only saves, empty/invalid/blocked data, restored filters, cross-tab refresh, old markup and no bookmark writes. Chromium EN/KO keyboard/touch entry into all three city libraries, Back/reload/reset, no-JS/blocked storage and 320/390/768/1440px passed; screenshots inspected. Existing filter return, cross-tab updates, exact preparation/bookmark/reading/note records and draft recovery passed. Six preparation/bookmark/reading undo/resume regression flows passed. No application errors or API/search calls in browser QA; initial local favicon request returned 404.
-- QA NOT_RUN: production, physical-device/Safari, D1 queries and retention measurement. NEXT_SINGLE_TASK: commit and deploy, then verify published assets and live behavior. BLOCKER: none.
+- HEAD/WIP: application commit 3fdd3e3dfae46b1e0a9d812069e87d5c6b4c81cd pushed to main; this accompanying documentation update records release evidence. No owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 39957092618 and Cloudflare Pages checks succeeded. Both homepages, My trips pages and explorer/overview/note assets match the validated build. Chromium EN/KO keyboard/touch entry into all three city libraries, Back/reload/reset, no-JS/blocked storage and 320/390/768/1440px passed; screenshots inspected. Existing filter restoration, cross-tab updates, exact preparation/bookmark/reading/note records and draft recovery passed. Six existing preparation/bookmark/reading undo/resume flows passed. No application errors or API/search calls in browser QA. Launch health passed EN/KO backend, repeated cache, HEAD 302 and all 60 monitored sitemap URLs.
+- QA NOT_RUN: physical-device/Safari, D1 queries and retention measurement. NEXT_SINGLE_TASK: gather feedback on finding previously saved city guides before adding more homepage controls; do not collect private search or note contents. BLOCKER: none.
 
 ## Previous Filter Return Release
 
