@@ -1,13 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (SAVED-SHORTLIST-REVIEW; bilingual editorial guide, validation and deployment; main/current worktree; 2026-10-23)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: SAVED-SHORTLIST-REVIEW; CODEX; 2026-10-23. Phase: release preparation. Started clean on main at ee5f5b1; no other writer. Owner authorized a small return-visit improvement through validation and production deployment.
+- Last AI: CODEX; WORK-ID: SAVED-SHORTLIST-REVIEW; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean on main at ee5f5b1; no other writer. Owner authorized a small return-visit improvement through validation and production deployment.
 - Scope: add a bilingual saved-shortlist review subsection to the existing Plan B guide and a native entry in the collapsed My trips guide menu. Keep homepage, existing reading section keys, storage writers, backend and affiliate behavior unchanged. Editorial decision prompts, not new provider facts.
 - Local QA PASS: Phase 1-5, strict Hugo and whitespace. Both homepages are byte-identical; 69 content pages/60 monitored URLs remain. Tests cover EN/KO section copy, published candidate/return links, existing reading keys and native menu links. One test expectation was corrected for Hugo's typographic apostrophe; the full Phase 2 rerun passed. Chromium EN/KO keyboard/touch entry and three-city saved-list return, exact preparation/bookmark/reading/note records, draft recovery across Back/reload/language, no-JS/blocked storage and 320/390/768/1440px passed; screenshots inspected. Six preparation/bookmark/reading undo/resume regression flows passed. No application errors or API/search calls during browser QA; the initial local favicon returned 404.
-- QA NOT_RUN: production, physical-device/Safari, D1 queries and retention measurement. NEXT_SINGLE_TASK: commit, deploy and verify the published build and live flows. BLOCKER: none.
+- HEAD/WIP: application commit 743f90a33fe55aa6cb2759172441d986196de8a5 pushed to main; this accompanying documentation update records release evidence. No owner WIP discarded.
+- Production QA PASS: same-SHA CI run 39958254550 and Cloudflare Pages checks succeeded. Both homepages, My trips pages, Plan B guides and existing explorer/overview/note scripts match the validated build. Chromium EN/KO keyboard/touch menu entry and three-city saved-list return, exact legacy records/drafts across Back/reload/language, no-JS/blocked storage and 320/390/768/1440px passed; screenshots inspected. Six existing preparation/bookmark/reading undo/resume flows passed. No application errors or API/search calls during browser QA. Launch health passed EN/KO backend, repeated cache, HEAD 302 and all 60 monitored sitemap URLs.
+- QA NOT_RUN: physical-device/Safari, D1 queries and retention measurement. NEXT_SINGLE_TASK: gather feedback on choosing between saved candidates before expanding the menu or adding more controls; do not collect private notes or search text. BLOCKER: none.
 
 ## Previous Saved Discovery Release
 
