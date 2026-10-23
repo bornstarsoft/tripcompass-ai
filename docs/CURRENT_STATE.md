@@ -1,13 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (WORKSPACE-NOTE-CONTINUITY; reuse city notes in workspaces, validation and authorized deployment; main/current worktree; 2026-10-24)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: WORKSPACE-NOTE-CONTINUITY. Phase: implementation. Started clean on main at 0b210de; no other active writer. Owner authorized a useful return-visit improvement through production deployment.
+- Last AI: CODEX; WORK-ID: WORKSPACE-NOTE-CONTINUITY; DONE on 2026-10-24. Phase: deployed and production-validated. Started clean on main at 0b210de; no other active writer. Owner authorized a useful return-visit improvement through production deployment.
 - Scope: reuse the existing city note partial/controller in the six EN/KO workspaces, share note CSS and preserve the same note/draft keys. Reconcile note state on all pageshow events so non-BFCache native form restoration cannot leave a stale textarea over a newer saved note. No homepage, storage schema, backend or affiliate changes. No new travel claims.
 - Local QA PASS: Phase 1-5, strict Hugo and whitespace; both homepages byte-identical. Unit tests include non-BFCache restored textarea reconciliation, preserved unprotected edits, six workspace headings/assets and isolated note roots. Chromium passed all six EN/KO overview/workspace draft round trips, reload/language, saved-note return, real cross-tab conflicts, confirmed discard/cancel, reset preserving notes/drafts and no preparation creation from note saves. Four widths (320/390/768/1440px), 44px controls and screenshots were checked. No-JS, blocked/corrupt storage passed. Six Back/Forward save/draft flows and mocked clipboard/manual fallback at 320px passed. Initial history QA found stale native textarea restoration on non-BFCache Back; lifecycle reconciliation and autocomplete opt-out fixed it, followed by full reruns. Existing records outside intentional note/reset edits were preserved; no application errors or API/search calls in the main browser suite.
-- Production QA: NOT_RUN. Physical-device/Safari, real OS clipboard, D1 queries and retention measurement NOT_RUN. NEXT_SINGLE_TASK: commit, deploy and validate production interactions and published files. BLOCKER: none.
+- HEAD/WIP: application commit b297018614527e931b646da90a744b2a855e2bc4 pushed to main; this documentation update records release evidence. No owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 39998617416 and Cloudflare Pages succeeded. Both homepages, both overviews, all six workspaces, privacy and note/overview CSS and note JS match the validated build. Chromium passed six EN/KO workspace/overview draft and save flows, reload/language, real cross-tab conflicts, discard/cancel and reset isolation; four viewport widths, 44px controls and inspected screenshots. No-JS, blocked/corrupt storage and exact legacy-record preservation passed. Six Back/Forward note/draft and mocked-clipboard/manual-copy cases passed. Six existing checklist/bookmark/reading undo/resume regressions passed both locally and in production. No application errors or API/search calls in the main browser suites. Launch health passed EN/KO backend, repeated cache, HEAD 302 and all 60 monitored sitemap URLs. No real clipboard was read or replaced by QA.
+- QA NOT_RUN: physical-device/Safari, real OS clipboard, D1 queries and retention measurement. NEXT_SINGLE_TASK: collect traveler feedback on resuming a saved next step from the city workspace before adding more note controls or pages; do not collect private note contents. BLOCKER: none.
 
 ## Previous City Return Release
 
