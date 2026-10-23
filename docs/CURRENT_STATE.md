@@ -1,13 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (BEFORE-LEAVING-REVIEW; scoped bilingual content, validation and deployment; main/current worktree; 2026-10-23)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: BEFORE-LEAVING-REVIEW; CODEX; 2026-10-23. Phase: implementation. Started clean on main at 89ab863; no other writer. Owner authorized a small return-visit improvement, validation, commit and production deployment.
+- Last AI: CODEX; WORK-ID: BEFORE-LEAVING-REVIEW; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean on main at 89ab863; no other writer. Owner authorized a small return-visit improvement, validation, commit and production deployment.
 - Scope: a before-leaving-home review in the existing EN/KO travel-day guide, linked from the existing collapsed My trips guide list. Preserve homepage, section reading keys, bookmarks, notes, all storage writers and backend/affiliate behavior. Editorial prompts only; no new travel facts or provider verification.
 - Local QA PASS: Phase 1-5, strict Hugo and whitespace. Both homepages are byte-identical to the starting build; 69 content pages and 60 monitored URLs remain. Chromium EN/KO keyboard/touch guide access, three-city return paths, exact preparation/bookmark/reading/note records and draft recovery across return/reload/language passed. No-JS/blocked storage and 320/390/768/1440px guide/menu layouts, 44px entry links and screenshots passed. Six existing checklist/bookmark/reading undo/resume flows passed. No application errors or API/search calls in browser QA.
-- Production QA NOT_RUN. Physical-device/Safari, D1 queries and retention measurement NOT_RUN. NEXT_SINGLE_TASK: commit, deploy through existing Git integration and validate production. BLOCKER: none.
+- HEAD/WIP: application commit 36b939e16b2a95b54b12345db3cd9d39f8f060c2 pushed to main; this accompanying documentation update records release evidence. No owner WIP discarded.
+- Production QA PASS: same-SHA CI run 39954358224 and Cloudflare Pages checks succeeded. Both homepages, overviews, travel-day guides and three existing storage scripts match the validated build. Chromium EN/KO guide entry, three-city returns, exact legacy records and drafts across return/reload/language, no-JS/blocked storage and 320/390/768/1440px passed; screenshots inspected. Six existing checklist/bookmark/reading undo/resume flows passed. No application errors or API/search calls in browser QA. Launch health passed EN/KO backend responses, repeated cache, HEAD 302 and all 60 monitored sitemap URLs.
+- QA NOT_RUN: physical-device/Safari, D1 queries and retention measurement. NEXT_SINGLE_TASK: gather feedback on finding the right pre-trip or travel-day guide before adding more controls; do not collect private note contents. BLOCKER: none.
 
 ## Previous Saved Guide Quick Access Release
 

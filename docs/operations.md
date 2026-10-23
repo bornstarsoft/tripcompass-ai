@@ -85,6 +85,8 @@ The existing EN/KO travel-day guide includes `#before-leaving-home`, with an edi
 
 Phase 2 validates both published sections, native anchors, cautious copy and existing guide paths. Browser release QA checks EN/KO navigation, city return paths, note drafts and existing records, no-JS/blocked storage and narrow viewports. Release evidence is recorded in `docs/CURRENT_STATE.md`; retention impact is not measured by successful deployment.
 
+Released 2026-10-23 in `36b939e16b2a95b54b12345db3cd9d39f8f060c2`: Phase 1-5, strict Hugo and whitespace passed; same-SHA CI run `39954358224` and Cloudflare Pages checks succeeded. Published homepages, overviews, travel-day guides and checked existing scripts match the validated build. Local and production Chromium passed EN/KO guide entry, all three city returns, exact legacy records and draft recovery across return/reload/language, no-JS/blocked storage and 320/390/768/1440px with inspected screenshots. Local expanded-menu checks confirmed 44px links at all four widths. Six existing checklist/bookmark/reading undo/resume flows also passed locally and live. Both homepages remain unchanged. Launch health passed EN/KO backend, repeated cache, HEAD 302 and all 60 monitored sitemap URLs. Physical-device/Safari, D1 queries and retention measurement were not run.
+
 ## Continuous Integration
 
 The configured GitHub Actions workflow is `.github/workflows/ci.yml`, for pushes to `main`, pull requests, and manual dispatches. The workflow runs Phase 1-5 checks, the strict Hugo build, and `git diff --check`.
