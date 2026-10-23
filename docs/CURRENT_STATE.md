@@ -1,13 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (GUIDE-FILTER-RETURN; scoped filter restoration, validation and deployment; main/current worktree; 2026-10-23)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: GUIDE-FILTER-RETURN; CODEX; 2026-10-23. Phase: implementation. Started clean on main at e4f366a; no other writer. Owner authorized a small return-visit improvement through validation and deployment.
+- Last AI: CODEX; WORK-ID: GUIDE-FILTER-RETURN; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean on main at e4f366a; no other writer. Owner authorized a small return-visit improvement through validation and deployment.
 - Scope: preserve existing explorer interest/search in the same browser history entry for Back and reload, without new controls, query URLs, storage-record migrations or backend changes. Fresh visits/language pages start fresh. Existing bookmark writers remain unchanged.
 - Local QA PASS: Phase 1-5, strict Hugo and whitespace. Homepage and My trips HTML are byte-identical; 69 content pages/60 monitored URLs remain. Units cover bounded/invalid snapshots, no mount writes, reset, history field preservation, blocked history and bookmark isolation. Chromium EN/KO keyboard/touch Back/reload/reset/fresh visits/language isolation, actual cross-tab updates, exact legacy records and draft recovery passed at 320/390/768/1440px with inspected screenshots. No-JS/denied-history cases and six existing checklist/bookmark/reading undo/resume flows passed. A separate browser with BFCache enabled passed four real cache returns (normal/failed history write, EN/KO) plus native same-page Back/Forward. Initial automation waited for an inapplicable full load event on BFCache; corrected history-event waits passed without an application change. No application errors or API/search calls; local favicon request returned 404.
-- Production QA NOT_RUN. Physical-device/Safari, D1 queries and retention measurement NOT_RUN. NEXT_SINGLE_TASK: commit/deploy and verify published files and live flows. BLOCKER: none.
+- HEAD/WIP: application commit 05219446ef6b254f0ca2a1fd17c14b4f5208f9d4 pushed to main; this accompanying documentation update records release evidence. No owner WIP discarded.
+- Production QA PASS: same-SHA CI run 39955729024 and Cloudflare Pages checks succeeded. Both homepages, overviews, privacy and explorer/overview/note scripts match the validated build. Chromium EN/KO Back/reload/reset/fresh-language behavior, cross-tab updates, exact legacy records/draft recovery, no-JS/denied history and 320/390/768/1440px with inspected screenshots passed. Four actual BFCache returns (normal/failed history write, both languages) and native same-page Back/Forward passed. Six existing preparation/bookmark/reading undo/resume flows passed. Browser QA found no application errors or API/search calls. Launch health passed EN/KO backend, repeated cache, HEAD 302 and all 60 monitored sitemap URLs.
+- QA NOT_RUN: physical-device/Safari, D1 queries and retention measurement. NEXT_SINGLE_TASK: gather feedback on returning from guides to filtered results before extending persistence to more surfaces; do not collect private search or note contents. BLOCKER: none.
 
 ## Previous Before Leaving Review Release
 
