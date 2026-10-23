@@ -3,6 +3,14 @@
 <section class="trip-note" data-trip-note="{{ $city }}" hidden aria-labelledby="note-title-{{ $city }}">
   <h3 id="note-title-{{ $city }}">{{ cond $ko "다음에 확인할 메모" "For your next visit" }}</h3>
   <p class="trip-note-preview" data-note-preview hidden></p>
+  <div class="trip-note-actions" data-note-copy-tools hidden>
+    <button type="button" class="button" data-note-copy title="{{ cond $ko "저장된 메모 복사" "Copy saved note" }}">{{ partial "icons/copy.html" }}<span>{{ cond $ko "저장된 메모 복사" "Copy saved note" }}</span></button>
+  </div>
+  <div data-note-copy-manual hidden>
+    <label for="note-copy-{{ $city }}">{{ cond $ko "복사할 저장 메모" "Saved note to copy" }}</label>
+    <textarea id="note-copy-{{ $city }}" data-note-copy-text readonly rows="3" spellcheck="false" autocomplete="off"></textarea>
+  </div>
+  <p class="fine-print" data-note-copy-status role="status" aria-live="polite" aria-atomic="true"></p>
   <details data-note-details>
     <summary data-note-summary>{{ cond $ko "다음에 확인할 메모 남기기" "Add a next-visit note" }}</summary>
     <form data-note-form>

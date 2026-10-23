@@ -34,6 +34,10 @@ const copy = {
     loaded: "Saved note loaded.", tooLong: "Keep the note within 240 characters.",
     discardConfirm: "Discard your current draft and load the saved note? Your other trip records will not change.",
     kept: "Your draft is unchanged. You can keep editing.",
+    copied: "Saved note copied. Check its contents before sharing.",
+    manualCopy: "Automatic copying is unavailable. Copy the selected saved note.",
+    copyChanged: "The saved note changed. Load the saved note and try copying again.",
+    copyUnavailable: "The saved note could not be checked. Nothing was changed; try again.",
     count: n => `${n} / 240`
   },
   ko: {
@@ -48,6 +52,10 @@ const copy = {
     loaded: "저장된 메모를 불러왔어요.", tooLong: "메모는 240자 이내로 작성해 주세요.",
     discardConfirm: "작성 중인 내용을 버리고 저장된 메모를 불러올까요? 다른 여행 기록은 바뀌지 않습니다.",
     kept: "작성 중인 내용을 그대로 유지했어요. 계속 수정할 수 있습니다.",
+    copied: "저장된 메모를 복사했어요. 전달하기 전에 내용을 확인해 주세요.",
+    manualCopy: "자동 복사를 사용할 수 없어요. 선택된 저장 메모를 복사해 주세요.",
+    copyChanged: "저장된 메모가 바뀌었어요. 저장된 메모를 불러온 뒤 다시 복사해 주세요.",
+    copyUnavailable: "저장된 메모를 확인하지 못했어요. 기존 내용은 그대로이니 다시 시도해 주세요.",
     count: n => `${n} / 240`
   }
 };
@@ -69,12 +77,22 @@ export function mountTripNotes(doc, win) {
     const find = name => root.querySelector(`[data-note-${name}]`);
     const input = find("input"), form = find("form"), save = find("save"), status = find("status");
     const preview = find("preview"), details = find("details"), summary = find("summary");
+    const copyButton = find("copy"), copyTools = find("copy-tools"), copyStatus = find("copy-status");
+    const copyManual = find("copy-manual"), copyText = find("copy-text");
+    const canCopy = copyButton && copyTools && copyStatus && copyManual && copyText;
+    let copyBusy = false, copyRevision = 0;
     let baseline, original = "", dirty = false, blocked = false, conflict = false, unprotected = false;
     dirtyChecks.push(() => unprotected);
     function controls() {
       dirty = input.value !== original;
       save.disabled = blocked || conflict || !dirty || input.value.length > NOTE_LIMIT;
       find("count").textContent = text.count(input.value.length);
+      if (canCopy) {
+        copyRevision++;
+        copyTools.hidden = !original || blocked;
+        copyButton.disabled = copyBusy || dirty || conflict || blocked || !original;
+        copyManual.hidden = true; copyText.value = ""; copyStatus.textContent = "";
+      }
       updateGuard();
     }
     function keepDraft() {
@@ -174,6 +192,38 @@ export function mountTripNotes(doc, win) {
       }
       load(true);
       if (!blocked) input.focus();
+    });
+    if (canCopy) copyButton.addEventListener("click", async () => {
+      if (copyButton.disabled || !original) return;
+      const revision = copyRevision, saved = baseline, note = original;
+      // Never export a draft or silently substitute an unseen newer saved value.
+      function current() {
+        if (revision !== copyRevision) return false;
+        try {
+          const raw = win.localStorage.getItem(NOTE_KEYS[city]);
+          parseNote(raw);
+          if (raw === saved) return true;
+          copyStatus.textContent = text.copyChanged;
+        } catch { copyStatus.textContent = text.copyUnavailable; }
+        copyManual.hidden = true; copyText.value = "";
+        return false;
+      }
+      if (!current()) return;
+      copyBusy = true; copyButton.disabled = true;
+      copyManual.hidden = true; copyText.value = ""; copyStatus.textContent = "";
+      try {
+        await win.navigator.clipboard.writeText(note);
+        if (current()) copyStatus.textContent = text.copied;
+      } catch {
+        if (current()) {
+          copyText.value = note; copyManual.hidden = false;
+          copyStatus.textContent = text.manualCopy;
+          copyText.focus(); copyText.select();
+        }
+      } finally {
+        copyBusy = false;
+        copyButton.disabled = dirty || conflict || blocked || !original;
+      }
     });
     load(); root.hidden = false;
     win.addEventListener("storage", event => { if (event.key === null || event.key === NOTE_KEYS[city]) refresh(); });

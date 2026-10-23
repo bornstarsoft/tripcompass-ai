@@ -42,6 +42,7 @@
 .trip-note button:disabled { opacity: .6; cursor: not-allowed; }
 .trip-note summary:focus-visible, .trip-note textarea:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
 .trip-note [data-note-status]:empty { margin: 0; }
+.trip-note [data-note-copy-status]:empty { margin: 0; }
 .my-trip-reading { border-block: 1px solid var(--line); padding: .85rem 0; margin: 0 0 1rem; }
 .my-trip-reading h3 { margin: 0; font-size: 1.05rem; }
 .my-trip-reading p { margin: .5rem 0; line-height: 1.5; }

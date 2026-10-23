@@ -1,8 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (SAVED-NOTE-COPY; scoped note copying, validation and deployment; main/current worktree; 2026-10-23)
 
 ## Current Task
+
+- WORK-ID: SAVED-NOTE-COPY; CODEX; 2026-10-23. Phase: release preparation. Started clean on main at f02aef6; no other writer. Owner authorized a small return-visit improvement, validation and production deployment.
+- Scope: user-initiated copying of a clean saved city note, with a manual fallback. No draft copying, new storage, automatic sharing, homepage, backend or affiliate changes. Preserve existing records/writers. Privacy copy explains device clipboard lifetime and user-controlled sharing.
+- Local QA PASS: Phase 1-5, strict Hugo and whitespace; both homepages are byte-identical, with 69 content pages/60 monitored URLs. Units cover EN/KO three-city copy, absent/denied clipboard, empty/corrupt/unreadable data, stale saved values, duplicate/late results, draft isolation, no copy-time persistence writes and old markup. Chromium with a mocked clipboard passed six city/language copy/manual-selection flows, literal text, draft protection across reload/language, late failure and actual cross-tab updates, exact existing records, no-JS/blocked/corrupt storage and 320/390/768/1440px with inspected screenshots. The first browser run omitted opening a collapsed editor in one test; the corrected full rerun passed without an app change. Six existing preparation/bookmark/reading undo/resume flows passed. No application errors or API/search calls during browser QA; local initial favicon returned 404.
+- QA NOT_RUN: production, native OS clipboard/physical-device/Safari, D1 queries and retention measurement. NEXT_SINGLE_TASK: commit, deploy and validate published assets and live flows. BLOCKER: none.
+
+## Previous Shortlist Release
 
 - Last AI: CODEX; WORK-ID: SAVED-SHORTLIST-REVIEW; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean on main at ee5f5b1; no other writer. Owner authorized a small return-visit improvement through validation and production deployment.
 - Scope: add a bilingual saved-shortlist review subsection to the existing Plan B guide and a native entry in the collapsed My trips guide menu. Keep homepage, existing reading section keys, storage writers, backend and affiliate behavior unchanged. Editorial decision prompts, not new provider facts.

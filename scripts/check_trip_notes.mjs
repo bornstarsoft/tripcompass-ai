@@ -11,15 +11,20 @@ assert.equal(parseNote(raw("가".repeat(NOTE_LIMIT))).length, NOTE_LIMIT);
 for (const invalid of ["{", "null", "[]", raw("x".repeat(241)), JSON.stringify({ version: 2, text: "new" }), JSON.stringify({ version: 1, text: 10 }), " ".repeat(4097)]) assert.throws(() => parseNote(invalid));
 
 function harness(language, records = new Map(), fail = {}, drafts = new Map()) {
-  const events = {}, writes = [], prompts = [], doc = { documentElement: { lang: language }, activeElement: null };
+  const events = {}, writes = [], prompts = [], clipboard = [], doc = { documentElement: { lang: language }, activeElement: null };
   const node = () => ({ value: "", textContent: "", hidden: false, disabled: false, open: false,
-    addEventListener(name, fn) { this[name] = fn; }, focus() { doc.activeElement = this; } });
+    addEventListener(name, fn) { this[name] = fn; }, focus() { doc.activeElement = this; }, select() { this.selected = true; } });
   const roots = cities.map(city => {
-    const fields = Object.fromEntries(["input", "form", "save", "status", "preview", "details", "summary", "count", "reload"].map(name => [name, node()]));
+    const fields = Object.fromEntries(["input", "form", "save", "status", "preview", "details", "summary", "count", "reload", ...(fail.legacy ? [] : ["copy", "copy-tools", "copy-status", "copy-manual", "copy-text"])].map(name => [name, node()]));
     return { dataset: { tripNote: city }, hidden: true, fields, querySelector: selector => fields[selector.slice(11, -1)] };
   });
   doc.querySelectorAll = () => roots;
   const win = {
+    navigator: fail.noClipboard ? {} : { clipboard: { writeText(value) {
+      clipboard.push(value);
+      if (fail.clipboard) return Promise.reject(Error("PRIVATE"));
+      return fail.pending || Promise.resolve();
+    } } },
     confirm(message) {
       prompts.push(message);
       if (fail.confirm) throw Error("PRIVATE");
@@ -39,7 +44,7 @@ function harness(language, records = new Map(), fail = {}, drafts = new Map()) {
     removeEventListener(name,fn) { events[name]?.delete(fn); }
   };
   mountTripNotes(doc,win);
-  return { records, drafts, roots, doc, writes, prompts, fail, fields: city => roots[cities.indexOf(city)].fields,
+  return { records, drafts, roots, doc, writes, prompts, clipboard, fail, fields: city => roots[cities.indexOf(city)].fields,
     dirty: () => events.beforeunload?.size || 0,
     emit: (name, event = {}) => events[name]?.forEach(fn => fn(event)),
     type(city,text) { const f = this.fields(city); f.input.value=text; f.input.input(); },
@@ -210,7 +215,72 @@ if(process.argv[2]) for(const [prefix,title] of [["","For your next visit"],["ko
   const html=await readFile(resolve(process.argv[2],prefix+"my-trips/index.html"),"utf8");
   assert.ok(html.includes(title)); assert.ok(html.includes("js/trip-note.js"));
   assert.equal((html.match(/data-trip-note=/g)||[]).length,3);
+  assert.equal((html.match(/data-note-copy-tools hidden/g)||[]).length,3);
+  assert.equal((html.match(/data-note-copy-text readonly/g)||[]).length,3);
+  assert.ok(html.includes(prefix ? "저장된 메모 복사" : "Copy saved note"));
   const home=await readFile(resolve(process.argv[2],prefix+"index.html"),"utf8");
   assert.ok(!home.includes("data-trip-note")); assert.ok(!home.includes("js/trip-note.js"));
 }
 console.log("Trip notes passed: EN/KO, three-city isolation, explicit saves, tab drafts across reload/language/BFCache, confirmed discard/cancel/unavailable dialogs, blank drafts, length limits, safe text, conflicts/storage failures and unchanged legacy records/homepage.");
+
+for (const language of ["en", "ko"]) for (const city of cities) {
+  const note = `${city}: compare two ideas\n한영 <b>literal</b>`;
+  const h = harness(language, new Map([[NOTE_KEYS[city], raw(note)], ["tripcompass.saved-guides.v1", '["plan-b"]']]));
+  const f = h.fields(city), before = [...h.records];
+  assert.equal(h.clipboard.length, 0, "No automatic export");
+  assert.equal(f["copy-tools"].hidden, false);
+  await f.copy.click(); assert.deepEqual(h.clipboard, [note]);
+  assert.match(f["copy-status"].textContent, language === "ko" ? /복사했어요/ : /copied/);
+  assert.equal(f["copy-manual"].hidden, true);
+  h.type(city, "not saved"); await f.copy.click();
+  assert.equal(h.clipboard.length, 1, "Dirty drafts must never be copied");
+  assert.equal(f.copy.disabled, true); assert.equal(f["copy-status"].textContent, "");
+  f.reload.click(); h.fail.clipboard = true; await f.copy.click();
+  assert.equal(f["copy-text"].value, note); assert.equal(f["copy-text"].selected, true);
+  assert.equal(h.doc.activeElement, f["copy-text"]); assert.equal(f["copy-manual"].hidden, false);
+  assert.equal(f.input.value, note); assert.equal(h.writes.length, 0);
+  assert.deepEqual([...h.records], before); assert.equal(h.drafts.size, 0);
+  h.type(city, "draft after failed copy");
+  assert.equal(f["copy-manual"].hidden, true); assert.equal(f["copy-text"].value, "");
+  f.reload.click(); h.fail.read = true; await f.copy.click();
+  assert.equal(h.clipboard.length, 2, "Unreadable saved value blocks export");
+  assert.ok(!f["copy-status"].textContent.includes("PRIVATE"));
+  h.fail.read = false; h.records.set(NOTE_KEYS[city], raw("newer unseen")); await f.copy.click();
+  assert.equal(h.clipboard.length, 2, "Recheck before clipboard call");
+  f.reload.click(); h.fail.clipboard = false; await f.copy.click();
+  assert.equal(h.clipboard.at(-1), "newer unseen");
+  h.records.delete(NOTE_KEYS[city]); h.emit("storage", {key:NOTE_KEYS[city]});
+  assert.equal(f["copy-tools"].hidden, true); assert.equal(f["copy-text"].value, "");
+  for (const change of ["draft", "storage", "bfcache"]) {
+    let reject;
+    const pending = new Promise((resolve, fail) => { reject = fail; });
+    const d = harness(language, new Map([[NOTE_KEYS[city], raw(note)]]), {pending}), ui = d.fields(city);
+    const action = ui.copy.click(); await ui.copy.click();
+    assert.equal(d.clipboard.length, 1, "Duplicate requests are blocked");
+    if(change === "draft") d.type(city, "keep editing");
+    else { d.records.set(NOTE_KEYS[city], raw("updated")); d.emit(change === "storage" ? "storage" : "pageshow", {key:NOTE_KEYS[city],persisted:true}); }
+    const focus = d.doc.activeElement;
+    reject(Error("PRIVATE")); await action;
+    assert.equal(ui["copy-manual"].hidden, true, "Late failure must not show stale text");
+    assert.equal(ui["copy-status"].textContent, ""); assert.equal(d.doc.activeElement, focus);
+    assert.equal(ui.copy.disabled, change === "draft"); assert.equal(d.writes.length, 0);
+  }
+  const legacy = harness(language, new Map(), {legacy:true}); legacy.type(city,"old markup"); legacy.save(city);
+  assert.equal(legacy.records.get(NOTE_KEYS[city]), raw("old markup"));
+  const absent = harness(language, new Map([[NOTE_KEYS[city],raw(note)]]), {noClipboard:true});
+  await absent.fields(city).copy.click();
+  assert.equal(absent.fields(city)["copy-text"].value,note);
+  assert.equal(absent.clipboard.length,0);
+  for(const invalid of [null,"{",raw(""),raw("x".repeat(241))]){
+    const bad=harness(language,new Map(invalid===null?[]:[[NOTE_KEYS[city],invalid]]));
+    assert.equal(bad.fields(city)["copy-tools"].hidden,true);
+    await bad.fields(city).copy.click();assert.equal(bad.clipboard.length,0);
+  }
+  let done;
+  const race=harness(language,new Map([[NOTE_KEYS[city],raw(note)]]),{pending:new Promise(resolve=>{done=resolve})});
+  const action=race.fields(city).copy.click();
+  race.records.set(NOTE_KEYS[city],raw("new value before event"));done();await action;
+  assert.match(race.fields(city)["copy-status"].textContent,language==="ko"?/바뀌었어요/:/changed/);
+  assert.equal(race.fields(city)["copy-manual"].hidden,true);
+}
+console.log("Saved note copying passed: explicit clean saved text only, EN/KO three-city isolation, manual fallback, no record writes, race guards and legacy markup.");
