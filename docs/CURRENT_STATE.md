@@ -1,13 +1,15 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (SAVED-GUIDE-QUICK-ACCESS; scoped implementation, validation and deployment; main/current worktree; 2026-10-23)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: SAVED-GUIDE-QUICK-ACCESS; CODEX; 2026-10-23. Phase: implementation. Started clean on main at b27a5dce45e4da6711b2a319ec03faac1780290b; no other writer. Owner authorized a small return-visit improvement through production deployment.
+- Last AI: CODEX; WORK-ID: SAVED-GUIDE-QUICK-ACCESS; DONE on 2026-10-23. Phase: deployed and production-validated. Started clean on main at b27a5dce45e4da6711b2a319ec03faac1780290b; no other writer. Owner authorized a small return-visit improvement through production deployment.
 - Scope: one native saved-guides jump link below each city's status, with counts from the existing validated list. Keep the homepage, storage records/writers, backend and affiliate behavior unchanged. No new travel claims or pages.
 - Local QA PASS: Phase 1-5 and whitespace; unit coverage for deduplicated/allowlisted counts, zero vs unreadable state, removal/undo, cross-tab/BFCache refresh and old cached markup. Chromium EN/KO three-city keyboard/touch links, target focus/visibility below the sticky header, reading/Back, shared removal/undo and actual cross-tab changes passed. Existing records and note drafts survived return/reload/language. No-JS/blocked/invalid/empty cases and 320/390/768/1440px with 44px targets passed; screenshots inspected. Six existing checklist/bookmark/reading undo/resume flows passed. No application errors or API/search requests during browser QA.
-- Production QA NOT_RUN. Physical-device/Safari, D1 queries and retention measurement NOT_RUN. NEXT_SINGLE_TASK: final strict build, commit/deploy and production verification. BLOCKER: none.
+- Final strict Hugo and whitespace checks PASS. Both homepages are byte-identical to the starting build; 69 content pages and 60 monitored URLs remain. HEAD/WIP: implementation commit ab9d556b8babae5af5b2c6989d10157f0a035980 pushed to main; this accompanying documentation update records release evidence. No owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 39953145921 and Cloudflare Pages checks succeeded. Homepages, My trips pages, overview JS/CSS and note script match the validated build. Chromium EN/KO three-city keyboard/touch target focus/visibility, reading/Back, count/undo/cross-tab updates, exact existing records and note drafts across return/reload/language passed. No-JS/blocked/invalid/empty states, 320/390/768/1440px, 44px targets and screenshots were checked. Six existing checklist/bookmark/reading undo/resume flows passed. No application errors or API/search calls during browser QA. Launch health passed EN/KO backend, repeated cache, HEAD 302 and 60 monitored sitemap URLs.
+- QA NOT_RUN: physical-device/Safari, D1 queries and retention measurement. NEXT_SINGLE_TASK: gather traveler feedback on saved-guide discoverability before expanding controls; do not collect private note contents. BLOCKER: none.
 
 ## Previous Draft Guard Release
 

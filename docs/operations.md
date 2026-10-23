@@ -77,6 +77,8 @@ My trips has one native jump link below each city's status, pointing to its save
 
 `scripts/check_my_trips.mjs` verifies EN/KO counts, native anchors, error states, duplicate/unknown IDs, removal/undo, cross-tab refresh, old markup and existing record isolation. Browser QA covers native keyboard/touch links, target visibility below the sticky header, guide reading/Back, exact records and notes, narrow layouts and no-JS access. Release evidence is in `docs/CURRENT_STATE.md`; usefulness is a hypothesis, not measured retention.
 
+Released 2026-10-23 in `ab9d556b8babae5af5b2c6989d10157f0a035980`: Phase 1-5, strict Hugo and whitespace passed; same-SHA GitHub CI run `39953145921` and Cloudflare Pages checks succeeded. Published homepages, overviews and checked scripts/styles match the validated build. Local and production Chromium passed both languages, three-city keyboard/touch jumps with target focus, guide reading/Back, shared-guide counts/removal/undo and real cross-tab updates, unchanged records and note drafts, no-JS/blocked/invalid/empty states, 320/390/768/1440px with inspected screenshots and 44px links. Six existing checklist/bookmark/reading undo/resume flows also passed. Main pages remain unchanged. Launch health passed EN/KO backend results, repeated cache, HEAD 302 and all 60 monitored URLs. Physical-device/Safari, D1 queries and retention measurement were not run.
+
 ## Continuous Integration
 
 The configured GitHub Actions workflow is `.github/workflows/ci.yml`, for pushes to `main`, pull requests, and manual dispatches. The workflow runs Phase 1-5 checks, the strict Hugo build, and `git diff --check`.
