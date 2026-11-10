@@ -1,12 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (BOOKING-REVIEW-GUIDE; bilingual editorial update and production deployment; main/current worktree; 2026-11-10)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: BOOKING-REVIEW-GUIDE. Phase: implementation. Started clean on main at 058ceea; owner authorized a useful content and return-visit improvement through production deployment. Extend the existing travel-day guide and My trips disclosure. Keep the homepages, browser records, APIs and affiliate routes unchanged.
+- Last AI: CODEX; WORK-ID: BOOKING-REVIEW-GUIDE; DONE on 2026-11-10. Phase: deployed and production-validated. Started clean on main at 058ceea; owner authorized content and return-visit improvements through production deployment. Added a booking-deadline review to the EN/KO travel-day guide and a native shortcut in My trips. Homepages, browser records, APIs and affiliate routes unchanged.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Chromium passed six EN/KO navigation cases at 320/390/1440px, including no-JS links, visible fragment heading, Back restoring the disclosure and saved-note/bookmark preservation. Screenshots inspected; no app errors or API/booking calls in the browser suite.
-- Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and verify live guide links and published HTML. BLOCKER: none.
+- HEAD/WIP: application commit 2ea78b430a36f464c5451d8659e0ba1d0e8ca026 pushed to main; this documentation update records release evidence. No owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 42811777783 and Cloudflare Pages succeeded. EN/KO homepages, My trips, updated guide and sitemap matched the tested build. Chromium passed all six EN/KO viewport cases, including no-JS navigation, visible section anchor, Back and exact fixture note/bookmark preservation. No app errors or API/booking calls in the browser suite.
+- QA NOT_RUN: physical-device/Safari, live paid AI calls, D1 queries and retention measurement. NEXT_SINGLE_TASK: gather feedback on whether travelers can find the deadline review when returning to plan, without collecting private booking details or notes. BLOCKER: none.
 
 ## Previous Date Recheck Release
 
