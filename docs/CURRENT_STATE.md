@@ -1,12 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (TRIP-DATE-RECHECK; bilingual trip review and production deployment; main/current worktree; 2026-11-10)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: TRIP-DATE-RECHECK. Phase: implementation. Started clean on main at aa8fbcd; owner authorized a return-visit improvement and deployment. Add a collapsed date-change review and explicit checklist-only clear. Keep homepages, other records, APIs and affiliate paths unchanged.
+- Last AI: CODEX; WORK-ID: TRIP-DATE-RECHECK; DONE on 2026-11-10. Phase: deployed and production-validated. Started clean on main at aa8fbcd; owner authorized a return-visit improvement and deployment. Added a collapsed date-change review and explicit checklist-only clear. Homepages, other records, APIs and affiliate paths unchanged.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit cases cover canceled confirmation, failed writes, changes during confirmation, no-op repeat and preservation of extra fields. Chromium passed six EN/KO workspace cancel/clear flows, preserved notes/bookmarks/other city records, first-task focus, reload/language switching and 320/390/768/1440px layouts. No API or booking calls in browser QA.
-- Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and check live workspace interactions and published assets. BLOCKER: none.
+- HEAD/WIP: application commit b1b4a954d1d420bd3c916b6e61bcd8095e0f4006 pushed to main; this documentation update records release evidence. No owner WIP discarded.
+- Production QA PASS: same-SHA CI run 42810659368 and Cloudflare Pages succeeded. Both homepages, all six workspaces and changed JS/CSS matched the tested build. Chromium passed six EN/KO confirmation/cancel flows, preservation of course/fallback, notes and other records, reload/language, focus and four viewport widths. Mobile and desktop screenshots inspected. No application errors or API/booking calls in the browser suite.
+- QA NOT_RUN: physical-device/Safari, live paid AI calls, D1 queries and retention measurement. NEXT_SINGLE_TASK: gather feedback on rechecking a returning trip without collecting private notes or inferring retention from QA. BLOCKER: none.
 
 ## Previous Workspace Note Release
 
