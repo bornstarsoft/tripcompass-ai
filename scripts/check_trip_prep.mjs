@@ -28,7 +28,7 @@ function harness({ language = "en", destination = "fukuoka", stored = null, read
   const storage = storageMap || new Map([[trip.storageKey, stored], ["tripcompass.saved-guides.v1", '["tokyo","stay"]'], ["tripcompass.decision.v1", "keep"]]);
   const io = { readFail, writeFail, removeFail, writes: 0, removes: 0 };
   const fields = {};
-  for (const name of ["status", "start", "create", "workspace", "confirm", "reset", "summary", "progress", "next", "cancel", "delete"]) fields[name] = node();
+  for (const name of ["status", "start", "create", "workspace", "confirm", "reset", "summary", "progress", "next", "cancel", "delete", "recheck", "recheck-status"]) fields[name] = node();
   const courses = trip.courses.map(value => Object.assign(node(), { value }));
   const alternatives = trip.alternatives.map(value => Object.assign(node(), { value }));
   const checks = TASKS.map(id => Object.assign(node({ prepCheck: id }), { parentElement: { textContent: `${language} ${id}` } }));
@@ -44,6 +44,7 @@ function harness({ language = "en", destination = "fukuoka", stored = null, read
   const doc = { documentElement: { lang: language }, activeElement: null,
     querySelector: () => home || absent ? null : page, querySelectorAll: () => absent ? [] : entries };
   const win = {
+    confirm: () => io.confirm?.() ?? false,
     localStorage: {
       getItem(key) { if (io.readFail) throw new Error("PRIVATE DIAGNOSTIC"); return storage.get(key) ?? null; },
       setItem(key, value) { if (io.writeFail) throw new Error("PRIVATE DIAGNOSTIC"); storage.set(key, value); io.writes++; },
@@ -92,6 +93,38 @@ for (const language of ["en", "ko"]) {
   assert.equal(reloaded.alternatives.find(input => input.checked).value, trip.alternatives[2]);
   assert.equal(reloaded.fields.progress.value, 4);
   assert.equal(reloaded.io.writes, 0);
+  const review = harness({ destination, language, stored: JSON.stringify({ ...ui.state(), extra: "keep", checks: { ...ui.state().checks, custom: true } }) });
+  const beforeReview = new Map(review.storage);
+  review.click("recheck");
+  assert.deepEqual(review.storage, beforeReview, "Cancel must not write");
+  review.io.confirm = () => true;
+  review.io.writeFail = true;
+  review.click("recheck");
+  assert.deepEqual(review.storage, beforeReview);
+  assert.equal(review.fields.progress.value, 4);
+  assert.match(review.fields["recheck-status"].textContent, /could not|못했습니다/);
+  review.io.writeFail = false;
+  review.io.confirm = () => {
+    const newer = JSON.parse(review.storage.get(trip.storageKey));
+    newer.checks.hotel = true;
+    review.storage.set(trip.storageKey, JSON.stringify(newer));
+    return true;
+  };
+  review.click("recheck");
+  assert.equal(review.io.writes, 0, "A changed record must not be cleared");
+  assert.equal(review.fields.progress.value, 5);
+  review.io.confirm = () => true;
+  review.click("recheck");
+  assert.deepEqual(JSON.parse(review.storage.get(trip.storageKey)), {
+    course: trip.courses[1], alternative: trip.alternatives[2], version: 1,
+    extra: "keep", checks: { ...initial().checks, custom: true }
+  });
+  assert.equal(review.fields.progress.value, 0);
+  assert.equal(review.fields.recheck.disabled, true);
+  assert.ok(review.checks[0].focused);
+  review.click("recheck");
+  assert.equal(review.io.writes, 1);
+  for (const [key, value] of beforeReview) if (key !== trip.storageKey) assert.equal(review.storage.get(key), value);
   const home = harness({ language, destination, home: true, stored: ui.storage.get(trip.storageKey) });
   assert.match(home.entry.textContent, /Continue|이어보기/);
   ui.click("reset");
@@ -232,6 +265,8 @@ for (const prefix of ["", "ko/"]) {
   assert.equal((html.match(/data-save-guide=/g) || []).length, { fukuoka: 7, osaka: 6, tokyo: 5 }[destination]);
   assert.match(html, /data-save-guide=plan-b/);
   assert.match(html, /data-prep-workspace hidden/);
+  assert.match(html, /data-prep-recheck disabled/);
+  assert.ok(html.includes(`${prefix ? "/ko" : ""}/itinerary/japan-arrival-departure-day-plan/#before-leaving-home`));
   assert.match(html, /<noscript>/);
   assert.match(html, /fukuoka-rain/);
   assert.match(html, /travel-days/);
@@ -251,6 +286,7 @@ for (const prefix of ["", "ko/"]) {
  }
   const home = await readFile(resolve(root, prefix, "index.html"), "utf8");
   assert.match(home, /data-trip-entry/);
+  assert.doesNotMatch(home, /data-prep-recheck/);
   assert.match(home, /data-guide-ids=[^ >]*travel-days/);
   assert.match(home, /data-guide-ids=[^ >]*plan-b/);
   assert.match(home, /data-trip-entry=osaka/);

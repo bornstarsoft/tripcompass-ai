@@ -65,6 +65,17 @@
         <li id="prep-task-{{ .id }}"><label><input type="checkbox" data-prep-check="{{ .id }}"><span>{{ index . $lang }}</span></label><a href="{{ printf "%s%s" $prefix .path | relURL }}">{{ cond $ko "관련 가이드" "Related guide" }} <span class="visually-hidden">{{ index . $lang }}</span></a></li>
         {{ end }}
       </ul>
+      <details class="prep-review">
+        <summary>{{ cond $ko "여행 날짜가 바뀌었다면" "If your travel dates change" }}</summary>
+        <ul>
+          <li>{{ cond $ko "가는 편과 오는 편의 날짜·터미널을 실제 예약 내역과 대조하세요." "Match both flight dates and terminals against your actual booking details." }}</li>
+          <li>{{ cond $ko "새 날짜의 숙소, 취소 조건과 짐 보관 가능 여부를 다시 확인하세요." "Recheck accommodation, cancellation terms and luggage storage for the new dates." }}</li>
+          <li>{{ cond $ko "새 일정의 교통·날씨를 확인한 뒤 기존 코스와 대안을 다시 고르세요." "Review transport and weather for the new dates before settling on your course and fallback." }}</li>
+        </ul>
+        <a href="{{ printf "%s/itinerary/japan-arrival-departure-day-plan/#before-leaving-home" $prefix | relURL }}">{{ cond $ko "출발 전 점검 가이드" "Before-departure review guide" }}</a>
+        <div><button type="button" data-prep-recheck disabled>{{ cond $ko "준비 체크만 지우기" "Clear checklist marks only" }}</button></div>
+        <p class="fine-print" data-prep-recheck-status role="status" aria-live="polite"></p>
+      </details>
     </section>
     <div class="prep-reset">
       <button type="button" data-prep-reset>{{ cond $ko "준비함 초기화" "Reset preparation" }}</button>

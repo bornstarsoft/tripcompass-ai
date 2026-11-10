@@ -22,6 +22,8 @@ function mountDestination(doc, win, destination, root, entries) {
   const workspace = find("[data-prep-workspace]");
   const confirm = find("[data-prep-confirm]");
   const reset = find("[data-prep-reset]");
+  const recheck = find("[data-prep-recheck]");
+  const recheckStatus = find("[data-prep-recheck-status]");
   const courses = [...(root?.querySelectorAll('[name="prep-course"]') || [])];
   const alternatives = [...(root?.querySelectorAll('[name="prep-alternative"]') || [])];
   const checks = [...(root?.querySelectorAll("[data-prep-check]") || [])];
@@ -47,11 +49,13 @@ function mountDestination(doc, win, destination, root, entries) {
     start.hidden = !!state;
     workspace.hidden = !state;
     confirm.hidden = true;
+    if (recheckStatus) recheckStatus.textContent = "";
     if (!state) return;
     courses.forEach(input => { input.checked = input.value === state.course; });
     alternatives.forEach(input => { input.checked = input.value === state.alternative; });
     checks.forEach(input => { input.checked = state.checks[input.dataset.prepCheck]; });
     const { done, next } = progress(state);
+    if (recheck) recheck.disabled = memoryOnly || !done;
     find("[data-prep-progress]").value = done;
     find("[data-prep-summary]").textContent = say(`${done} of ${TASKS.length} checked`, `${TASKS.length}개 중 ${done}개 확인`);
     const nextLink = find("[data-prep-next]");
@@ -108,6 +112,34 @@ function mountDestination(doc, win, destination, root, entries) {
       const id = input.dataset.prepCheck;
       if (TASKS.includes(id)) change(value => { value.checks[id] = input.checked; });
     }));
+    recheck?.addEventListener("click", () => {
+      if (recheck.disabled || !state) return;
+      const changed = () => {
+        sync();
+        (state ? recheckStatus : status).textContent = say("Preparation changed. Review it before trying again.",
+          "준비 내용이 바뀌었습니다. 확인한 뒤 다시 시도하세요.");
+      };
+      try {
+        const raw = win.localStorage.getItem(STORAGE_KEY);
+        const current = parseState(raw, destination);
+        if (JSON.stringify(current) !== JSON.stringify(state)) { changed(); return; }
+        recheckStatus.textContent = "";
+        if (!win.confirm(say("Clear only the checklist marks? Your course, fallback, notes and saved guides stay.",
+          "체크 표시만 지울까요? 선택한 코스와 대안, 메모, 저장한 가이드는 그대로 남습니다."))) return;
+        if (win.localStorage.getItem(STORAGE_KEY) !== raw) { changed(); return; }
+        // Preserve unrelated fields in the saved record, including any future extensions.
+        const saved = JSON.parse(raw);
+        const cleared = initialState(destination).checks;
+        win.localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...saved, checks: { ...saved.checks, ...cleared } }));
+        state = { ...current, checks: cleared };
+      } catch {
+        recheckStatus.textContent = say("Checklist marks could not be cleared.", "체크 표시를 지우지 못했습니다.");
+        return;
+      }
+      render();
+      recheckStatus.textContent = say("Checklist marks cleared. Your plan was kept.", "체크 표시만 지웠습니다. 선택한 계획은 그대로입니다.");
+      checks[0].focus();
+    });
     reset.addEventListener("click", () => {
       confirm.hidden = false;
       find("[data-prep-cancel]").focus();

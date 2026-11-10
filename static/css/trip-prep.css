@@ -31,7 +31,13 @@
 .prep-reading .save-guide { position: relative; inset: auto; width: 44px; height: 44px; padding: 0; }
 .prep-reading .save-guide__tooltip { right: 0; left: auto; transform: none; }
 .prep-reset { padding: 1rem 0 1.5rem; }
-.prep-reset button { background: white; border: 1px solid var(--line); color: var(--ink); margin: .25rem .25rem .25rem 0; }
+.prep-reset button, .prep-review button { background: white; border: 1px solid var(--line); color: var(--ink); margin: .25rem .25rem .25rem 0; }
+.prep-review { margin-top: 1rem; }
+.prep-review summary { min-height: 44px; padding: .6rem 0; color: var(--teal); cursor: pointer; font-weight: 600; }
+.prep-review ul { padding-inline-start: 1.25rem; }
+.prep-review a { display: inline-flex; min-height: 44px; align-items: center; }
+.prep-review button:disabled { opacity: .6; cursor: not-allowed; }
+.prep-review [role="status"]:empty { margin: 0; }
 .trip-prep :focus-visible { outline: 3px solid #a6402b; outline-offset: 3px; }
 @media (max-width: 620px) {
   .prep-options { grid-template-columns: minmax(0, 1fr); }

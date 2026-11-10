@@ -1,8 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (TRIP-DATE-RECHECK; bilingual trip review and production deployment; main/current worktree; 2026-11-10)
 
 ## Current Task
+
+- WORK-ID: TRIP-DATE-RECHECK. Phase: implementation. Started clean on main at aa8fbcd; owner authorized a return-visit improvement and deployment. Add a collapsed date-change review and explicit checklist-only clear. Keep homepages, other records, APIs and affiliate paths unchanged.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit cases cover canceled confirmation, failed writes, changes during confirmation, no-op repeat and preservation of extra fields. Chromium passed six EN/KO workspace cancel/clear flows, preserved notes/bookmarks/other city records, first-task focus, reload/language switching and 320/390/768/1440px layouts. No API or booking calls in browser QA.
+- Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and check live workspace interactions and published assets. BLOCKER: none.
+
+## Previous Workspace Note Release
 
 - Last AI: CODEX; WORK-ID: WORKSPACE-NOTE-CONTINUITY; DONE on 2026-10-24. Phase: deployed and production-validated. Started clean on main at 0b210de; no other active writer. Owner authorized a useful return-visit improvement through production deployment.
 - Scope: reuse the existing city note partial/controller in the six EN/KO workspaces, share note CSS and preserve the same note/draft keys. Reconcile note state on all pageshow events so non-BFCache native form restoration cannot leave a stale textarea over a newer saved note. No homepage, storage schema, backend or affiliate changes. No new travel claims.
