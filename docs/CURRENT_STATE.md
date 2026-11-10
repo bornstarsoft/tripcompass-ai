@@ -1,8 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (BOOKING-REVIEW-GUIDE; bilingual editorial update and production deployment; main/current worktree; 2026-11-10)
 
 ## Current Task
+
+- WORK-ID: BOOKING-REVIEW-GUIDE. Phase: implementation. Started clean on main at 058ceea; owner authorized a useful content and return-visit improvement through production deployment. Extend the existing travel-day guide and My trips disclosure. Keep the homepages, browser records, APIs and affiliate routes unchanged.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Chromium passed six EN/KO navigation cases at 320/390/1440px, including no-JS links, visible fragment heading, Back restoring the disclosure and saved-note/bookmark preservation. Screenshots inspected; no app errors or API/booking calls in the browser suite.
+- Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and verify live guide links and published HTML. BLOCKER: none.
+
+## Previous Date Recheck Release
 
 - Last AI: CODEX; WORK-ID: TRIP-DATE-RECHECK; DONE on 2026-11-10. Phase: deployed and production-validated. Started clean on main at aa8fbcd; owner authorized a return-visit improvement and deployment. Added a collapsed date-change review and explicit checklist-only clear. Homepages, other records, APIs and affiliate paths unchanged.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit cases cover canceled confirmation, failed writes, changes during confirmation, no-op repeat and preservation of extra fields. Chromium passed six EN/KO workspace cancel/clear flows, preserved notes/bookmarks/other city records, first-task focus, reload/language switching and 320/390/768/1440px layouts. No API or booking calls in browser QA.

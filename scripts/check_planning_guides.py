@@ -207,8 +207,12 @@ def check(root):
             if path == "/itinerary/japan-arrival-departure-day-plan/":
                 assert page.save_ids == ["travel-days"]
                 assert "/js/guide-explorer.js" in page.scripts
-                assert {"before-leaving-home", "night-before-return", "before-checkout", "after-trip"} <= page.ids
-                assert {"#before-leaving-home", "#night-before-return", "#before-checkout", "#after-trip"} <= set(page.links)
+                checkpoints = {"booking-review", "before-leaving-home", "night-before-return", "before-checkout", "after-trip"}
+                assert checkpoints <= page.ids
+                assert {"#" + checkpoint for checkpoint in checkpoints} <= set(page.links)
+                assert {prefix + path for path in ["/my-trip/", "/my-trip/osaka/", "/my-trip/tokyo/", "/my-trips/#trip-selector"]} <= set(page.links)
+                for term in (["exact date, time and time zone", "your own calendar", "does not track deadlines, send reminders or change reservations"] if language == "en" else ["마감 날짜·시각·시간대", "개인 캘린더", "마감을 추적하거나 알림을 보내거나 예약을 변경하지 않습니다"]):
+                    assert term in text
                 for term in (["Before leaving home:", "not a complete departure checklist", "Reading this section does not save", "not a backup or account sync"] if language == "en" else ["한국에서 출발 전날:", "출발 준비 전체 목록이나 입국 요건 확인을 대신하지 않습니다", "준비 체크가 바뀌지 않습니다", "백업이나 계정 동기화가 아닙니다"]):
                     assert term in text
                 assert prefix + "/itinerary/osaka-or-kyoto-day-trip/" in page.links

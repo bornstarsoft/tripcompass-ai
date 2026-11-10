@@ -12,7 +12,7 @@ takeaways:
   - "Work backward from the correct airport and terminal"
   - "Keep one optional treat, with permission to skip it"
 reviewed: "2026-09-22"
-lastmod: "2026-10-23T21:00:00+09:00"
+lastmod: "2026-11-10T20:55:00+09:00"
 alternateKo: "/ko/itinerary/japan-arrival-departure-day-plan/"
 weight: 57
 ---
@@ -23,7 +23,7 @@ weight: 57
 
 This is an editorial planning method, not a firsthand hotel review, a luggage-service directory or a verified airport transfer. It helps you adapt the [Fukuoka weekend](/from-seoul/seoul-to-fukuoka-weekend-trip/), [Osaka four-day course](/itinerary/seoul-to-osaka-4-day-itinerary/) and [Tokyo four-day course](/itinerary/seoul-to-tokyo-4-day-itinerary/) to your own flights.
 
-Leaving home tomorrow? Start with [the saved-plan review](#before-leaving-home). Already in Japan? Use [the return-flight review](#night-before-return) instead.
+Booked but still deciding? Start with [the change and cancellation deadlines](#booking-review). Leaving home tomorrow? Use [the saved-plan review](#before-leaving-home). Already in Japan? See [the return-flight review](#night-before-return).
 
 ## Who this page is for
 
@@ -56,6 +56,16 @@ Keep a choice that has no prepaid commitment where possible. For the first meal,
 A short message to adapt: “Can you store two suitcases before check-in and after checkout? Please confirm any fees, size limits and the latest collection time. What should we do if our flight is delayed?” Replace the bag count and dates with your own details; this is a question, not confirmation of a service.
 
 If considering a locker or staffed storage instead, check size, location, access and collection conditions. A map pin does not guarantee an empty locker or an open counter. Have a plan that still works with your luggage. Do not depend on unconfirmed delivery reaching the hotel or airport before you need it.
+
+### After booking: decide before the first deadline {#booking-review}
+
+The night before departure is too late to review a choice whose change window has already closed. If the dates or the group are still uncertain, open your flight and accommodation confirmations while you have time to decide.
+
+1. **Find the first deadline that matters.** For each booking you might change, check the exact date, time and time zone, who handles changes, and what you would pay or lose. Check change and cancellation terms separately. If a cutoff is unclear, confirm it with the provider rather than assuming midnight or free cancellation.
+2. **Pick a day to decide.** Put a reminder in your own calendar before that cutoff. Name one decision: for example, “Keep both nights or move the trip?” If an answer from a companion is still pending, agree when to ask again.
+3. **Recheck only what the change affects.** If your arrival moves, check the lodging arrangements and route before adding an outing. If the booking is unchanged, leave the plan alone. If the dates change, reopen the [Fukuoka](/my-trip/), [Osaka](/my-trip/osaka/) or [Tokyo](/my-trip/tokyo/) workspace to review the old checklist for the new trip.
+
+Leave only the next question in [your city note](/my-trips/#trip-selector), such as “Confirm the first-night change terms before deciding on a later flight.” Keep exact booking details separately. TripCompass does not track deadlines, send reminders or change reservations; the applicable terms are the ones confirmed for your booking.
 
 ### Before leaving home: reopen the plan, not every possibility {#before-leaving-home}
 
@@ -184,5 +194,7 @@ These are generic hotel searches, not properties with verified storage or late c
 The three linked airport pages were reviewed on **22 September 2026** for access-reference context. The decision steps, message and note are our editorial suggestions, not airline instructions. No hotel, storage place, travel-date transport, opening hours or availability was confirmed. The existing AI illustration depicts luggage and an imagined planning scene, not a real hotel, storage facility or airport map.
 
 The before-leaving-home, night-before-return, checkout and after-trip reflection prompts and return-visit links were added on **23 October 2026** as editorial guidance. This was not a new check of the airport references or any current travel conditions.
+
+The booking-deadline review was added on **10 November 2026** as a way to organize your own checks, not as a review of airline or hotel policies.
 
 Check current prices, opening hours, visa rules, availability and booking terms yourself. This guide provides no real-time quote or safety, entry, connection or booking guarantee.
