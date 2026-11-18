@@ -1,11 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (ITINERARY-LIBRARY-BOOKMARKS; bilingual itinerary discovery and production deployment; main/current worktree; 2026-11-18)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: ITINERARY-LIBRARY-BOOKMARKS. Phase: implementation. Started clean on main at 42996a3; owner authorized content, return-visit improvement, validation and deployment. Bring existing guide bookmarks into both itinerary libraries. No homepage, storage format or infrastructure changes.
-- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Production build diff is limited to two itinerary hubs and library-scoped CSS. Chromium passed six EN/KO flows at 320/390/1440px: save from course table and guide list, language switch, view in My trips, cross-tab remove/undo, unrelated record preservation, touch/keyboard controls and no overflow. Both no-JS guide paths passed; mobile screenshot inspected. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and repeat live. BLOCKER: none.
+- Last AI: CODEX; WORK-ID: ITINERARY-LIBRARY-BOOKMARKS; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at 42996a3; owner authorized content, return-visit improvement, validation and deployment. Both itinerary hubs expose the existing bookmarks for 14 guides, a link to My trips and advice for shortlisting a base course and one alternative. No homepage, storage format or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Production build diff is limited to two itinerary hubs and library-scoped CSS. Chromium passed six EN/KO flows at 320/390/1440px: save from course table and guide list, language switch, view in My trips, cross-tab remove/undo, unrelated record preservation, touch/keyboard controls and no overflow. Both no-JS guide paths passed; mobile screenshot inspected.
+- HEAD/WIP: application commit fd8b0da9143228dffa190b53b34572ffb9263e4e pushed to main. This documentation update records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44311165755 and Cloudflare Pages succeeded. Both homepages, both hubs, both My trips pages, both Plan B guides, CSS/JS and sitemap matched the verified build byte-for-byte. All six EN/KO Chromium flows and both no-JS guide paths passed live; mobile screenshot inspected. No application errors or API/booking calls in browser QA.
+- QA NOT_RUN: physical-device/Safari, paid AI calls, D1 queries and retention measurement. NEXT_SINGLE_TASK: ask whether travelers can find an itinerary-library bookmark again from My trips, without collecting personal records. BLOCKER: none.
 
 ## Previous Next-trip Note Release
 
