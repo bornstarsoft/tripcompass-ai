@@ -12,7 +12,7 @@ takeaways:
   - "Work backward from the correct airport and terminal"
   - "Keep one optional treat, with permission to skip it"
 reviewed: "2026-09-22"
-lastmod: "2026-11-18T22:56:00+09:00"
+lastmod: "2026-11-18T23:19:00+09:00"
 alternateKo: "/ko/itinerary/japan-arrival-departure-day-plan/"
 weight: 57
 ---
@@ -215,6 +215,18 @@ When you plan again, read your old note before opening a fresh list of places. T
 Open your [Fukuoka note](/my-trips/#next-visit-note-fukuoka), [Osaka note](/my-trips/#next-visit-note-osaka) or [Tokyo note](/my-trips/#next-visit-note-tokyo). Read what is already there and keep it if it still helps. If you opened this guide while editing, return to your previous tab to continue the draft; these links open the city note in this tab.
 
 Old checklist marks describe what you checked for the earlier trip, not confirmation for a new departure. Recheck flights, accommodation, transport and other relevant conditions for the new dates yourself. Past prices or a pleasant visit do not establish future prices, availability or suitability. If you later compare cities, start the [decision board](/decision-board/) with newly checked inputs; do not treat an old saved comparison as a current quote.
+
+#### Same city, different travel companions {#different-companions}
+
+Read your last note as a memory, not a plan everyone has agreed to. Before reusing a saved route, ask each person what they most want to do together and what would make the day tiring. Keep one thing you enjoyed, change one assumption and leave one optional block open.
+
+- **Fukuoka with a parent after a solo trip.** Keep the unhurried first meal, but decide where to sit and rest after arrival. Compare [Hakata and Tenjin as places to stay](/from-seoul/fukuoka-hakata-vs-tenjin-hotels/) with the new hotel's luggage arrangements and your group's actual walking needs in mind.
+- **Osaka with friends who want different outings.** Keep one meal together and choose between [a city day and a Kyoto day trip](/itinerary/osaka-or-kyoto-day-trip/). If you split up, agree on a meeting place and time before going your own ways.
+- **Tokyo with someone who has never been.** Keep what you enjoyed most about your [Jimbocho half-day](/itinerary/tokyo-jimbocho-books-cafes/), then give your companion one choice of their own. Make it an alternative to a stop, not another district to squeeze in.
+
+Put the new decision in one sentence: **“Keep lunch together. Change where we meet. Leave the afternoon open.”** Check the actual route, rest options and access with the people going. What worked for one traveler does not establish access or suitability for another.
+
+Review just the affected items in your [Fukuoka](/my-trip/#prep-review), [Osaka](/my-trip/osaka/#prep-review) or [Tokyo](/my-trip/tokyo/#prep-review) preparation. If an item needs a fresh check, you can uncheck that item yourself. You do not need to erase your whole checklist, replace your note or remove a saved guide just because it is not part of this trip.
 
 ## Budget considerations
 

@@ -213,8 +213,12 @@ def check(root):
                 assert "/js/guide-explorer.js" in page.scripts
                 checkpoints = {"booking-review", "before-leaving-home", "night-before-return", "before-checkout", "after-trip", "offline-travel-note", "hotel-change", "travel-day-handoff"}
                 assert checkpoints <= page.ids
-                assert "use-the-note" in page.ids
+                assert {"use-the-note", "different-companions"} <= page.ids
                 note_page = read(prefix + "/my-trips/")
+                assert url + "#different-companions" in note_page.links
+                assert url + "#different-companions" not in read(prefix + "/").links
+                for term in (["Same city, different travel companions", "uncheck that item yourself", "Leave the afternoon open"] if language == "en" else ["같은 도시, 이번에는 다른 일행과", "직접 체크를 해제", "오후는 비워 두자"]):
+                    assert term in text, f"{url}: missing repeat-trip guidance: {term}"
                 for city in ["fukuoka", "osaka", "tokyo"]:
                     note_anchor = "next-visit-note-" + city
                     assert prefix + "/my-trips/#" + note_anchor in page.links
