@@ -71,8 +71,11 @@ def check(root):
         assert all(section in page.sections for section in sections)
         assert page.reading_sections == sections, "Keep stable reading keys aligned with article sections"
         assert [key for key in page.sections if key in sections] == sections
-        for anchor in ["#waiting", "#together"]:
+        for anchor in ["#waiting", "#together", "#transport-change"]:
             assert page.links.count(anchor) >= 2, "New scenarios need both contents and quick-reset links"
+        assert "transport-change" in page.ids
+        assert ("실시간 운행 정보를 제공하거나 우회 경로를 검증하지 않습니다" if prefix
+                else "does not track service or verify a detour") in text
         assert "companion-update" in page.ids and page.links.count("#companion-update") >= 2
         assert prefix + "/my-trips/#trip-selector" in page.links
         assert ("메시지가 전송되거나 예약이 바뀌지는 않습니다" if prefix else "does not send a message or change a reservation") in text
@@ -105,6 +108,7 @@ def check(root):
             assert prefix + link in page.links
         overview = read(prefix + "/my-trips/")
         assert url + "#saved-shortlist" in overview.links
+        assert url + "#transport-change" in overview.links
         for city in ["fukuoka", "osaka", "tokyo"]:
             assert overview.entries[city] == url + "#" + city
             assert prefix + "/my-trips/#trip-" + city in page.links

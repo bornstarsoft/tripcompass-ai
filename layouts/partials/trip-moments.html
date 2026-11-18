@@ -28,6 +28,10 @@
       <p>{{ cond $ko "비, 긴 줄, 서로 다른 취향. 대체 명소를 더하기 전에 선택 이동 하나부터 덜어내요." "Rain, a long queue or different interests: remove an optional journey before adding another attraction." }}</p>
     </li>
     <li>
+      <a href="{{ printf "%s/itinerary/japan-plan-b/#transport-change" $prefix | relURL }}">{{ cond $ko "교통편이 바뀐 날: 돌아오는 구간 먼저 확인" "Transport changed: check the return leg first" }}</a>
+      <p>{{ cond $ko "영향받는 구간과 다음 약속을 먼저 확인하고, 남은 시간에 맞는 저장 후보 하나만 다시 봐요." "Check the affected leg and your next commitment, then revisit one saved idea that fits the remaining time." }}</p>
+    </li>
+    <li>
       <a href="{{ printf "%s/itinerary/japan-arrival-departure-day-plan/#before-checkout" $prefix | relURL }}">{{ cond $ko "귀국하는 날: 짐과 공항 이동부터" "Going home: bags and the airport first" }}</a>
       <p>{{ cond $ko "짐 수령 조건과 최신 항공사·교통 안내부터 확인해요. 마지막 쇼핑은 선택 일정으로 남겨요." "Recheck bag collection and current airline/operator guidance. Keep the final shopping stop optional." }}</p>
     </li>

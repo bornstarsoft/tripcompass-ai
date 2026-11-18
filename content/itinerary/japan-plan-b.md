@@ -15,7 +15,7 @@ takeaways:
   - "Leave one short note for the next time you open your trip"
 reviewed: "2026-10-23"
 date: "2026-10-23T00:00:00+09:00"
-lastmod: "2026-11-18T22:35:00+09:00"
+lastmod: "2026-11-18T22:50:00+09:00"
 alternateKo: "/ko/itinerary/japan-plan-b/"
 weight: 58
 ---
@@ -36,8 +36,25 @@ This is for short Japan trips from Korea, especially when traveling together at 
 - **Rain:** keep one main interest, drop extra outdoor walks, and check warnings and access before leaving.
 - **Low energy:** keep food and rest, drop the second district, and agree on the return plan together.
 - **Late start:** keep the main purpose, drop the bonus stop, and recheck booking terms and your end time.
+- **A route changes:** [check the return leg before picking a replacement](#transport-change).
 - **A long queue or no table:** [decide what makes waiting worthwhile](#waiting) before trying another neighborhood.
 - **Different interests:** [keep one shared part of the day](#together) without combining everyone's entire wish list. Once you agree, [send one short update](#companion-update).
+
+### A route changes: confirm the return leg first {#transport-change}
+
+A connection that no longer works is a reason to reconsider the outing, not to add more transfers. This is a checklist for adjusting optional sightseeing. For a disruption, use current local and operator instructions; this guide does not track service or verify a detour.
+
+1. **Find the affected leg.** Check the operator's latest notice for your direction, stops and travel time. A saved route or screenshot might be out of date. Check the way back separately, even if a different way out appears to be available.
+2. **Keep the next fixed commitment.** Start with bag collection, your accommodation arrangements or an airport trip. Use the [travel-day guide](/itinerary/japan-arrival-departure-day-plan/#night-before-return) if the departure plan is affected. Leave enough room for the whole return, including walking and waiting, before adding sightseeing.
+3. **Choose the smaller option or stop.** Reopen one saved idea near your confirmed route. Check actual access and opening hours; a bookmarked stop is not a verified alternative. If the return is still uncertain, pause optional travel rather than adding a new outing.
+
+**Three decisions to adapt:**
+
+- **Fukuoka:** If the return from Dazaifu is uncertain and your bag pickup is fixed, leave Dazaifu for another day. Reopen a nearby idea in [saved Fukuoka guides](/my-trips/#saved-guides-fukuoka) only if it fits the pickup.
+- **Osaka:** If a day-trip leg changes, do not replace one intercity outing with another by default. Compare an Osaka-only option in [saved Osaka guides](/my-trips/#saved-guides-osaka) against the time you actually have.
+- **Tokyo:** If a transfer between two neighborhoods no longer fits, keep one interest and drop the second area. Use [saved Tokyo guides](/my-trips/#saved-guides-tokyo) to pick from the candidates you already have.
+
+Tell your companions [what changed and what is still unconfirmed](#companion-update). You can leave the skipped guide saved for another day; reading this section does not change your preparation or booking.
 
 ## Rain: change the route, not just the destination {#rain}
 

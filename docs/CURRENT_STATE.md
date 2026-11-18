@@ -1,8 +1,13 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (TRANSIT-PLAN-B; bilingual transport-change content and production deployment; main/current worktree; 2026-11-18)
 
 ## Current Task
+
+- WORK-ID: TRANSIT-PLAN-B. Phase: implementation. Started clean on main at 522082e; owner authorized content, validation and production deployment. Add bilingual transport-change decision guidance to Plan B, linked from the existing My trips disclosure. No homepage, storage or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Built checks cover native disclosure links, anchors and stable reading keys. Chromium passed six EN/KO flows at 320/390/1440px: 44px link, visible article heading, city bookmark return, Back with open disclosure, no overflow and exact fixture preservation. Both no-JS paths passed; mobile screenshot inspected. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and repeat live. BLOCKER: none.
+
+## Previous Draft Shortcut Release
 
 - Last AI: CODEX; WORK-ID: TRIP-NOTE-DRAFT-SHORTCUTS; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at fab0f44; owner authorized a return-visit improvement, validation and production deployment. My trips shows only cities with unsaved editor text and can reopen those editors. No note text in shortcuts, extra storage, homepage or infrastructure changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Chromium passed six EN/KO city flows at 320/390/1440px: workspace handoff, two drafts, target reopen, reload/language, save/discard, fresh-tab isolation and exact unrelated record preservation. 44px links, no overflow and both no-JS cases passed; mobile screenshot inspected. Unit checks include blank drafts, blocked tab storage and no-shortcut workspaces.
