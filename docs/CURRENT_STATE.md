@@ -1,8 +1,16 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (POST-TRIP-BUDGET-REVIEW; bilingual editorial guidance, validation and production deployment approved by owner; main at 9ed2610; 2026-11-18 KST)
+ACTIVE_WRITER = NONE
 
 ## Current Task
+
+- Last AI: CODEX; WORK-ID: POST-TRIP-BUDGET-REVIEW; DONE on 2026-11-18 KST. Phase: deployed and production-validated. Started clean on main at 9ed2610; owner authorized content, validation and production deployment. Added a bilingual post-trip section to the budget guide to distinguish repeat costs from one-offs and save a next-trip question rather than an old quote. The travel-day reflection links to it; it links to the three existing city notes and current quote review. No homepage, storage, server or affiliate behavior changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Build checks cover localized copy, entry links and all note anchors. Chromium passed six EN/KO city flows at 320/390/1440px: recap link, visible headings, quote review and Back, city notes, exact record/draft preservation and no overflow. Both no-JS checks passed; mobile screenshots inspected.
+- HEAD/WIP: application commit aad9398 pushed to main. This document records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44328087824 and Cloudflare Pages check 134885202012 succeeded. Eleven live responses matched the verified build, including both homepages, overviews, boards, two guide pairs and sitemap. All six live Chromium flows and both no-JS checks passed; mobile screenshots inspected. No application errors, API/booking requests or test note text in network requests.
+- QA NOT_RUN: physical devices/Safari, paid AI, D1 and retention measurement. NEXT_SINGLE_TASK: ask whether travelers can turn one unexpected cost into a useful next-trip question, without collecting receipts or personal notes. BLOCKER: none.
+
+## Previous My Trips Departure Handoff Release
 
 - Last AI: CODEX; WORK-ID: MY-TRIPS-DEPARTURE-HANDOFF; DONE on 2026-11-18 KST. Phase: deployed and production-validated. Started clean on main at 302f056; owner authorized a return-visit improvement, validation and production deployment. In My trips, the existing Next step links to the localized travel-day guide when all five checks are marked. Unmarking an item restores the task link. No home, storage format, guide content or infrastructure changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit coverage includes all three cities, saved/absent/invalid records, cross-tab transitions, focus, guide anchor and versioned script. Chromium passed six EN/KO flows at 320/390/1440px: last check, 44px link, guide heading, Back, uncheck, existing task link, no overflow and exact unrelated record preservation. Both no-JS checks passed; mobile screenshots inspected.
