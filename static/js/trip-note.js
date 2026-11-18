@@ -93,7 +93,14 @@ async function readNoteFile(file, Decoder) {
 
 export function mountTripNotes(doc, win) {
   const text = copy[doc.documentElement.lang === "ko" ? "ko" : "en"];
-  const shortcuts = doc.querySelector("[data-note-draft-shortcuts]");
+  const draftShortcuts = doc.querySelector("[data-note-draft-shortcuts]");
+  const savedShortcuts = doc.querySelector("[data-note-saved-shortcuts]");
+  function updateShortcut(nav, link, visible) {
+    if (!link) return;
+    if (!visible && doc.activeElement === link) doc.querySelector("#trip-selector")?.focus();
+    link.hidden = !visible;
+    nav.hidden = !nav.querySelector("a:not([hidden])");
+  }
   const dirtyChecks = [];
   let guarding = false;
   const guard = event => { event.preventDefault(); event.returnValue = ""; };
@@ -113,7 +120,8 @@ export function mountTripNotes(doc, win) {
     const importButton = find("import"), importFile = find("import-file");
     const canImport = importButton && importFile && typeof win.TextDecoder === "function" &&
       typeof win.File?.prototype.arrayBuffer === "function";
-    const shortcut = shortcuts?.querySelector(`[data-note-draft-city="${city}"]`);
+    const draftShortcut = draftShortcuts?.querySelector(`[data-note-draft-city="${city}"]`);
+    const savedShortcut = savedShortcuts?.querySelector(`[data-note-saved-city="${city}"]`);
     const copyButton = find("copy"), copyTools = find("copy-tools"), copyStatus = find("copy-status");
     const copyManual = find("copy-manual"), copyText = find("copy-text");
     const canCopy = copyButton && copyTools && copyStatus && copyManual && copyText;
@@ -134,11 +142,8 @@ export function mountTripNotes(doc, win) {
     function controls() {
       editorRevision++;
       dirty = input.value !== original;
-      if (shortcut) {
-        if (!dirty && doc.activeElement === shortcut) doc.querySelector("#trip-selector")?.focus();
-        shortcut.hidden = !dirty;
-        shortcuts.hidden = !shortcuts.querySelector("[data-note-draft-city]:not([hidden])");
-      }
+      updateShortcut(draftShortcuts, draftShortcut, dirty);
+      updateShortcut(savedShortcuts, savedShortcut, !dirty && !blocked && !conflict && Boolean(original.trim()));
       save.disabled = blocked || conflict || !dirty || input.value.length > NOTE_LIMIT;
       if (planTemplate) planTemplate.disabled = blocked || conflict || hasPlanFields(input.value);
       updateImportButton();
@@ -238,7 +243,7 @@ export function mountTripNotes(doc, win) {
         finally { readingFile = false; updateImportButton(); }
       });
     }
-    shortcut?.addEventListener("click", event => {
+    draftShortcut?.addEventListener("click", event => {
       if (dirty && !event.defaultPrevented && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) details.open = true;
     });
     if (planTemplate) {

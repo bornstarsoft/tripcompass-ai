@@ -18,11 +18,18 @@
     <a href="#trip-{{ . }}">{{ index $trip $lang }}<span data-trip-quick="{{ . }}">{{ cond $ko "보기" "View" }}</span></a>
     {{ end }}
   </nav>
-  <nav class="my-trips-drafts" data-note-draft-shortcuts aria-labelledby="trip-drafts-title" hidden>
+  <nav class="my-trips-note-links" data-note-draft-shortcuts aria-labelledby="trip-drafts-title" hidden>
     <span id="trip-drafts-title">{{ cond $ko "작성 중인 메모" "Notes in progress" }}</span>
     {{ range slice "fukuoka" "osaka" "tokyo" }}
     {{ $name := index $.Site.Data.trip_prep . $lang }}
     <a href="#next-visit-note-{{ . }}" data-note-draft-city="{{ . }}" aria-label="{{ cond $ko (printf "%s 메모 이어 쓰기" $name) (printf "Continue your %s note" $name) }}" hidden>{{ $name }}</a>
+    {{ end }}
+  </nav>
+  <nav class="my-trips-note-links" data-note-saved-shortcuts aria-labelledby="trip-saved-notes-title" hidden>
+    <span id="trip-saved-notes-title">{{ cond $ko "저장한 메모" "Saved notes" }}</span>
+    {{ range slice "fukuoka" "osaka" "tokyo" }}
+    {{ $name := index $.Site.Data.trip_prep . $lang }}
+    <a href="#note-title-{{ . }}" data-note-saved-city="{{ . }}" aria-label="{{ cond $ko (printf "%s 저장 메모 보기" $name) (printf "View saved %s note" $name) }}" hidden>{{ $name }}</a>
     {{ end }}
   </nav>
   {{ $cityLabels := dict }}{{ range slice "fukuoka" "osaka" "tokyo" }}{{ $cityLabels = merge $cityLabels (dict . (index $.Site.Data.trip_prep . $lang)) }}{{ end }}

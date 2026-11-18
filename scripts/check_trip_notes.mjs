@@ -29,15 +29,19 @@ function harness(language, records = new Map(), fail = {}, drafts = new Map()) {
     return { dataset: { tripNote: city }, hidden: true, fields, querySelector: selector => fields[selector.slice(11, -1)] };
   });
   const shortcutLinks = new Map(cities.map(city => [city, { ...node(), hidden: true }]));
+  const savedLinks = new Map(cities.map(city => [city, { ...node(), hidden: true }]));
   const selector = node();
-  const shortcuts = {
+  const menu = links => ({
     hidden: true,
     querySelector(query) {
-      if (query.endsWith(":not([hidden])")) return [...shortcutLinks.values()].find(link => !link.hidden);
-      return shortcutLinks.get(query.match(/"([a-z]+)"/)?.[1]);
+      if (query.endsWith(":not([hidden])")) return [...links.values()].find(link => !link.hidden);
+      return links.get(query.match(/"([a-z]+)"/)?.[1]);
     }
-  };
-  doc.querySelector = query => query === "#trip-selector" ? selector : fail.noShortcuts ? null : shortcuts;
+  });
+  const shortcuts = menu(shortcutLinks), savedMenu = menu(savedLinks);
+  doc.querySelector = query => query === "#trip-selector" ? selector : fail.noShortcuts ? null : {
+    "[data-note-draft-shortcuts]": shortcuts, "[data-note-saved-shortcuts]": savedMenu
+  }[query];
   doc.querySelectorAll = () => roots;
   doc.createElement = tag => {
     assert.equal(tag, "a");
@@ -82,12 +86,42 @@ function harness(language, records = new Map(), fail = {}, drafts = new Map()) {
     removeEventListener(name,fn) { events[name]?.delete(fn); }
   };
   mountTripNotes(doc,win);
-  return { records, drafts, roots, doc, writes, prompts, clipboard, downloads, urls, timers, fail, shortcuts, shortcutLinks, selector, fields: city => roots[cities.indexOf(city)].fields,
+  return { records, drafts, roots, doc, writes, prompts, clipboard, downloads, urls, timers, fail, shortcuts, shortcutLinks, savedMenu, savedLinks, selector, fields: city => roots[cities.indexOf(city)].fields,
     dirty: () => events.beforeunload?.size || 0,
     emit: (name, event = {}) => events[name]?.forEach(fn => fn(event)),
     type(city,text) { const f = this.fields(city); f.input.value=text; f.input.input(); },
     save(city) { let prevented = false; this.fields(city).form.submit({ preventDefault() { prevented=true; } }); assert.ok(prevented); }
   };
+}
+
+for (const language of ["en", "ko"]) {
+  const records = new Map([[NOTE_KEYS.fukuoka, raw("Private saved note")], [NOTE_KEYS.osaka, raw("  ")], [NOTE_KEYS.tokyo, "{"]]);
+  const ui = harness(language, records);
+  const visible = links => cities.filter(city => !links.get(city).hidden);
+  assert.deepEqual(visible(ui.savedLinks), ["fukuoka"], "Only a valid nonblank saved note gets a link");
+  assert.equal(ui.savedMenu.hidden, false);
+  assert.equal(ui.writes.length, 0);
+  assert.equal(ui.savedLinks.get("fukuoka").textContent, "", "Note content never goes into the shortcut");
+  ui.type("fukuoka", "New draft");
+  assert.deepEqual(visible(ui.shortcutLinks), ["fukuoka"], "Draft link takes precedence");
+  assert.equal(ui.savedMenu.hidden, true);
+  ui.save("fukuoka");
+  assert.equal(ui.shortcuts.hidden, true);
+  assert.deepEqual(visible(ui.savedLinks), ["fukuoka"], "Explicit save restores the saved link");
+  records.set(NOTE_KEYS.osaka, raw("Saved in another tab"));
+  ui.emit("storage", { key: NOTE_KEYS.osaka });
+  assert.deepEqual(visible(ui.savedLinks), ["fukuoka", "osaka"]);
+  ui.savedLinks.get("osaka").focus();
+  records.delete(NOTE_KEYS.osaka);
+  ui.emit("storage", { key: NOTE_KEYS.osaka });
+  assert.equal(ui.doc.activeElement, ui.selector, "Focus is not lost when a remote change removes a link");
+  assert.deepEqual(visible(ui.savedLinks), ["fukuoka"]);
+  ui.type("fukuoka", "");
+  ui.save("fukuoka");
+  assert.equal(ui.savedMenu.hidden, true);
+  assert.deepEqual(ui.writes, [NOTE_KEYS.fukuoka, NOTE_KEYS.fukuoka]);
+  const blocked = harness(language, new Map([[NOTE_KEYS.tokyo, raw("Saved")]]), { read:true });
+  assert.equal(blocked.savedMenu.hidden, true);
 }
 
 for (const language of ["en", "ko"]) {
@@ -355,10 +389,14 @@ if(process.argv[2]) for(const [prefix,title] of [["","For your next visit"],["ko
   assert.ok(html.includes("css/trip-note.css"));
   assert.ok(html.includes("data-note-draft-shortcuts aria-labelledby=trip-drafts-title hidden"));
   assert.equal((html.match(/data-note-draft-city=/g)||[]).length,3);
+  assert.ok(html.includes("data-note-saved-shortcuts aria-labelledby=trip-saved-notes-title hidden"));
+  assert.equal((html.match(/data-note-saved-city=/g)||[]).length,3);
   const help = `href=/${prefix}itinerary/japan-arrival-departure-day-plan/#use-the-note target=_blank rel=noopener`;
   assert.equal(html.split(help).length - 1, 3);
   for (const city of cities) {
     assert.ok(html.includes(`href=#next-visit-note-${city} data-note-draft-city=${city}`));
+    assert.ok(html.includes(`href=#note-title-${city} data-note-saved-city=${city}`));
+    assert.ok(html.includes(`<h3 id=note-title-${city} tabindex=-1>${title}</h3>`));
     assert.equal(html.split(`id=next-visit-note-${city}>`).length - 1, 1);
     const path = city === "fukuoka" ? "my-trip/" : `my-trip/${city}/`;
     const workspace = await readFile(resolve(process.argv[2], prefix + path + "index.html"), "utf8");
@@ -375,6 +413,7 @@ if(process.argv[2]) for(const [prefix,title] of [["","For your next visit"],["ko
     assert.equal((workspace.match(/data-note-import-file hidden/g)||[]).length,1);
     assert.ok(!workspace.includes("css/my-trips.css"));
     assert.ok(!workspace.includes("data-note-draft-shortcuts"));
+    assert.ok(!workspace.includes("data-note-saved-shortcuts"));
     assert.ok(workspace.indexOf(`data-trip-note=${city}`) < workspace.indexOf("data-prep-workspace"), "Notes remain available before starting or after resetting preparation");
     assert.ok(workspace.includes(prefix ? "메모, 다른 여행 준비함" : "Notes, other trips"));
   }
@@ -383,6 +422,7 @@ if(process.argv[2]) for(const [prefix,title] of [["","For your next visit"],["ko
   assert.ok(!home.includes("css/trip-note.css"));
   assert.ok(!home.includes("#use-the-note"));
   assert.ok(!home.includes("data-note-draft-shortcuts"));
+  assert.ok(!home.includes("data-note-saved-shortcuts"));
 }
 console.log("Trip notes passed: EN/KO, three-city isolation, explicit saves, tab drafts across reload/language/BFCache, confirmed discard/cancel/unavailable dialogs, blank drafts, length limits, safe text, conflicts/storage failures and unchanged legacy records/homepage.");
 

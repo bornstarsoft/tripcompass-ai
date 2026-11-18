@@ -5,11 +5,11 @@
 .my-trips-jump { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; margin: 0 0 1.25rem; border-block: 1px solid var(--line); }
 .my-trips-jump a { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .25rem; min-height: 56px; padding: .5rem 0; font-weight: 700; }
 .my-trips-jump span { color: var(--muted); font-size: .85rem; font-weight: 400; }
-.my-trips-drafts { display: flex; flex-wrap: wrap; align-items: center; gap: 0 .85rem; margin: 0 0 1rem; font-size: .9rem; }
-.my-trips-drafts span { font-weight: 650; }
-.my-trips-drafts a { display: inline-flex; align-items: center; min-height: 44px; padding-inline: .25rem; }
-.my-trips-drafts[hidden], .my-trips-drafts a[hidden] { display: none; }
-.my-trips-drafts a:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+.my-trips-note-links { display: flex; flex-wrap: wrap; align-items: center; gap: 0 .85rem; margin: 0 0 1rem; font-size: .9rem; }
+.my-trips-note-links span { font-weight: 650; }
+.my-trips-note-links a { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding-inline: .25rem; }
+.my-trips-note-links[hidden], .my-trips-note-links a[hidden] { display: none; }
+.my-trips-note-links a:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
 .my-trips-jump:focus-visible, .my-trip-city-return:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
 .my-trip-city-return { display: flex; align-items: center; justify-content: space-between; gap: .5rem; min-height: 44px; margin-top: 1rem; padding: .5rem 0; border-top: 1px solid var(--line); font-size: .9rem; }
 .my-trip-city-return span { flex-shrink: 0; }

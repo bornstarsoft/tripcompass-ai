@@ -1,6 +1,6 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (SAVED-NOTE-SHORTCUTS; My trips note navigation, validation and production deploy approved by owner; main at c43f797; 2026-11-18 KST)
 
 ## Current Task
 
