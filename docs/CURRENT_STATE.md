@@ -1,11 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (OFFLINE-TRAVEL-NOTE; bilingual static worksheet and production deployment; main/current worktree; 2026-11-18)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: OFFLINE-TRAVEL-NOTE. Phase: implementation. Started clean on main at 6ca0bdd; owner authorized content, return-visit improvement and deployment. Add an EN/KO blank travel-day worksheet, offline review advice and workspace shortcuts. No homepage, private record, provider or infrastructure changes.
-- Local QA PASS: Phase 1-5, strict Hugo, whitespace, and byte-identical homepages. Chromium passed all six EN/KO workspaces at 320/390/1440px, including no-JS download, visible section heading, 44px shortcut/download targets, Back and exact saved-fixture preservation. Both downloaded files matched source bytes. No app errors or API/booking calls in the browser suite. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and verify live downloads. BLOCKER: none.
+- Last AI: CODEX; WORK-ID: OFFLINE-TRAVEL-NOTE; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at 6ca0bdd; owner authorized content, return-visit improvement and deployment. Added an EN/KO blank travel-day worksheet, offline review advice and workspace shortcuts. No homepage, private record, provider or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace, and byte-identical homepages. Chromium passed all six EN/KO workspaces at 320/390/1440px, including no-JS download, visible section heading, 44px shortcut/download targets, Back and exact saved-fixture preservation. Both downloaded files matched source bytes. No app errors or API/booking calls in the browser suite.
+- HEAD/WIP: application commit 93a6ca2d2f341bf64802706858f7304a9f12ea1c pushed to main. This documentation update records deployment evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44302665248 and Cloudflare Pages succeeded. Both homepages, all six workspaces, both guides, both downloads, changed CSS and sitemap matched the validated build. Chromium passed six localized workspace downloads and the same three widths including no-JS. Browser-downloaded TXT copies matched the sources. No app errors or API/booking calls in the browser suite.
+- QA NOT_RUN: physical devices/Safari, editing on a physical phone with internet disabled, paid AI calls, D1 and retention measurement. NEXT_SINGLE_TASK: ask travelers whether they can find and open the downloaded worksheet before departure, without collecting the completed files. BLOCKER: none.
 
 ## Previous Next Check Release
 
