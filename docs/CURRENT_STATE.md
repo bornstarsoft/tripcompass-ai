@@ -1,8 +1,13 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (OFFLINE-TRAVEL-NOTE; bilingual static worksheet and production deployment; main/current worktree; 2026-11-18)
 
 ## Current Task
+
+- WORK-ID: OFFLINE-TRAVEL-NOTE. Phase: implementation. Started clean on main at 6ca0bdd; owner authorized content, return-visit improvement and deployment. Add an EN/KO blank travel-day worksheet, offline review advice and workspace shortcuts. No homepage, private record, provider or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace, and byte-identical homepages. Chromium passed all six EN/KO workspaces at 320/390/1440px, including no-JS download, visible section heading, 44px shortcut/download targets, Back and exact saved-fixture preservation. Both downloaded files matched source bytes. No app errors or API/booking calls in the browser suite. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and verify live downloads. BLOCKER: none.
+
+## Previous Next Check Release
 
 - Last AI: CODEX; WORK-ID: NEXT-CHECK-HANDOFF; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at d299098; owner authorized content, return-visit improvement and production deployment. The next unchecked item links to its existing row; Plan B has a bilingual example for telling travel companions what changed. Homepages, storage and infrastructure unchanged.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Unit cases cover all task transitions, completed/invalid fallback and built anchors. Chromium passed six EN/KO city flows and four widths (320/390/768/1440px), including checkbox focus, Tab to the related guide, visible row, 44px targets, advance/rewind, guide return and exact fixture preservation. Initial test expected focus on the row; the existing handler correctly focuses the checkbox, so the temporary row tabindex was removed and tests rerun.

@@ -1,0 +1,26 @@
+TripCompass AI | Offline travel-day note
+
+Fill in this blank copy on your device. Check your actual bookings and transport
+before travel. Do not enter passport, payment, booking-reference or access-code details.
+
+City and travel date:
+Last checked (date, time and time zone):
+
+ARRIVAL
+Airport and terminal:
+Accommodation name and address (save the local spelling too):
+Check-in window and official contact:
+First leg to the accommodation and where to change:
+Plan if arrival is late or bags cannot be stored:
+
+RETURN
+Return flight date, airport and terminal:
+Bag collection location and cutoff (time zone):
+Airport route and where to change:
+Time to stop the optional outing and collect bags:
+First stop to skip if the plan changes:
+
+BEFORE YOU LEAVE
+Open this copy with internet access turned off. If the accommodation, bags or
+terminal changed, update this copy and remove the old one to avoid confusion.
+This is a personal planning note, not a booking or live travel update.

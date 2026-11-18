@@ -16,11 +16,14 @@ class PlanningPage(CoursePage):
         self.in_highlights = False
         self.dates = []
         self.save_ids = []
+        self.downloads = []
         super().__init__(source)
 
     def handle_starttag(self, tag, attrs):
         super().handle_starttag(tag, attrs)
         attrs = dict(attrs)
+        if tag == "a" and "download" in attrs:
+            self.downloads.append(attrs["href"])
         if "data-save-guide" in attrs:
             assert tag == "button" and "hidden" in attrs and attrs.get("aria-label")
             self.save_ids.append(attrs["data-save-guide"])
@@ -207,10 +210,19 @@ def check(root):
             if path == "/itinerary/japan-arrival-departure-day-plan/":
                 assert page.save_ids == ["travel-days"]
                 assert "/js/guide-explorer.js" in page.scripts
-                checkpoints = {"booking-review", "before-leaving-home", "night-before-return", "before-checkout", "after-trip"}
+                checkpoints = {"booking-review", "before-leaving-home", "night-before-return", "before-checkout", "after-trip", "offline-travel-note"}
                 assert checkpoints <= page.ids
                 assert {"#" + checkpoint for checkpoint in checkpoints} <= set(page.links)
                 assert {prefix + path for path in ["/my-trip/", "/my-trip/osaka/", "/my-trip/tokyo/", "/my-trips/#trip-selector"]} <= set(page.links)
+                template = f"/downloads/travel-day-note-{language}.txt"
+                assert page.downloads == [template]
+                template_text = (root / template.lstrip("/")).read_text(encoding="utf-8")
+                labels = ["Airport and terminal:", "Bag collection location and cutoff (time zone):", "Last checked (date, time and time zone):"] if language == "en" else ["도착 공항과 터미널:", "짐 찾는 곳과 회수 마감 시각 (시간대 포함):", "마지막 확인 날짜·시각·시간대:"]
+                assert all(label in template_text.splitlines() for label in labels)
+                assert ("blank template" if language == "en" else "빈 양식입니다") in text
+                assert template not in read(prefix + "/").links
+                for workspace in ["/my-trip/", "/my-trip/osaka/", "/my-trip/tokyo/"]:
+                    assert url + "#offline-travel-note" in read(prefix + workspace).links
                 for term in (["exact date, time and time zone", "your own calendar", "does not track deadlines, send reminders or change reservations"] if language == "en" else ["마감 날짜·시각·시간대", "개인 캘린더", "마감을 추적하거나 알림을 보내거나 예약을 변경하지 않습니다"]):
                     assert term in text
                 for term in (["Before leaving home:", "not a complete departure checklist", "Reading this section does not save", "not a backup or account sync"] if language == "en" else ["한국에서 출발 전날:", "출발 준비 전체 목록이나 입국 요건 확인을 대신하지 않습니다", "준비 체크가 바뀌지 않습니다", "백업이나 계정 동기화가 아닙니다"]):

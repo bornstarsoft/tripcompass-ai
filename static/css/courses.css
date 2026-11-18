@@ -78,6 +78,7 @@
 .course-guide .prose > h2:first-child { margin-top: 0; }
 .course-guide .prose h3 { padding-top: 0.7rem; border-top: 1px solid var(--line); }
 .course-guide .prose strong { color: var(--ink); }
+.course-guide .travel-day-download { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
 .course-guide .prose table { table-layout: fixed; word-break: normal; overflow-wrap: anywhere; }
 .course-guide .prose th, .course-guide .prose td { padding: 0.6rem; }
 .course-print-url { display: none; }

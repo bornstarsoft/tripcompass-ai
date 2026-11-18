@@ -88,6 +88,7 @@
   </div>
   <section class="prep-section" aria-labelledby="prep-reading-title">
     <h2 id="prep-reading-title">{{ cond $ko "함께 볼 가이드" "Guides for this trip" }}</h2>
+    <p><a class="prep-offline-link" href="{{ printf "%s/itinerary/japan-arrival-departure-day-plan/#offline-travel-note" $prefix | relURL }}">{{ cond $ko "오프라인 이동 메모 양식" "Offline travel-day note template" }}</a></p>
     <p class="explore-feedback" data-guide-feedback role="status" aria-live="polite" aria-atomic="true"></p>
     <ul class="prep-reading">
       {{ range $data.guides }}

@@ -12,7 +12,7 @@ takeaways:
   - "Work backward from the correct airport and terminal"
   - "Keep one optional treat, with permission to skip it"
 reviewed: "2026-09-22"
-lastmod: "2026-11-10T20:55:00+09:00"
+lastmod: "2026-11-18T21:14:00+09:00"
 alternateKo: "/ko/itinerary/japan-arrival-departure-day-plan/"
 weight: 57
 ---
@@ -83,7 +83,7 @@ Use the city you chose to make the review specific:
 
 **Leave only the next question in your note:** “Ask about bags / first meal near the hotel / skip the extra district.” Return to [Fukuoka](/my-trips/#trip-fukuoka), [Osaka](/my-trips/#trip-osaka) or [Tokyo](/my-trips/#trip-tokyo), read the existing note before editing, and save only what you want to keep. Each city has one note, not a new note for every departure. Reading this section does not save text or change preparation checks.
 
-Keep documents, booking references and access codes out of TripCompass notes. Keep essential details separately where you can access them without internet: a saved guide is not an offline copy, and browser-local records are not a backup or account sync. Recheck time-sensitive information again before acting; this review does not confirm prices, availability, entry eligibility or a successful booking.
+Keep documents, booking references and access codes out of TripCompass notes. Keep essential details separately where you can access them without internet: use the [offline travel-day note](#offline-travel-note) rather than relying on a guide bookmark. Browser-local records are not a backup or account sync. Recheck time-sensitive information again before acting; this review does not confirm prices, availability, entry eligibility or a successful booking.
 
 ## Arrival day: choose the smaller version when delayed
 
@@ -139,6 +139,14 @@ Fill this in with confirmed details and keep a separate personal copy you can ac
 | Route | Departure point, changes, onward terminal access and operator reference |
 | Stop time | When the optional outing ends, including the bag-collection detour |
 | First thing to drop | The extra shop, walk or queued meal you can leave for next time |
+
+### Keep a copy you can open offline {#offline-travel-note}
+
+{{< travel-day-worksheet >}}
+
+The file is a blank template, not a copy of your saved trip or private notes. Fill it in on your device with the details you confirmed. Start with the accommodation address in its local spelling, where you will collect your bags, and the airport and terminal on your return booking. If a leg is still uncertain, write down what to check rather than putting in a guessed route or time.
+
+**Before leaving, try opening your completed copy with internet access turned off.** Check that you can read the address and find the bag-collection and terminal details quickly. After a change, replace the older copy so you do not follow old directions. A saved file does not update itself or make the full guide available offline.
 
 For a final small ritual, each person can pick one favorite moment from the trip over a meal already on the route. It adds something to the day without another ticket or district.
 
