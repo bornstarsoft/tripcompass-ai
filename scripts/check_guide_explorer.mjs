@@ -51,6 +51,7 @@ function harness({ language = "en", stored = "[]", blocked = false, readBlocked 
   });
   const filterLabel = { ...node(), hidden: true };
   const libraryCount = { ...node(), hidden: true };
+  const libraryCompare = { ...node(), hidden: true };
   let active = null;
   const savedOnly = { ...node(), checked: false, focus() { active = savedOnly; } };
   const libraryRows = [...buttons, null].map(button => ({
@@ -67,6 +68,7 @@ function harness({ language = "en", stored = "[]", blocked = false, readBlocked 
     "[data-explore-empty-title]": legacy || single ? null : emptyTitle,
     "[data-explore-empty-description]": legacy || single ? null : emptyDescription,
     "[data-library-filter]": filterLabel, "[data-library-count]": libraryCount,
+    "[data-library-compare]": library ? libraryCompare : null,
     "[data-library-saved-only]": library ? savedOnly : null
   };
   const root = {
@@ -111,7 +113,7 @@ function harness({ language = "en", stored = "[]", blocked = false, readBlocked 
     state, feedback, buttons, cards, controls, count, empty, reset, events, filters, searchNode: search, savedContext, emptyTitle, emptyDescription,
     visible: () => cards.filter(card => !card.hidden).map(card => card.dataset.exploreCard),
     save: id => buttons.find(button => button.dataset.saveGuide === id).events.click(),
-    filterLabel, libraryCount, savedOnly, libraryRows, libraryGroups,
+    filterLabel, libraryCount, libraryCompare, savedOnly, libraryRows, libraryGroups,
     active: () => active,
     focusGuide: id => { active = buttons.find(button => button.dataset.saveGuide === id); },
     filterLibrary: checked => { savedOnly.checked = checked; savedOnly.events.change(); },
@@ -130,10 +132,12 @@ for (const language of ["en", "ko"]) {
   const visible = () => ui.libraryRows.filter(row => !row.hidden).map(row => row.button?.dataset.saveGuide);
   assert.equal(ui.filterLabel.hidden, false);
   assert.equal(ui.libraryCount.hidden, true);
+  assert.equal(ui.libraryCompare.hidden, true);
   assert.deepEqual(visible(), [...ids, undefined]);
   assert.equal(ui.state.historyWrites, 0, "Opening the library is read-only");
   ui.filterLibrary(true);
   assert.deepEqual(visible(), ["osaka", "stay"]);
+  assert.equal(ui.libraryCompare.hidden, false, "Show time-window guidance for two visible bookmarks");
   assert.equal(ui.libraryCount.textContent, language === "ko" ? "저장한 가이드 2개" : "2 saved guides");
   assert.equal(ui.state.writes, 0);
   assert.deepEqual(ui.state.historyState, { keep: "unrelated", tripcompassItineraryView: { version: 1, path, savedOnly: true } });
@@ -156,6 +160,7 @@ for (const language of ["en", "ko"]) {
   ui.events.storage({ key, newValue: '["osaka"]' });
   assert.deepEqual(visible(), ["osaka"]);
   assert.equal(ui.libraryGroups[1].hidden, true);
+  assert.equal(ui.libraryCompare.hidden, true, "Hide the link when fewer than two remain");
   assert.equal(ui.active(), ui.savedOnly, "Do not strand focus in a hidden row");
   ui.events.storage({ key: null, newValue: null });
   assert.equal(ui.libraryCount.textContent, language === "ko" ? "이 목록에 저장한 가이드가 아직 없어요." : "No saved guides in this list yet.");
@@ -175,7 +180,12 @@ for (const language of ["en", "ko"]) {
   assert.equal(blockedHistory.libraryCount.hidden, false);
   const unavailable = harness({ language, library: true, readBlocked: true });
   unavailable.filterLibrary(true);
+  assert.equal(unavailable.libraryCompare.hidden, true);
   assert.equal(unavailable.libraryCount.textContent, language === "ko" ? "저장한 가이드 목록을 읽을 수 없어요." : "Your saved guides could not be read.");
+  const memoryOnly = harness({language, library: true, stored: '["stay"]', blocked: true});
+  memoryOnly.save("osaka");
+  memoryOnly.filterLibrary(true);
+  assert.equal(memoryOnly.libraryCompare.hidden, true, "Do not offer a round trip for page-only selections");
 }
 
 for (const language of ["en", "ko"]) {

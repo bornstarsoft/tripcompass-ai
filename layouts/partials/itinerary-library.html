@@ -27,7 +27,10 @@
     <a class="itinerary-saved-link" href="{{ printf "%s/my-trips/" $prefix | relURL }}">{{ cond $ko "내 여행에서 저장한 가이드 보기" "View saved guides in My trips" }}</a>
   </div>
   <p class="explore-feedback" data-guide-feedback role="status" aria-live="polite" aria-atomic="true"></p>
-  <p class="itinerary-view-count" data-library-count role="status" aria-atomic="true" hidden></p>
+  <div class="itinerary-library-actions itinerary-saved-summary">
+    <p class="itinerary-view-count" data-library-count role="status" aria-atomic="true" hidden></p>
+    <a class="itinerary-saved-link" data-library-compare href="{{ printf "%s/itinerary/japan-plan-b/#same-time-block" $prefix | relURL }}" hidden>{{ cond $ko "같은 시간대에 맞는 후보 고르기" "Choose a guide that fits the time you have" }}</a>
+  </div>
   <table data-library-group>
     <caption>{{ cond $ko "코스별 여행 기간과 추천 여행 성향" "Trip length and traveler fit by itinerary" }}</caption>
     <thead>

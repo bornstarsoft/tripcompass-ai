@@ -1,8 +1,13 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (SAVED-GUIDE-TIME-BLOCK; bilingual planning guidance and production deployment; main/current worktree; 2026-11-18)
 
 ## Current Task
+
+- WORK-ID: SAVED-GUIDE-TIME-BLOCK. Phase: implementation. Started clean on main at 9fd0e0f; owner authorized a content/return-visit improvement, validation and production deployment. Add a time-window comparison example to Plan B and link to it from the saved-only library when multiple guides are visible. No homepage, storage format or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit coverage includes contextual link visibility, unavailable and page-only saves, and built localized targets. Chromium passed six EN/KO flows at 320/390/1440px: link and heading visible, 44px target, Back filter restoration, read-only personal records, cross-tab removal/undo with focus recovery, no overflow and both no-JS fallbacks. Mobile screenshot inspected. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and repeat live. BLOCKER: none.
+
+## Previous Itinerary Filter Return Release
 
 - Last AI: CODEX; WORK-ID: ITINERARY-FILTER-RETURN; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at 2674cb7; owner authorized a return-visit improvement, validation and production deployment. Same-entry Back/reload restores the bilingual itinerary library's saved-only view. The path-bound history state holds only the UI flag and no guide IDs. No new UI, storage key, URL parameter or infrastructure changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit tests cover per-entry history, invalid/cross-language snapshots, blocked history and existing explorer behavior. Chromium passed six EN/KO flows at 320/390/1440px: guide round trip, reload, fresh locale, Back to the prior filter, explicit off, unrelated history fields and exact saved-record preservation. Both no-JS and blocked history cases passed; mobile screenshot inspected.

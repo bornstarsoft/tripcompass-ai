@@ -15,7 +15,7 @@ takeaways:
   - "Leave one short note for the next time you open your trip"
 reviewed: "2026-10-23"
 date: "2026-10-23T00:00:00+09:00"
-lastmod: "2026-11-18T21:01:00+09:00"
+lastmod: "2026-11-18T22:29:00+09:00"
 alternateKo: "/ko/itinerary/japan-plan-b/"
 weight: 58
 ---
@@ -165,6 +165,16 @@ Use the existing guides as pairs, not combined routes:
 - **Tokyo:** compare [Jimbocho books](/itinerary/tokyo-jimbocho-books-cafes/) with [Kiyosumi-Shirakawa's garden, art and coffee ideas](/itinerary/tokyo-kiyosumi-shirakawa-garden-art-coffee/). Choose one interest rather than joining the two courses. [Reopen saved Tokyo guides](/my-trips/#saved-guides-tokyo).
 
 Note to adapt: **“First choice: __. Instead of: __. Still to check: __.”** Check current access, hours and any booking conditions with the relevant providers. These pairs do not establish today's feasibility. Reading or following these links does not change your saved guides or course choice; an edited city note still needs an explicit save.
+
+#### Compare the time you actually have {#same-time-block}
+
+A lodging guide, a long outing and a neighborhood walk are not interchangeable. Pick a real block first: for example, **from finishing lunch until you need to be back at the hotel**. Work backward from the return deadline and include the outward trip, waiting, a break and the journey back. If a candidate only fits when none of those take time, it is not your fallback.
+
+- **Fukuoka:** If your only free block ends at bag collection, keep the [one-area city plan](/itinerary/fukuoka-rainy-day-plan/) as a candidate. Save [Dazaifu](/itinerary/fukuoka-dazaifu-shrine-museum-day/) for a more open day instead of trying to squeeze both into that block.
+- **Osaka:** If returning to meet someone for dinner, compare the complete [Nara outing](/itinerary/osaka-to-nara-temple-park-day/) with a [Doguyasuji browse](/itinerary/osaka-doguyasuji-kitchenware-walk/), including travel back to the meeting place. If you cannot confirm that the outing fits, keep one smaller city activity or rest.
+- **Tokyo:** If there is room for one main stop, compare a [Jimbocho bookshop](/itinerary/tokyo-jimbocho-books-cafes/) with a [garden or art stop in Kiyosumi-Shirakawa](/itinerary/tokyo-kiyosumi-shirakawa-garden-art-coffee/). Choose the interest you want most, and count a cafe break as part of that block rather than adding another district.
+
+Leave a decision you can use later: **“Keep: one main stop. Drop first: the second area. Recheck: the return journey before leaving.”** Use the [itinerary library](/itinerary/#itinerary-library-title) to reopen candidates. These examples do not verify travel times, opening hours or availability.
 
 ### Keep only the next unresolved choice
 

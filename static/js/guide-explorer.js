@@ -18,6 +18,7 @@
   const emptyDescription = root.querySelector("[data-explore-empty-description]");
   const libraryOnly = root.querySelector("[data-library-saved-only]");
   const libraryCount = root.querySelector("[data-library-count]");
+  const libraryCompare = root.querySelector("[data-library-compare]");
   const libraryGroups = libraryOnly ? [...root.querySelectorAll("[data-library-group]")].map(group => ({
     group, items: [...group.querySelectorAll("[data-library-item]")].map(row => ({
       row, id: row.querySelector("[data-save-guide]")?.dataset.saveGuide
@@ -118,6 +119,11 @@
       group.hidden = !groupVisible;
     }
     libraryCount.hidden = !libraryOnly.checked;
+    if (libraryCompare) {
+      const hideCompare = !libraryOnly.checked || visible < 2 || savedUnavailable || memoryOnly;
+      if (hideCompare && document.activeElement === libraryCompare) libraryOnly.focus();
+      libraryCompare.hidden = hideCompare;
+    }
     const label = savedUnavailable && !memoryOnly
       ? (ko ? "저장한 가이드 목록을 읽을 수 없어요." : "Your saved guides could not be read.")
       : visible === 0 ? (ko ? "이 목록에 저장한 가이드가 아직 없어요." : "No saved guides in this list yet.")

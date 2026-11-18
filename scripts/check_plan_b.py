@@ -18,6 +18,7 @@ class PlanPage(Page):
         self.saved = []
         self.guide_ids = []
         self.reading_sections = []
+        self.library_compare = []
         super().__init__(source)
 
     def handle_starttag(self, tag, attrs):
@@ -36,6 +37,9 @@ class PlanPage(Page):
             self.images.append(attrs)
         if tag == "a" and "data-trip-plan-b" in attrs:
             self.entries[attrs["data-trip-plan-b"]] = attrs["href"]
+        if tag == "a" and "data-library-compare" in attrs:
+            assert "hidden" in attrs and "target" not in attrs
+            self.library_compare.append(attrs["href"])
         if tag == "h2" and attrs.get("id"):
             self.sections.append(attrs["id"])
         if tag == "script" and attrs.get("src"):
@@ -79,6 +83,10 @@ def check(root):
         assert ("예상 대기 시간은 착석 시각을 보장" if prefix else "An estimate is not a promised seating time") in text
         assert ("예시를 읽기만 해서는 메모가 저장되지" if prefix else "reading this example does not save it") in text
         assert "saved-shortlist" in page.ids and "#saved-shortlist" in page.links
+        assert "same-time-block" in page.ids
+        assert ("실제로 비어 있는 시간에 맞춰 비교하기" if prefix else "Compare the time you actually have") in text
+        assert prefix + "/itinerary/#itinerary-library-title" in page.links
+        assert read(prefix + "/itinerary/").library_compare == [url + "#same-time-block"]
         assert ("저장한 후보가 많다면" if prefix else "Saved several ideas?") in text
         assert ("이번 여행에서 빼기 위해 저장까지 해제할 필요는" if prefix else "do not need to delete an idea") in text
         assert ("직접 저장해야 남습니다" if prefix else "an explicit save") in text

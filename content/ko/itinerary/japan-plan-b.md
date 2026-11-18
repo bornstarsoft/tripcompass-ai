@@ -16,7 +16,7 @@ takeaways:
   - "다음에 다시 열었을 때 도움이 될 짧은 메모를 남겨요"
 reviewed: "2026-10-23"
 date: "2026-10-23T00:00:00+09:00"
-lastmod: "2026-11-18T21:01:00+09:00"
+lastmod: "2026-11-18T22:29:00+09:00"
 alternateEn: "/itinerary/japan-plan-b/"
 weight: 58
 ---
@@ -166,6 +166,16 @@ weight: 58
 - **도쿄:** [진보초 책방](/ko/itinerary/tokyo-jimbocho-books-cafes/)과 [기요스미시라카와 정원·미술·커피](/ko/itinerary/tokyo-kiyosumi-shirakawa-garden-art-coffee/) 중 관심사 하나를 고릅니다. 두 코스를 이어 붙일 필요는 없어요. [도쿄 저장 가이드 다시 보기](/ko/my-trips/#saved-guides-tokyo).
 
 메모 예시: **“우선 후보: __ / 대신 뺄 것: __ / 아직 확인할 것: __”**. 실제 접근 동선, 영업시간, 예약 조건은 관련 제공처에서 다시 확인하세요. 위의 비교가 오늘 일정의 실행 가능성을 확인해 주지는 않습니다. 글을 읽거나 링크를 여는 것만으로 저장 목록과 선택 코스는 바뀌지 않으며, 수정한 도시 메모도 직접 저장해야 남습니다.
+
+#### 실제로 비어 있는 시간에 맞춰 비교하기 {#same-time-block}
+
+숙소 가이드, 근교 외출, 동네 산책은 서로 바꿔 넣을 수 있는 일정이 아닙니다. 먼저 **점심을 마친 뒤부터 숙소에 돌아와야 할 때까지**처럼 실제로 비어 있는 시간대를 하나 정하세요. 돌아올 시각부터 거꾸로 보면서 가는 길, 대기, 쉬는 시간, 돌아오는 길까지 포함합니다. 이 시간을 하나라도 빼야 들어가는 후보라면 대안으로 삼기 어렵습니다.
+
+- **후쿠오카:** 짐을 찾기 전까지만 시간이 비어 있다면 [도심 한 권역](/ko/itinerary/fukuoka-rainy-day-plan/)을 후보로 두세요. [다자이후](/ko/itinerary/fukuoka-dazaifu-shrine-museum-day/)는 둘을 한 번에 넣기보다 시간이 넉넉한 날의 후보로 남깁니다.
+- **오사카:** 저녁에 일행과 합류해야 한다면 [나라 외출](/ko/itinerary/osaka-to-nara-temple-park-day/)과 [도구야스지 구경](/ko/itinerary/osaka-doguyasuji-kitchenware-walk/)을 비교할 때 만나는 곳까지 돌아오는 길을 포함하세요. 근교에 다녀올 여유가 있는지 확인하기 어렵다면 시내 일정 하나만 남기거나 쉽니다.
+- **도쿄:** 중심 일정 하나만 가능한 시간이라면 [진보초 책방](/ko/itinerary/tokyo-jimbocho-books-cafes/)과 [기요스미시라카와 정원·미술](/ko/itinerary/tokyo-kiyosumi-shirakawa-garden-art-coffee/) 중 더 끌리는 경험을 고르세요. 카페에서 쉴 시간도 같은 시간 안에 포함하고, 다른 동네를 더 넣지 않습니다.
+
+다음에 펼쳐 쓸 한 줄만 남겨 보세요. **“남길 것: 중심 일정 하나 / 먼저 뺄 것: 두 번째 권역 / 확인할 것: 나가기 전 돌아올 길.”** [일정 모음](/ko/itinerary/#itinerary-library-title)에서 후보를 다시 볼 수 있습니다. 이 예시가 이동 시간, 영업시간이나 이용 가능 여부를 확인해 주지는 않습니다.
 
 ### 아직 정하지 못한 선택만 남기세요
 
