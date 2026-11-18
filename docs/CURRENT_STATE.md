@@ -1,8 +1,16 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (SHORTER-TRIP-REVIEW; bilingual itinerary guidance, validation and production deployment approved by owner; main at ac3776b; 2026-11-18 KST)
+ACTIVE_WRITER = NONE
 
 ## Current Task
+
+- Last AI: CODEX; WORK-ID: SHORTER-TRIP-REVIEW; DONE on 2026-11-18 KST. Phase: deployed and production-validated. Started clean on main at ac3776b; owner authorized content, validation and production deployment. Added bilingual guidance for reusing a saved itinerary when travel time shrinks. The travel-day guide and six city workspaces link to the new section, which links back to each city's preparation review. No homepage, storage, server or affiliate behavior changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Link validation caught an unavailable Korean itinerary URL and passed after both versions linked to the existing bilingual Tokyo course. Chromium passed six EN/KO flows at 320/390/1440px, including 44px review links, keyboard/touch navigation, visible heading, city return, Back, no overflow and exact fixture preservation. Both no-JS cases passed; screenshots inspected.
+- HEAD/WIP: application commit 6bb3ab6 pushed to main. This document records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44325923597 and Cloudflare Pages check 134877295014 succeeded. Twelve responses (both homepages, both guides, all six workspaces, prep CSS and sitemap) matched the verified build. All six live Chromium flows and the two no-JS tests passed; screenshots inspected. No application errors or API/booking requests during browser QA.
+- QA NOT_RUN: physical devices/Safari, paid AI, D1 and retention measurement. NEXT_SINGLE_TASK: check whether a traveler can identify one whole outing to omit and one paid commitment to recheck when a planned day is lost, without collecting their travel details. BLOCKER: none.
+
+## Previous Saved Note Shortcuts Release
 
 - Last AI: CODEX; WORK-ID: SAVED-NOTE-SHORTCUTS; DONE on 2026-11-18 KST. Phase: deployed and production-validated. Started clean on main at c43f797; owner authorized a return-visit improvement, validation and production deployment. My trips now links directly to each available saved city note, without showing its text in the shortcut. Draft shortcuts take precedence for the same city. No homepage, storage format or infrastructure changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit coverage includes empty and invalid notes, draft precedence, explicit saving, cross-tab updates, unavailable storage and focus fallback. Chromium passed six EN/KO flows at 320/390/1440px, including 44px targets, native heading focus, Back, reload, language switching, fresh tab, cross-tab removal and exact unrelated record preservation. Both no-JS checks passed; mobile screenshots inspected.
