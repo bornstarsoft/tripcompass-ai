@@ -1,11 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (WORKSPACE-GUIDE-CONTEXT; bilingual task navigation and production deployment; main/current worktree; 2026-11-18)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: WORKSPACE-GUIDE-CONTEXT. Phase: implementation. Started clean on main at d23ff51; owner authorized content, return-visit improvement and deployment. Reuse existing guide task context from city workspaces and add a hotel-change review to the EN/KO travel-day guide. No homepage, storage format or infrastructure changes.
-- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Build checks verify all 30 EN/KO workspace task links match overview links and target the correct panels, plus six hotel-change links. Chromium passed six city/language flows at 320/390/1440px, visible checkbox focus, explicit check and Back, hotel-change navigation, and preservation of notes/bookmarks/comparison. Initial Back test exposed native stale checkbox restoration; workspace pageshow now rereads stored state without writes, and checks passed after the fix. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and verify live guide navigation. BLOCKER: none.
+- Last AI: CODEX; WORK-ID: WORKSPACE-GUIDE-CONTEXT; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at d23ff51; owner authorized content, return-visit improvement and deployment. Reused existing guide task context from city workspaces and added a hotel-change review to the EN/KO travel-day guide. No homepage, storage format or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Build checks verify all 30 EN/KO workspace task links match overview links and target the correct panels, plus six hotel-change links. Chromium passed six city/language flows at 320/390/1440px, visible checkbox focus, explicit check and Back, hotel-change navigation, and preservation of notes/bookmarks/comparison. Initial Back test exposed native stale checkbox restoration; workspace pageshow now rereads stored state without writes, and checks passed after the fix.
+- HEAD/WIP: application commit 75e48ac188b6e58884d8cdf7a12e86c0b2eac52e pushed to main. This documentation update records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44305959328 and Cloudflare Pages succeeded. Both homepages, six workspaces, both guides, changed CSS/JS and sitemap matched the validated build byte-for-byte. All six EN/KO Chromium flows passed again with the same viewport widths. Mobile screenshot inspected; no app errors or API/booking calls in browser QA.
+- QA NOT_RUN: physical-device/Safari, paid AI calls, D1 queries and retention measurement. NEXT_SINGLE_TASK: ask travelers whether they can identify and update the relevant checklist item after reading a guide, without collecting any private travel details. BLOCKER: none.
 
 ## Previous Calendar Review Release
 
