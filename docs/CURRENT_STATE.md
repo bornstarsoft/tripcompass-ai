@@ -1,11 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (NEXT-CHECK-HANDOFF; bilingual navigation and editorial update through production deployment; main/current worktree; 2026-11-18)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: NEXT-CHECK-HANDOFF. Phase: implementation. Started clean on main at d299098; owner authorized content, return-visit improvement and production deployment. Link the next unchecked preparation item to its existing row and add a companion handoff example to Plan B. Keep homepages, storage and infrastructure unchanged.
-- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Unit cases cover all task transitions, completed/invalid fallback and built anchors. Chromium passed six EN/KO city flows and four widths (320/390/768/1440px), including checkbox focus, Tab to the guide, fully visible row, targets at least 44px, advance/rewind, guide return and exact fixture preservation. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and verify live build and interactions. BLOCKER: none.
+- Last AI: CODEX; WORK-ID: NEXT-CHECK-HANDOFF; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at d299098; owner authorized content, return-visit improvement and production deployment. The next unchecked item links to its existing row; Plan B has a bilingual example for telling travel companions what changed. Homepages, storage and infrastructure unchanged.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Unit cases cover all task transitions, completed/invalid fallback and built anchors. Chromium passed six EN/KO city flows and four widths (320/390/768/1440px), including checkbox focus, Tab to the related guide, visible row, 44px targets, advance/rewind, guide return and exact fixture preservation. Initial test expected focus on the row; the existing handler correctly focuses the checkbox, so the temporary row tabindex was removed and tests rerun.
+- HEAD/WIP: application commit a8107c66b5908b59220bc975a86ebcd5aa3d6f1f pushed to main. This documentation update records deployment evidence. No owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44300560932 and Cloudflare Pages succeeded. Both homepages, My trips pages, Plan B, changed CSS/JS and sitemap matched the validated build. The six EN/KO Chromium flows and four widths passed again. Screenshots were inspected; no app errors or API/booking calls in browser QA.
+- QA NOT_RUN: real devices/Safari, paid AI calls, D1 and retention measurement. NEXT_SINGLE_TASK: watch whether users can find their next unchecked item and resume with fewer steps; collect feedback without private trip details. BLOCKER: none.
 
 ## Previous Return Route Release
 
