@@ -1,8 +1,16 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (RETURN-TRIP-COMPANIONS; EN/KO editorial guide, validation and production deploy approved by owner; main at 58ff862; 2026-11-18)
+ACTIVE_WRITER = NONE
 
 ## Current Task
+
+- Last AI: CODEX; WORK-ID: RETURN-TRIP-COMPANIONS; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at 58ff862; owner authorized content, validation and production deployment. The EN/KO travel-day guides show how to reuse a past note when returning with different companions. The existing My trips disclosure links to the new section, and it links to preparation review for all three cities. No homepage, storage format or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Build tests cover localized copy, anchors and native disclosure links. Chromium passed six EN/KO flows at 320/390/1440px: 44px disclosure links, visible guide heading, city return, Back, no overflow, and exact record preservation except the mark explicitly unchecked. Both no-JS navigation tests passed; mobile screenshots inspected.
+- HEAD/WIP: application commit b6b780c pushed to main. This document records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44323520973 and Cloudflare Pages check 134869096567 succeeded. Thirteen live responses matched the verified build byte-for-byte, including both homepages, both overviews, both guides, all six preparation workspaces and sitemap. All six live Chromium flows and both no-JS cases passed; mobile screenshots inspected. No application errors or API/booking requests in the browser suite.
+- QA NOT_RUN: physical devices/Safari, paid AI calls, D1 queries and retention measurement. NEXT_SINGLE_TASK: ask whether travelers planning a return with a new group can identify one thing to keep and one preparation item to recheck, without collecting their private notes. BLOCKER: none.
+
+## Previous Saved Note Import Release
 
 - Last AI: CODEX; WORK-ID: SAVED-NOTE-IMPORT; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at fc0c810; owner authorized a return-visit improvement, validation and production deployment. Read a selected short UTF-8 TXT as a city draft without overwriting an unfinished edit or autosaving. No homepage, storage format or infrastructure changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit tests cover file size/UTF-8/limit validation, concurrency, unsupported browsers and existing drafts. Chromium passed 12 EN/KO city/surface flows at 320/390/1440px: file chooser, offline import, invalid/dirty guard, reload/language, explicit save, exact TXT round trip, unrelated records and 44px targets. Both no-JS checks passed; mobile screenshot inspected.
