@@ -1,11 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (PLAN-DECISION-NOTE; bilingual note drafting and production deployment; main/current worktree; 2026-11-18)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: PLAN-DECISION-NOTE. Phase: implementation. Started clean on main at 8fb6849; owner authorized a return-visit improvement, validation and production deployment. Add a plain-text planning prompt to the existing note editor with reciprocal Plan B links. No homepage, storage format or infrastructure changes.
-- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Chromium passed 12 EN/KO city/surface flows at 320/390/1440px, including Plan B links, one-time appending, caret, length guard, reload/language, explicit save, unchanged unrelated records and 44px controls. Both no-JS fallbacks passed; mobile screenshot inspected. Unit tests cover blocked/conflicting saved notes and duplicate prevention. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and repeat live. BLOCKER: none.
+- Last AI: CODEX; WORK-ID: PLAN-DECISION-NOTE; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at 8fb6849; owner authorized a return-visit improvement, validation and production deployment. Localized planning prompts append non-destructively in existing note editors, with deep links from Plan B. Only explicit Save changes the saved note. No homepage, storage format or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Chromium passed 12 EN/KO city/surface flows at 320/390/1440px, including Plan B links, one-time appending, caret, length guard, reload/language, explicit save, unchanged unrelated records and 44px controls. Both no-JS fallbacks passed; mobile screenshot inspected. Unit tests cover blocked/conflicting saved notes and duplicate prevention.
+- HEAD/WIP: application commit 3a9e4eedefce52954a766db092d0708aeffe2558 pushed to main. This document records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44315746552 succeeded on the public Actions page; the public status API returned HTTP 403. The publicly linked Cloudflare Pages check and deployment verification succeeded. Both homepages, overviews, six workspaces, both Plan B guides, sitemap and versioned note JS matched the validated Hugo build. All 12 EN/KO Chromium flows and both no-JS fallbacks passed live; mobile screenshot inspected. No application errors or API/booking calls.
+- QA NOT_RUN: physical-device/Safari, paid AI calls, D1 queries and retention measurement. NEXT_SINGLE_TASK: ask whether the three prompts help travelers leave a decision they can reuse, without collecting note contents. BLOCKER: none.
 
 ## Previous Saved Guide Time-block Release
 
