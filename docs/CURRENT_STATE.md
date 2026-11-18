@@ -1,11 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (SAVED-NOTE-OFFLINE; bilingual saved-note download and production deployment; main/current worktree; 2026-11-18)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: SAVED-NOTE-OFFLINE. Phase: implementation. Started clean on main at 06b02bd; owner authorized a return-visit improvement, validation and production deployment. Add an opt-in TXT download for the already-saved city note. No homepage, storage format or infrastructure changes.
-- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit coverage includes exact UTF-8 bytes, draft/baseline guards, unsupported or failed export and cleanup. Chromium passed 12 EN/KO city/surface flows at 320/390/1440px: offline Blob generation and reopening, exact saved text, stale and draft guards, no record changes, 44px controls and no horizontal overflow. Both no-JS cases passed; mobile screenshot inspected. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and repeat live. BLOCKER: none.
+- Last AI: CODEX; WORK-ID: SAVED-NOTE-OFFLINE; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at 06b02bd; owner authorized a return-visit improvement, validation and production deployment. My trips and workspaces can download saved city note text as a device-local TXT file. Existing copy remains; no upload, homepage, storage format or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit coverage includes exact UTF-8 bytes, draft/baseline guards, unsupported or failed export and cleanup. Chromium passed 12 EN/KO city/surface flows at 320/390/1440px: offline Blob generation and reopening, exact saved text, stale and draft guards, no record changes, 44px controls and no horizontal overflow. Both no-JS cases passed; mobile screenshot inspected.
+- HEAD/WIP: application commit 0938b66 pushed to main. This document records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44320545816 and Cloudflare Pages check 134858272432 succeeded. Both homepages, both overviews, six workspaces, privacy, sitemap and versioned JS matched the verified build. All 12 live Chromium paths and both no-JS paths passed; mobile screenshot inspected. No application errors, private fixture network requests or API/booking calls.
+- QA NOT_RUN: physical-device/Safari and native Files behavior, paid AI calls, D1 queries and retention measurement. NEXT_SINGLE_TASK: ask travelers whether they can reopen a saved note without a signal after downloading it, without collecting note contents. BLOCKER: none.
 
 ## Previous Offline Transfer Worksheet Release
 
