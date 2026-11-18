@@ -1,8 +1,16 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (MY-TRIPS-DEPARTURE-HANDOFF; localized overview navigation, validation and production deployment approved by owner; main at 302f056; 2026-11-18 KST)
+ACTIVE_WRITER = NONE
 
 ## Current Task
+
+- Last AI: CODEX; WORK-ID: MY-TRIPS-DEPARTURE-HANDOFF; DONE on 2026-11-18 KST. Phase: deployed and production-validated. Started clean on main at 302f056; owner authorized a return-visit improvement, validation and production deployment. In My trips, the existing Next step links to the localized travel-day guide when all five checks are marked. Unmarking an item restores the task link. No home, storage format, guide content or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit coverage includes all three cities, saved/absent/invalid records, cross-tab transitions, focus, guide anchor and versioned script. Chromium passed six EN/KO flows at 320/390/1440px: last check, 44px link, guide heading, Back, uncheck, existing task link, no overflow and exact unrelated record preservation. Both no-JS checks passed; mobile screenshots inspected.
+- HEAD/WIP: application commit 6afd733 pushed to main. This document records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44326946406 and Cloudflare Pages check 134880929290 succeeded. Fifteen live responses matched the verified build, including both homepages, both overviews, both guides, six workspaces, sitemap and versioned JS/CSS. All six live Chromium flows and both no-JS cases passed. Mobile screenshots inspected; no app errors or API/booking requests.
+- QA NOT_RUN: physical devices/Safari, paid AI, D1 and retention measurement. NEXT_SINGLE_TASK: ask whether the travel-day handoff is easy to find after finishing the last check, without collecting personal trip data. BLOCKER: none.
+
+## Previous Shorter Trip Review Release
 
 - Last AI: CODEX; WORK-ID: SHORTER-TRIP-REVIEW; DONE on 2026-11-18 KST. Phase: deployed and production-validated. Started clean on main at ac3776b; owner authorized content, validation and production deployment. Added bilingual guidance for reusing a saved itinerary when travel time shrinks. The travel-day guide and six city workspaces link to the new section, which links back to each city's preparation review. No homepage, storage, server or affiliate behavior changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Link validation caught an unavailable Korean itinerary URL and passed after both versions linked to the existing bilingual Tokyo course. Chromium passed six EN/KO flows at 320/390/1440px, including 44px review links, keyboard/touch navigation, visible heading, city return, Back, no overflow and exact fixture preservation. Both no-JS cases passed; screenshots inspected.
