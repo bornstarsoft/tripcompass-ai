@@ -1,11 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (ITINERARY-FILTER-RETURN; bilingual saved-view continuity and production deployment; main/current worktree; 2026-11-18)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: ITINERARY-FILTER-RETURN. Phase: implementation. Started clean on main at 2674cb7; owner authorized a return-visit improvement, validation and production deployment. Restore the saved-only view for the same itinerary visit on Back and reload; no new UI, personal record or infrastructure changes.
-- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit tests cover per-entry history, invalid/cross-language snapshots, blocked history and existing explorer behavior. Chromium passed six EN/KO flows at 320/390/1440px: guide round trip, reload, fresh locale, Back to the prior filter, explicit off, unrelated history fields and exact saved-record preservation. Both no-JS and blocked history cases passed; mobile screenshot inspected. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and repeat on production. BLOCKER: none.
+- Last AI: CODEX; WORK-ID: ITINERARY-FILTER-RETURN; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at 2674cb7; owner authorized a return-visit improvement, validation and production deployment. Same-entry Back/reload restores the bilingual itinerary library's saved-only view. The path-bound history state holds only the UI flag and no guide IDs. No new UI, storage key, URL parameter or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit tests cover per-entry history, invalid/cross-language snapshots, blocked history and existing explorer behavior. Chromium passed six EN/KO flows at 320/390/1440px: guide round trip, reload, fresh locale, Back to the prior filter, explicit off, unrelated history fields and exact saved-record preservation. Both no-JS and blocked history cases passed; mobile screenshot inspected.
+- HEAD/WIP: application commit ab498e2dafad7e6da2d2c3c0613e7ad4d5a45d88 pushed to main. This document records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44313729301 and Cloudflare Pages succeeded. Both homepages, itinerary hubs and My trips pages, privacy, sitemap and versioned assets matched the validated build. All six EN/KO browser flows and both no-JS and blocked-history paths passed live. Mobile screenshot inspected. No application errors or API/booking calls.
+- QA NOT_RUN: physical-device/Safari, paid AI calls, D1 queries and retention measurement. NEXT_SINGLE_TASK: ask whether filter continuity helps visitors compare two saved guides without repeating steps; do not collect their saved records. BLOCKER: none.
 
 ## Previous Saved Itinerary View Release
 
