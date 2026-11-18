@@ -1,11 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (TRAVEL-DAY-HANDOFF; bilingual travel-day guide and production deployment; main/current worktree; 2026-11-18)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: TRAVEL-DAY-HANDOFF. Phase: implementation. Started clean on main at 566c328; owner authorized a content/return-visit improvement, validation and deployment. Replace the completed workspace's checklist loop with a useful travel-day guide. No homepage, storage format or infrastructure changes.
-- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Unit coverage includes completed and incomplete navigation, locale and legacy markup fallback. Chromium passed six EN/KO city flows at 320/390/1440px: final check, localized guide and review-section return, uncheck and exact fixture preservation outside those deliberate edits. Mobile screenshot inspected, 44px entry link, no overflow and no-JS guide access. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and verify the completed-checklist handoff. BLOCKER: none.
+- Last AI: CODEX; WORK-ID: TRAVEL-DAY-HANDOFF; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at 566c328; owner authorized a content/return-visit improvement, validation and deployment. Fully marked workspaces now link to localized travel-day advice on coordinating arrivals and responsibilities. Unmarking restores the next-item link. No homepage, storage format or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Unit coverage includes completed and incomplete navigation, locale and legacy markup fallback. Chromium passed six EN/KO city flows at 320/390/1440px: final check, localized guide and review-section return, uncheck and exact fixture preservation outside those deliberate edits. Mobile screenshot inspected, 44px entry link, no overflow and no-JS guide access.
+- HEAD/WIP: application commit 5dba7f39ad74acbe3fc6f3678b40b83a88938025 pushed to main. This documentation update records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44308509573 and Cloudflare Pages succeeded. Both homepages, all six workspaces, both guides, CSS/JS and sitemap matched a separate strict production build byte-for-byte. All six live EN/KO Chromium flows and no-JS access passed; mobile screenshot inspected. No application errors or API/booking calls.
+- QA NOT_RUN: physical-device/Safari, paid AI calls, D1 queries and retention measurement. NEXT_SINGLE_TASK: ask travelers whether the guide after their last check helps settle a real meeting or check-in decision without collecting their travel details. BLOCKER: none.
 
 ## Previous Calendar Return Release
 
