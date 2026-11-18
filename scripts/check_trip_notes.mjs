@@ -20,6 +20,16 @@ function harness(language, records = new Map(), fail = {}, drafts = new Map()) {
     const fields = Object.fromEntries(["input", "form", "save", "status", "preview", "details", "summary", "count", "reload", ...(fail.legacy ? [] : ["copy", "copy-tools", "copy-status", "copy-manual", "copy-text", "plan-template"])].map(name => [name, node()]));
     return { dataset: { tripNote: city }, hidden: true, fields, querySelector: selector => fields[selector.slice(11, -1)] };
   });
+  const shortcutLinks = new Map(cities.map(city => [city, { ...node(), hidden: true }]));
+  const selector = node();
+  const shortcuts = {
+    hidden: true,
+    querySelector(query) {
+      if (query.endsWith(":not([hidden])")) return [...shortcutLinks.values()].find(link => !link.hidden);
+      return shortcutLinks.get(query.match(/"([a-z]+)"/)?.[1]);
+    }
+  };
+  doc.querySelector = query => query === "#trip-selector" ? selector : fail.noShortcuts ? null : shortcuts;
   doc.querySelectorAll = () => roots;
   const win = {
     navigator: fail.noClipboard ? {} : { clipboard: { writeText(value) {
@@ -46,12 +56,47 @@ function harness(language, records = new Map(), fail = {}, drafts = new Map()) {
     removeEventListener(name,fn) { events[name]?.delete(fn); }
   };
   mountTripNotes(doc,win);
-  return { records, drafts, roots, doc, writes, prompts, clipboard, fail, fields: city => roots[cities.indexOf(city)].fields,
+  return { records, drafts, roots, doc, writes, prompts, clipboard, fail, shortcuts, shortcutLinks, selector, fields: city => roots[cities.indexOf(city)].fields,
     dirty: () => events.beforeunload?.size || 0,
     emit: (name, event = {}) => events[name]?.forEach(fn => fn(event)),
     type(city,text) { const f = this.fields(city); f.input.value=text; f.input.input(); },
     save(city) { let prevented = false; this.fields(city).form.submit({ preventDefault() { prevented=true; } }); assert.ok(prevented); }
   };
+}
+
+for (const language of ["en", "ko"]) {
+  const base = raw("Saved baseline");
+  const ui = harness(language, new Map([[NOTE_KEYS.fukuoka, base]]));
+  assert.equal(ui.shortcuts.hidden, true, "A saved note alone is not an unsaved draft");
+  ui.type("fukuoka", "");
+  ui.type("osaka", "Unfinished idea");
+  const visible = h => cities.filter(city => !h.shortcutLinks.get(city).hidden);
+  assert.deepEqual(visible(ui), ["fukuoka", "osaka"], "Intentional blank edits still count");
+  assert.equal(ui.shortcuts.hidden, false);
+  const translated = harness(language === "ko" ? "en" : "ko", ui.records, {}, ui.drafts);
+  assert.deepEqual(visible(translated), ["fukuoka", "osaka"]);
+  const jump = translated.shortcutLinks.get("osaka");
+  translated.fields("osaka").details.open = false;
+  jump.click({ ctrlKey: true });
+  assert.equal(translated.fields("osaka").details.open, false, "Leave modified navigation native");
+  jump.click({});
+  assert.equal(translated.fields("osaka").details.open, true);
+  assert.equal(translated.fields("osaka").input.value, "Unfinished idea");
+  assert.equal(translated.writes.length, 0, "Navigating does not save a draft");
+  translated.save("osaka");
+  assert.deepEqual(visible(translated), ["fukuoka"]);
+  translated.shortcutLinks.get("fukuoka").focus();
+  translated.fields("fukuoka").reload.click();
+  assert.deepEqual(visible(translated), []);
+  assert.equal(translated.shortcuts.hidden, true);
+  assert.equal(translated.records.get(NOTE_KEYS.fukuoka), base);
+  assert.deepEqual(translated.writes, [NOTE_KEYS.osaka]);
+  const blocked = harness(language, new Map(), {draftWrite: true});
+  blocked.type("tokyo", "Still here");
+  assert.deepEqual(visible(blocked), ["tokyo"], "An in-page draft is still reachable if tab storage fails");
+  const absent = harness(language, new Map(), {noShortcuts: true});
+  absent.type("tokyo", "Workspace also still edits");
+  assert.equal(absent.shortcuts.hidden, true);
 }
 
 for (const language of ["en", "ko"]) {
@@ -280,9 +325,12 @@ if(process.argv[2]) for(const [prefix,title] of [["","For your next visit"],["ko
   assert.equal((html.match(/data-note-copy-text readonly/g)||[]).length,3);
   assert.ok(html.includes(prefix ? "저장된 메모 복사" : "Copy saved note"));
   assert.ok(html.includes("css/trip-note.css"));
+  assert.ok(html.includes("data-note-draft-shortcuts aria-labelledby=trip-drafts-title hidden"));
+  assert.equal((html.match(/data-note-draft-city=/g)||[]).length,3);
   const help = `href=/${prefix}itinerary/japan-arrival-departure-day-plan/#use-the-note target=_blank rel=noopener`;
   assert.equal(html.split(help).length - 1, 3);
   for (const city of cities) {
+    assert.ok(html.includes(`href=#next-visit-note-${city} data-note-draft-city=${city}`));
     assert.equal(html.split(`id=next-visit-note-${city}>`).length - 1, 1);
     const path = city === "fukuoka" ? "my-trip/" : `my-trip/${city}/`;
     const workspace = await readFile(resolve(process.argv[2], prefix + path + "index.html"), "utf8");
@@ -296,6 +344,7 @@ if(process.argv[2]) for(const [prefix,title] of [["","For your next visit"],["ko
     assert.equal((workspace.match(/data-note-plan-template hidden/g)||[]).length,1);
     assert.ok(workspace.includes("css/trip-note.css"));
     assert.ok(!workspace.includes("css/my-trips.css"));
+    assert.ok(!workspace.includes("data-note-draft-shortcuts"));
     assert.ok(workspace.indexOf(`data-trip-note=${city}`) < workspace.indexOf("data-prep-workspace"), "Notes remain available before starting or after resetting preparation");
     assert.ok(workspace.includes(prefix ? "메모, 다른 여행 준비함" : "Notes, other trips"));
   }
@@ -303,6 +352,7 @@ if(process.argv[2]) for(const [prefix,title] of [["","For your next visit"],["ko
   assert.ok(!home.includes("data-trip-note")); assert.ok(!home.includes("js/trip-note.js"));
   assert.ok(!home.includes("css/trip-note.css"));
   assert.ok(!home.includes("#use-the-note"));
+  assert.ok(!home.includes("data-note-draft-shortcuts"));
 }
 console.log("Trip notes passed: EN/KO, three-city isolation, explicit saves, tab drafts across reload/language/BFCache, confirmed discard/cancel/unavailable dialogs, blank drafts, length limits, safe text, conflicts/storage failures and unchanged legacy records/homepage.");
 

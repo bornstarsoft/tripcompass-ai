@@ -39,7 +39,7 @@
     <link rel="stylesheet" href="{{ "css/courses.css" | relURL }}{{ if .Params.itineraryLibrary }}?v={{ substr (sha256 (readFile "static/css/courses.css")) 0 12 }}{{ end }}">
     {{ end }}
     {{ if .Params.tripPrep }}<link rel="stylesheet" href="{{ "css/trip-prep.css" | relURL }}">{{ end }}
-    {{ if .Params.myTrips }}<link rel="stylesheet" href="{{ "css/my-trips.css" | relURL }}">{{ end }}
+    {{ if .Params.myTrips }}<link rel="stylesheet" href="{{ "css/my-trips.css" | relURL }}?v={{ substr (sha256 (readFile "static/css/my-trips.css")) 0 12 }}">{{ end }}
     {{ if or .Params.myTrips .Params.tripPrep }}<link rel="stylesheet" href="{{ "css/trip-note.css" | relURL }}">{{ end }}
     {{ if or .Params.course .Params.planningGuide }}<link rel="stylesheet" href="{{ "css/trip-guide-return.css" | relURL }}">{{ end }}
     {{ if or .Params.course .Params.planningGuide }}

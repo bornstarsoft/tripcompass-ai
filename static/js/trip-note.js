@@ -72,6 +72,7 @@ function hasPlanFields(value) {
 
 export function mountTripNotes(doc, win) {
   const text = copy[doc.documentElement.lang === "ko" ? "ko" : "en"];
+  const shortcuts = doc.querySelector("[data-note-draft-shortcuts]");
   const dirtyChecks = [];
   let guarding = false;
   const guard = event => { event.preventDefault(); event.returnValue = ""; };
@@ -88,6 +89,7 @@ export function mountTripNotes(doc, win) {
     const input = find("input"), form = find("form"), save = find("save"), status = find("status");
     const preview = find("preview"), details = find("details"), summary = find("summary");
     const planTemplate = find("plan-template");
+    const shortcut = shortcuts?.querySelector(`[data-note-draft-city="${city}"]`);
     const copyButton = find("copy"), copyTools = find("copy-tools"), copyStatus = find("copy-status");
     const copyManual = find("copy-manual"), copyText = find("copy-text");
     const canCopy = copyButton && copyTools && copyStatus && copyManual && copyText;
@@ -96,6 +98,11 @@ export function mountTripNotes(doc, win) {
     dirtyChecks.push(() => unprotected);
     function controls() {
       dirty = input.value !== original;
+      if (shortcut) {
+        if (!dirty && doc.activeElement === shortcut) doc.querySelector("#trip-selector")?.focus();
+        shortcut.hidden = !dirty;
+        shortcuts.hidden = !shortcuts.querySelector("[data-note-draft-city]:not([hidden])");
+      }
       save.disabled = blocked || conflict || !dirty || input.value.length > NOTE_LIMIT;
       if (planTemplate) planTemplate.disabled = blocked || conflict || hasPlanFields(input.value);
       find("count").textContent = text.count(input.value.length);
@@ -166,6 +173,9 @@ export function mountTripNotes(doc, win) {
       if (!blocked && !conflict) status.textContent = input.value.length > NOTE_LIMIT ? text.tooLong : unprotected ? text.draftFailed : dirty ? text.draft : "";
     }
     input.addEventListener("input", edited);
+    shortcut?.addEventListener("click", event => {
+      if (dirty && !event.defaultPrevented && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) details.open = true;
+    });
     if (planTemplate) {
       planTemplate.hidden = false;
       planTemplate.addEventListener("click", () => {

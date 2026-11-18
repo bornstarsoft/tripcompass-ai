@@ -1,8 +1,13 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (TRIP-NOTE-DRAFT-SHORTCUTS; bilingual draft navigation and production deployment; main/current worktree; 2026-11-18)
 
 ## Current Task
+
+- WORK-ID: TRIP-NOTE-DRAFT-SHORTCUTS. Phase: implementation. Started clean on main at fab0f44; owner authorized a return-visit improvement, validation and production deployment. Show a compact shortcut to each unsaved city note in My trips using existing editor state. No homepage, storage format or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Chromium passed six EN/KO city flows at 320/390/1440px: workspace handoff, two drafts, target reopen, reload/language, save/discard, fresh-tab isolation and exact unrelated record preservation. 44px links, no overflow and both no-JS cases passed; mobile screenshot inspected. Unit checks include blank drafts, blocked tab storage and no-shortcut workspaces. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and repeat live. BLOCKER: none.
+
+## Previous Planning Note Release
 
 - Last AI: CODEX; WORK-ID: PLAN-DECISION-NOTE; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at 8fb6849; owner authorized a return-visit improvement, validation and production deployment. Localized planning prompts append non-destructively in existing note editors, with deep links from Plan B. Only explicit Save changes the saved note. No homepage, storage format or infrastructure changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Chromium passed 12 EN/KO city/surface flows at 320/390/1440px, including Plan B links, one-time appending, caret, length guard, reload/language, explicit save, unchanged unrelated records and 44px controls. Both no-JS fallbacks passed; mobile screenshot inspected. Unit tests cover blocked/conflicting saved notes and duplicate prevention.
