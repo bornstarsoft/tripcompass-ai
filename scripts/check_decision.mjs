@@ -85,13 +85,20 @@ for (const prefix of ["", "ko/"]) {
   const home = await readFile(join(out, prefix, "index.html"), "utf8");
   assert.ok(home.includes(`/${prefix}decision-board/`));
   const budget = await readFile(join(out, prefix, "from-seoul/japan-travel-budget/index.html"), "utf8");
-  for (const id of ["recheck", "tradeoffs", "continue"]) {
+  for (const id of ["recheck", "tradeoffs", "continue", "budget-after-trip"]) {
     assert.match(budget, new RegExp(`id=["']?${id}["' >]`));
   }
   assert.ok(budget.includes(`/${prefix}decision-board/#trip-settings`));
   for (const city of ["fukuoka", "osaka", "tokyo"]) {
     assert.ok(budget.includes(`/${prefix}my-trips/#trip-${city}`));
+    assert.ok(budget.includes(`/${prefix}my-trips/#next-visit-note-${city}`));
   }
+  assert.ok(budget.includes(prefix ? "다녀온 뒤: 다음 예산에 남길 한 가지" : "After the Trip: Keep One Budget Lesson"));
+  assert.ok(budget.includes(prefix ? "지난 지출은 새 견적이나 예상 금액이 아니" : "The earlier spend is not a quote, a forecast"));
+  const recap = `/${prefix}from-seoul/japan-travel-budget/#budget-after-trip`;
+  const travelDay = await readFile(join(out, prefix, "itinerary/japan-arrival-departure-day-plan/index.html"), "utf8");
+  assert.ok(travelDay.includes(recap));
+  assert.ok(!home.includes(recap), "Keep the homepage unchanged");
   const help = html.match(/<a\b[^>]*data-board-budget-guide[^>]*>[\s\S]*?<\/a>/)?.[0];
   assert.ok(help, "Budget help must remain available without JavaScript");
   assert.ok(help.includes(`/${prefix}from-seoul/japan-travel-budget/#recheck`));

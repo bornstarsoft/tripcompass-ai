@@ -12,7 +12,7 @@ takeaways:
   - "Work backward from the correct airport and terminal"
   - "Keep one optional treat, with permission to skip it"
 reviewed: "2026-09-22"
-lastmod: "2026-11-18T23:33:00+09:00"
+lastmod: "2026-11-18T23:45:00+09:00"
 alternateKo: "/ko/itinerary/japan-arrival-departure-day-plan/"
 weight: 57
 ---
@@ -219,6 +219,8 @@ Apply it to the course you used:
 - **Tokyo:** distinguish enjoying a particular interest, such as books or art, from enjoying a long neighborhood-hopping day. Keep the interest; reconsider the amount of travel around it.
 
 A short note to adapt: **“Repeat: an unhurried meal. Less: a second district. Next question: one extra full day?”** [Fukuoka](/my-trips/#trip-fukuoka), [Osaka](/my-trips/#trip-osaka) and [Tokyo](/my-trips/#trip-tokyo) each have one next-visit note. Check the existing note before replacing it; it is not a trip-by-trip journal. Keep any longer personal record separately. Reading this example does not save a note, reset preparation or change your bookmarks.
+
+If a cost surprised you, [keep one lesson for next time](/from-seoul/japan-travel-budget/#budget-after-trip). Separate an expense you might repeat from a one-off before using it to plan again.
 
 #### Use the note before choosing a new course {#use-the-note}
 
