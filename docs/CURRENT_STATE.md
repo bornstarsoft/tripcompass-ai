@@ -1,11 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (SAVED-NOTE-IMPORT; local TXT draft import and production deployment; main/current worktree; 2026-11-18)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: SAVED-NOTE-IMPORT. Phase: implementation. Started clean on main at fc0c810; owner authorized a return-visit improvement, validation and production deployment. Import an explicitly selected TXT into the existing city editor as a draft. No homepage, storage format or infrastructure changes.
-- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit tests cover file size/UTF-8/limit validation, concurrency, unsupported browsers and existing drafts. Chromium passed 12 EN/KO city/surface flows at 320/390/1440px: file chooser, offline import, invalid/dirty guard, reload/language, explicit save, exact TXT round trip, unrelated records and 44px targets. Both no-JS checks passed; mobile screenshot inspected. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and repeat live. BLOCKER: none.
+- Last AI: CODEX; WORK-ID: SAVED-NOTE-IMPORT; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at fc0c810; owner authorized a return-visit improvement, validation and production deployment. Read a selected short UTF-8 TXT as a city draft without overwriting an unfinished edit or autosaving. No homepage, storage format or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit tests cover file size/UTF-8/limit validation, concurrency, unsupported browsers and existing drafts. Chromium passed 12 EN/KO city/surface flows at 320/390/1440px: file chooser, offline import, invalid/dirty guard, reload/language, explicit save, exact TXT round trip, unrelated records and 44px targets. Both no-JS checks passed; mobile screenshot inspected.
+- HEAD/WIP: application commit 3717e3d pushed to main. This document records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44321947885 and Cloudflare Pages check 134863331389 succeeded. Both homepages, overviews, all six workspaces, privacy, sitemap and versioned JS/CSS matched the validated build. All 12 live Chromium flows and both no-JS checks passed; mobile screenshot inspected. No application errors, request containing fixture name/text or API/booking calls in tested flows.
+- QA NOT_RUN: physical-device/Safari and native file picker behavior, paid AI calls, D1 queries and retention measurement. NEXT_SINGLE_TASK: ask whether a traveler can bring a saved TXT back as a draft without overwriting an unfinished edit; do not request their file contents. BLOCKER: none.
 
 ## Previous Saved Note Offline Release
 
