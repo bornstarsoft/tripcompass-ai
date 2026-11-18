@@ -6,7 +6,7 @@ layout: "course"
 readingSections: ["overview","audience","audience","route","hotel","rain","budget","cautions","related","booking","sources"]
 course: "osaka"
 reviewed: "2026-09-12"
-lastmod: "2026-09-12"
+lastmod: "2026-11-18"
 alternateKo: "/ko/itinerary/seoul-to-osaka-4-day-itinerary/"
 weight: 30
 ---
@@ -68,6 +68,10 @@ Ask, "Is there something specific we want to do in Kyoto?" A clear answer suppor
 Plan check-out, luggage collection and airport travel first. Check the actual departure airport and airline guidance before setting a hotel departure time. Any remaining time is for a nearby meal or finishing purchases in a familiar area.
 
 The [arrival and departure day guide](/itinerary/japan-arrival-departure-day-plan/) has a storage enquiry, a backward-planning checklist and a note for deciding when the optional outing ends.
+
+### A second visit: give one familiar area a new purpose {#return-visit}
+
+If you still want the Day 2 meal in Namba, keep it and replace part of the shopping with [Doguyasuji tableware and food-model browsing](/itinerary/osaka-doguyasuji-kitchenware-walk/). That is the new part of the day; do not add another district to make up for the skipped shops. If you also choose a Day 3 outing, keep it separate and choose Kyoto **or** Nara. Check hours and any workshop requirements before saving your choice in the [Osaka workspace](/my-trip/osaka/).
 
 ## Choosing a hotel area
 

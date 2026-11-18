@@ -9,7 +9,7 @@ layout: "course"
 readingSections: ["overview","audience","route","hotel","rain","budget","cautions","related","booking","sources"]
 course: "tokyo"
 reviewed: "2026-09-12"
-lastmod: "2026-09-12"
+lastmod: "2026-11-18"
 ---
 
 ## 이 코스의 선택
@@ -64,6 +64,10 @@ lastmod: "2026-09-12"
 남는 시간이 확인됐을 때만 숙소 근처 식사나 마지막 구매를 넣습니다. 출국일의 관광 시간을 확정적으로 계산해 예약을 추가하지 않습니다.
 
 [첫날·마지막 날 준비 가이드](/ko/itinerary/japan-arrival-departure-day-plan/)에서 하네다·나리타 확인 자료를 구분하고 짐 회수 조건, 계획이 바뀌면 먼저 뺄 일을 정하세요.
+
+### 두 번째 도쿄: 책방이나 전시로 반나절 바꾸기 {#return-visit}
+
+둘째 날 다시 가고 싶던 곳은 남겨 두고, 나머지 쇼핑 시간은 [진보초 책방 하나와 휴식](/ko/itinerary/tokyo-jimbocho-books-cafes/) 또는 [기요스미시라카와의 정원이나 전시 하나](/ko/itinerary/tokyo-kiyosumi-shirakawa-garden-art-coffee/)로 바꿔 보세요. 갈 때의 환승뿐 아니라 숙소로 돌아오는 길까지 따져 고릅니다. 새 반나절 때문에 셋째 날이 벌써 빡빡하게 느껴지면 아사쿠사와 우에노를 서둘러 돌기보다 우에노를 빼세요. 날짜에 맞는 조건을 확인하고 [도쿄 준비함](/ko/my-trip/tokyo/)에서 대안을 하나만 고르세요.
 
 ## 숙소 권역 고르기
 

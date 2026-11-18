@@ -6,7 +6,7 @@ layout: "course"
 readingSections: ["overview","audience","audience","route","hotel","rain","budget","cautions","related","booking","sources"]
 course: "tokyo"
 reviewed: "2026-09-12"
-lastmod: "2026-09-12"
+lastmod: "2026-11-18"
 alternateKo: "/ko/itinerary/seoul-to-tokyo-4-day-itinerary/"
 weight: 31
 ---
@@ -69,6 +69,10 @@ Set aside check-out, luggage collection, the airport journey and the check-in al
 Add a meal or final purchase near the hotel only when you have confirmed spare time. Do not make another reservation on the assumption that departure-day sightseeing time is guaranteed.
 
 Use the [arrival and departure day guide](/itinerary/japan-arrival-departure-day-plan/) to separate Haneda/Narita checks, confirm bag collection and decide what to drop if the plan changes.
+
+### A second visit: choose books or art for one half-day {#return-visit}
+
+Keep the part of Day 2 you wanted to revisit, then replace the rest of the shopping block with either [one Jimbocho bookshop and a break](/itinerary/tokyo-jimbocho-books-cafes/) or [one garden or exhibition in Kiyosumi-Shirakawa](/itinerary/tokyo-kiyosumi-shirakawa-garden-art-coffee/). Count the transfer and return to your hotel before deciding. If the new half-day makes Day 3 feel crowded, leave Ueno out instead of rushing both eastern stops. Check the conditions for your dates and choose one alternative in the [Tokyo workspace](/my-trip/tokyo/).
 
 ## Choosing a hotel area
 

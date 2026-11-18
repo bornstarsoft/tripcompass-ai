@@ -1,8 +1,13 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (RETURN-ROUTE-LINKS; EN/KO course revisits and production deployment; main/current worktree; 2026-11-18)
 
 ## Current Task
+
+- WORK-ID: RETURN-ROUTE-LINKS. Phase: implementation. Started clean at bf71158 on main; owner authorized content, return-visit improvements and deployment. Make selected course/alternative labels link to built-in guides in My trips. Add a second-visit suggestion to each city flagship without new travel claims. Keep homepages, storage and infrastructure unchanged.
+- Local QA PASS: Phase 1-5, strict Hugo and whitespace; EN/KO homepages byte-identical. Unit checks cover built localized links, plain-text fallback, cross-tab change/reset and read-only rendering. Chromium passed six EN/KO city cases, live cross-tab focus, guide navigation and Back, and exact fixture-record preservation. Layout checked at 320/390/768/1440px with screenshots and 44px link targets. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and verify live links and content. BLOCKER: none.
+
+## Previous Booking Review Release
 
 - Last AI: CODEX; WORK-ID: BOOKING-REVIEW-GUIDE; DONE on 2026-11-10. Phase: deployed and production-validated. Started clean on main at 058ceea; owner authorized content and return-visit improvements through production deployment. Added a booking-deadline review to the EN/KO travel-day guide and a native shortcut in My trips. Homepages, browser records, APIs and affiliate routes unchanged.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Chromium passed six EN/KO navigation cases at 320/390/1440px, including no-JS links, visible fragment heading, Back restoring the disclosure and saved-note/bookmark preservation. Screenshots inspected; no app errors or API/booking calls in the browser suite.

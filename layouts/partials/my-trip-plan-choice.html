@@ -1,0 +1,9 @@
+{{ $kind := .kind }}
+{{ $lang := .lang }}
+{{ $prefix := .prefix }}
+<dd>
+  <span data-trip-{{ $kind }}></span>
+  {{ range .options }}
+  {{ if .path }}<a data-trip-{{ $kind }}-{{ .id }} href="{{ printf "%s%s" $prefix .path | relURL }}" hidden>{{ index . $lang }}</a>{{ end }}
+  {{ end }}
+</dd>

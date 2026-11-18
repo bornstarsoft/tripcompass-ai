@@ -5,7 +5,7 @@ eyebrow: "Friday evening departure · Food and walks"
 layout: "course"
 course: "fukuoka"
 reviewed: "2026-09-12"
-lastmod: "2026-09-12"
+lastmod: "2026-11-18"
 alternateKo: "/ko/from-seoul/seoul-to-fukuoka-weekend-trip/"
 weight: 30
 ---
@@ -58,6 +58,10 @@ Use airline and airport guidance to decide when to reach the airport, then work 
 Even with an afternoon flight, keep breakfast and final purchases near the hotel instead of adding another area. An early flight makes this a travel-only day.
 
 Use the [arrival and departure day checklist](/itinerary/japan-arrival-departure-day-plan/) to confirm bag storage and count the collection detour before choosing a final outing.
+
+### A second visit: keep the meal, swap the walk {#return-visit}
+
+Keep an unhurried meal in the area you enjoyed last time. If you want to see [Dazaifu](/itinerary/fukuoka-dazaifu-shrine-museum-day/) this time, use it **instead of** the Ohori-to-Tenjin city day, not after it. If the round trip or weather does not fit, keep [one Hakata or Tenjin block](/itinerary/fukuoka-rainy-day-plan/) and leave time for the meal. Check the actual route and hours for your dates, then revisit the [Fukuoka workspace](/my-trip/).
 
 ## Choosing a hotel area
 

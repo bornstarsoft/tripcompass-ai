@@ -54,6 +54,39 @@ function harness(language = "en", records = new Map(), blocked = [], oldMarkup =
 }
 
 for (const language of ["en", "ko"]) {
+  const state = initialState("fukuoka"), key = TRIPS.fukuoka.storageKey;
+  const records = new Map([[key, JSON.stringify(state)]]);
+  const ui = harness(language, records);
+  const { fields } = ui.cards[0];
+  const link = () => ({ hidden: true, focus() { ui.doc.activeElement = this; } });
+  fields["course-fukuoka"] = link();
+  fields["course-parents"] = link();
+  fields["alternative-rain"] = link();
+  ui.events.pageshow({ persisted: true });
+  assert.equal(fields["course-fukuoka"].hidden, false);
+  assert.equal(fields["course-parents"].hidden, true);
+  assert.equal(fields.course.textContent, "", "Do not repeat the link label as plain text");
+  assert.equal(fields.alternative.textContent, `${language}:fukuoka:none`);
+  fields["course-fukuoka"].focus();
+  state.course = "parents";
+  state.alternative = "rain";
+  const changed = JSON.stringify(state);
+  records.set(key, changed);
+  ui.events.storage({ key });
+  assert.equal(fields["course-fukuoka"].hidden, true);
+  assert.equal(fields["course-parents"].hidden, false);
+  assert.equal(fields["alternative-rain"].hidden, false);
+  assert.equal(ui.doc.activeElement, fields["course-parents"]);
+  assert.equal(records.get(key), changed);
+  records.delete(key);
+  ui.events.storage({ key });
+  assert.equal(fields["course-parents"].hidden, true);
+  assert.equal(fields["alternative-rain"].hidden, true);
+  assert.equal(ui.doc.activeElement, fields.action);
+  assert.equal(ui.writes(), 0);
+}
+
+for (const language of ["en", "ko"]) {
   const records = new Map([["tripcompass.saved-guides.v1", '["tokyo","osaka-nara","stay"]'], ["tripcompass.decision.v1", "unchanged"]]);
   const empty = harness(language, records);
   assert.ok(empty.cards.every(card => card.fields.details.hidden));
@@ -165,6 +198,17 @@ assert.doesNotMatch(source, /removeItem|\.clear\(|fetch\(|innerHTML/);
 assert.match(source, /setItem\(SAVED_GUIDES_KEY, serialized\)/);
 for (const prefix of ["", "/ko"]) {
   const html = await readFile(resolve(root, `.${prefix}/my-trips/index.html`), "utf8");
+  for (const city of ids) {
+    for (const [kind, choices] of [["course", TRIPS[city].courses], ["alternative", TRIPS[city].alternatives.filter(id => id !== "none")]]) {
+      for (const id of choices) {
+        const links = [...html.matchAll(new RegExp(`<a data-trip-${kind}-${id} href=([^ >]+) hidden>`, "g"))];
+        assert.equal(links.length, 1);
+        assert.ok(links[0][1].startsWith(`${prefix}/itinerary/`) || links[0][1].startsWith(`${prefix}/from-seoul/`));
+        await readFile(resolve(root, `.${links[0][1]}index.html`), "utf8");
+      }
+    }
+  }
+  assert.doesNotMatch(html, /data-trip-alternative-none/);
   assert.match(html, prefix ? /<h1>내 여행<\/h1>/ : /<h1>My trips<\/h1>/);
   for (const id of ids) assert.match(html, new RegExp(`data-trip-summary=${id}`));
   assert.equal((html.match(/data-trip-action-label/g) || []).length, 3);

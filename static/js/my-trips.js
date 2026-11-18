@@ -101,6 +101,20 @@ export function mountMyTrips(doc, win) {
         catch { error = "invalid"; }
       }
       const find = name => card.querySelector(`[data-trip-${name}]`);
+      for (const [kind, labels] of [["course", courses], ["alternative", alternatives]]) {
+        const selected = state?.[kind];
+        const link = selected ? find(`${kind}-${selected}`) : null;
+        find(kind).textContent = link || !selected ? "" : labels[selected];
+        const focused = doc.activeElement;
+        let focusMoved = false;
+        for (const key of Object.keys(labels)) {
+          const option = find(`${kind}-${key}`);
+          if (!option) continue;
+          option.hidden = key !== selected;
+          if (option.hidden && option === focused) focusMoved = true;
+        }
+        if (focusMoved) (link || find("action")).focus({ preventScroll: true });
+      }
       displayed.set(id, state);
       find("check-feedback").textContent = "";
       const focusedCheck = checks.includes(doc.activeElement);
@@ -140,7 +154,7 @@ export function mountMyTrips(doc, win) {
         find("action-label").textContent = text[error ? "open" : "start"];
         quick.textContent = text[error ? "unavailable" : "notStarted"];
         // Clear stale display values when another tab resets or invalidates a record.
-        for (const name of ["count", "course", "alternative", "next"]) find(name).textContent = "";
+        for (const name of ["count", "next"]) find(name).textContent = "";
         find("progress").value = 0;
         continue;
       }
@@ -150,8 +164,6 @@ export function mountMyTrips(doc, win) {
       find("status").textContent = text[next ? "saved" : "complete"];
       find("count").textContent = text.count(done);
       find("progress").value = done;
-      find("course").textContent = courses[state.course];
-      find("alternative").textContent = alternatives[state.alternative];
       find("next").textContent = next ? tasks[next] : text.final;
       find("action-label").textContent = text[next ? "resume" : "review"];
     }

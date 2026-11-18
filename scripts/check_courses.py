@@ -121,6 +121,15 @@ def check(root):
         assert len(go) == 4 and all("lang=ko" in link for link in go)
         check_photos(page, 1)
 
+    for index, (path, workspace) in enumerate(zip(paths, ["/my-trip/", "/my-trip/osaka/", "/my-trip/tokyo/"])):
+        replacements = ["/itinerary/fukuoka-dazaifu-shrine-museum-day/", "/itinerary/osaka-doguyasuji-kitchenware-walk/", "/itinerary/tokyo-jimbocho-books-cafes/"]
+        for prefix in ["", "/ko"]:
+            page = read(prefix + path.removeprefix("/ko"))
+            assert "return-visit" in page.ids
+            assert prefix + replacements[index] in page.links
+            assert prefix + workspace in page.links
+            assert ("두 번째" if prefix else "A second visit") in " ".join(page.text)
+
     parent_path = "/ko/itinerary/fukuoka-with-parents-3-days/"
     hotel_path = "/ko/from-seoul/fukuoka-hakata-vs-tenjin-hotels/"
     support = {

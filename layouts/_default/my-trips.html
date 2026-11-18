@@ -64,8 +64,10 @@
           <p data-trip-count></p>
           <progress data-trip-progress value="0" max="5" aria-label="{{ cond $ko (printf "%s 직접 확인한 항목" $trip.ko) (printf "%s items you checked" $trip.en) }}"></progress>
           <dl>
-            <dt>{{ cond $ko "선택 코스" "Your course" }}</dt><dd data-trip-course></dd>
-            <dt>{{ cond $ko "상황이 바뀌면" "Alternative" }}</dt><dd data-trip-alternative></dd>
+            <dt>{{ cond $ko "선택 코스" "Your course" }}</dt>
+            {{ partial "my-trip-plan-choice.html" (dict "kind" "course" "options" $trip.courses "lang" $lang "prefix" $prefix) }}
+            <dt>{{ cond $ko "상황이 바뀌면" "Alternative" }}</dt>
+            {{ partial "my-trip-plan-choice.html" (dict "kind" "alternative" "options" $trip.alternatives "lang" $lang "prefix" $prefix) }}
             <dt>{{ cond $ko "다음 확인" "Next step" }}</dt><dd data-trip-next></dd>
           </dl>
           <fieldset class="my-trip-checklist" data-trip-checklist>

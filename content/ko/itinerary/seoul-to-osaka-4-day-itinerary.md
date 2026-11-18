@@ -9,7 +9,7 @@ layout: "course"
 readingSections: ["overview","audience","route","hotel","rain","budget","cautions","related","booking","sources"]
 course: "osaka"
 reviewed: "2026-09-12"
-lastmod: "2026-09-12"
+lastmod: "2026-11-18"
 ---
 
 ## 이 코스의 선택
@@ -63,6 +63,10 @@ lastmod: "2026-09-12"
 체크아웃과 짐 회수, 공항 이동을 먼저 배치합니다. 실제 출국 공항과 항공사 안내를 확인해 숙소 출발 시각을 정하세요. 시간이 남으면 숙소 주변 식사나 이미 다녀온 곳의 쇼핑만 마무리합니다.
 
 [첫날·마지막 날 준비 가이드](/ko/itinerary/japan-arrival-departure-day-plan/)에서 짐 보관 문의 문장, 공항 이동 역산 순서, 선택 외출을 끝낼 시각을 적는 메모표를 볼 수 있습니다.
+
+### 두 번째 오사카: 익숙한 동네에서 볼거리 하나 바꾸기 {#return-visit}
+
+둘째 날 난바에서 다시 먹고 싶은 게 있다면 그 한 끼는 남기고, 쇼핑 일부를 [도구야스지의 그릇과 음식 모형 구경](/ko/itinerary/osaka-doguyasuji-kitchenware-walk/)으로 바꿔 보세요. 그게 그날의 새로운 일정입니다. 빠진 쇼핑을 채우려고 다른 동네를 더하지 않아도 돼요. 셋째 날 근교에 간다면 교토와 나라 중 한 곳만 고르세요. 영업시간과 체험 조건은 확인한 뒤 [오사카 준비함](/ko/my-trip/osaka/)에서 선택을 정리하세요.
 
 ## 숙소 권역 고르기
 
