@@ -1,11 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (SAVED-ITINERARY-VIEW; bilingual library filter and production deployment; main/current worktree; 2026-11-18)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: SAVED-ITINERARY-VIEW. Phase: implementation. Started clean on main at c44fd08; owner authorized choosing a small return-visit improvement, validation and production deployment. Add a saved-only view to the existing itinerary hubs without new data storage or homepage UI.
-- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages; existing homepage explorer checks unchanged. Chromium passed six EN/KO flows at 320/390/1440px, including read-only toggling, counts and empty groups, other-tab removal/undo, focus recovery and exact unrelated fixture preservation. Unsupported storage and no-JS fallbacks passed in both languages; mobile screenshot inspected. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and verify the filter on production. BLOCKER: none.
+- Last AI: CODEX; WORK-ID: SAVED-ITINERARY-VIEW; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at c44fd08; owner authorized choosing a small return-visit improvement, validation and production deployment. Saved-only view on both itinerary hubs reuses existing bookmarks, shows a count and distinguishes empty from unavailable. No new storage, homepage UI or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Chromium passed six EN/KO flows at 320/390/1440px, including read-only toggling, counts and empty groups, other-tab removal/undo, focus recovery and exact unrelated fixture preservation. Blocked storage, no-JS fallback and the existing homepage Saved filter passed in both languages. Mobile screenshot inspected.
+- HEAD/WIP: application commit 8a59830aa590f53d02f938cd46c36b07312394a5 and asset versioning commit 75cdb2741f17b7634de6becca2550782c5fa8b96 pushed to main. This document records release evidence; no owner WIP discarded.
+- Production QA PASS: first live browser run encountered stale unversioned CSS, reducing the filter hit area. After revalidation and adding hub-only content-based versions to the CSS/JS URLs, same-SHA GitHub CI run 44312828739 and Cloudflare Pages passed. Both homepages, hubs, My trips pages, sitemap and versioned assets matched the verified Hugo build. All six EN/KO browser cases, both homepage regressions and both blocked/no-JS fallbacks passed live, with 44px filter targets and screenshot inspection. No application errors or API/booking calls in the final browser QA.
+- QA NOT_RUN: physical-device/Safari, paid AI calls, D1 queries and retention measurement. NEXT_SINGLE_TASK: ask whether travelers can find a previously saved guide from the library without browsing the full list; do not collect their saved records. BLOCKER: none.
 
 ## Previous Itinerary Bookmark Release
 
