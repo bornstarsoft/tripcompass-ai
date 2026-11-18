@@ -25,8 +25,13 @@
   <p class="prep-status" data-prep-status role="status" aria-live="polite"></p>
   <noscript><p>{{ cond $ko "아래 가이드는 그대로 읽을 수 있습니다. 준비 상태 저장에는 JavaScript가 필요합니다." "The guides below remain available. Saving preparation requires JavaScript." }}</p></noscript>
   {{ partial "trip-note.html" (dict "ko" $ko "city" $destination "workspace" true) }}
-  {{ $reviewTitle := cond $ko (printf "%s 여행 준비 점검" $data.ko) (printf "Review your %s trip" $data.en) }}
-  {{ partial "trip-review-calendar.html" (dict "ko" $ko "title" $reviewTitle "workspace" .Permalink) }}
+  <section class="prep-section" id="prep-review" aria-labelledby="prep-review-title">
+    <h2 id="prep-review-title">{{ cond $ko "다시 확인할 준비" "Review your trip" }}</h2>
+    <p>{{ cond $ko "확인했던 예약 내용이 바뀌었다면, 영향을 받는 준비 항목만 아래에서 다시 살펴보세요." "If a booking has changed since your last check, revisit just the preparation items it affects below." }}</p>
+    <a class="prep-resume-link" href="{{ printf "%s/itinerary/japan-arrival-departure-day-plan/#missed-review-day" $prefix | relURL }}">{{ cond $ko "점검일을 놓쳤다면" "Missed your review day?" }}</a>
+    {{ $reviewTitle := cond $ko (printf "%s 여행 준비 점검" $data.ko) (printf "Review your %s trip" $data.en) }}
+    {{ partial "trip-review-calendar.html" (dict "ko" $ko "title" $reviewTitle "workspace" .Permalink) }}
+  </section>
   <div data-prep-workspace hidden>
     <section class="prep-progress" aria-labelledby="prep-progress-title">
       <h2 id="prep-progress-title">{{ cond $ko "남은 준비" "Your next step" }}</h2>

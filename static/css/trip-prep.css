@@ -28,7 +28,7 @@
 .prep-checklist li:has(input:checked) label span { color: var(--muted); }
 .prep-reading li { display: grid; grid-template-columns: minmax(0, 1fr) 44px; gap: .75rem; align-items: center; padding: .75rem 0; border-bottom: 1px solid var(--line); }
 .prep-reading li > a { min-height: 44px; display: flex; align-items: center; overflow-wrap: anywhere; }
-.prep-offline-link { min-height: 44px; display: inline-flex; align-items: center; }
+.prep-offline-link, .prep-resume-link { min-height: 44px; display: inline-flex; align-items: center; }
 .prep-reading .save-guide { position: relative; inset: auto; width: 44px; height: 44px; padding: 0; }
 .prep-reading .save-guide__tooltip { right: 0; left: auto; transform: none; }
 .prep-reset { padding: 1rem 0 1.5rem; }

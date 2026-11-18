@@ -1,8 +1,13 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (CALENDAR-REVIEW-RETURN; bilingual review content and production deployment; main/current worktree; 2026-11-18)
 
 ## Current Task
+
+- WORK-ID: CALENDAR-REVIEW-RETURN. Phase: implementation. Started clean on main at a3c5bd6; owner authorized content, return-visit improvement, validation and deployment. Improve return from calendar events and add a missed-review guide section. No homepage, private record or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Chromium passed six EN/KO city flows at 320/390/1440px: download, open the actual file URL in a fresh document, reach the localized guide and return, and preserve check/note/bookmark/comparison records. Also passed offline download, no-JS guide and calendar fallback, 44px controls and no overflow. Mobile screenshot inspected. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and verify the calendar return flow. BLOCKER: none.
+
+## Previous Workspace Guide Release
 
 - Last AI: CODEX; WORK-ID: WORKSPACE-GUIDE-CONTEXT; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at d23ff51; owner authorized content, return-visit improvement and deployment. Reused existing guide task context from city workspaces and added a hotel-change review to the EN/KO travel-day guide. No homepage, storage format or infrastructure changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Build checks verify all 30 EN/KO workspace task links match overview links and target the correct panels, plus six hotel-change links. Chromium passed six city/language flows at 320/390/1440px, visible checkbox focus, explicit check and Back, hotel-change navigation, and preservation of notes/bookmarks/comparison. Initial Back test exposed native stale checkbox restoration; workspace pageshow now rereads stored state without writes, and checks passed after the fix.

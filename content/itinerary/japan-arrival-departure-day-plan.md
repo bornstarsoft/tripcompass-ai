@@ -12,7 +12,7 @@ takeaways:
   - "Work backward from the correct airport and terminal"
   - "Keep one optional treat, with permission to skip it"
 reviewed: "2026-09-22"
-lastmod: "2026-11-18T21:34:00+09:00"
+lastmod: "2026-11-18T21:47:00+09:00"
 alternateKo: "/ko/itinerary/japan-arrival-departure-day-plan/"
 weight: 57
 ---
@@ -68,6 +68,14 @@ The night before departure is too late to review a choice whose change window ha
 Leave only the next question in [your city note](/my-trips/#trip-selector), such as “Confirm the first-night change terms before deciding on a later flight.” Keep exact booking details separately. TripCompass does not track deadlines, send reminders or change reservations; the applicable terms are the ones confirmed for your booking.
 
 **Put the review day on your calendar:** open the [Fukuoka](/my-trip/#prep-calendar), [Osaka](/my-trip/osaka/#prep-calendar) or [Tokyo](/my-trip/tokyo/#prep-calendar) workspace to download an all-day event with a link back to that workspace. The day you choose is your review day, not the provider's cutoff. Import the file yourself, and adjust any alerts or date changes in your calendar.
+
+#### Missed your review day? {#missed-review-day}
+
+A missed review day is not necessarily a missed booking deadline. Open the latest confirmation for the booking you might change. If the cutoff seems to have passed, ask the provider what options and costs apply now. Do not assume that missing the date on your calendar changed or canceled anything.
+
+**Example: you may need a later flight, but the hotel is already booked.** Before buying a replacement, compare keeping the original booking with changing it. Ask what happens to the original fare and whether the accommodation can accept a later arrival. If you keep the original plan, leave your completed checks in place. If something changes, revisit the affected flight, accommodation and transfer checks rather than starting over.
+
+Return to the review section for [Fukuoka](/my-trip/#prep-review), [Osaka](/my-trip/osaka/#prep-review) or [Tokyo](/my-trip/tokyo/#prep-review). If you still need an answer, keep just that question in your existing note. Set another review day only if it leaves time before a confirmed deadline. These are decision prompts, not confirmation that changes are allowed or available.
 
 ### Before leaving home: reopen the plan, not every possibility {#before-leaving-home}
 

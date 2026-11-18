@@ -28,7 +28,7 @@ export function reviewCalendar({ date, title, workspace, uid, now = new Date() }
   if (!validReviewDay(date, now) || !/^[a-z0-9-]+$/i.test(uid)) throw new Error("Invalid calendar event");
   const url = new URL(workspace);
   if (!/^https?:$/.test(url.protocol)) throw new Error("Invalid workspace URL");
-  const link = url.origin + url.pathname;
+  const link = url.origin + url.pathname + "#prep-review";
   const stamp = now.toISOString().replace(/[-:]|\.\d{3}/g, "");
   return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//TripCompass AI//Trip Review//EN",
     "BEGIN:VEVENT", `UID:${uid}`, `DTSTAMP:${stamp}`, `DTSTART;VALUE=DATE:${date.replace(/-/g, "")}`,

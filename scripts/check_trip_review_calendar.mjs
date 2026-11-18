@@ -7,7 +7,7 @@ const root = process.argv[2];
 const now = new Date("2026-11-18T14:30:00Z");
 const base = { now, date: "2026-11-20", uid: "review-abc123", title: "Review your Osaka trip", workspace: "https://tripcompass.ai/my-trip/osaka/" };
 const calendar = reviewCalendar(base);
-for (const line of ["BEGIN:VCALENDAR", "VERSION:2.0", "BEGIN:VEVENT", "UID:review-abc123", "DTSTAMP:20261118T143000Z", "DTSTART;VALUE=DATE:20261120", "SUMMARY:Review your Osaka trip", "URL:https://tripcompass.ai/my-trip/osaka/", "TRANSP:TRANSPARENT", "END:VEVENT", "END:VCALENDAR"]) {
+for (const line of ["BEGIN:VCALENDAR", "VERSION:2.0", "BEGIN:VEVENT", "UID:review-abc123", "DTSTAMP:20261118T143000Z", "DTSTART;VALUE=DATE:20261120", "SUMMARY:Review your Osaka trip", "URL:https://tripcompass.ai/my-trip/osaka/#prep-review", "DESCRIPTION:https://tripcompass.ai/my-trip/osaka/#prep-review", "TRANSP:TRANSPARENT", "END:VEVENT", "END:VCALENDAR"]) {
   assert.ok(calendar.split("\r\n").includes(line));
 }
 assert.doesNotMatch(calendar, /VALARM|DTEND|ORGANIZER|ATTENDEE|RRULE/);
@@ -23,16 +23,21 @@ const korean = reviewCalendar({ ...base, title, workspace: "https://tripcompass.
 for (const line of korean.split("\r\n")) assert.ok(Buffer.byteLength(line) <= 75);
 const unfolded = korean.replace(/\r\n /g, "");
 assert.ok(unfolded.includes("오사카 여행 준비 점검 ".repeat(4) + "\\,\\;\\\\\\nnext"));
-assert.ok(unfolded.includes("URL:https://tripcompass.ai/ko/my-trip/osaka/\r\n"));
+assert.ok(unfolded.includes("URL:https://tripcompass.ai/ko/my-trip/osaka/#prep-review\r\n"));
 assert.doesNotMatch(unfolded, /private|#notes/);
 
 for (const prefix of ["", "ko/"]) {
   const guide = readFileSync(join(root, prefix, "itinerary/japan-arrival-departure-day-plan/index.html"), "utf8");
+  assert.ok(guide.includes("id=missed-review-day"));
+  assert.ok(guide.includes(prefix ? "점검일을 놓쳤다면" : "Missed your review day?"));
   for (const slug of ["", "osaka/", "tokyo/"]) {
     const path = `${prefix}my-trip/${slug}`;
     const workspace = readFileSync(join(root, path, "index.html"), "utf8");
     assert.ok(guide.includes(`href=/${path}#prep-calendar`));
+    assert.ok(guide.includes(`href=/${path}#prep-review`));
     assert.ok(workspace.includes(`data-workspace=https://tripcompass.ai/${path}`));
+    assert.ok(workspace.includes("id=prep-review aria-labelledby=prep-review-title"));
+    assert.ok(workspace.includes(`href=/${prefix}itinerary/japan-arrival-departure-day-plan/#missed-review-day`));
     assert.ok(workspace.includes("id=prep-calendar data-review-calendar"));
     assert.ok(workspace.includes("id=review-calendar-date type=date required"));
     assert.ok(workspace.includes("/js/trip-review-calendar.js"));
