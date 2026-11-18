@@ -1,8 +1,16 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (SAVED-NOTE-SHORTCUTS; My trips note navigation, validation and production deploy approved by owner; main at c43f797; 2026-11-18 KST)
+ACTIVE_WRITER = NONE
 
 ## Current Task
+
+- Last AI: CODEX; WORK-ID: SAVED-NOTE-SHORTCUTS; DONE on 2026-11-18 KST. Phase: deployed and production-validated. Started clean on main at c43f797; owner authorized a return-visit improvement, validation and production deployment. My trips now links directly to each available saved city note, without showing its text in the shortcut. Draft shortcuts take precedence for the same city. No homepage, storage format or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit coverage includes empty and invalid notes, draft precedence, explicit saving, cross-tab updates, unavailable storage and focus fallback. Chromium passed six EN/KO flows at 320/390/1440px, including 44px targets, native heading focus, Back, reload, language switching, fresh tab, cross-tab removal and exact unrelated record preservation. Both no-JS checks passed; mobile screenshots inspected.
+- HEAD/WIP: application commit 18f64a8 pushed to main. This document records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44324728948 and Cloudflare Pages check 134873157308 succeeded. Both homepages, both overview pages, all six workspaces, sitemap and versioned JS/CSS matched the verified build. The six live Chromium flows and two no-JS checks passed; mobile screenshots inspected. No app errors, API/booking requests or test note text in network requests.
+- QA NOT_RUN: physical devices/Safari, paid AI calls, D1 queries and retention measurement. NEXT_SINGLE_TASK: ask whether a returning traveler finds the saved city note immediately and can distinguish it from an unfinished edit, without collecting note content. BLOCKER: none.
+
+## Previous Return Trip Companions Release
 
 - Last AI: CODEX; WORK-ID: RETURN-TRIP-COMPANIONS; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at 58ff862; owner authorized content, validation and production deployment. The EN/KO travel-day guides show how to reuse a past note when returning with different companions. The existing My trips disclosure links to the new section, and it links to preparation review for all three cities. No homepage, storage format or infrastructure changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Build tests cover localized copy, anchors and native disclosure links. Chromium passed six EN/KO flows at 320/390/1440px: 44px disclosure links, visible guide heading, city return, Back, no overflow, and exact record preservation except the mark explicitly unchecked. Both no-JS navigation tests passed; mobile screenshots inspected.
