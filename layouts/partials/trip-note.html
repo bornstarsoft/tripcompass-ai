@@ -29,8 +29,10 @@
       <div class="trip-note-actions">
         <button type="submit" class="button button--primary" data-note-save disabled>{{ partial "icons/save.html" }}<span>{{ cond $ko "메모 저장" "Save note" }}</span></button>
         <button type="button" class="button" data-note-reload>{{ partial "icons/undo.html" }}<span>{{ cond $ko "저장된 메모 불러오기" "Load saved note" }}</span></button>
-        <button type="button" class="button" data-note-plan-template hidden>{{ cond $ko "일정 메모 양식 추가" "Add planning prompts" }}</button>
+        <button type="button" class="button trip-note-helper" data-note-plan-template hidden>{{ cond $ko "일정 메모 양식 추가" "Add planning prompts" }}</button>
+        <button type="button" class="button trip-note-helper" data-note-import hidden>{{ cond $ko "TXT를 초안으로 불러오기" "Open TXT as draft" }}</button>
       </div>
+      <input type="file" accept=".txt,text/plain" data-note-import-file hidden>
     </form>
     <a class="trip-note-guide" href="{{ printf "%s/itinerary/japan-arrival-departure-day-plan/#use-the-note" $prefix | relURL }}" target="_blank" rel="noopener">{{ cond $ko "지난 여행 메모를 다음 일정에 쓰는 법 (새 탭)" "Use your last trip note to plan again (new tab)" }}</a>
   </details>

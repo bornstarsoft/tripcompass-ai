@@ -7,6 +7,7 @@
 .trip-note textarea { display: block; width: 100%; min-height: 100px; resize: vertical; font: inherit; line-height: 1.5; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: .5rem; }
 .trip-note-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
 .trip-note-actions button { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; max-width: 100%; font: inherit; cursor: pointer; }
+.trip-note-actions .trip-note-helper { width: auto; flex: 1 1 auto; padding: .5rem .65rem; background: transparent; border-color: var(--line); color: var(--teal-dark); font-size: .85rem; }
 .trip-note-actions svg { flex: 0 0 24px; }
 .trip-note-guide { display: inline-flex; align-items: center; min-height: 44px; max-width: 100%; font-size: .9rem; }
 .trip-note button:disabled { opacity: .6; cursor: not-allowed; }

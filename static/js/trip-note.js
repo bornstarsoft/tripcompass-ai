@@ -43,6 +43,9 @@ const copy = {
     downloadReady: "Check your downloads for the saved note. The file will not update automatically.",
     downloadChanged: "The saved note changed. Load it before trying to download again.",
     downloadFailed: "The file could not be created. Try copying the saved note instead.",
+    importInvalid: "Choose a non-empty UTF-8 TXT file within 240 characters. Your note is unchanged.",
+    importFailed: "The file could not be loaded. Your note is unchanged.",
+    importChanged: "The saved note changed while the file was opening. Review it before trying again.",
     count: n => `${n} / 240`
   },
   ko: {
@@ -66,6 +69,9 @@ const copy = {
     downloadReady: "다운로드 목록에서 저장 메모를 확인하세요. 파일은 자동으로 갱신되지 않습니다.",
     downloadChanged: "저장된 메모가 바뀌었어요. 최신 메모를 불러온 뒤 다시 받아 주세요.",
     downloadFailed: "파일을 만들지 못했어요. 저장된 메모를 복사해 보세요.",
+    importInvalid: "내용이 있는 240자 이내의 UTF-8 TXT 파일을 골라 주세요. 메모는 그대로입니다.",
+    importFailed: "파일을 읽지 못했어요. 메모는 그대로입니다.",
+    importChanged: "파일을 여는 동안 저장된 메모가 바뀌었어요. 내용을 확인한 뒤 다시 시도해 주세요.",
     count: n => `${n} / 240`
   }
 };
@@ -74,6 +80,15 @@ function hasPlanFields(value) {
   const lines = value.split("\n");
   return Object.values(copy).some(({ planFields }) =>
     planFields.every(field => lines.some(line => line.startsWith(field))));
+}
+
+async function readNoteFile(file, Decoder) {
+  if (!/\.txt$/i.test(file.name) || file.size < 1 || file.size > NOTE_LIMIT * 3 + 3) return null;
+  const bytes = await file.arrayBuffer();
+  let text;
+  try { text = new Decoder("utf-8", { fatal: true }).decode(bytes).replace(/\r\n?/g, "\n"); }
+  catch { return null; }
+  return text.length <= NOTE_LIMIT && text.trim() && !/[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/.test(text) ? text : null;
 }
 
 export function mountTripNotes(doc, win) {
@@ -95,6 +110,9 @@ export function mountTripNotes(doc, win) {
     const input = find("input"), form = find("form"), save = find("save"), status = find("status");
     const preview = find("preview"), details = find("details"), summary = find("summary");
     const planTemplate = find("plan-template");
+    const importButton = find("import"), importFile = find("import-file");
+    const canImport = importButton && importFile && typeof win.TextDecoder === "function" &&
+      typeof win.File?.prototype.arrayBuffer === "function";
     const shortcut = shortcuts?.querySelector(`[data-note-draft-city="${city}"]`);
     const copyButton = find("copy"), copyTools = find("copy-tools"), copyStatus = find("copy-status");
     const copyManual = find("copy-manual"), copyText = find("copy-text");
@@ -102,7 +120,7 @@ export function mountTripNotes(doc, win) {
     const downloadButton = find("download");
     const canDownload = canCopy && downloadButton && typeof win.Blob === "function" &&
       win.URL?.createObjectURL && win.URL?.revokeObjectURL && "download" in doc.createElement("a");
-    let copyBusy = false, copyRevision = 0;
+    let copyBusy = false, readingFile = false, editorRevision = 0;
     let baseline, original = "", dirty = false, blocked = false, conflict = false, unprotected = false;
     dirtyChecks.push(() => unprotected);
     function updateExportButtons() {
@@ -110,7 +128,11 @@ export function mountTripNotes(doc, win) {
       if (canCopy) copyButton.disabled = disabled;
       if (canDownload) downloadButton.disabled = disabled;
     }
+    function updateImportButton() {
+      if (canImport) importButton.disabled = readingFile || dirty || conflict || blocked;
+    }
     function controls() {
+      editorRevision++;
       dirty = input.value !== original;
       if (shortcut) {
         if (!dirty && doc.activeElement === shortcut) doc.querySelector("#trip-selector")?.focus();
@@ -119,9 +141,9 @@ export function mountTripNotes(doc, win) {
       }
       save.disabled = blocked || conflict || !dirty || input.value.length > NOTE_LIMIT;
       if (planTemplate) planTemplate.disabled = blocked || conflict || hasPlanFields(input.value);
+      updateImportButton();
       find("count").textContent = text.count(input.value.length);
       if (canCopy) {
-        copyRevision++;
         copyTools.hidden = !original || blocked;
         updateExportButtons();
         copyManual.hidden = true; copyText.value = ""; copyStatus.textContent = "";
@@ -187,6 +209,35 @@ export function mountTripNotes(doc, win) {
       if (!blocked && !conflict) status.textContent = input.value.length > NOTE_LIMIT ? text.tooLong : unprotected ? text.draftFailed : dirty ? text.draft : "";
     }
     input.addEventListener("input", edited);
+    if (canImport) {
+      importButton.hidden = false;
+      importButton.addEventListener("click", () => {
+        if (!importButton.disabled) importFile.click();
+      });
+      importFile.addEventListener("change", async () => {
+        const file = importFile.files[0];
+        importFile.value = "";
+        if (!file || importButton.disabled) return;
+        const revision = editorRevision, saved = baseline;
+        readingFile = true;
+        updateImportButton();
+        try {
+          const imported = await readNoteFile(file, win.TextDecoder);
+          // Typing, reloading, saving or a storage refresh takes priority over a pending file.
+          if (revision !== editorRevision) return;
+          if (imported === null) { status.textContent = text.importInvalid; return; }
+          if (win.localStorage.getItem(NOTE_KEYS[city]) !== saved) {
+            load();
+            status.textContent = text.importChanged;
+            return;
+          }
+          input.value = imported;
+          edited();
+          input.focus();
+        } catch { if (revision === editorRevision) status.textContent = text.importFailed; }
+        finally { readingFile = false; updateImportButton(); }
+      });
+    }
     shortcut?.addEventListener("click", event => {
       if (dirty && !event.defaultPrevented && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) details.open = true;
     });
@@ -257,10 +308,10 @@ export function mountTripNotes(doc, win) {
     }
     if (canCopy) copyButton.addEventListener("click", async () => {
       if (copyButton.disabled || !original) return;
-      const revision = copyRevision, saved = baseline, note = original;
+      const revision = editorRevision, saved = baseline, note = original;
       // Never export a draft or silently substitute an unseen newer saved value.
       function current() {
-        return revision === copyRevision && exportMatches(saved, text.copyChanged);
+        return revision === editorRevision && exportMatches(saved, text.copyChanged);
       }
       if (!current()) return;
       copyBusy = true; updateExportButtons();

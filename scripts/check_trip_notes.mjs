@@ -19,8 +19,13 @@ function harness(language, records = new Map(), fail = {}, drafts = new Map()) {
     addEventListener(name, fn) { this[name] = fn; }, focus() { doc.activeElement = this; }, select() { this.selected = true; },
     setSelectionRange(start, end) { this.selectionStart = start; this.selectionEnd = end; } });
   const roots = cities.map(city => {
-    const fields = Object.fromEntries(["input", "form", "save", "status", "preview", "details", "summary", "count", "reload", ...(fail.legacy ? [] : ["copy", "copy-tools", "copy-status", "copy-manual", "copy-text", "plan-template", "download"])].map(name => [name, node()]));
+    const fields = Object.fromEntries(["input", "form", "save", "status", "preview", "details", "summary", "count", "reload", ...(fail.legacy ? [] : ["copy", "copy-tools", "copy-status", "copy-manual", "copy-text", "plan-template", "download", "import", "import-file"])].map(name => [name, node()]));
     if (fields.download) fields.download.hidden = true;
+    if (fields.import) {
+      fields.import.hidden = true;
+      fields["import-file"].files = [];
+      fields["import-file"].click = function () { this.opened = true; };
+    }
     return { dataset: { tripNote: city }, hidden: true, fields, querySelector: selector => fields[selector.slice(11, -1)] };
   });
   const shortcutLinks = new Map(cities.map(city => [city, { ...node(), hidden: true }]));
@@ -40,6 +45,8 @@ function harness(language, records = new Map(), fail = {}, drafts = new Map()) {
   };
   doc.body = { append() {} };
   const win = {
+    File: fail.noImport ? undefined : File,
+    TextDecoder,
     Blob: fail.noDownload ? undefined : Blob,
     URL: {
       createObjectURL(blob) {
@@ -344,6 +351,7 @@ if(process.argv[2]) for(const [prefix,title] of [["","For your next visit"],["ko
   assert.equal((html.match(/data-note-copy-text readonly/g)||[]).length,3);
   assert.ok(html.includes(prefix ? "저장된 메모 복사" : "Copy saved note"));
   assert.equal((html.match(/data-note-download /g)||[]).length,3);
+  assert.equal((html.match(/data-note-import-file hidden/g)||[]).length,3);
   assert.ok(html.includes("css/trip-note.css"));
   assert.ok(html.includes("data-note-draft-shortcuts aria-labelledby=trip-drafts-title hidden"));
   assert.equal((html.match(/data-note-draft-city=/g)||[]).length,3);
@@ -364,6 +372,7 @@ if(process.argv[2]) for(const [prefix,title] of [["","For your next visit"],["ko
     assert.equal((workspace.match(/data-note-plan-template hidden/g)||[]).length,1);
     assert.ok(workspace.includes("css/trip-note.css"));
     assert.equal((workspace.match(/data-note-download /g)||[]).length,1);
+    assert.equal((workspace.match(/data-note-import-file hidden/g)||[]).length,1);
     assert.ok(!workspace.includes("css/my-trips.css"));
     assert.ok(!workspace.includes("data-note-draft-shortcuts"));
     assert.ok(workspace.indexOf(`data-trip-note=${city}`) < workspace.indexOf("data-prep-workspace"), "Notes remain available before starting or after resetting preparation");
@@ -477,3 +486,59 @@ for (const language of ["en", "ko"]) for (const city of cities) {
   assert.equal(unsupported.fields(city).copy.disabled, false, "Keep existing copy as a fallback");
 }
 console.log("Saved note download passed: exact UTF-8 text, opt-in only, fresh-baseline and draft guards, failure fallback and no record writes.");
+
+function selectNoteFile(ui, city, file) {
+  const control = ui.fields(city)["import-file"];
+  control.files = file ? [file] : [];
+  return control.change();
+}
+
+for (const language of ["en", "ko"]) for (const city of cities) {
+  const original = raw("Existing saved note"), records = new Map([[NOTE_KEYS[city], original]]);
+  const note = "Keep: 한 권역\nAlternative: wait";
+  const valid = new File(["\ufeff" + note.replace("\n", "\r\n")], `tripcompass-${city}-note.TXT`);
+  const ui = harness(language, records);
+  const f = ui.fields(city);
+  assert.equal(f.import.hidden, false);
+  f.import.click();
+  assert.equal(f["import-file"].opened, true);
+  await selectNoteFile(ui, city, null);
+  assert.equal(f.input.value, "Existing saved note");
+  for (const bad of [
+    new File([""], "empty.txt"), new File(["  "], "blank.txt"), new File(["abc"], "file.html"),
+    new File([Uint8Array.of(0xff, 0xfe)], "invalid.txt"), new File(["a\0b"], "binary.txt"),
+    new File(["a".repeat(241)], "over-limit.txt"), new File(["가".repeat(1000)], "too-many-bytes.txt")
+  ]) {
+    await selectNoteFile(ui, city, bad);
+    assert.equal(f.input.value, "Existing saved note");
+    assert.equal(ui.drafts.size, 0);
+    assert.match(f.status.textContent, /UTF-8 TXT/);
+  }
+  await selectNoteFile(ui, city, valid);
+  assert.equal(f.input.value, note);
+  assert.equal(records.get(NOTE_KEYS[city]), original);
+  assert.equal(ui.writes.length, 0);
+  assert.equal(parseDraft(ui.drafts.get(DRAFT_KEYS[city])).text, note);
+  assert.equal(f.import.disabled, true);
+  await selectNoteFile(ui, city, new File(["Other text"], "other.txt"));
+  assert.equal(f.input.value, note, "Do not replace an existing draft");
+  ui.save(city);
+  assert.equal(records.get(NOTE_KEYS[city]), raw(note));
+  assert.equal(ui.drafts.size, 0);
+  const unsupported = harness(language, records, { noImport: true });
+  assert.equal(unsupported.fields(city).import.hidden, true);
+
+  for (const interrupt of ["typing", "other-tab"]) {
+    let release;
+    const delayed = {name: "slow.txt", size: 4, arrayBuffer: () => new Promise(resolve => { release = resolve; })};
+    const race = harness(language, new Map([[NOTE_KEYS[city], original]]));
+    const action = selectNoteFile(race, city, delayed);
+    if (interrupt === "typing") race.type(city, "User typed");
+    else race.records.set(NOTE_KEYS[city], raw("Changed in other tab"));
+    release(new TextEncoder().encode("Test"));
+    await action;
+    assert.equal(race.fields(city).input.value, interrupt === "typing" ? "User typed" : "Changed in other tab");
+    assert.equal(race.writes.length, 0);
+  }
+}
+console.log("TXT draft import passed: bounded UTF-8 input, existing draft protection, explicit save and async-change guards.");

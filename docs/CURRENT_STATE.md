@@ -1,8 +1,13 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (SAVED-NOTE-IMPORT; local TXT draft import and production deployment; main/current worktree; 2026-11-18)
 
 ## Current Task
+
+- WORK-ID: SAVED-NOTE-IMPORT. Phase: implementation. Started clean on main at fc0c810; owner authorized a return-visit improvement, validation and production deployment. Import an explicitly selected TXT into the existing city editor as a draft. No homepage, storage format or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit tests cover file size/UTF-8/limit validation, concurrency, unsupported browsers and existing drafts. Chromium passed 12 EN/KO city/surface flows at 320/390/1440px: file chooser, offline import, invalid/dirty guard, reload/language, explicit save, exact TXT round trip, unrelated records and 44px targets. Both no-JS checks passed; mobile screenshot inspected. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and repeat live. BLOCKER: none.
+
+## Previous Saved Note Offline Release
 
 - Last AI: CODEX; WORK-ID: SAVED-NOTE-OFFLINE; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at 06b02bd; owner authorized a return-visit improvement, validation and production deployment. My trips and workspaces can download saved city note text as a device-local TXT file. Existing copy remains; no upload, homepage, storage format or infrastructure changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit coverage includes exact UTF-8 bytes, draft/baseline guards, unsupported or failed export and cleanup. Chromium passed 12 EN/KO city/surface flows at 320/390/1440px: offline Blob generation and reopening, exact saved text, stale and draft guards, no record changes, 44px controls and no horizontal overflow. Both no-JS cases passed; mobile screenshot inspected.
