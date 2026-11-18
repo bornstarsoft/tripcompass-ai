@@ -88,6 +88,12 @@ for (const language of ["en", "ko"]) {
   assert.equal(ui.fields.next.attributes.href, "#prep-checklist");
   ui.check("hotel", false);
   assert.equal(ui.fields.next.attributes.href, "#prep-task-hotel");
+  // A new document reached via Back can receive stale native form values.
+  ui.checks.find(input => input.dataset.prepCheck === "hotel").checked = true;
+  const previousWrites = ui.io.writes;
+  ui.events.pageshow({ persisted: false });
+  assert.equal(ui.checks.find(input => input.dataset.prepCheck === "hotel").checked, false);
+  assert.equal(ui.io.writes, previousWrites);
   const reloaded = harness({ destination, language: language === "en" ? "ko" : "en", stored: ui.storage.get(trip.storageKey) });
   assert.equal(reloaded.courses.find(input => input.checked).value, trip.courses[1]);
   assert.equal(reloaded.alternatives.find(input => input.checked).value, trip.alternatives[2]);

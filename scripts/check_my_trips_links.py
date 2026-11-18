@@ -5,6 +5,7 @@ import sys
 import json
 from html.parser import HTMLParser
 from pathlib import Path
+from urllib.parse import urlsplit
 
 
 class TaskLinks(HTMLParser):
@@ -72,6 +73,8 @@ class TaskLinks(HTMLParser):
         if tag == "input" and "data-prep-check" in attrs:
             self.pending_task = attrs["data-prep-check"]
         if tag == "a" and self.pending_task:
+            assert self.label_depth == 0, "Workspace guide link must not toggle the checkbox"
+            assert "target" not in attrs and "onclick" not in attrs
             self.workspace[self.pending_task] = attrs["href"]
             self.pending_task = None
         if tag == "a" and "data-trip-task-guide" in attrs:
@@ -102,13 +105,16 @@ for prefix in ("", "/ko"):
         workspace = TaskLinks((root / f"{prefix}{path}index.html".lstrip("/")).read_text()).workspace
         assert set(workspace) == {"flights", "hotel", "transport", "weather", "departure"}
         for task, href in workspace.items():
-            assert href.startswith(prefix + "/") and not href.startswith("/go/")
-            assert href.startswith("/ko/") == bool(prefix), f"Incorrect language: {href}"
-            article = root / href.lstrip("/") / "index.html"
+            guide = urlsplit(href)
+            assert not (guide.scheme or guide.netloc or guide.query)
+            assert guide.path.startswith(prefix + "/") and not guide.path.startswith("/go/")
+            assert guide.path.startswith("/ko/") == bool(prefix), f"Incorrect language: {href}"
+            assert guide.fragment == f"prep-{city}-{task}"
+            article = root / guide.path.lstrip("/") / "index.html"
             assert article.is_file(), f"Missing guide: {href}"
             guide_html = article.read_text()
             if not prefix:
-                counterpart = (root / "ko" / href.lstrip("/") / "index.html").read_text()
+                counterpart = (root / "ko" / guide.path.lstrip("/") / "index.html").read_text()
                 en, ko = TaskLinks(guide_html), TaskLinks(counterpart)
                 assert len(en.reading_keys) == en.sections > 0 and len(ko.reading_keys) == ko.sections > 0, f"Missing reading sections: {href}"
                 assert list(dict.fromkeys(en.reading_keys)) == list(dict.fromkeys(ko.reading_keys)), f"Language section meanings/order differ: {href}"
@@ -126,8 +132,8 @@ for prefix in ("", "/ko"):
             for panel in panels:
                 assert panel['disclosure'] and panel['checks'] == list(workspace)
                 assert set(panel['remaining']) == set(workspace)
-                assert panel['remaining_links'] == {key: path + f"#prep-{city}-{key}" for key, path in workspace.items() if key != task}
-                assert panel['guides'] == {key: path + f"#prep-{city}-{key}" for key, path in workspace.items()}
+                assert panel['remaining_links'] == {key: link for key, link in workspace.items() if key != task}
+                assert panel['guides'] == workspace
                 assert panel['check_guides'] == panel['guides'], "Every item, including the current/marked item, needs its guide"
                 assert panel['overviews'] == {key: f"{prefix}/my-trips/#trip-{city}-{key}" for key in workspace}
             assert 'data-guide-next-complete' in guide_html
@@ -135,7 +141,7 @@ for prefix in ("", "/ko"):
             assert guide_html.count('data-guide-all-status') == guide_html.count('data-guide-return=')
             assert ('전체 준비 항목' if prefix else 'All preparation items') in guide_html
             assert ('준비 진행률' if prefix else 'preparation progress') in guide_html
-            expected[f"{city}:{task}"] = href + context
+            expected[f"{city}:{task}"] = href
     assert overview == expected, f"Overview/workspace task guide mismatch: {prefix or 'en'}"
     assert set(TaskLinks(html).resume) == set(expected.values()) and len(TaskLinks(html).resume) == 15
     assert html.count("data-trip-reading=") == 3 and html.count("data-reading-clear") == 3

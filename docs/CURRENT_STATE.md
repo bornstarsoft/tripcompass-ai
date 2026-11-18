@@ -1,8 +1,13 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (WORKSPACE-GUIDE-CONTEXT; bilingual task navigation and production deployment; main/current worktree; 2026-11-18)
 
 ## Current Task
+
+- WORK-ID: WORKSPACE-GUIDE-CONTEXT. Phase: implementation. Started clean on main at d23ff51; owner authorized content, return-visit improvement and deployment. Reuse existing guide task context from city workspaces and add a hotel-change review to the EN/KO travel-day guide. No homepage, storage format or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Build checks verify all 30 EN/KO workspace task links match overview links and target the correct panels, plus six hotel-change links. Chromium passed six city/language flows at 320/390/1440px, visible checkbox focus, explicit check and Back, hotel-change navigation, and preservation of notes/bookmarks/comparison. Initial Back test exposed native stale checkbox restoration; workspace pageshow now rereads stored state without writes, and checks passed after the fix. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and verify live guide navigation. BLOCKER: none.
+
+## Previous Calendar Review Release
 
 - Last AI: CODEX; WORK-ID: TRIP-REVIEW-CALENDAR; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean at 6318972 on main; owner authorized content, return-visit improvement and deployment. Three city workspaces offer an opt-in local ICS file and the EN/KO booking review guide links to them. No homepage, personal storage or infrastructure changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Calendar tests cover invalid dates, leap day, UTF-8 folding, CRLF, query stripping and no alerts/storage/network calls. Suite also passed in Kiritimati and Los Angeles time zones. Chromium passed six EN/KO workspace flows at 320/390/1440px, guide links, 44px controls, past-date rejection, no-JS fallback, offline generation after page load and exact fixture preservation. All six ICS files contained the expected date, localized title and workspace URL, not private notes.

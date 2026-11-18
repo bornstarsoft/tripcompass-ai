@@ -12,7 +12,7 @@ takeaways:
   - "Work backward from the correct airport and terminal"
   - "Keep one optional treat, with permission to skip it"
 reviewed: "2026-09-22"
-lastmod: "2026-11-18T21:14:00+09:00"
+lastmod: "2026-11-18T21:34:00+09:00"
 alternateKo: "/ko/itinerary/japan-arrival-departure-day-plan/"
 weight: 57
 ---
@@ -86,6 +86,16 @@ Use the city you chose to make the review specific:
 **Leave only the next question in your note:** “Ask about bags / first meal near the hotel / skip the extra district.” Return to [Fukuoka](/my-trips/#trip-fukuoka), [Osaka](/my-trips/#trip-osaka) or [Tokyo](/my-trips/#trip-tokyo), read the existing note before editing, and save only what you want to keep. Each city has one note, not a new note for every departure. Reading this section does not save text or change preparation checks.
 
 Keep documents, booking references and access codes out of TripCompass notes. Keep essential details separately where you can access them without internet: use the [offline travel-day note](#offline-travel-note) rather than relying on a guide bookmark. Browser-local records are not a backup or account sync. Recheck time-sensitive information again before acting; this review does not confirm prices, availability, entry eligibility or a successful booking.
+
+### Changed hotels? Trace both ends of the trip again {#hotel-change}
+
+The new address affects more than where you sleep. Before changing the whole itinerary, check three things in order:
+
+1. **Arrival:** start at the airport and terminal on your own booking. Check the route to the new address and what the property asks you to do if you arrive after its check-in window.
+2. **Bags:** confirm storage before check-in and after checkout separately. Write down where to collect your bags and the cutoff. If you need a separate storage point, include the return detour when you decide whether a final outing fits.
+3. **Departure:** work backward from the airport and terminal for the return flight. Keep one optional stop only if you can still collect your bags and follow the airline's current guidance. Update your [offline travel-day note](#offline-travel-note) and remove the old copy so you do not follow the previous address by mistake.
+
+Keep the part of the itinerary that still works. Reopen the [Fukuoka](/my-trip/), [Osaka](/my-trip/osaka/) or [Tokyo](/my-trip/tokyo/) workspace and revisit only the affected checks. This review does not verify a route or confirm that bags can be stored.
 
 ## Arrival day: choose the smaller version when delayed
 

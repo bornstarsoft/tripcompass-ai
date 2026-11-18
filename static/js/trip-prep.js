@@ -168,7 +168,8 @@ function mountDestination(doc, win, destination, root, entries) {
     if (focused && !state) create.focus();
   }
   win.addEventListener("storage", event => { if (event.key === STORAGE_KEY || event.key === null) sync(); });
-  win.addEventListener("pageshow", event => { if (event.persisted) sync(); });
+  // Native form history can restore stale checks after the module initially renders.
+  win.addEventListener("pageshow", event => { if (root || event.persisted) sync(); });
 }
 
 if (typeof document !== "undefined") mountTripPrep(document, window);

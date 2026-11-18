@@ -37,6 +37,7 @@
 .prep-review summary { min-height: 44px; padding: .6rem 0; color: var(--teal); cursor: pointer; font-weight: 600; }
 .prep-review ul { padding-inline-start: 1.25rem; }
 .prep-review a { display: inline-flex; min-height: 44px; align-items: center; }
+.prep-inline-link { padding-block: .35rem; }
 .prep-review button:disabled { opacity: .6; cursor: not-allowed; }
 .prep-review [role="status"]:empty { margin: 0; }
 .prep-calendar { margin-bottom: 1.25rem; }

@@ -210,7 +210,7 @@ def check(root):
             if path == "/itinerary/japan-arrival-departure-day-plan/":
                 assert page.save_ids == ["travel-days"]
                 assert "/js/guide-explorer.js" in page.scripts
-                checkpoints = {"booking-review", "before-leaving-home", "night-before-return", "before-checkout", "after-trip", "offline-travel-note"}
+                checkpoints = {"booking-review", "before-leaving-home", "night-before-return", "before-checkout", "after-trip", "offline-travel-note", "hotel-change"}
                 assert checkpoints <= page.ids
                 assert {"#" + checkpoint for checkpoint in checkpoints} <= set(page.links)
                 assert {prefix + path for path in ["/my-trip/", "/my-trip/osaka/", "/my-trip/tokyo/", "/my-trips/#trip-selector"]} <= set(page.links)
@@ -222,7 +222,10 @@ def check(root):
                 assert ("blank template" if language == "en" else "빈 양식입니다") in text
                 assert template not in read(prefix + "/").links
                 for workspace in ["/my-trip/", "/my-trip/osaka/", "/my-trip/tokyo/"]:
-                    assert url + "#offline-travel-note" in read(prefix + workspace).links
+                    workspace_links = read(prefix + workspace).links
+                    assert url + "#offline-travel-note" in workspace_links
+                    assert url + "#hotel-change" in workspace_links
+                assert ("Changed hotels?" if language == "en" else "숙소를 바꿨다면") in text
                 for term in (["exact date, time and time zone", "your review day, not the provider’s cutoff", "does not track deadlines, send reminders or change reservations"] if language == "en" else ["마감 날짜·시각·시간대", "예약처의 마감일이 아니라 내가 다시 확인할 날", "마감을 추적하거나 알림을 보내거나 예약을 변경하지 않습니다"]):
                     assert term in text
                 for term in (["Before leaving home:", "not a complete departure checklist", "Reading this section does not save", "not a backup or account sync"] if language == "en" else ["한국에서 출발 전날:", "출발 준비 전체 목록이나 입국 요건 확인을 대신하지 않습니다", "준비 체크가 바뀌지 않습니다", "백업이나 계정 동기화가 아닙니다"]):
