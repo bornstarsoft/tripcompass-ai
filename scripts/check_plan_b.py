@@ -110,6 +110,8 @@ def check(root):
             assert prefix + "/my-trips/#trip-" + city in page.links
             assert prefix + "/my-trips/#saved-guides-" + city in page.links
             assert "saved-guides-" + city in overview.ids
+            assert prefix + "/my-trips/#next-visit-note-" + city in page.links
+            assert "next-visit-note-" + city in overview.ids
         for guide in ["fukuoka-dazaifu-shrine-museum-day", "fukuoka-rainy-day-plan", "osaka-to-nara-temple-park-day", "osaka-doguyasuji-kitchenware-walk", "tokyo-jimbocho-books-cafes", "tokyo-kiyosumi-shirakawa-garden-art-coffee"]:
             candidate = prefix + "/itinerary/" + guide + "/"
             assert candidate in page.links

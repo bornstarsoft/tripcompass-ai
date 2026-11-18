@@ -15,7 +15,7 @@ takeaways:
   - "Leave one short note for the next time you open your trip"
 reviewed: "2026-10-23"
 date: "2026-10-23T00:00:00+09:00"
-lastmod: "2026-11-18T22:29:00+09:00"
+lastmod: "2026-11-18T22:35:00+09:00"
 alternateKo: "/ko/itinerary/japan-plan-b/"
 weight: 58
 ---
@@ -174,7 +174,7 @@ A lodging guide, a long outing and a neighborhood walk are not interchangeable. 
 - **Osaka:** If returning to meet someone for dinner, compare the complete [Nara outing](/itinerary/osaka-to-nara-temple-park-day/) with a [Doguyasuji browse](/itinerary/osaka-doguyasuji-kitchenware-walk/), including travel back to the meeting place. If you cannot confirm that the outing fits, keep one smaller city activity or rest.
 - **Tokyo:** If there is room for one main stop, compare a [Jimbocho bookshop](/itinerary/tokyo-jimbocho-books-cafes/) with a [garden or art stop in Kiyosumi-Shirakawa](/itinerary/tokyo-kiyosumi-shirakawa-garden-art-coffee/). Choose the interest you want most, and count a cafe break as part of that block rather than adding another district.
 
-Leave a decision you can use later: **“Keep: one main stop. Drop first: the second area. Recheck: the return journey before leaving.”** Use the [itinerary library](/itinerary/#itinerary-library-title) to reopen candidates. These examples do not verify travel times, opening hours or availability.
+Leave a decision you can use later: **“Keep: one main stop. Alternative: stay near the hotel. Recheck: the return journey before leaving.”** The [Fukuoka note](/my-trips/#next-visit-note-fukuoka), [Osaka note](/my-trips/#next-visit-note-osaka) and [Tokyo note](/my-trips/#next-visit-note-tokyo) each have those three prompts available in the editor. Keep any earlier note that still helps. Use the [itinerary library](/itinerary/#itinerary-library-title) to reopen candidates. These examples do not verify travel times, opening hours or availability.
 
 ### Keep only the next unresolved choice
 

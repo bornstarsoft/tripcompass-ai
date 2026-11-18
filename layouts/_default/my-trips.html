@@ -116,6 +116,6 @@
 <script type="module" src="{{ "js/my-trips.js" | relURL }}"></script>
 <script type="module" src="{{ "js/my-trips-reading.js" | relURL }}"></script>
 <script type="module" src="{{ "js/my-trips-comparison.js" | relURL }}"></script>
-<script type="module" src="{{ "js/trip-note.js" | relURL }}"></script>
+<script type="module" src="{{ "js/trip-note.js" | relURL }}?v={{ substr (sha256 (readFile "static/js/trip-note.js")) 0 12 }}"></script>
 <script type="module" src="{{ "js/trip-moments.js" | relURL }}"></script>
 {{ end }}

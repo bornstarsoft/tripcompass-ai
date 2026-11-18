@@ -117,6 +117,6 @@
   <aside class="trust-note">{{ cond $ko "예약 전 최신 가격, 영업시간, 비자 규정, 예약 가능 여부와 조건을 직접 확인하세요. 실시간 견적이나 안전·입국·예약 보장을 제공하지 않습니다." "Check current prices, opening hours, visa rules, availability and terms before booking. No real-time quotes or safety, entry or booking guarantees are provided." }}</aside>
 </article>
 <script src="{{ "js/guide-explorer.js" | relURL }}" defer></script>
-<script type="module" src="{{ "js/trip-note.js" | relURL }}"></script>
+<script type="module" src="{{ "js/trip-note.js" | relURL }}?v={{ substr (sha256 (readFile "static/js/trip-note.js")) 0 12 }}"></script>
 <script type="module" src="{{ "js/trip-review-calendar.js" | relURL }}"></script>
 {{ end }}

@@ -1,8 +1,13 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (PLAN-DECISION-NOTE; bilingual note drafting and production deployment; main/current worktree; 2026-11-18)
 
 ## Current Task
+
+- WORK-ID: PLAN-DECISION-NOTE. Phase: implementation. Started clean on main at 8fb6849; owner authorized a return-visit improvement, validation and production deployment. Add a plain-text planning prompt to the existing note editor with reciprocal Plan B links. No homepage, storage format or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Chromium passed 12 EN/KO city/surface flows at 320/390/1440px, including Plan B links, one-time appending, caret, length guard, reload/language, explicit save, unchanged unrelated records and 44px controls. Both no-JS fallbacks passed; mobile screenshot inspected. Unit tests cover blocked/conflicting saved notes and duplicate prevention. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and repeat live. BLOCKER: none.
+
+## Previous Saved Guide Time-block Release
 
 - Last AI: CODEX; WORK-ID: SAVED-GUIDE-TIME-BLOCK; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at 9fd0e0f; owner authorized content, return-visit improvement, validation and production deployment. Added bilingual fixed-window examples to Plan B with a link shown when the saved-only library has two or more readable bookmarked guides. No homepage, storage format or infrastructure changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit coverage includes contextual link visibility, unavailable and page-only saves, and built localized targets. Chromium passed six EN/KO flows at 320/390/1440px: link and heading visible, 44px target, Back filter restoration, read-only personal records, cross-tab removal/undo with focus recovery, no overflow and both no-JS fallbacks. Mobile screenshot inspected.

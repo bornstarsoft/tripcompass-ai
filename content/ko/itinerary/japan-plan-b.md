@@ -16,7 +16,7 @@ takeaways:
   - "다음에 다시 열었을 때 도움이 될 짧은 메모를 남겨요"
 reviewed: "2026-10-23"
 date: "2026-10-23T00:00:00+09:00"
-lastmod: "2026-11-18T22:29:00+09:00"
+lastmod: "2026-11-18T22:35:00+09:00"
 alternateEn: "/itinerary/japan-plan-b/"
 weight: 58
 ---
@@ -175,7 +175,7 @@ weight: 58
 - **오사카:** 저녁에 일행과 합류해야 한다면 [나라 외출](/ko/itinerary/osaka-to-nara-temple-park-day/)과 [도구야스지 구경](/ko/itinerary/osaka-doguyasuji-kitchenware-walk/)을 비교할 때 만나는 곳까지 돌아오는 길을 포함하세요. 근교에 다녀올 여유가 있는지 확인하기 어렵다면 시내 일정 하나만 남기거나 쉽니다.
 - **도쿄:** 중심 일정 하나만 가능한 시간이라면 [진보초 책방](/ko/itinerary/tokyo-jimbocho-books-cafes/)과 [기요스미시라카와 정원·미술](/ko/itinerary/tokyo-kiyosumi-shirakawa-garden-art-coffee/) 중 더 끌리는 경험을 고르세요. 카페에서 쉴 시간도 같은 시간 안에 포함하고, 다른 동네를 더 넣지 않습니다.
 
-다음에 펼쳐 쓸 한 줄만 남겨 보세요. **“남길 것: 중심 일정 하나 / 먼저 뺄 것: 두 번째 권역 / 확인할 것: 나가기 전 돌아올 길.”** [일정 모음](/ko/itinerary/#itinerary-library-title)에서 후보를 다시 볼 수 있습니다. 이 예시가 이동 시간, 영업시간이나 이용 가능 여부를 확인해 주지는 않습니다.
+다음에 펼쳐 쓸 한 줄을 남겨 보세요. **“남길 일정: 중심 일정 하나 / 대안: 숙소 근처에 머물기 / 다시 확인할 것: 나가기 전 돌아올 길.”** [후쿠오카 메모](/ko/my-trips/#next-visit-note-fukuoka), [오사카 메모](/ko/my-trips/#next-visit-note-osaka), [도쿄 메모](/ko/my-trips/#next-visit-note-tokyo)에서 세 가지 질문을 양식으로 추가할 수 있어요. 여전히 도움이 되는 기존 메모는 그대로 두세요. [일정 모음](/ko/itinerary/#itinerary-library-title)에서 후보를 다시 볼 수 있습니다. 이 예시가 이동 시간, 영업시간이나 이용 가능 여부를 확인해 주지는 않습니다.
 
 ### 아직 정하지 못한 선택만 남기세요
 

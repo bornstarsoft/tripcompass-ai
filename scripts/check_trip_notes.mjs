@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { mountTripNotes, parseNote, parseDraft, NOTE_KEYS, DRAFT_KEYS, NOTE_LIMIT } from "../static/js/trip-note.js";
@@ -13,9 +14,10 @@ for (const invalid of ["{", "null", "[]", raw("x".repeat(241)), JSON.stringify({
 function harness(language, records = new Map(), fail = {}, drafts = new Map()) {
   const events = {}, writes = [], prompts = [], clipboard = [], doc = { documentElement: { lang: language }, activeElement: null };
   const node = () => ({ value: "", textContent: "", hidden: false, disabled: false, open: false,
-    addEventListener(name, fn) { this[name] = fn; }, focus() { doc.activeElement = this; }, select() { this.selected = true; } });
+    addEventListener(name, fn) { this[name] = fn; }, focus() { doc.activeElement = this; }, select() { this.selected = true; },
+    setSelectionRange(start, end) { this.selectionStart = start; this.selectionEnd = end; } });
   const roots = cities.map(city => {
-    const fields = Object.fromEntries(["input", "form", "save", "status", "preview", "details", "summary", "count", "reload", ...(fail.legacy ? [] : ["copy", "copy-tools", "copy-status", "copy-manual", "copy-text"])].map(name => [name, node()]));
+    const fields = Object.fromEntries(["input", "form", "save", "status", "preview", "details", "summary", "count", "reload", ...(fail.legacy ? [] : ["copy", "copy-tools", "copy-status", "copy-manual", "copy-text", "plan-template"])].map(name => [name, node()]));
     return { dataset: { tripNote: city }, hidden: true, fields, querySelector: selector => fields[selector.slice(11, -1)] };
   });
   doc.querySelectorAll = () => roots;
@@ -50,6 +52,41 @@ function harness(language, records = new Map(), fail = {}, drafts = new Map()) {
     type(city,text) { const f = this.fields(city); f.input.value=text; f.input.input(); },
     save(city) { let prevented = false; this.fields(city).form.submit({ preventDefault() { prevented=true; } }); assert.ok(prevented); }
   };
+}
+
+for (const language of ["en", "ko"]) {
+  const first = language === "ko" ? "남길 일정:" : "Keep:";
+  const block = language === "ko" ? "남길 일정: \n대안: \n다시 확인할 것: " : "Keep: \nAlternative: \nRecheck: ";
+  for (const city of cities) {
+    const saved = new Map([[NOTE_KEYS[city], raw("Original note")]]);
+    const ui = harness(language, saved);
+    const f = ui.fields(city), button = f["plan-template"];
+    assert.equal(button.disabled, false);
+    ui.type(city, "Unfinished draft\n");
+    button.click();
+    const expected = "Unfinished draft\n\n" + block;
+    assert.equal(f.input.value, expected);
+    assert.equal(ui.doc.activeElement, f.input);
+    assert.equal(f.input.selectionStart, expected.indexOf(first) + first.length + 1);
+    assert.equal(parseDraft(ui.drafts.get(DRAFT_KEYS[city])).text, expected);
+    assert.equal(saved.get(NOTE_KEYS[city]), raw("Original note"));
+    assert.equal(ui.writes.length, 0);
+    button.click();
+    assert.equal(f.input.value, expected, "No duplicate prompt insertion");
+    const translated = harness(language === "ko" ? "en" : "ko", saved, {}, ui.drafts);
+    assert.equal(translated.fields(city).input.value, expected);
+    assert.equal(translated.fields(city)["plan-template"].disabled, true);
+    ui.type(city, "A".repeat(230));
+    button.click();
+    assert.equal(f.input.value.length, 230, "Do not truncate a draft at the existing limit");
+    assert.match(f.status.textContent, /않|그대로|unchanged/);
+    saved.set(NOTE_KEYS[city], raw("Changed elsewhere"));
+    ui.emit("storage", {key: NOTE_KEYS[city]});
+    assert.equal(button.disabled, true);
+    assert.equal(ui.writes.length, 0);
+  }
+  const unavailable = harness(language, new Map(), {read: true});
+  assert.equal(unavailable.fields("fukuoka")["plan-template"].disabled, true);
 }
 
 for (const language of ["en","ko"]) {
@@ -235,7 +272,9 @@ for (const language of ["en", "ko"]) for (const city of cities) {
 
 if(process.argv[2]) for(const [prefix,title] of [["","For your next visit"],["ko/","다음에 확인할 메모"]]) {
   const html=await readFile(resolve(process.argv[2],prefix+"my-trips/index.html"),"utf8");
-  assert.ok(html.includes(title)); assert.ok(html.includes("js/trip-note.js"));
+  const version = createHash("sha256").update(await readFile(resolve(process.argv[2], "js/trip-note.js"))).digest("hex").slice(0, 12);
+  assert.ok(html.includes(title)); assert.ok(html.includes(`js/trip-note.js?v=${version}`));
+  assert.equal((html.match(/data-note-plan-template hidden/g)||[]).length,3);
   assert.equal((html.match(/data-trip-note=/g)||[]).length,3);
   assert.equal((html.match(/data-note-copy-tools hidden/g)||[]).length,3);
   assert.equal((html.match(/data-note-copy-text readonly/g)||[]).length,3);
@@ -253,6 +292,8 @@ if(process.argv[2]) for(const [prefix,title] of [["","For your next visit"],["ko
     assert.ok(workspace.includes(`id=next-visit-note-${city}>`));
     assert.equal(workspace.split(help).length - 1, 1);
     assert.equal((workspace.match(/js\/trip-note.js/g) || []).length, 1);
+    assert.ok(workspace.includes(`js/trip-note.js?v=${version}`));
+    assert.equal((workspace.match(/data-note-plan-template hidden/g)||[]).length,1);
     assert.ok(workspace.includes("css/trip-note.css"));
     assert.ok(!workspace.includes("css/my-trips.css"));
     assert.ok(workspace.indexOf(`data-trip-note=${city}`) < workspace.indexOf("data-prep-workspace"), "Notes remain available before starting or after resetting preparation");
