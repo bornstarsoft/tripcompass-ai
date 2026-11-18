@@ -1,5 +1,8 @@
 {{ $ko := .ko }}
 {{ $city := .city }}
+{{ $prefix := cond $ko "/ko" "" }}
+<div id="next-visit-note-{{ $city }}">
+<noscript><p class="fine-print">{{ cond $ko "이 브라우저에서 메모를 열려면 JavaScript가 필요합니다." "Enable JavaScript to open your note in this browser." }}</p></noscript>
 <section class="trip-note" data-trip-note="{{ $city }}" hidden aria-labelledby="note-title-{{ $city }}">
   {{ if .workspace }}
   <h2 id="note-title-{{ $city }}">{{ cond $ko "다음에 확인할 메모" "For your next visit" }}</h2>
@@ -27,6 +30,8 @@
         <button type="button" class="button" data-note-reload>{{ partial "icons/undo.html" }}<span>{{ cond $ko "저장된 메모 불러오기" "Load saved note" }}</span></button>
       </div>
     </form>
+    <a class="trip-note-guide" href="{{ printf "%s/itinerary/japan-arrival-departure-day-plan/#use-the-note" $prefix | relURL }}" target="_blank" rel="noopener">{{ cond $ko "지난 여행 메모를 다음 일정에 쓰는 법 (새 탭)" "Use your last trip note to plan again (new tab)" }}</a>
   </details>
   <p class="fine-print" data-note-status role="status" aria-live="polite" aria-atomic="true"></p>
 </section>
+</div>

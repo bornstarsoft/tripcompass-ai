@@ -212,6 +212,12 @@ def check(root):
                 assert "/js/guide-explorer.js" in page.scripts
                 checkpoints = {"booking-review", "before-leaving-home", "night-before-return", "before-checkout", "after-trip", "offline-travel-note", "hotel-change", "travel-day-handoff"}
                 assert checkpoints <= page.ids
+                assert "use-the-note" in page.ids
+                note_page = read(prefix + "/my-trips/")
+                for city in ["fukuoka", "osaka", "tokyo"]:
+                    note_anchor = "next-visit-note-" + city
+                    assert prefix + "/my-trips/#" + note_anchor in page.links
+                    assert note_anchor in note_page.ids
                 assert {"#" + checkpoint for checkpoint in checkpoints} <= set(page.links)
                 assert {prefix + path for path in ["/my-trip/", "/my-trip/osaka/", "/my-trip/tokyo/", "/my-trips/#trip-selector"]} <= set(page.links)
                 template = f"/downloads/travel-day-note-{language}.txt"

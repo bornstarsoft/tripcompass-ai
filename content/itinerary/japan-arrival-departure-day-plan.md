@@ -12,7 +12,7 @@ takeaways:
   - "Work backward from the correct airport and terminal"
   - "Keep one optional treat, with permission to skip it"
 reviewed: "2026-09-22"
-lastmod: "2026-11-18T21:52:00+09:00"
+lastmod: "2026-11-18T22:00:00+09:00"
 alternateKo: "/ko/itinerary/japan-arrival-departure-day-plan/"
 weight: 57
 ---
@@ -201,6 +201,16 @@ Apply it to the course you used:
 - **Tokyo:** distinguish enjoying a particular interest, such as books or art, from enjoying a long neighborhood-hopping day. Keep the interest; reconsider the amount of travel around it.
 
 A short note to adapt: **“Repeat: an unhurried meal. Less: a second district. Next question: one extra full day?”** [Fukuoka](/my-trips/#trip-fukuoka), [Osaka](/my-trips/#trip-osaka) and [Tokyo](/my-trips/#trip-tokyo) each have one next-visit note. Check the existing note before replacing it; it is not a trip-by-trip journal. Keep any longer personal record separately. Reading this example does not save a note, reset preparation or change your bookmarks.
+
+#### Use the note before choosing a new course {#use-the-note}
+
+When you plan again, read your old note before opening a fresh list of places. Turn one memory into a decision about **what you will make room for**. It can carry over to a different city, even when the old route does not.
+
+- **“One area made the first day easier.”** Keep the first meal near where you will stay. In Fukuoka, use that preference to compare [Hakata and Tenjin](/from-seoul/fukuoka-hakata-vs-tenjin-hotels/) after confirming your arrival and luggage arrangements.
+- **“The day trip was worth it, but trying to fit both plans into one day was not.”** In Osaka, pick [the city or a Kyoto outing](/itinerary/osaka-or-kyoto-day-trip/) before you add more stops. Write down the city activity you would actually give up.
+- **“The bookshops were the highlight, not the number of districts.”** In Tokyo, keep a [Jimbocho half-day](/itinerary/tokyo-jimbocho-books-cafes/) as one option and leave the next block open. Check current hours and access before settling the route.
+
+Open your [Fukuoka note](/my-trips/#next-visit-note-fukuoka), [Osaka note](/my-trips/#next-visit-note-osaka) or [Tokyo note](/my-trips/#next-visit-note-tokyo). Read what is already there and keep it if it still helps. If you opened this guide while editing, return to your previous tab to continue the draft; these links open the city note in this tab.
 
 Old checklist marks describe what you checked for the earlier trip, not confirmation for a new departure. Recheck flights, accommodation, transport and other relevant conditions for the new dates yourself. Past prices or a pleasant visit do not establish future prices, availability or suitability. If you later compare cities, start the [decision board](/decision-board/) with newly checked inputs; do not treat an old saved comparison as a current quote.
 

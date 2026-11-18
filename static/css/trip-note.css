@@ -8,6 +8,7 @@
 .trip-note-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
 .trip-note-actions button { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; max-width: 100%; font: inherit; cursor: pointer; }
 .trip-note-actions svg { flex: 0 0 24px; }
+.trip-note-guide { display: inline-flex; align-items: center; min-height: 44px; max-width: 100%; font-size: .9rem; }
 .trip-note button:disabled { opacity: .6; cursor: not-allowed; }
 .trip-note summary:focus-visible, .trip-note textarea:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
 .trip-note [data-note-status]:empty { margin: 0; }

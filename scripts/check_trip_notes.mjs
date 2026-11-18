@@ -241,12 +241,17 @@ if(process.argv[2]) for(const [prefix,title] of [["","For your next visit"],["ko
   assert.equal((html.match(/data-note-copy-text readonly/g)||[]).length,3);
   assert.ok(html.includes(prefix ? "저장된 메모 복사" : "Copy saved note"));
   assert.ok(html.includes("css/trip-note.css"));
+  const help = `href=/${prefix}itinerary/japan-arrival-departure-day-plan/#use-the-note target=_blank rel=noopener`;
+  assert.equal(html.split(help).length - 1, 3);
   for (const city of cities) {
+    assert.equal(html.split(`id=next-visit-note-${city}>`).length - 1, 1);
     const path = city === "fukuoka" ? "my-trip/" : `my-trip/${city}/`;
     const workspace = await readFile(resolve(process.argv[2], prefix + path + "index.html"), "utf8");
     assert.equal((workspace.match(/data-trip-note=/g) || []).length, 1);
     assert.ok(workspace.includes(`data-trip-note=${city}`));
     assert.ok(workspace.includes(`<h2 id=note-title-${city}>${title}</h2>`));
+    assert.ok(workspace.includes(`id=next-visit-note-${city}>`));
+    assert.equal(workspace.split(help).length - 1, 1);
     assert.equal((workspace.match(/js\/trip-note.js/g) || []).length, 1);
     assert.ok(workspace.includes("css/trip-note.css"));
     assert.ok(!workspace.includes("css/my-trips.css"));
@@ -256,6 +261,7 @@ if(process.argv[2]) for(const [prefix,title] of [["","For your next visit"],["ko
   const home=await readFile(resolve(process.argv[2],prefix+"index.html"),"utf8");
   assert.ok(!home.includes("data-trip-note")); assert.ok(!home.includes("js/trip-note.js"));
   assert.ok(!home.includes("css/trip-note.css"));
+  assert.ok(!home.includes("#use-the-note"));
 }
 console.log("Trip notes passed: EN/KO, three-city isolation, explicit saves, tab drafts across reload/language/BFCache, confirmed discard/cancel/unavailable dialogs, blank drafts, length limits, safe text, conflicts/storage failures and unchanged legacy records/homepage.");
 

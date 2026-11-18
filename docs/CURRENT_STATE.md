@@ -1,8 +1,13 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (NEXT-TRIP-NOTE-GUIDE; bilingual note return flow and production deployment; main/current worktree; 2026-11-18)
 
 ## Current Task
+
+- WORK-ID: NEXT-TRIP-NOTE-GUIDE. Phase: implementation. Started clean on main at 4e43e00; owner authorized content, return-visit improvement, validation and deployment. Connect existing city note editors to planning advice without changing saved data or the homepage.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Chromium passed 12 EN/KO city/surface flows at 320/390/1440px: note help opens with no opener, original draft survives and restores after reload without autosave, return targets the correct visible note, exact saved note/preparation/bookmark/comparison fixtures stay unchanged. 44px entry target, no overflow, EN/KO no-JS return, and screenshot inspection passed. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and repeat the flow on production. BLOCKER: none.
+
+## Previous Travel-day Handoff Release
 
 - Last AI: CODEX; WORK-ID: TRAVEL-DAY-HANDOFF; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at 566c328; owner authorized a content/return-visit improvement, validation and deployment. Fully marked workspaces now link to localized travel-day advice on coordinating arrivals and responsibilities. Unmarking restores the next-item link. No homepage, storage format or infrastructure changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Unit coverage includes completed and incomplete navigation, locale and legacy markup fallback. Chromium passed six EN/KO city flows at 320/390/1440px: final check, localized guide and review-section return, uncheck and exact fixture preservation outside those deliberate edits. Mobile screenshot inspected, 44px entry link, no overflow and no-JS guide access.
