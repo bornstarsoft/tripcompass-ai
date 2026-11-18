@@ -1,11 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (TRIP-REVIEW-CALENDAR; localized calendar handoff, validation and production deployment; main/current worktree; 2026-11-18)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: TRIP-REVIEW-CALENDAR. Phase: implementation. Started clean at 6318972 on main; owner authorized a content and return-visit improvement through production deployment. Add an opt-in, locally generated calendar review date to three city workspaces and connect the booking review guide to it. Keep homepages, storage and infrastructure unchanged.
-- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Calendar tests cover date validation, leap day, UTF-8 folding, line endings, stripped URL query/fragment and no alerts/storage/network calls. Chromium passed six EN/KO workspace flows at 320/390/1440px, guide links, 44px controls, past-date rejection, manual no-JS fallback, download with network disabled after load and exact fixture preservation. All six downloaded ICS files contain the expected date, localized title and workspace URL, not private notes. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and verify live downloads. BLOCKER: none.
+- Last AI: CODEX; WORK-ID: TRIP-REVIEW-CALENDAR; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean at 6318972 on main; owner authorized content, return-visit improvement and deployment. Three city workspaces offer an opt-in local ICS file and the EN/KO booking review guide links to them. No homepage, personal storage or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Calendar tests cover invalid dates, leap day, UTF-8 folding, CRLF, query stripping and no alerts/storage/network calls. Suite also passed in Kiritimati and Los Angeles time zones. Chromium passed six EN/KO workspace flows at 320/390/1440px, guide links, 44px controls, past-date rejection, no-JS fallback, offline generation after page load and exact fixture preservation. All six ICS files contained the expected date, localized title and workspace URL, not private notes.
+- HEAD/WIP: application commit 275c377b44bdf6562f73951d0c02cf9191075e3c pushed to main. This documentation update records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44304525305 and Cloudflare Pages succeeded. Both homepages, six workspaces, two guides, CSS/JS and sitemap matched the validated build. All six Chromium flows and generated ICS contents passed, including distinct UIDs. Initial request audit flagged existing Cloudflare RUM; corrected rerun distinguished that existing request and checked that neither the selected test date nor fixture note went over the network. No API/booking requests or app errors in the browser suite.
+- QA NOT_RUN: physical-device/Safari and real calendar imports, paid AI calls, D1 and retention measurement. NEXT_SINGLE_TASK: ask travelers whether they can import the review date and return using the event link, without collecting dates or private booking details. BLOCKER: none.
 
 ## Previous Offline Note Release
 
