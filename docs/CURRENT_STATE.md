@@ -1,11 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (NEXT-TRIP-NOTE-GUIDE; bilingual note return flow and production deployment; main/current worktree; 2026-11-18)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: NEXT-TRIP-NOTE-GUIDE. Phase: implementation. Started clean on main at 4e43e00; owner authorized content, return-visit improvement, validation and deployment. Connect existing city note editors to planning advice without changing saved data or the homepage.
-- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Chromium passed 12 EN/KO city/surface flows at 320/390/1440px: note help opens with no opener, original draft survives and restores after reload without autosave, return targets the correct visible note, exact saved note/preparation/bookmark/comparison fixtures stay unchanged. 44px entry target, no overflow, EN/KO no-JS return, and screenshot inspection passed. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and repeat the flow on production. BLOCKER: none.
+- Last AI: CODEX; WORK-ID: NEXT-TRIP-NOTE-GUIDE; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at 4e43e00; owner authorized content, return-visit improvement, validation and deployment. Existing city note editors link to localized advice on using a prior trip note to choose a new course. The guide opens in a separate tab; return links lead to the exact note in My trips. No homepage, storage format or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Chromium passed 12 EN/KO city/surface flows at 320/390/1440px: note help opens with no opener, original draft survives and restores after reload without autosave, return targets the correct visible note and exact saved note/preparation/bookmark/comparison fixtures stay unchanged. 44px entry target, no overflow, EN/KO no-JS return and screenshot inspection passed.
+- HEAD/WIP: application commit 0e64c9c60964a33de31eb5429624a87aae4e11dd pushed to main. This documentation update records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44309853327 and Cloudflare Pages succeeded. Both homepages, both overviews, all six workspaces, both travel-day guides, CSS/JS and sitemap matched the verified build byte-for-byte. All 12 live EN/KO Chromium flows and both no-JS returns passed; mobile screenshot inspected. No application errors or API/booking calls in browser QA.
+- QA NOT_RUN: physical-device/Safari, paid AI calls, D1 queries and retention measurement. NEXT_SINGLE_TASK: ask whether a past-trip note helps travelers choose what to keep or skip on their next trip, without collecting note contents. BLOCKER: none.
 
 ## Previous Travel-day Handoff Release
 
