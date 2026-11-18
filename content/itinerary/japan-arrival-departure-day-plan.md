@@ -62,10 +62,12 @@ If considering a locker or staffed storage instead, check size, location, access
 The night before departure is too late to review a choice whose change window has already closed. If the dates or the group are still uncertain, open your flight and accommodation confirmations while you have time to decide.
 
 1. **Find the first deadline that matters.** For each booking you might change, check the exact date, time and time zone, who handles changes, and what you would pay or lose. Check change and cancellation terms separately. If a cutoff is unclear, confirm it with the provider rather than assuming midnight or free cancellation.
-2. **Pick a day to decide.** Put a reminder in your own calendar before that cutoff. Name one decision: for example, “Keep both nights or move the trip?” If an answer from a companion is still pending, agree when to ask again.
+2. **Pick a day to decide.** Leave time to hear from your companions or the booking provider before the actual cutoff. For example, if you still need both answers, choose a review day that leaves time to follow up, rather than using the cutoff day itself. Name one decision: “Keep both nights or move the trip?”
 3. **Recheck only what the change affects.** If your arrival moves, check the lodging arrangements and route before adding an outing. If the booking is unchanged, leave the plan alone. If the dates change, reopen the [Fukuoka](/my-trip/), [Osaka](/my-trip/osaka/) or [Tokyo](/my-trip/tokyo/) workspace to review the old checklist for the new trip.
 
 Leave only the next question in [your city note](/my-trips/#trip-selector), such as “Confirm the first-night change terms before deciding on a later flight.” Keep exact booking details separately. TripCompass does not track deadlines, send reminders or change reservations; the applicable terms are the ones confirmed for your booking.
+
+**Put the review day on your calendar:** open the [Fukuoka](/my-trip/#prep-calendar), [Osaka](/my-trip/osaka/#prep-calendar) or [Tokyo](/my-trip/tokyo/#prep-calendar) workspace to download an all-day event with a link back to that workspace. The day you choose is your review day, not the provider's cutoff. Import the file yourself, and adjust any alerts or date changes in your calendar.
 
 ### Before leaving home: reopen the plan, not every possibility {#before-leaving-home}
 

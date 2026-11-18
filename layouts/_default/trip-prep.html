@@ -25,6 +25,8 @@
   <p class="prep-status" data-prep-status role="status" aria-live="polite"></p>
   <noscript><p>{{ cond $ko "아래 가이드는 그대로 읽을 수 있습니다. 준비 상태 저장에는 JavaScript가 필요합니다." "The guides below remain available. Saving preparation requires JavaScript." }}</p></noscript>
   {{ partial "trip-note.html" (dict "ko" $ko "city" $destination "workspace" true) }}
+  {{ $reviewTitle := cond $ko (printf "%s 여행 준비 점검" $data.ko) (printf "Review your %s trip" $data.en) }}
+  {{ partial "trip-review-calendar.html" (dict "ko" $ko "title" $reviewTitle "workspace" .Permalink) }}
   <div data-prep-workspace hidden>
     <section class="prep-progress" aria-labelledby="prep-progress-title">
       <h2 id="prep-progress-title">{{ cond $ko "남은 준비" "Your next step" }}</h2>
@@ -111,4 +113,5 @@
 </article>
 <script src="{{ "js/guide-explorer.js" | relURL }}" defer></script>
 <script type="module" src="{{ "js/trip-note.js" | relURL }}"></script>
+<script type="module" src="{{ "js/trip-review-calendar.js" | relURL }}"></script>
 {{ end }}

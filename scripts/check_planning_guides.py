@@ -223,7 +223,7 @@ def check(root):
                 assert template not in read(prefix + "/").links
                 for workspace in ["/my-trip/", "/my-trip/osaka/", "/my-trip/tokyo/"]:
                     assert url + "#offline-travel-note" in read(prefix + workspace).links
-                for term in (["exact date, time and time zone", "your own calendar", "does not track deadlines, send reminders or change reservations"] if language == "en" else ["마감 날짜·시각·시간대", "개인 캘린더", "마감을 추적하거나 알림을 보내거나 예약을 변경하지 않습니다"]):
+                for term in (["exact date, time and time zone", "your review day, not the provider’s cutoff", "does not track deadlines, send reminders or change reservations"] if language == "en" else ["마감 날짜·시각·시간대", "예약처의 마감일이 아니라 내가 다시 확인할 날", "마감을 추적하거나 알림을 보내거나 예약을 변경하지 않습니다"]):
                     assert term in text
                 for term in (["Before leaving home:", "not a complete departure checklist", "Reading this section does not save", "not a backup or account sync"] if language == "en" else ["한국에서 출발 전날:", "출발 준비 전체 목록이나 입국 요건 확인을 대신하지 않습니다", "준비 체크가 바뀌지 않습니다", "백업이나 계정 동기화가 아닙니다"]):
                     assert term in text

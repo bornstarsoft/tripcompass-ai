@@ -1,8 +1,13 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (TRIP-REVIEW-CALENDAR; localized calendar handoff, validation and production deployment; main/current worktree; 2026-11-18)
 
 ## Current Task
+
+- WORK-ID: TRIP-REVIEW-CALENDAR. Phase: implementation. Started clean at 6318972 on main; owner authorized a content and return-visit improvement through production deployment. Add an opt-in, locally generated calendar review date to three city workspaces and connect the booking review guide to it. Keep homepages, storage and infrastructure unchanged.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Calendar tests cover date validation, leap day, UTF-8 folding, line endings, stripped URL query/fragment and no alerts/storage/network calls. Chromium passed six EN/KO workspace flows at 320/390/1440px, guide links, 44px controls, past-date rejection, manual no-JS fallback, download with network disabled after load and exact fixture preservation. All six downloaded ICS files contain the expected date, localized title and workspace URL, not private notes. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and verify live downloads. BLOCKER: none.
+
+## Previous Offline Note Release
 
 - Last AI: CODEX; WORK-ID: OFFLINE-TRAVEL-NOTE; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at 6ca0bdd; owner authorized content, return-visit improvement and deployment. Added an EN/KO blank travel-day worksheet, offline review advice and workspace shortcuts. No homepage, private record, provider or infrastructure changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace, and byte-identical homepages. Chromium passed all six EN/KO workspaces at 320/390/1440px, including no-JS download, visible section heading, 44px shortcut/download targets, Back and exact saved-fixture preservation. Both downloaded files matched source bytes. No app errors or API/booking calls in the browser suite.
