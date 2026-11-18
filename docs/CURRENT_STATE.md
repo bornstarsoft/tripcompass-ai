@@ -1,11 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (TRIP-NOTE-DRAFT-SHORTCUTS; bilingual draft navigation and production deployment; main/current worktree; 2026-11-18)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: TRIP-NOTE-DRAFT-SHORTCUTS. Phase: implementation. Started clean on main at fab0f44; owner authorized a return-visit improvement, validation and production deployment. Show a compact shortcut to each unsaved city note in My trips using existing editor state. No homepage, storage format or infrastructure changes.
-- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Chromium passed six EN/KO city flows at 320/390/1440px: workspace handoff, two drafts, target reopen, reload/language, save/discard, fresh-tab isolation and exact unrelated record preservation. 44px links, no overflow and both no-JS cases passed; mobile screenshot inspected. Unit checks include blank drafts, blocked tab storage and no-shortcut workspaces. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and repeat live. BLOCKER: none.
+- Last AI: CODEX; WORK-ID: TRIP-NOTE-DRAFT-SHORTCUTS; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at fab0f44; owner authorized a return-visit improvement, validation and production deployment. My trips shows only cities with unsaved editor text and can reopen those editors. No note text in shortcuts, extra storage, homepage or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Chromium passed six EN/KO city flows at 320/390/1440px: workspace handoff, two drafts, target reopen, reload/language, save/discard, fresh-tab isolation and exact unrelated record preservation. 44px links, no overflow and both no-JS cases passed; mobile screenshot inspected. Unit checks include blank drafts, blocked tab storage and no-shortcut workspaces.
+- HEAD/WIP: application commit 7e752bd pushed to main. This document records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44317069789 and Cloudflare Pages check 134846056749 succeeded. Both homepages, overviews, six workspaces, sitemap and versioned assets matched the verified build. All six Chromium flows and both no-JS checks passed live, with mobile screenshot inspection and no application errors or API/booking calls.
+- QA NOT_RUN: physical-device/Safari, paid AI calls, D1 queries and retention measurement. NEXT_SINGLE_TASK: ask travelers whether they find a draft faster from the overview, without requesting note contents. BLOCKER: none.
 
 ## Previous Planning Note Release
 
