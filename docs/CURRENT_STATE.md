@@ -1,6 +1,6 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (SHORTER-TRIP-REVIEW; bilingual itinerary guidance, validation and production deployment approved by owner; main at ac3776b; 2026-11-18 KST)
 
 ## Current Task
 

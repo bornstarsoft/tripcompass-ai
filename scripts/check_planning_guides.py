@@ -214,6 +214,11 @@ def check(root):
                 checkpoints = {"booking-review", "before-leaving-home", "night-before-return", "before-checkout", "after-trip", "offline-travel-note", "hotel-change", "travel-day-handoff"}
                 assert checkpoints <= page.ids
                 assert {"use-the-note", "different-companions"} <= page.ids
+                assert "shorter-trip" in page.ids
+                assert "#shorter-trip" in page.links
+                for term in (["When your trip gets shorter", "Drop a whole outing", "does not change check marks"] if language == "en" else ["여행 시간이 줄었다면", "외출 하나를 통째로 빼요", "체크, 메모, 예약은 바뀌지 않습니다"]):
+                    assert term in text, f"{url}: missing shorter-trip guidance: {term}"
+                assert url + "#shorter-trip" not in read(prefix + "/").links
                 note_page = read(prefix + "/my-trips/")
                 assert url + "#different-companions" in note_page.links
                 assert url + "#different-companions" not in read(prefix + "/").links
@@ -254,6 +259,7 @@ def check(root):
                     assert prefix + workspace + "#prep-review" in page.links
                     assert url + "#offline-travel-note" in workspace_links
                     assert url + "#hotel-change" in workspace_links
+                    assert url + "#shorter-trip" in workspace_links
                 assert ("Changed hotels?" if language == "en" else "숙소를 바꿨다면") in text
                 assert ("Three things to agree on for travel day" if language == "en" else "여행일에 일행과 맞춰 둘 세 가지") in text
                 for term in (["exact date, time and time zone", "your review day, not the provider’s cutoff", "does not track deadlines, send reminders or change reservations"] if language == "en" else ["마감 날짜·시각·시간대", "예약처의 마감일이 아니라 내가 다시 확인할 날", "마감을 추적하거나 알림을 보내거나 예약을 변경하지 않습니다"]):

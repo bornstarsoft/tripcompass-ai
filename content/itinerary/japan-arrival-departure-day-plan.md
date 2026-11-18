@@ -12,7 +12,7 @@ takeaways:
   - "Work backward from the correct airport and terminal"
   - "Keep one optional treat, with permission to skip it"
 reviewed: "2026-09-22"
-lastmod: "2026-11-18T23:19:00+09:00"
+lastmod: "2026-11-18T23:33:00+09:00"
 alternateKo: "/ko/itinerary/japan-arrival-departure-day-plan/"
 weight: 57
 ---
@@ -34,6 +34,8 @@ The best fit is a traveler who wants fewer loose ends, not the maximum possible 
 ## Suggested trip length: count usable days, not just nights
 
 A 3-day, 2-night trip may have only one full sightseeing day. A 4-day, 3-night trip can leave two middle days, depending on the flights. Do not assign a full-day outing to the arrival date simply because it appears as Day 1 in the booking.
+
+Already booked and lost part of a day? [Replan a shorter trip](#shorter-trip) before filling the remaining hours.
 
 | Your travel-day situation | Keep as the base plan | Add only if conditions allow |
 | --- | --- | --- |
@@ -76,6 +78,20 @@ A missed review day is not necessarily a missed booking deadline. Open the lates
 **Example: you may need a later flight, but the hotel is already booked.** Before buying a replacement, compare keeping the original booking with changing it. Ask what happens to the original fare and whether the accommodation can accept a later arrival. If you keep the original plan, leave your completed checks in place. If something changes, revisit the affected flight, accommodation and transfer checks rather than starting over.
 
 Return to the review section for [Fukuoka](/my-trip/#prep-review), [Osaka](/my-trip/osaka/#prep-review) or [Tokyo](/my-trip/tokyo/#prep-review). If you still need an answer, keep just that question in your existing note. Set another review day only if it leaves time before a confirmed deadline. These are decision prompts, not confirmation that changes are allowed or available.
+
+#### When your trip gets shorter {#shorter-trip}
+
+If a later departure from Korea or an earlier return takes time out of the trip, decide what no longer fits before moving everything onto the remaining days.
+
+1. **Mark the time you lost.** Open the latest confirmed itinerary. Set aside arrival and check-in time, then work backward from the return flight, including bag collection and the airport journey. A spare hour on the booking is not necessarily an hour you can spend across town.
+2. **Check what you already paid for.** For any room night, ticket or activity that no longer fits, check who handles changes, the applicable deadline and what a change would cost. Do not assume you can move the booking or get a refund. Leave an unconfirmed replacement out of the plan.
+3. **Drop a whole outing before shrinking every stop.** Keep the one experience your group wants most. Move the rest to a list for another visit, rather than to the first or last day by default.
+
+- **Fukuoka:** keep a slow meal near your confirmed base. Reuse the [weekend course](/from-seoul/seoul-to-fukuoka-weekend-trip/) for ideas, but leave the extra area for next time if the first day shrinks.
+- **Osaka:** with only one full day left, decide between [a city day and a Kyoto outing](/itinerary/osaka-or-kyoto-day-trip/). Do not try to recover both by making a rushed two-city day.
+- **Tokyo:** treat the [four-day course](/itinerary/seoul-to-tokyo-4-day-itinerary/) as a menu. Pick one half-day around your main interest rather than folding four days into three. If the last morning is now for checkout and travel, move only your favorite stop to an open block.
+
+Return to your [Fukuoka](/my-trip/#prep-review), [Osaka](/my-trip/osaka/#prep-review) or [Tokyo](/my-trip/tokyo/#prep-review) preparation. Recheck only the items affected by the confirmed change. Keep saved guides for another visit and write one unanswered question in your city note if useful. This section does not change check marks, notes or bookings. Verify current terms and routes yourself.
 
 ### Before leaving home: reopen the plan, not every possibility {#before-leaving-home}
 

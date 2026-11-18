@@ -29,6 +29,7 @@
     <h2 id="prep-review-title">{{ cond $ko "다시 확인할 준비" "Review your trip" }}</h2>
     <p>{{ cond $ko "확인했던 예약 내용이 바뀌었다면, 영향을 받는 준비 항목만 아래에서 다시 살펴보세요." "If a booking has changed since your last check, revisit just the preparation items it affects below." }}</p>
     <a class="prep-resume-link" href="{{ printf "%s/itinerary/japan-arrival-departure-day-plan/#missed-review-day" $prefix | relURL }}">{{ cond $ko "점검일을 놓쳤다면" "Missed your review day?" }}</a>
+    <a class="prep-resume-link" href="{{ printf "%s/itinerary/japan-arrival-departure-day-plan/#shorter-trip" $prefix | relURL }}">{{ cond $ko "여행 시간이 줄었다면" "When your trip gets shorter" }}</a>
     {{ $reviewTitle := cond $ko (printf "%s 여행 준비 점검" $data.ko) (printf "Review your %s trip" $data.en) }}
     {{ partial "trip-review-calendar.html" (dict "ko" $ko "title" $reviewTitle "workspace" .Permalink) }}
   </section>
