@@ -97,4 +97,4 @@
   </div>
   {{ end }}
 </section>
-<script src="{{ "js/guide-explorer.js" | relURL }}" defer></script>
+<script src="{{ "js/guide-explorer.js" | relURL }}?v={{ substr (sha256 (readFile "static/js/guide-explorer.js")) 0 12 }}" defer></script>

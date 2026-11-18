@@ -3,6 +3,7 @@
 
 import re
 import sys
+from hashlib import sha256
 from pathlib import Path
 from urllib.parse import urlsplit
 
@@ -158,7 +159,10 @@ def check(root):
         assert set(page.table_links) == expected, "Library must include the Fukuoka course outside /itinerary/"
         assert page.library_links.count(prefix + hotel) == 1 and prefix + hotel not in page.table_links
         assert all(page.links.count(link) == 1 for link in expected), "Duplicate itinerary listing"
-        assert "/css/courses.css" in page.styles
+        def versioned(asset):
+            return "/" + asset + "?v=" + sha256((root / asset).read_bytes()).hexdigest()[:12]
+
+        assert versioned("css/courses.css") in page.styles
         expected_bookmarks = {"fukuoka", "osaka", "tokyo", "parents", "stay", "fukuoka-rain", "fukuoka-dazaifu",
                               "osaka-kyoto", "osaka-nara", "osaka-doguyasuji", "tokyo-jimbocho", "tokyo-kiyosumi",
                               "travel-days", "plan-b"}
@@ -168,7 +172,7 @@ def check(root):
         if not prefix:
             assert page.library_items > len(expected_bookmarks), "Keep the older unbookmarkable guides in the full English list"
         assert expected_bookmarks <= set(page.library_allowed)
-        assert page.scripts.count("/js/guide-explorer.js") == 1
+        assert page.scripts.count(versioned("js/guide-explorer.js")) == 1
         assert prefix + "/my-trips/" in page.library_links
         assert prefix + "/itinerary/japan-plan-b/#saved-shortlist" in page.links
     for path in ["/itinerary/tokyo-3-days/", "/itinerary/osaka-4-days/"]:
