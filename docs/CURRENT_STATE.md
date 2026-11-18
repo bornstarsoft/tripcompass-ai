@@ -1,11 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (OFFLINE-TRANSFER-FALLBACK; bilingual offline worksheet and production deployment; main/current worktree; 2026-11-18)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: OFFLINE-TRANSFER-FALLBACK. Phase: implementation. Started clean on main at c739bf4; owner authorized content, validation and production deployment. Extend the existing blank EN/KO offline travel-day worksheet for transport changes and link it from Plan B. No homepage, storage or infrastructure changes.
-- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Built checks cover both blank templates, existing fields, published links and download versions. Chromium passed six EN/KO flows at 320/390/1440px: Plan B entry, 44px native download, no-JS, local file reopen while browser is offline, exact existing record preservation and no personal data in the file. All six download bytes match the sources; mobile screenshot inspected. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and repeat live. BLOCKER: none.
+- Last AI: CODEX; WORK-ID: OFFLINE-TRANSFER-FALLBACK; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at c739bf4; owner authorized content, validation and production deployment. Existing EN/KO blank worksheets include optional transport-change fields. Guides link both ways and tell travelers not to overwrite a filled older copy. No homepage, storage or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Built checks cover both blank templates, existing fields, published links and download versions. Chromium passed six EN/KO flows at 320/390/1440px: Plan B entry, 44px native download, no-JS, local file reopen while browser is offline, exact existing record preservation and no personal data in the file. All six download bytes matched the sources; mobile screenshot inspected.
+- HEAD/WIP: application commit 7051b32 pushed to main. This document records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44319303175 and Cloudflare Pages check 134853980801 succeeded. Both homepages, both guide pairs, sitemap and versioned TXT files matched the verified build. All six EN/KO Chromium flows passed live, including two no-JS cases and reopening the six actual downloads with browser networking disabled. All six files matched source bytes. Mobile screenshot inspected; no application errors or API/booking calls.
+- QA NOT_RUN: physical-device/Safari, native Files or text editor behavior, paid AI calls, D1 queries and retention measurement. NEXT_SINGLE_TASK: ask whether travelers can find the optional block in a downloaded copy under simulated no-signal conditions, without requesting filled notes. BLOCKER: none.
 
 ## Previous Transit Plan B Release
 
