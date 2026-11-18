@@ -19,9 +19,16 @@
 {{- end -}}
 <section class="itinerary-library" aria-labelledby="itinerary-library-title" data-guide-experience data-guide-ids="{{ delimit (partial "saved-guide-ids.html" .) "," }}">
   <h2 id="itinerary-library-title">{{ cond $ko "추천 코스 비교" "Compare recommended itineraries" }}</h2>
-  <a class="itinerary-saved-link" href="{{ printf "%s/my-trips/" $prefix | relURL }}">{{ cond $ko "내 여행에서 저장한 가이드 보기" "View saved guides in My trips" }}</a>
+  <div class="itinerary-library-actions">
+    <label class="itinerary-view-filter" data-library-filter hidden>
+      <input type="checkbox" data-library-saved-only>
+      {{ cond $ko "저장한 가이드만" "Saved guides only" }}
+    </label>
+    <a class="itinerary-saved-link" href="{{ printf "%s/my-trips/" $prefix | relURL }}">{{ cond $ko "내 여행에서 저장한 가이드 보기" "View saved guides in My trips" }}</a>
+  </div>
   <p class="explore-feedback" data-guide-feedback role="status" aria-live="polite" aria-atomic="true"></p>
-  <table>
+  <p class="itinerary-view-count" data-library-count role="status" aria-atomic="true" hidden></p>
+  <table data-library-group>
     <caption>{{ cond $ko "코스별 여행 기간과 추천 여행 성향" "Trip length and traveler fit by itinerary" }}</caption>
     <thead>
       <tr>
@@ -37,7 +44,7 @@
         {{- if not $ko -}}
           {{- $course = merge $course $course.en -}}
         {{- end }}
-      <tr>
+      <tr data-library-item>
         <th scope="row">
           <div class="itinerary-save-row">
             <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
@@ -53,11 +60,12 @@
     </tbody>
   </table>
   {{- with $guides }}
+  <div data-library-group>
   <h2>{{ cond $ko "숙소 권역 선택" "Choose a hotel area" }}</h2>
   <ul>
     {{- range . }}
     {{ $page := . }}
-    <li>
+    <li data-library-item>
       <div class="itinerary-save-row">
         <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
         {{ with index $guideIDs (strings.TrimPrefix "/ko" .RelPermalink) }}
@@ -67,13 +75,15 @@
     </li>
     {{- end }}
   </ul>
+  </div>
   {{- end }}
   {{ with where .Pages.ByWeight "Params.course" "eq" nil }}
+  <div data-library-group>
   <h2 id="itinerary-more-title">{{ cond $ko "다른 일정 가이드" "More itinerary guides" }}</h2>
   <div class="link-grid" aria-labelledby="itinerary-more-title">
     {{ range . }}
     {{ $page := . }}
-    <article class="link-card">
+    <article class="link-card" data-library-item>
       <div class="itinerary-save-row">
         <h3><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h3>
         {{ with index $guideIDs (strings.TrimPrefix "/ko" .RelPermalink) }}
@@ -83,6 +93,7 @@
       {{ with .Description }}<p>{{ . }}</p>{{ else }}<p>{{ .Summary }}</p>{{ end }}
     </article>
     {{ end }}
+  </div>
   </div>
   {{ end }}
 </section>

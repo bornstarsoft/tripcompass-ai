@@ -24,6 +24,8 @@ class DiscoveryPage(Page):
         self.styles = []
         self.library_bookmarks = []
         self.library_allowed = []
+        self.library_filters = 0
+        self.library_items = 0
         self.scripts = []
         super().__init__(source)
 
@@ -44,6 +46,12 @@ class DiscoveryPage(Page):
             assert tag == "button" and "hidden" in attrs and attrs.get("data-guide-title")
             assert attrs.get("aria-pressed") == "false" and attrs.get("aria-label")
             self.library_bookmarks.append(attrs["data-save-guide"])
+        if self.in_library and "data-library-filter" in attrs:
+            assert tag == "label" and "hidden" in attrs
+            self.library_filters += 1
+        if self.in_library and "data-library-item" in attrs:
+            assert "hidden" not in attrs
+            self.library_items += 1
         if tag == "script" and "src" in attrs:
             self.scripts.append(attrs["src"])
         if tag == "table" and self.in_library:
@@ -156,6 +164,9 @@ def check(root):
                               "travel-days", "plan-b"}
         assert set(page.library_bookmarks) == expected_bookmarks
         assert len(page.library_bookmarks) == len(expected_bookmarks)
+        assert page.library_filters == 1 and page.library_items >= len(expected_bookmarks)
+        if not prefix:
+            assert page.library_items > len(expected_bookmarks), "Keep the older unbookmarkable guides in the full English list"
         assert expected_bookmarks <= set(page.library_allowed)
         assert page.scripts.count("/js/guide-explorer.js") == 1
         assert prefix + "/my-trips/" in page.library_links

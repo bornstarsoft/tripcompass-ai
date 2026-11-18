@@ -16,7 +16,7 @@ function node(dataset = {}) {
   };
 }
 
-function harness({ language = "en", stored = "[]", blocked = false, readBlocked = false, single = false, singleId = "parents", absent = false, extraIds = [], historyState = null, historyBlocked = false, historyReadBlocked = false, legacy = false } = {}) {
+function harness({ language = "en", stored = "[]", blocked = false, readBlocked = false, single = false, singleId = "parents", absent = false, extraIds = [], historyState = null, historyBlocked = false, historyReadBlocked = false, legacy = false, library = false } = {}) {
   const state = { stored, writes: 0, historyState, historyWrites: 0, historyBlocked };
   const feedback = node();
   const buttons = (single ? [singleId] : ids).map(id => {
@@ -28,12 +28,12 @@ function harness({ language = "en", stored = "[]", blocked = false, readBlocked 
   });
   const tags = ["weekend food", "food shopping", "shopping", "family weekend", "stay family weekend"];
   const terms = ["Fukuoka 후쿠오카 주말", "Osaka 오사카 먹거리", "Tokyo 도쿄 카페", "parents 부모님 후쿠오카", "Hakata Tenjin 하카타 텐진 숙소"];
-  const cards = single ? [] : ids.map((id, index) => {
+  const cards = single || library ? [] : ids.map((id, index) => {
     const card = node({ exploreCard: id, interests: tags[index], search: terms[index] });
     card.querySelector = () => buttons[index];
     return card;
   });
-  const controls = single ? null : node();
+  const controls = single || library ? null : node();
   if (controls) controls.hidden = true;
   const search = node();
   const count = node();
@@ -49,24 +49,36 @@ function harness({ language = "en", stored = "[]", blocked = false, readBlocked 
     filter.checked = id === "all";
     return filter;
   });
+  const filterLabel = { ...node(), hidden: true };
+  const libraryCount = { ...node(), hidden: true };
+  let active = null;
+  const savedOnly = { ...node(), checked: false, focus() { active = savedOnly; } };
+  const libraryRows = [...buttons, null].map(button => ({
+    ...node(), button, querySelector: () => button, contains: el => !!button && button === el
+  }));
+  const libraryGroups = [libraryRows.slice(0, 3), libraryRows.slice(3)].map(rows => ({
+    ...node(), querySelectorAll: () => rows
+  }));
   const selectors = {
     "[data-guide-feedback]": feedback, "[data-explore-controls]": controls,
     "[data-guide-search]": search, "[data-explore-count]": count,
     "[data-explore-empty]": empty, "[data-explore-reset]": reset,
     "[data-explore-saved-context]": legacy || single ? null : savedContext,
     "[data-explore-empty-title]": legacy || single ? null : emptyTitle,
-    "[data-explore-empty-description]": legacy || single ? null : emptyDescription
+    "[data-explore-empty-description]": legacy || single ? null : emptyDescription,
+    "[data-library-filter]": filterLabel, "[data-library-count]": libraryCount,
+    "[data-library-saved-only]": library ? savedOnly : null
   };
   const root = {
     dataset: { guideIds: [...ids, ...extraIds].join(",") }, querySelector: selector => selectors[selector],
     querySelectorAll: selector => ({
-      "[data-save-guide]": buttons, "[data-explore-card]": cards,
+      "[data-save-guide]": buttons, "[data-explore-card]": cards, "[data-library-group]": libraryGroups,
       'input[name="guide-interest"]': filters
     })[selector]
   };
   const events = {};
   vm.runInNewContext(script, {
-    document: { querySelector: () => absent ? null : root, documentElement: { lang: language } },
+    document: { querySelector: () => absent ? null : root, documentElement: { lang: language }, get activeElement() { return active; } },
     window: {
       addEventListener: (type, handler) => { events[type] = handler; },
       location: { pathname: language === "ko" ? "/ko/" : "/" },
@@ -99,12 +111,43 @@ function harness({ language = "en", stored = "[]", blocked = false, readBlocked 
     state, feedback, buttons, cards, controls, count, empty, reset, events, filters, searchNode: search, savedContext, emptyTitle, emptyDescription,
     visible: () => cards.filter(card => !card.hidden).map(card => card.dataset.exploreCard),
     save: id => buttons.find(button => button.dataset.saveGuide === id).events.click(),
+    filterLabel, libraryCount, savedOnly, libraryRows, libraryGroups,
+    active: () => active,
+    focusGuide: id => { active = buttons.find(button => button.dataset.saveGuide === id); },
+    filterLibrary: checked => { savedOnly.checked = checked; savedOnly.events.change(); },
     choose: id => {
       filters.forEach(filter => { filter.checked = filter.value === id; });
       filters.find(filter => filter.checked).events.change();
     },
     search: value => { search.value = value; search.events.input(); }
   };
+}
+
+for (const language of ["en", "ko"]) {
+  const ui = harness({ language, library: true, stored: '["osaka","stay"]' });
+  const visible = () => ui.libraryRows.filter(row => !row.hidden).map(row => row.button?.dataset.saveGuide);
+  assert.equal(ui.filterLabel.hidden, false);
+  assert.equal(ui.libraryCount.hidden, true);
+  assert.deepEqual(visible(), [...ids, undefined]);
+  ui.filterLibrary(true);
+  assert.deepEqual(visible(), ["osaka", "stay"]);
+  assert.equal(ui.libraryCount.textContent, language === "ko" ? "저장한 가이드 2개" : "2 saved guides");
+  assert.equal(ui.state.writes, 0);
+  assert.equal(ui.state.historyWrites, 0);
+  ui.focusGuide("stay");
+  ui.events.storage({ key, newValue: '["osaka"]' });
+  assert.deepEqual(visible(), ["osaka"]);
+  assert.equal(ui.libraryGroups[1].hidden, true);
+  assert.equal(ui.active(), ui.savedOnly, "Do not strand focus in a hidden row");
+  ui.events.storage({ key: null, newValue: null });
+  assert.equal(ui.libraryCount.textContent, language === "ko" ? "이 목록에 저장한 가이드가 아직 없어요." : "No saved guides in this list yet.");
+  assert.ok(ui.libraryGroups.every(group => group.hidden));
+  ui.filterLibrary(false);
+  assert.deepEqual(visible(), [...ids, undefined]);
+  assert.equal(ui.state.writes, 0);
+  const unavailable = harness({ language, library: true, readBlocked: true });
+  unavailable.filterLibrary(true);
+  assert.equal(unavailable.libraryCount.textContent, language === "ko" ? "저장한 가이드 목록을 읽을 수 없어요." : "Your saved guides could not be read.");
 }
 
 for (const language of ["en", "ko"]) {

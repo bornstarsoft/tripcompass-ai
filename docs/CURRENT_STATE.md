@@ -1,8 +1,13 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (SAVED-ITINERARY-VIEW; bilingual library filter and production deployment; main/current worktree; 2026-11-18)
 
 ## Current Task
+
+- WORK-ID: SAVED-ITINERARY-VIEW. Phase: implementation. Started clean on main at c44fd08; owner authorized choosing a small return-visit improvement, validation and production deployment. Add a saved-only view to the existing itinerary hubs without new data storage or homepage UI.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages; existing homepage explorer checks unchanged. Chromium passed six EN/KO flows at 320/390/1440px, including read-only toggling, counts and empty groups, other-tab removal/undo, focus recovery and exact unrelated fixture preservation. Unsupported storage and no-JS fallbacks passed in both languages; mobile screenshot inspected. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and verify the filter on production. BLOCKER: none.
+
+## Previous Itinerary Bookmark Release
 
 - Last AI: CODEX; WORK-ID: ITINERARY-LIBRARY-BOOKMARKS; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at 42996a3; owner authorized content, return-visit improvement, validation and deployment. Both itinerary hubs expose the existing bookmarks for 14 guides, a link to My trips and advice for shortlisting a base course and one alternative. No homepage, storage format or infrastructure changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Production build diff is limited to two itinerary hubs and library-scoped CSS. Chromium passed six EN/KO flows at 320/390/1440px: save from course table and guide list, language switch, view in My trips, cross-tab remove/undo, unrelated record preservation, touch/keyboard controls and no overflow. Both no-JS guide paths passed; mobile screenshot inspected.

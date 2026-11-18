@@ -16,6 +16,13 @@
   const savedContext = root.querySelector("[data-explore-saved-context]");
   const emptyTitle = root.querySelector("[data-explore-empty-title]");
   const emptyDescription = root.querySelector("[data-explore-empty-description]");
+  const libraryOnly = root.querySelector("[data-library-saved-only]");
+  const libraryCount = root.querySelector("[data-library-count]");
+  const libraryGroups = libraryOnly ? [...root.querySelectorAll("[data-library-group]")].map(group => ({
+    group, items: [...group.querySelectorAll("[data-library-item]")].map(row => ({
+      row, id: row.querySelector("[data-save-guide]")?.dataset.saveGuide
+    }))
+  })) : [];
   const normalize = value => value.normalize("NFKC").toLocaleLowerCase().trim();
   const parse = value => {
     const ids = JSON.parse(value || "[]");
@@ -23,7 +30,15 @@
   };
   let saved = new Set();
   let memoryOnly = false;
-  try { saved = parse(localStorage.getItem(key)); } catch { /* Storage is optional. */ }
+  let savedUnavailable = false;
+  function loadSaved(read) {
+    try {
+      saved = parse(read());
+      savedUnavailable = false;
+      return true;
+    } catch { savedUnavailable = true; return false; }
+  }
+  loadSaved(() => localStorage.getItem(key));
   let interest = "all";
   const viewKey = "tripcompassExplorerView";
 
@@ -60,6 +75,7 @@
       button.setAttribute("aria-label", `${label}: ${button.dataset.guideTitle}`);
       button.querySelector("[data-save-label]").textContent = label;
     }
+    renderLibrary();
     if (!cards.length) return;
     const terms = normalize(search.value.slice(0, 100)).split(/\s+/).filter(Boolean);
     let visible = 0;
@@ -78,19 +94,39 @@
     empty.hidden = visible !== 0;
   }
 
+  function renderLibrary() {
+    if (!libraryOnly) return;
+    let visible = 0;
+    for (const { group, items } of libraryGroups) {
+      let groupVisible = false;
+      for (const { row, id } of items) {
+        const show = !libraryOnly.checked || saved.has(id);
+        if (!show && row.contains(document.activeElement)) libraryOnly.focus();
+        row.hidden = !show;
+        if (show) { groupVisible = true; visible++; }
+      }
+      group.hidden = !groupVisible;
+    }
+    libraryCount.hidden = !libraryOnly.checked;
+    const label = savedUnavailable && !memoryOnly
+      ? (ko ? "저장한 가이드 목록을 읽을 수 없어요." : "Your saved guides could not be read.")
+      : visible === 0 ? (ko ? "이 목록에 저장한 가이드가 아직 없어요." : "No saved guides in this list yet.")
+      : (ko ? `저장한 가이드 ${visible}개` : `${visible} saved ${visible === 1 ? "guide" : "guides"}`);
+    if (libraryOnly.checked && libraryCount.textContent !== label) libraryCount.textContent = label;
+  }
+
   for (const button of buttons) {
     const id = button.dataset.saveGuide;
     if (!allowed.has(id)) continue;
     button.addEventListener("click", () => {
       // Merge other tabs' changes without discarding this page's memory-only fallback.
-      try {
-        if (!memoryOnly) saved = parse(localStorage.getItem(key));
-      } catch { /* Keep the current page's selections. */ }
+      if (!memoryOnly) loadSaved(() => localStorage.getItem(key));
       const removing = saved.has(id);
       if (removing) saved.delete(id); else saved.add(id);
       try {
         localStorage.setItem(key, JSON.stringify([...saved]));
         memoryOnly = false;
+        savedUnavailable = false;
         feedback.textContent = removing ? (ko ? "저장한 글에서 제외했습니다." : "Removed from saved guides.")
           : (ko ? "이 브라우저에 저장했습니다." : "Saved in this browser.");
       } catch {
@@ -128,15 +164,19 @@
     window.addEventListener("popstate", () => { restoreView(); render(); });
     controls.hidden = false;
   }
+  if (libraryOnly) {
+    libraryOnly.addEventListener("change", renderLibrary);
+    root.querySelector("[data-library-filter]").hidden = false;
+  }
   window.addEventListener("storage", event => {
     if (memoryOnly) return;
     if (event.key !== key && event.key !== null) return;
-    try { saved = parse(event.key === null ? null : event.newValue); render(); } catch { /* Ignore invalid data. */ }
+    if (loadSaved(() => event.key === null ? null : event.newValue) || libraryOnly) render();
   });
   window.addEventListener("pageshow", event => {
     if (!event.persisted) restoreView();
     if (event.persisted && !memoryOnly) {
-      try { saved = parse(localStorage.getItem(key)); } catch { /* Storage is optional. */ }
+      loadSaved(() => localStorage.getItem(key));
     }
     render();
   });
