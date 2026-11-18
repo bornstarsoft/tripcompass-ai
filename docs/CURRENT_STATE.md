@@ -1,11 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (TRANSIT-PLAN-B; bilingual transport-change content and production deployment; main/current worktree; 2026-11-18)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: TRANSIT-PLAN-B. Phase: implementation. Started clean on main at 522082e; owner authorized content, validation and production deployment. Add bilingual transport-change decision guidance to Plan B, linked from the existing My trips disclosure. No homepage, storage or infrastructure changes.
-- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Built checks cover native disclosure links, anchors and stable reading keys. Chromium passed six EN/KO flows at 320/390/1440px: 44px link, visible article heading, city bookmark return, Back with open disclosure, no overflow and exact fixture preservation. Both no-JS paths passed; mobile screenshot inspected. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and repeat live. BLOCKER: none.
+- Last AI: CODEX; WORK-ID: TRANSIT-PLAN-B; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at 522082e; owner authorized content, validation and production deployment. Bilingual Plan B explains checking an affected leg and fixed return commitments before revisiting a saved alternative. The existing My trips disclosure links directly to it. No homepage, storage or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Built checks cover native disclosure links, anchors and stable reading keys. Chromium passed six EN/KO flows at 320/390/1440px: 44px link, visible article heading, city bookmark return, Back with open disclosure, no overflow and exact fixture preservation. Both no-JS paths passed; mobile screenshot inspected.
+- HEAD/WIP: application commit c207ed1 pushed to main. This document records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44318259059 and Cloudflare Pages check 134850337099 succeeded. Both homepages, both overviews and Plan B pages, sitemap and disclosure JS matched the verified build. All six EN/KO Chromium flows and both no-JS paths passed live. Mobile screenshot inspected; no application errors or API/booking calls.
+- QA NOT_RUN: physical-device/Safari, paid AI calls, D1 queries and retention measurement. NEXT_SINGLE_TASK: ask travelers whether the transit scenario helps them choose which saved outing to keep, without requesting personal itineraries. BLOCKER: none.
 
 ## Previous Draft Shortcut Release
 
