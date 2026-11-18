@@ -83,7 +83,7 @@
             <dt>{{ cond $ko "상황이 바뀌면" "Alternative" }}</dt>
             {{ partial "my-trip-plan-choice.html" (dict "kind" "alternative" "options" $trip.alternatives "lang" $lang "prefix" $prefix) }}
             <dt>{{ cond $ko "다음 확인" "Next step" }}</dt>
-            <dd class="my-trip-next"><a data-trip-next-link hidden></a><span data-trip-next></span></dd>
+            <dd class="my-trip-next"><a data-trip-next-link hidden data-complete-guide="{{ printf "%s/itinerary/japan-arrival-departure-day-plan/#travel-day-handoff" $prefix | relURL }}"></a><span data-trip-next></span></dd>
           </dl>
           <fieldset class="my-trip-checklist" data-trip-checklist>
             <legend>{{ cond $ko "준비 체크" "Preparation checklist" }}</legend>
@@ -127,7 +127,7 @@
   <aside class="trust-note">{{ cond $ko "체크는 내가 확인했다는 메모일 뿐, 예약 완료나 여행 조건 확인을 보장하지 않습니다. 출발 전 최신 가격, 영업시간, 비자 규정, 예약 가능 여부와 조건을 직접 다시 확인하세요." "Checks are your own notes, not booking confirmations or verified travel conditions. Recheck current prices, opening hours, visa rules, availability and terms before departure." }}</aside>
   <p><a href="{{ printf "%s/itinerary/" $prefix | relURL }}">{{ cond $ko "다른 코스도 둘러보기" "Explore more courses" }}</a> · <a href="{{ printf "%s/decision-board/" $prefix | relURL }}">{{ cond $ko "여행 결정표" "Trip decision board" }}</a></p>
 </article>
-<script type="module" src="{{ "js/my-trips.js" | relURL }}"></script>
+<script type="module" src="{{ "js/my-trips.js" | relURL }}?v={{ substr (sha256 (readFile "static/js/my-trips.js")) 0 12 }}"></script>
 <script type="module" src="{{ "js/my-trips-reading.js" | relURL }}"></script>
 <script type="module" src="{{ "js/my-trips-comparison.js" | relURL }}"></script>
 <script type="module" src="{{ "js/trip-note.js" | relURL }}?v={{ substr (sha256 (readFile "static/js/trip-note.js")) 0 12 }}"></script>

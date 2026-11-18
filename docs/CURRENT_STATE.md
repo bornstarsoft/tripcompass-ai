@@ -1,6 +1,6 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (MY-TRIPS-DEPARTURE-HANDOFF; localized overview navigation, validation and production deployment approved by owner; main at 302f056; 2026-11-18 KST)
 
 ## Current Task
 

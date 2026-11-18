@@ -25,7 +25,8 @@ const copy = {
     tripChanged: "Your course or alternative changed in another tab. Review the updated trip before checking again.",
     tripMissing: "This trip has no saved preparation. Open its workspace to start; no record was created.",
     summary: (saved, unreadable) => `${saved} of 3 trips have saved preparation.${unreadable ? ` ${unreadable} could not be read.` : ""}`,
-    final: "Recheck your choices and travel conditions before departure."
+    final: "Recheck your choices and travel conditions before departure.",
+    travelDay: "Review the travel-day plan"
   },
   ko: {
     empty: "아직 저장한 준비 내용이 없어요.", saved: "이 브라우저에 저장된 여행",
@@ -48,7 +49,8 @@ const copy = {
     tripChanged: "다른 탭에서 코스나 대안이 바뀌었어요. 변경된 여행 내용을 확인한 뒤 다시 체크해 주세요.",
     tripMissing: "저장된 준비 내용이 없어요. 준비함에서 여행을 시작해 주세요. 기록을 새로 만들지 않았습니다.",
     summary: (saved, unreadable) => `3개 여행 중 ${saved}개에 준비 내용이 있어요.${unreadable ? ` ${unreadable}개는 읽지 못했어요.` : ""}`,
-    final: "출발 전 선택한 일정과 여행 조건을 다시 확인하세요."
+    final: "출발 전 선택한 일정과 여행 조건을 다시 확인하세요.",
+    travelDay: "여행일 점검 가이드 보기"
   }
 };
 
@@ -104,16 +106,17 @@ export function mountMyTrips(doc, win) {
       const prepared = state ? progress(state) : null;
       const next = prepared?.next;
       const nextLink = find("next-link");
+      const nextHref = next ? `#trip-${id}-${next}` : state && nextLink?.dataset?.completeGuide;
       if (nextLink) {
-        if (next) {
-          nextLink.href = `#trip-${id}-${next}`;
-          nextLink.textContent = tasks[next];
+        if (nextHref) {
+          nextLink.href = nextHref;
+          nextLink.textContent = next ? tasks[next] : text.travelDay;
         } else {
           if (doc.activeElement === nextLink) find("action").focus({ preventScroll: true });
           nextLink.removeAttribute("href");
           nextLink.textContent = "";
         }
-        nextLink.hidden = !next;
+        nextLink.hidden = !nextHref;
       }
       for (const [kind, labels] of [["course", courses], ["alternative", alternatives]]) {
         const selected = state?.[kind];
@@ -178,7 +181,7 @@ export function mountMyTrips(doc, win) {
       find("status").textContent = text[next ? "saved" : "complete"];
       find("count").textContent = text.count(done);
       find("progress").value = done;
-      find("next").textContent = next ? (nextLink ? "" : tasks[next]) : text.final;
+      find("next").textContent = nextLink && nextHref ? "" : next ? tasks[next] : text.final;
       find("action-label").textContent = text[next ? "resume" : "review"];
     }
     root.querySelector("[data-trips-summary]").textContent = text.summary(saved, unreadable);

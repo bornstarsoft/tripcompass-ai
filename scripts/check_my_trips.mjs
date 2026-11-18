@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -7,6 +8,7 @@ const root = resolve(process.argv[2]);
 const { TRIPS, TASKS, initialState } = await import(pathToFileURL(resolve(root, "js/trip-prep-core.js")));
 const { mountMyTrips } = await import(pathToFileURL(resolve(root, "js/my-trips.js")));
 const ids = Object.keys(TRIPS);
+const handoff = "/itinerary/japan-arrival-departure-day-plan/#travel-day-handoff";
 const bookmarkKey = "tripcompass.saved-guides.v1";
 const cityGuides = {
   fukuoka: ["fukuoka", "parents", "stay", "fukuoka-rain", "fukuoka-dazaifu", "travel-days", "plan-b"],
@@ -84,6 +86,43 @@ for (const language of ["en", "ko"]) {
     assert.equal(fields.next.textContent, "");
   }
   assert.equal(ui.writes(), 0);
+}
+
+for (const language of ["en", "ko"]) {
+  const prefix = language === "ko" ? "/ko" : "";
+  const records = new Map();
+  const ui = harness(language, records);
+  for (const [index, city] of ids.entries()) {
+    const { fields } = ui.cards[index];
+    const key = TRIPS[city].storageKey;
+    const state = initialState(city);
+    const link = fields["next-link"] = {
+      dataset: { completeGuide: prefix + handoff }, hidden: true,
+      removeAttribute(name) { delete this[name]; }
+    };
+    ui.events.storage({ key });
+    assert.equal(link.hidden, true, "Do not show a handoff for an unstarted trip");
+    for (const task of TASKS) state.checks[task] = true;
+    records.set(key, JSON.stringify(state));
+    ui.events.storage({ key });
+    assert.equal(link.hidden, false);
+    assert.equal(link.href, prefix + handoff);
+    assert.equal(link.textContent, language === "ko" ? "여행일 점검 가이드 보기" : "Review the travel-day plan");
+    assert.equal(fields.next.textContent, "");
+    assert.match(fields.status.textContent, /Recheck|다시 확인/, "Marked is not verified");
+    ui.doc.activeElement = link;
+    state.checks.departure = false;
+    records.set(key, JSON.stringify(state));
+    ui.events.storage({ key });
+    assert.equal(link.href, `#trip-${city}-departure`);
+    assert.equal(ui.doc.activeElement, link, "Keep focus when a remaining item returns");
+    records.set(key, "invalid");
+    ui.events.storage({ key });
+    assert.equal(link.hidden, true);
+    assert.equal(link.href, undefined);
+    assert.equal(ui.doc.activeElement, fields.action);
+  }
+  assert.equal(ui.writes(), 0, "Showing links never writes preparation");
 }
 
 for (const language of ["en", "ko"]) {
@@ -227,11 +266,16 @@ for (const language of ["en", "ko"]) {
 }
 
 const source = await readFile(resolve(root, "js/my-trips.js"), "utf8");
+const version = createHash("sha256").update(source).digest("hex").slice(0, 12);
 assert.doesNotMatch(source, /removeItem|\.clear\(|fetch\(|innerHTML/);
 assert.match(source, /setItem\(SAVED_GUIDES_KEY, serialized\)/);
 for (const prefix of ["", "/ko"]) {
   const html = await readFile(resolve(root, `.${prefix}/my-trips/index.html`), "utf8");
   assert.equal((html.match(/data-trip-next-link hidden/g) || []).length, ids.length);
+  assert.equal(html.split(`data-trip-next-link hidden data-complete-guide=${prefix + handoff}`).length - 1, ids.length);
+  assert.ok(html.includes(`js/my-trips.js?v=${version}`));
+  const guide = await readFile(resolve(root, `.${prefix}${handoff.split("#")[0]}index.html`), "utf8");
+  assert.ok(guide.includes("id=travel-day-handoff"));
   for (const city of ids) for (const task of TASKS) {
     assert.ok(html.includes(`id=trip-${city}-${task} data-trip-task-row`));
   }
