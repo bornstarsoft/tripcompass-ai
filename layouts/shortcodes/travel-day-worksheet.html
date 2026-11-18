@@ -1,3 +1,3 @@
 {{- $ko := eq .Page.Params.htmlLang "ko" -}}
 {{- $path := cond $ko "downloads/travel-day-note-ko.txt" "downloads/travel-day-note-en.txt" -}}
-<a class="travel-day-download" href="{{ $path | relURL }}" download>{{ cond $ko "이동 메모 빈 양식 내려받기 (.txt)" "Download the blank travel-day note (.txt)" }}</a>
+<a class="travel-day-download" href="{{ $path | relURL }}?v={{ substr (sha256 (readFile (printf "static/%s" $path))) 0 12 }}" download>{{ cond $ko "이동 메모 빈 양식 내려받기 (.txt)" "Download the blank travel-day note (.txt)" }}</a>

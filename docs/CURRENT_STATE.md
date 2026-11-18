@@ -1,8 +1,13 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (OFFLINE-TRANSFER-FALLBACK; bilingual offline worksheet and production deployment; main/current worktree; 2026-11-18)
 
 ## Current Task
+
+- WORK-ID: OFFLINE-TRANSFER-FALLBACK. Phase: implementation. Started clean on main at c739bf4; owner authorized content, validation and production deployment. Extend the existing blank EN/KO offline travel-day worksheet for transport changes and link it from Plan B. No homepage, storage or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Built checks cover both blank templates, existing fields, published links and download versions. Chromium passed six EN/KO flows at 320/390/1440px: Plan B entry, 44px native download, no-JS, local file reopen while browser is offline, exact existing record preservation and no personal data in the file. All six download bytes match the sources; mobile screenshot inspected. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and repeat live. BLOCKER: none.
+
+## Previous Transit Plan B Release
 
 - Last AI: CODEX; WORK-ID: TRANSIT-PLAN-B; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at 522082e; owner authorized content, validation and production deployment. Bilingual Plan B explains checking an affected leg and fixed return commitments before revisiting a saved alternative. The existing My trips disclosure links directly to it. No homepage, storage or infrastructure changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Built checks cover native disclosure links, anchors and stable reading keys. Chromium passed six EN/KO flows at 320/390/1440px: 44px link, visible article heading, city bookmark return, Back with open disclosure, no overflow and exact fixture preservation. Both no-JS paths passed; mobile screenshot inspected.

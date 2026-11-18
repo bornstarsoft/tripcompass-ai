@@ -15,7 +15,7 @@ takeaways:
   - "Leave one short note for the next time you open your trip"
 reviewed: "2026-10-23"
 date: "2026-10-23T00:00:00+09:00"
-lastmod: "2026-11-18T22:50:00+09:00"
+lastmod: "2026-11-18T22:56:00+09:00"
 alternateKo: "/ko/itinerary/japan-plan-b/"
 weight: 58
 ---
@@ -55,6 +55,8 @@ A connection that no longer works is a reason to reconsider the outing, not to a
 - **Tokyo:** If a transfer between two neighborhoods no longer fits, keep one interest and drop the second area. Use [saved Tokyo guides](/my-trips/#saved-guides-tokyo) to pick from the candidates you already have.
 
 Tell your companions [what changed and what is still unconfirmed](#companion-update). You can leave the skipped guide saved for another day; reading this section does not change your preparation or booking.
+
+Before leaving, keep the affected leg, the next fixed commitment and what you have verified in the [offline travel-day note](/itinerary/japan-arrival-departure-day-plan/#offline-travel-note). Its blank transport-change section can be filled on your device; it does not copy your bookmarks or update with current service.
 
 ## Rain: change the route, not just the destination {#rain}
 

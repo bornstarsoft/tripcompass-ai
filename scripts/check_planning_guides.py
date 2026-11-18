@@ -2,6 +2,7 @@
 """Validate bilingual planning guides in built HTML, without API calls."""
 
 import sys
+from hashlib import sha256
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 from xml.etree import ElementTree
@@ -221,12 +222,29 @@ def check(root):
                 assert {"#" + checkpoint for checkpoint in checkpoints} <= set(page.links)
                 assert {prefix + path for path in ["/my-trip/", "/my-trip/osaka/", "/my-trip/tokyo/", "/my-trips/#trip-selector"]} <= set(page.links)
                 template = f"/downloads/travel-day-note-{language}.txt"
-                assert page.downloads == [template]
-                template_text = (root / template.lstrip("/")).read_text(encoding="utf-8")
+                template_bytes = (root / template.lstrip("/")).read_bytes()
+                download_url = template + "?v=" + sha256(template_bytes).hexdigest()[:12]
+                assert page.downloads == [download_url]
+                template_text = template_bytes.decode("utf-8")
                 labels = ["Airport and terminal:", "Bag collection location and cutoff (time zone):", "Last checked (date, time and time zone):"] if language == "en" else ["도착 공항과 터미널:", "짐 찾는 곳과 회수 마감 시각 (시간대 포함):", "마지막 확인 날짜·시각·시간대:"]
                 assert all(label in template_text.splitlines() for label in labels)
+                transport = ([
+                    "IF TRANSPORT CHANGES (optional)", "Affected leg and direction:",
+                    "Next fixed commitment, place and local cutoff:",
+                    "Confirmed return option, or what still needs checking:",
+                    "Smaller outing near the confirmed route, or skip the outing:",
+                ] if language == "en" else [
+                    "교통편이 바뀌었을 때 (선택)", "영향을 받은 구간과 방향:",
+                    "다음 고정 일정의 장소와 현지 마감 시각:",
+                    "확인한 복귀 방법 또는 아직 확인할 점:",
+                    "확인한 동선 근처의 작은 일정 또는 외출 생략:",
+                ])
+                lines = template_text.splitlines()
+                start = lines.index(transport[0])
+                assert lines[start:start + len(transport)] == transport
+                assert prefix + "/itinerary/japan-plan-b/#transport-change" in page.links
                 assert ("blank template" if language == "en" else "빈 양식입니다") in text
-                assert template not in read(prefix + "/").links
+                assert all(urlsplit(link).path != template for link in read(prefix + "/").links)
                 for workspace in ["/my-trip/", "/my-trip/osaka/", "/my-trip/tokyo/"]:
                     workspace_links = read(prefix + workspace).links
                     assert prefix + workspace + "#prep-review" in page.links

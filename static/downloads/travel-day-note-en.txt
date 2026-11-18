@@ -20,6 +20,12 @@ Airport route and where to change:
 Time to stop the optional outing and collect bags:
 First stop to skip if the plan changes:
 
+IF TRANSPORT CHANGES (optional)
+Affected leg and direction:
+Next fixed commitment, place and local cutoff:
+Confirmed return option, or what still needs checking:
+Smaller outing near the confirmed route, or skip the outing:
+
 BEFORE YOU LEAVE
 Open this copy with internet access turned off. If the accommodation, bags or
 terminal changed, update this copy and remove the old one to avoid confusion.
