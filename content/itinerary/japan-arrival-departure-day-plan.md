@@ -12,7 +12,7 @@ takeaways:
   - "Work backward from the correct airport and terminal"
   - "Keep one optional treat, with permission to skip it"
 reviewed: "2026-09-22"
-lastmod: "2026-11-18T21:47:00+09:00"
+lastmod: "2026-11-18T21:52:00+09:00"
 alternateKo: "/ko/itinerary/japan-arrival-departure-day-plan/"
 weight: 57
 ---
@@ -23,7 +23,7 @@ weight: 57
 
 This is an editorial planning method, not a firsthand hotel review, a luggage-service directory or a verified airport transfer. It helps you adapt the [Fukuoka weekend](/from-seoul/seoul-to-fukuoka-weekend-trip/), [Osaka four-day course](/itinerary/seoul-to-osaka-4-day-itinerary/) and [Tokyo four-day course](/itinerary/seoul-to-tokyo-4-day-itinerary/) to your own flights.
 
-Booked but still deciding? Start with [the change and cancellation deadlines](#booking-review). Leaving home tomorrow? Use [the saved-plan review](#before-leaving-home). Already in Japan? See [the return-flight review](#night-before-return).
+Booked but still deciding? Start with [the change and cancellation deadlines](#booking-review). Leaving home tomorrow? Use [the saved-plan review](#before-leaving-home) or [agree on the travel-day plan with your companions](#travel-day-handoff). Already in Japan? See [the return-flight review](#night-before-return).
 
 ## Who this page is for
 
@@ -94,6 +94,18 @@ Use the city you chose to make the review specific:
 **Leave only the next question in your note:** “Ask about bags / first meal near the hotel / skip the extra district.” Return to [Fukuoka](/my-trips/#trip-fukuoka), [Osaka](/my-trips/#trip-osaka) or [Tokyo](/my-trips/#trip-tokyo), read the existing note before editing, and save only what you want to keep. Each city has one note, not a new note for every departure. Reading this section does not save text or change preparation checks.
 
 Keep documents, booking references and access codes out of TripCompass notes. Keep essential details separately where you can access them without internet: use the [offline travel-day note](#offline-travel-note) rather than relying on a guide bookmark. Browser-local records are not a backup or account sync. Recheck time-sensitive information again before acting; this review does not confirm prices, availability, entry eligibility or a successful booking.
+
+#### Three things to agree on for travel day {#travel-day-handoff}
+
+If different people booked the flights and room, or if one person lands later, do not assume everyone has the same plan. After checking your own bookings, agree on three things before counting the first day as sightseeing time:
+
+1. **Where to meet, and when to stop waiting.** Pick a named place you can each find, and a fallback if someone is delayed. If the meeting point is at the accommodation, confirm whether the first person can check in without the person who booked.
+2. **Who confirms the next step.** Give one person the bag-storage question and another the route check, for example. Share the answer and what remains unresolved, not booking references or access codes in a group message.
+3. **What you will drop if plans change.** A shared dinner can stay flexible. If the later arrival can no longer make it, eat separately and meet at the next agreed point rather than sending everyone across town.
+
+One message to adapt: **“Meet: the agreed spot near our accommodation. If late: eat separately. Still to confirm: who can check in first.”** Only share the meeting details you need. Recheck with the provider if the booking, arrival time or storage arrangements change.
+
+Already traveling? Use [the return-flight review](#night-before-return), or reopen the [Fukuoka](/my-trip/#prep-review), [Osaka](/my-trip/osaka/#prep-review) or [Tokyo](/my-trip/tokyo/#prep-review) workspace to revisit just the affected checks. Opening this guide does not change your saved preparation.
 
 ### Changed hotels? Trace both ends of the trip again {#hotel-change}
 

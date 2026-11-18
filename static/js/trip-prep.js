@@ -59,10 +59,12 @@ function mountDestination(doc, win, destination, root, entries) {
     find("[data-prep-progress]").value = done;
     find("[data-prep-summary]").textContent = say(`${done} of ${TASKS.length} checked`, `${TASKS.length}개 중 ${done}개 확인`);
     const nextLink = find("[data-prep-next]");
-    nextLink.setAttribute("href", next ? `#prep-task-${next}` : "#prep-checklist");
+    const completeGuide = nextLink.dataset.completeGuide;
+    nextLink.setAttribute("href", next ? `#prep-task-${next}` : completeGuide || "#prep-checklist");
     nextLink.textContent = next
       ? say("Next: ", "다음: ") + checks.find(input => input.dataset.prepCheck === next).parentElement.textContent.trim()
-      : say("All marked. Review your checks before departure.", "모두 표시했어요. 출발 전 조건을 다시 확인하세요.");
+      : completeGuide ? say("All marked: open the travel-day guide", "체크 완료: 여행일 점검 가이드 보기")
+        : say("All marked. Review your checks before departure.", "모두 표시했어요. 출발 전 조건을 다시 확인하세요.");
   }
 
   function save() {

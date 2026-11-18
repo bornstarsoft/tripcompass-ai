@@ -37,7 +37,7 @@
       <h2 id="prep-progress-title">{{ cond $ko "남은 준비" "Your next step" }}</h2>
       <p data-prep-summary></p>
       <progress data-prep-progress value="0" max="5" aria-label="{{ cond $ko "직접 확인한 준비 항목" "Preparation items you checked" }}"></progress>
-      <a data-prep-next href="#prep-checklist"></a>
+      <a data-prep-next href="#prep-checklist" data-complete-guide="{{ printf "%s/itinerary/japan-arrival-departure-day-plan/#travel-day-handoff" $prefix | relURL }}"></a>
       <p class="fine-print">{{ cond $ko "체크는 내가 확인했다는 메모입니다. 예약 완료나 여행 조건 확인을 보장하지 않습니다." "Checks are your own notes, not booking confirmations or verification of travel conditions." }}</p>
     </section>
     <section class="prep-section" aria-labelledby="prep-course-title">

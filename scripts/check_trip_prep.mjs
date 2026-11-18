@@ -23,12 +23,13 @@ function node(dataset = {}) {
     focus() { this.focused = true; }
   };
 }
-function harness({ language = "en", destination = "fukuoka", stored = null, readFail = false, writeFail = false, removeFail = false, home = false, absent = false, storageMap = null, entryIds = [destination] } = {}) {
+function harness({ language = "en", destination = "fukuoka", stored = null, readFail = false, writeFail = false, removeFail = false, home = false, absent = false, storageMap = null, entryIds = [destination], completeGuide } = {}) {
   const trip = TRIPS[destination];
   const storage = storageMap || new Map([[trip.storageKey, stored], ["tripcompass.saved-guides.v1", '["tokyo","stay"]'], ["tripcompass.decision.v1", "keep"]]);
   const io = { readFail, writeFail, removeFail, writes: 0, removes: 0 };
   const fields = {};
   for (const name of ["status", "start", "create", "workspace", "confirm", "reset", "summary", "progress", "next", "cancel", "delete", "recheck", "recheck-status"]) fields[name] = node();
+  fields.next.dataset.completeGuide = completeGuide;
   const courses = trip.courses.map(value => Object.assign(node(), { value }));
   const alternatives = trip.alternatives.map(value => Object.assign(node(), { value }));
   const checks = TASKS.map(id => Object.assign(node({ prepCheck: id }), { parentElement: { textContent: `${language} ${id}` } }));
@@ -86,6 +87,15 @@ for (const language of ["en", "ko"]) {
   assert.deepEqual(progress(ui.state()), { done: 5, next: null });
   assert.equal(ui.fields.progress.value, 5);
   assert.equal(ui.fields.next.attributes.href, "#prep-checklist");
+  const completeGuide = `${language === "ko" ? "/ko" : ""}/itinerary/japan-arrival-departure-day-plan/#travel-day-handoff`;
+  const completed = harness({ language, destination, stored: JSON.stringify(ui.state()), completeGuide });
+  assert.equal(completed.fields.next.attributes.href, completeGuide);
+  assert.match(completed.fields.next.textContent, language === "ko" ? /여행일 점검/ : /travel-day guide/);
+  assert.equal(completed.io.writes, 0);
+  completed.check("hotel", false);
+  assert.equal(completed.fields.next.attributes.href, "#prep-task-hotel");
+  completed.check("hotel");
+  assert.equal(completed.fields.next.attributes.href, completeGuide);
   ui.check("hotel", false);
   assert.equal(ui.fields.next.attributes.href, "#prep-task-hotel");
   // A new document reached via Back can receive stale native form values.
@@ -273,6 +283,7 @@ for (const prefix of ["", "ko/"]) {
   assert.match(html, /data-prep-workspace hidden/);
   assert.match(html, /data-prep-recheck disabled/);
   assert.ok(html.includes(`${prefix ? "/ko" : ""}/itinerary/japan-arrival-departure-day-plan/#before-leaving-home`));
+  assert.ok(html.includes(`data-complete-guide=/${prefix}itinerary/japan-arrival-departure-day-plan/#travel-day-handoff`));
   assert.match(html, /<noscript>/);
   assert.match(html, /fukuoka-rain/);
   assert.match(html, /travel-days/);

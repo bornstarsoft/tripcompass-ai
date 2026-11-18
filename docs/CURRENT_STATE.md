@@ -1,8 +1,13 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (TRAVEL-DAY-HANDOFF; bilingual travel-day guide and production deployment; main/current worktree; 2026-11-18)
 
 ## Current Task
+
+- WORK-ID: TRAVEL-DAY-HANDOFF. Phase: implementation. Started clean on main at 566c328; owner authorized a content/return-visit improvement, validation and deployment. Replace the completed workspace's checklist loop with a useful travel-day guide. No homepage, storage format or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Unit coverage includes completed and incomplete navigation, locale and legacy markup fallback. Chromium passed six EN/KO city flows at 320/390/1440px: final check, localized guide and review-section return, uncheck and exact fixture preservation outside those deliberate edits. Mobile screenshot inspected, 44px entry link, no overflow and no-JS guide access. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and verify the completed-checklist handoff. BLOCKER: none.
+
+## Previous Calendar Return Release
 
 - Last AI: CODEX; WORK-ID: CALENDAR-REVIEW-RETURN; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at a3c5bd6; owner authorized content, return-visit improvement, validation and deployment. New calendar downloads link directly to a visible workspace review section with a localized missed-review guide. Already-exported events keep their original workspace links. No homepage, private record or infrastructure changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Chromium passed six EN/KO city flows at 320/390/1440px: download, open the actual file URL in a fresh document, reach the localized guide and return, and preserve check/note/bookmark/comparison records. Also passed offline download, no-JS guide and calendar fallback, 44px controls and no overflow. Mobile screenshot inspected.
