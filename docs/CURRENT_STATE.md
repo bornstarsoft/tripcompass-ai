@@ -1,11 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (CALENDAR-REVIEW-RETURN; bilingual review content and production deployment; main/current worktree; 2026-11-18)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: CALENDAR-REVIEW-RETURN. Phase: implementation. Started clean on main at a3c5bd6; owner authorized content, return-visit improvement, validation and deployment. Improve return from calendar events and add a missed-review guide section. No homepage, private record or infrastructure changes.
-- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Chromium passed six EN/KO city flows at 320/390/1440px: download, open the actual file URL in a fresh document, reach the localized guide and return, and preserve check/note/bookmark/comparison records. Also passed offline download, no-JS guide and calendar fallback, 44px controls and no overflow. Mobile screenshot inspected. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and verify the calendar return flow. BLOCKER: none.
+- Last AI: CODEX; WORK-ID: CALENDAR-REVIEW-RETURN; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at a3c5bd6; owner authorized content, return-visit improvement, validation and deployment. New calendar downloads link directly to a visible workspace review section with a localized missed-review guide. Already-exported events keep their original workspace links. No homepage, private record or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Chromium passed six EN/KO city flows at 320/390/1440px: download, open the actual file URL in a fresh document, reach the localized guide and return, and preserve check/note/bookmark/comparison records. Also passed offline download, no-JS guide and calendar fallback, 44px controls and no overflow. Mobile screenshot inspected.
+- HEAD/WIP: application commit ec210c6d6a456575d05dceb693d9b2e3c2494908 pushed to main. This documentation update records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44307465366 and Cloudflare Pages succeeded. Both homepages, all six workspaces, both travel-day guides, CSS/JS and sitemap matched the validated build. Same EN/KO Chromium flows and widths passed, mobile screenshot inspected. No application errors or API/booking calls in the browser suite.
+- QA NOT_RUN: native calendar import and link handling, physical-device/Safari, paid AI calls, D1 queries and retention measurement. NEXT_SINGLE_TASK: check whether a traveler can resume one affected preparation item from an imported calendar event, without collecting dates or private notes. BLOCKER: none.
 
 ## Previous Workspace Guide Release
 
