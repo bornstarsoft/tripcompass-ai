@@ -1,11 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (SAVED-GUIDE-TIME-BLOCK; bilingual planning guidance and production deployment; main/current worktree; 2026-11-18)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: SAVED-GUIDE-TIME-BLOCK. Phase: implementation. Started clean on main at 9fd0e0f; owner authorized a content/return-visit improvement, validation and production deployment. Add a time-window comparison example to Plan B and link to it from the saved-only library when multiple guides are visible. No homepage, storage format or infrastructure changes.
-- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit coverage includes contextual link visibility, unavailable and page-only saves, and built localized targets. Chromium passed six EN/KO flows at 320/390/1440px: link and heading visible, 44px target, Back filter restoration, read-only personal records, cross-tab removal/undo with focus recovery, no overflow and both no-JS fallbacks. Mobile screenshot inspected. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and repeat live. BLOCKER: none.
+- Last AI: CODEX; WORK-ID: SAVED-GUIDE-TIME-BLOCK; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at 9fd0e0f; owner authorized content, return-visit improvement, validation and production deployment. Added bilingual fixed-window examples to Plan B with a link shown when the saved-only library has two or more readable bookmarked guides. No homepage, storage format or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit coverage includes contextual link visibility, unavailable and page-only saves, and built localized targets. Chromium passed six EN/KO flows at 320/390/1440px: link and heading visible, 44px target, Back filter restoration, read-only personal records, cross-tab removal/undo with focus recovery, no overflow and both no-JS fallbacks. Mobile screenshot inspected.
+- HEAD/WIP: application commit 99afcd6d47fbbfd742464e562268979397796d87 pushed to main. This document records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44314627910 and Cloudflare Pages succeeded. Both homepages, hubs, Plan B guides and My trips pages, sitemap and versioned assets matched the validated build. All six EN/KO Chromium flows and both no-JS checks passed live; mobile screenshot inspected. No application errors or API/booking calls.
+- QA NOT_RUN: physical-device/Safari, paid AI calls, D1 queries and retention measurement. NEXT_SINGLE_TASK: ask whether travelers can use the time-window examples to pick one saved activity and one alternative, without collecting personal notes. BLOCKER: none.
 
 ## Previous Itinerary Filter Return Release
 
