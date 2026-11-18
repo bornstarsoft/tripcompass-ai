@@ -1,8 +1,13 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (ITINERARY-LIBRARY-BOOKMARKS; bilingual itinerary discovery and production deployment; main/current worktree; 2026-11-18)
 
 ## Current Task
+
+- WORK-ID: ITINERARY-LIBRARY-BOOKMARKS. Phase: implementation. Started clean on main at 42996a3; owner authorized content, return-visit improvement, validation and deployment. Bring existing guide bookmarks into both itinerary libraries. No homepage, storage format or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Production build diff is limited to two itinerary hubs and library-scoped CSS. Chromium passed six EN/KO flows at 320/390/1440px: save from course table and guide list, language switch, view in My trips, cross-tab remove/undo, unrelated record preservation, touch/keyboard controls and no overflow. Both no-JS guide paths passed; mobile screenshot inspected. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and repeat live. BLOCKER: none.
+
+## Previous Next-trip Note Release
 
 - Last AI: CODEX; WORK-ID: NEXT-TRIP-NOTE-GUIDE; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at 4e43e00; owner authorized content, return-visit improvement, validation and deployment. Existing city note editors link to localized advice on using a prior trip note to choose a new course. The guide opens in a separate tab; return links lead to the exact note in My trips. No homepage, storage format or infrastructure changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Chromium passed 12 EN/KO city/surface flows at 320/390/1440px: note help opens with no opener, original draft survives and restores after reload without autosave, return targets the correct visible note and exact saved note/preparation/bookmark/comparison fixtures stay unchanged. 44px entry target, no overflow, EN/KO no-JS return and screenshot inspection passed.

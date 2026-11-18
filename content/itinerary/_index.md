@@ -9,6 +9,8 @@ weight: 55
 
 Already picked a course? Decide [whether Kyoto belongs in an Osaka day](/itinerary/osaka-or-kyoto-day-trip/), or prepare a [one-area rainy-day plan for Fukuoka](/itinerary/fukuoka-rainy-day-plan/). Each guide explains what to replace rather than adding more stops.
 
+When comparing options, keep a base course and one alternative for the same part of the day. For example, save both a city loop and a day trip, but choose just one for your free Saturday. [Compare two saved ideas for one day](/itinerary/japan-plan-b/#saved-shortlist) when you return.
+
 Before filling the first and last day, make a [luggage, check-in and airport plan](/itinerary/japan-arrival-departure-day-plan/). Confirm the essentials, then leave room for one small meal or walk instead of another district.
 
 Already traveling, or returning to your saved plan? Use the [Japan Plan B guide](/itinerary/japan-plan-b/) when rain, low energy or a late start calls for a smaller day. Keep one interest, remove a journey and leave a useful note in My trips.

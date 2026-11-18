@@ -22,6 +22,9 @@ class DiscoveryPage(Page):
         self.table_links = []
         self.row_count = 0
         self.styles = []
+        self.library_bookmarks = []
+        self.library_allowed = []
+        self.scripts = []
         super().__init__(source)
 
     def handle_starttag(self, tag, attrs):
@@ -35,6 +38,14 @@ class DiscoveryPage(Page):
             self.in_primary = "site-nav" in attrs.get("class", "").split()
         if tag == "section" and "itinerary-library" in attrs.get("class", "").split():
             self.in_library = True
+            assert "data-guide-experience" in attrs
+            self.library_allowed = attrs["data-guide-ids"].split(",")
+        if self.in_library and "data-save-guide" in attrs:
+            assert tag == "button" and "hidden" in attrs and attrs.get("data-guide-title")
+            assert attrs.get("aria-pressed") == "false" and attrs.get("aria-label")
+            self.library_bookmarks.append(attrs["data-save-guide"])
+        if tag == "script" and "src" in attrs:
+            self.scripts.append(attrs["src"])
         if tag == "table" and self.in_library:
             self.in_table = True
         if tag == "a":
@@ -140,6 +151,15 @@ def check(root):
         assert page.library_links.count(prefix + hotel) == 1 and prefix + hotel not in page.table_links
         assert all(page.links.count(link) == 1 for link in expected), "Duplicate itinerary listing"
         assert "/css/courses.css" in page.styles
+        expected_bookmarks = {"fukuoka", "osaka", "tokyo", "parents", "stay", "fukuoka-rain", "fukuoka-dazaifu",
+                              "osaka-kyoto", "osaka-nara", "osaka-doguyasuji", "tokyo-jimbocho", "tokyo-kiyosumi",
+                              "travel-days", "plan-b"}
+        assert set(page.library_bookmarks) == expected_bookmarks
+        assert len(page.library_bookmarks) == len(expected_bookmarks)
+        assert expected_bookmarks <= set(page.library_allowed)
+        assert page.scripts.count("/js/guide-explorer.js") == 1
+        assert prefix + "/my-trips/" in page.library_links
+        assert prefix + "/itinerary/japan-plan-b/#saved-shortlist" in page.links
     for path in ["/itinerary/tokyo-3-days/", "/itinerary/osaka-4-days/"]:
         assert path in pages["/itinerary/"].links, "Keep older guides reachable"
     for path in courses | {hotel} | set(planning):

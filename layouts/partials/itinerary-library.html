@@ -1,4 +1,11 @@
 {{- $ko := eq .Params.htmlLang "ko" -}}
+{{- $prefix := cond $ko "/ko" "" -}}
+{{- $guideIDs := dict -}}
+{{- range .Site.Data.trip_prep -}}
+  {{- range .guides -}}
+    {{- $guideIDs = merge $guideIDs (dict .path .id) -}}
+  {{- end -}}
+{{- end -}}
 {{- $courses := slice -}}
 {{- $guides := slice -}}
 {{- range .Site.RegularPages.ByWeight -}}
@@ -10,8 +17,10 @@
     {{- end -}}
   {{- end -}}
 {{- end -}}
-<section class="itinerary-library" aria-labelledby="itinerary-library-title">
+<section class="itinerary-library" aria-labelledby="itinerary-library-title" data-guide-experience data-guide-ids="{{ delimit (partial "saved-guide-ids.html" .) "," }}">
   <h2 id="itinerary-library-title">{{ cond $ko "추천 코스 비교" "Compare recommended itineraries" }}</h2>
+  <a class="itinerary-saved-link" href="{{ printf "%s/my-trips/" $prefix | relURL }}">{{ cond $ko "내 여행에서 저장한 가이드 보기" "View saved guides in My trips" }}</a>
+  <p class="explore-feedback" data-guide-feedback role="status" aria-live="polite" aria-atomic="true"></p>
   <table>
     <caption>{{ cond $ko "코스별 여행 기간과 추천 여행 성향" "Trip length and traveler fit by itinerary" }}</caption>
     <thead>
@@ -23,12 +32,20 @@
     </thead>
     <tbody>
       {{- range $courses }}
+        {{- $page := . -}}
         {{- $course := index $.Site.Data.courses .Params.course -}}
         {{- if not $ko -}}
           {{- $course = merge $course $course.en -}}
         {{- end }}
       <tr>
-        <th scope="row"><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></th>
+        <th scope="row">
+          <div class="itinerary-save-row">
+            <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+            {{ with index $guideIDs (strings.TrimPrefix "/ko" .RelPermalink) }}
+              {{ partial "save-guide.html" (dict "id" . "title" $page.LinkTitle "ko" $ko) }}
+            {{ end }}
+          </div>
+        </th>
         <td>{{ .Params.duration | default $course.duration }}</td>
         <td>{{ .Params.audience | default $course.audience }}</td>
       </tr>
@@ -39,8 +56,34 @@
   <h2>{{ cond $ko "숙소 권역 선택" "Choose a hotel area" }}</h2>
   <ul>
     {{- range . }}
-    <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
+    {{ $page := . }}
+    <li>
+      <div class="itinerary-save-row">
+        <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+        {{ with index $guideIDs (strings.TrimPrefix "/ko" .RelPermalink) }}
+          {{ partial "save-guide.html" (dict "id" . "title" $page.LinkTitle "ko" $ko) }}
+        {{ end }}
+      </div>
+    </li>
     {{- end }}
   </ul>
   {{- end }}
+  {{ with where .Pages.ByWeight "Params.course" "eq" nil }}
+  <h2 id="itinerary-more-title">{{ cond $ko "다른 일정 가이드" "More itinerary guides" }}</h2>
+  <div class="link-grid" aria-labelledby="itinerary-more-title">
+    {{ range . }}
+    {{ $page := . }}
+    <article class="link-card">
+      <div class="itinerary-save-row">
+        <h3><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h3>
+        {{ with index $guideIDs (strings.TrimPrefix "/ko" .RelPermalink) }}
+          {{ partial "save-guide.html" (dict "id" . "title" $page.LinkTitle "ko" $ko) }}
+        {{ end }}
+      </div>
+      {{ with .Description }}<p>{{ . }}</p>{{ else }}<p>{{ .Summary }}</p>{{ end }}
+    </article>
+    {{ end }}
+  </div>
+  {{ end }}
 </section>
+<script src="{{ "js/guide-explorer.js" | relURL }}" defer></script>
