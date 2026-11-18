@@ -1,11 +1,14 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (RETURN-ROUTE-LINKS; EN/KO course revisits and production deployment; main/current worktree; 2026-11-18)
+ACTIVE_WRITER = NONE
 
 ## Current Task
 
-- WORK-ID: RETURN-ROUTE-LINKS. Phase: implementation. Started clean at bf71158 on main; owner authorized content, return-visit improvements and deployment. Make selected course/alternative labels link to built-in guides in My trips. Add a second-visit suggestion to each city flagship without new travel claims. Keep homepages, storage and infrastructure unchanged.
-- Local QA PASS: Phase 1-5, strict Hugo and whitespace; EN/KO homepages byte-identical. Unit checks cover built localized links, plain-text fallback, cross-tab change/reset and read-only rendering. Chromium passed six EN/KO city cases, live cross-tab focus, guide navigation and Back, and exact fixture-record preservation. Layout checked at 320/390/768/1440px with screenshots and 44px link targets. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and verify live links and content. BLOCKER: none.
+- Last AI: CODEX; WORK-ID: RETURN-ROUTE-LINKS; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean at bf71158 on main; owner authorized content, return-visit improvements and deployment. Selected course/alternative labels link to built-in guides in My trips. Each city flagship has a bilingual second-visit suggestion without new provider facts. Homepages, storage format and infrastructure unchanged.
+- Local QA PASS: Phase 1-5, strict Hugo and whitespace; EN/KO homepages byte-identical. Unit checks cover built localized links, plain-text fallback, cross-tab change/reset and read-only rendering. Chromium passed six EN/KO city cases, live cross-tab focus, guide navigation and Back, and exact fixture-record preservation. Layout checked at 320/390/768/1440px with inspected screenshots and 44px link targets.
+- HEAD/WIP: application commit f3a81c8e71c89a45dd5dc2b4b5892f5be257bc73 pushed to main. This documentation update records deployment evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44290611770 and Cloudflare Pages checks succeeded. Both homepages, My trips, six guides, JS/CSS and sitemap matched the tested build. Chromium passed six EN/KO city cases, the four viewport widths, linked guide navigation and Back, cross-tab focus and exact fixture-record preservation. No app errors or API/booking calls in the browser suite.
+- QA NOT_RUN: physical-device/Safari, live paid AI calls, D1 queries and retention measurement. NEXT_SINGLE_TASK: gather feedback on reopening a saved route and deciding what to keep or replace on a return trip, without collecting personal notes. BLOCKER: none.
 
 ## Previous Booking Review Release
 
