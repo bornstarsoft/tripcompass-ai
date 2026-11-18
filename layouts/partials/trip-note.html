@@ -12,6 +12,7 @@
   <p class="trip-note-preview" data-note-preview hidden></p>
   <div class="trip-note-actions" data-note-copy-tools hidden>
     <button type="button" class="button" data-note-copy title="{{ cond $ko "저장된 메모 복사" "Copy saved note" }}">{{ partial "icons/copy.html" }}<span>{{ cond $ko "저장된 메모 복사" "Copy saved note" }}</span></button>
+    <button type="button" class="button" data-note-download title="{{ cond $ko "저장된 메모 내려받기" "Download saved note" }}" hidden>{{ partial "icons/download.html" }}<span>{{ cond $ko "메모 TXT 받기" "Download note TXT" }}</span></button>
   </div>
   <div data-note-copy-manual hidden>
     <label for="note-copy-{{ $city }}">{{ cond $ko "복사할 저장 메모" "Saved note to copy" }}</label>

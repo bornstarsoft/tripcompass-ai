@@ -13,11 +13,14 @@ for (const invalid of ["{", "null", "[]", raw("x".repeat(241)), JSON.stringify({
 
 function harness(language, records = new Map(), fail = {}, drafts = new Map()) {
   const events = {}, writes = [], prompts = [], clipboard = [], doc = { documentElement: { lang: language }, activeElement: null };
+  const downloads = [], urls = new Map(), timers = [];
+  let nextUrl = 0;
   const node = () => ({ value: "", textContent: "", hidden: false, disabled: false, open: false,
     addEventListener(name, fn) { this[name] = fn; }, focus() { doc.activeElement = this; }, select() { this.selected = true; },
     setSelectionRange(start, end) { this.selectionStart = start; this.selectionEnd = end; } });
   const roots = cities.map(city => {
-    const fields = Object.fromEntries(["input", "form", "save", "status", "preview", "details", "summary", "count", "reload", ...(fail.legacy ? [] : ["copy", "copy-tools", "copy-status", "copy-manual", "copy-text", "plan-template"])].map(name => [name, node()]));
+    const fields = Object.fromEntries(["input", "form", "save", "status", "preview", "details", "summary", "count", "reload", ...(fail.legacy ? [] : ["copy", "copy-tools", "copy-status", "copy-manual", "copy-text", "plan-template", "download"])].map(name => [name, node()]));
+    if (fields.download) fields.download.hidden = true;
     return { dataset: { tripNote: city }, hidden: true, fields, querySelector: selector => fields[selector.slice(11, -1)] };
   });
   const shortcutLinks = new Map(cities.map(city => [city, { ...node(), hidden: true }]));
@@ -31,7 +34,23 @@ function harness(language, records = new Map(), fail = {}, drafts = new Map()) {
   };
   doc.querySelector = query => query === "#trip-selector" ? selector : fail.noShortcuts ? null : shortcuts;
   doc.querySelectorAll = () => roots;
+  doc.createElement = tag => {
+    assert.equal(tag, "a");
+    return { download: "", click() { downloads.push({ name: this.download, blob: urls.get(this.href) }); }, remove() {} };
+  };
+  doc.body = { append() {} };
   const win = {
+    Blob: fail.noDownload ? undefined : Blob,
+    URL: {
+      createObjectURL(blob) {
+        if (fail.download) throw Error("PRIVATE");
+        const url = "blob:fixture-" + nextUrl++;
+        urls.set(url, blob);
+        return url;
+      },
+      revokeObjectURL(url) { urls.delete(url); }
+    },
+    setTimeout(fn) { timers.push(fn); },
     navigator: fail.noClipboard ? {} : { clipboard: { writeText(value) {
       clipboard.push(value);
       if (fail.clipboard) return Promise.reject(Error("PRIVATE"));
@@ -56,7 +75,7 @@ function harness(language, records = new Map(), fail = {}, drafts = new Map()) {
     removeEventListener(name,fn) { events[name]?.delete(fn); }
   };
   mountTripNotes(doc,win);
-  return { records, drafts, roots, doc, writes, prompts, clipboard, fail, shortcuts, shortcutLinks, selector, fields: city => roots[cities.indexOf(city)].fields,
+  return { records, drafts, roots, doc, writes, prompts, clipboard, downloads, urls, timers, fail, shortcuts, shortcutLinks, selector, fields: city => roots[cities.indexOf(city)].fields,
     dirty: () => events.beforeunload?.size || 0,
     emit: (name, event = {}) => events[name]?.forEach(fn => fn(event)),
     type(city,text) { const f = this.fields(city); f.input.value=text; f.input.input(); },
@@ -324,6 +343,7 @@ if(process.argv[2]) for(const [prefix,title] of [["","For your next visit"],["ko
   assert.equal((html.match(/data-note-copy-tools hidden/g)||[]).length,3);
   assert.equal((html.match(/data-note-copy-text readonly/g)||[]).length,3);
   assert.ok(html.includes(prefix ? "저장된 메모 복사" : "Copy saved note"));
+  assert.equal((html.match(/data-note-download /g)||[]).length,3);
   assert.ok(html.includes("css/trip-note.css"));
   assert.ok(html.includes("data-note-draft-shortcuts aria-labelledby=trip-drafts-title hidden"));
   assert.equal((html.match(/data-note-draft-city=/g)||[]).length,3);
@@ -343,6 +363,7 @@ if(process.argv[2]) for(const [prefix,title] of [["","For your next visit"],["ko
     assert.ok(workspace.includes(`js/trip-note.js?v=${version}`));
     assert.equal((workspace.match(/data-note-plan-template hidden/g)||[]).length,1);
     assert.ok(workspace.includes("css/trip-note.css"));
+    assert.equal((workspace.match(/data-note-download /g)||[]).length,1);
     assert.ok(!workspace.includes("css/my-trips.css"));
     assert.ok(!workspace.includes("data-note-draft-shortcuts"));
     assert.ok(workspace.indexOf(`data-trip-note=${city}`) < workspace.indexOf("data-prep-workspace"), "Notes remain available before starting or after resetting preparation");
@@ -417,3 +438,42 @@ for (const language of ["en", "ko"]) for (const city of cities) {
   assert.equal(race.fields(city)["copy-manual"].hidden,true);
 }
 console.log("Saved note copying passed: explicit clean saved text only, EN/KO three-city isolation, manual fallback, no record writes, race guards and legacy markup.");
+
+for (const language of ["en", "ko"]) for (const city of cities) {
+  const note = "Keep: 한 권역\nAlternative: wait";
+  const h = harness(language, new Map([[NOTE_KEYS[city], raw(note)], ["tripcompass.saved-guides.v1", '["plan-b"]']]));
+  const f = h.fields(city), before = [...h.records];
+  assert.equal(h.downloads.length, 0, "No automatic downloads");
+  assert.equal(f.download.hidden, false);
+  assert.equal(f.download.disabled, false);
+  f.download.click();
+  assert.deepEqual(h.downloads.map(file => file.name), [`tripcompass-${city}-note.txt`]);
+  assert.equal(await h.downloads[0].blob.text(), note);
+  assert.equal(h.downloads[0].blob.type, "text/plain;charset=utf-8");
+  h.timers.forEach(fn => fn());
+  assert.equal(h.urls.size, 0);
+  h.type(city, "Unpublished draft");
+  f.download.click();
+  assert.equal(h.downloads.length, 1);
+  f.reload.click();
+  h.fail.read = true;
+  f.download.click();
+  h.fail.read = false;
+  assert.equal(h.downloads.length, 1, "Storage failure blocks download");
+  assert.deepEqual([...h.records], before);
+  h.records.set(NOTE_KEYS[city], raw("New note not yet loaded"));
+  f.download.click();
+  assert.equal(h.downloads.length, 1, "Do not download stale or unseen content");
+  assert.match(f["copy-status"].textContent, language === "ko" ? /바뀌었어요/ : /changed/);
+  f.reload.click();
+  h.fail.download = true;
+  f.download.click();
+  assert.match(f["copy-status"].textContent, language === "ko" ? /복사해/ : /copying/);
+  assert.ok(!f["copy-status"].textContent.includes("PRIVATE"));
+  assert.equal(h.writes.length, 0);
+  assert.equal(h.drafts.size, 0);
+  const unsupported = harness(language, new Map([[NOTE_KEYS[city], raw(note)]]), {noDownload:true});
+  assert.equal(unsupported.fields(city).download.hidden, true);
+  assert.equal(unsupported.fields(city).copy.disabled, false, "Keep existing copy as a fallback");
+}
+console.log("Saved note download passed: exact UTF-8 text, opt-in only, fresh-baseline and draft guards, failure fallback and no record writes.");

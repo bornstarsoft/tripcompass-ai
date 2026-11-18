@@ -1,8 +1,13 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (SAVED-NOTE-OFFLINE; bilingual saved-note download and production deployment; main/current worktree; 2026-11-18)
 
 ## Current Task
+
+- WORK-ID: SAVED-NOTE-OFFLINE. Phase: implementation. Started clean on main at 06b02bd; owner authorized a return-visit improvement, validation and production deployment. Add an opt-in TXT download for the already-saved city note. No homepage, storage format or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit coverage includes exact UTF-8 bytes, draft/baseline guards, unsupported or failed export and cleanup. Chromium passed 12 EN/KO city/surface flows at 320/390/1440px: offline Blob generation and reopening, exact saved text, stale and draft guards, no record changes, 44px controls and no horizontal overflow. Both no-JS cases passed; mobile screenshot inspected. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and repeat live. BLOCKER: none.
+
+## Previous Offline Transfer Worksheet Release
 
 - Last AI: CODEX; WORK-ID: OFFLINE-TRANSFER-FALLBACK; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at c739bf4; owner authorized content, validation and production deployment. Existing EN/KO blank worksheets include optional transport-change fields. Guides link both ways and tell travelers not to overwrite a filled older copy. No homepage, storage or infrastructure changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Built checks cover both blank templates, existing fields, published links and download versions. Chromium passed six EN/KO flows at 320/390/1440px: Plan B entry, 44px native download, no-JS, local file reopen while browser is offline, exact existing record preservation and no personal data in the file. All six download bytes matched the sources; mobile screenshot inspected.

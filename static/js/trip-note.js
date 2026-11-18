@@ -40,6 +40,9 @@ const copy = {
     manualCopy: "Automatic copying is unavailable. Copy the selected saved note.",
     copyChanged: "The saved note changed. Load the saved note and try copying again.",
     copyUnavailable: "The saved note could not be checked. Nothing was changed; try again.",
+    downloadReady: "Check your downloads for the saved note. The file will not update automatically.",
+    downloadChanged: "The saved note changed. Load it before trying to download again.",
+    downloadFailed: "The file could not be created. Try copying the saved note instead.",
     count: n => `${n} / 240`
   },
   ko: {
@@ -60,6 +63,9 @@ const copy = {
     manualCopy: "자동 복사를 사용할 수 없어요. 선택된 저장 메모를 복사해 주세요.",
     copyChanged: "저장된 메모가 바뀌었어요. 저장된 메모를 불러온 뒤 다시 복사해 주세요.",
     copyUnavailable: "저장된 메모를 확인하지 못했어요. 기존 내용은 그대로이니 다시 시도해 주세요.",
+    downloadReady: "다운로드 목록에서 저장 메모를 확인하세요. 파일은 자동으로 갱신되지 않습니다.",
+    downloadChanged: "저장된 메모가 바뀌었어요. 최신 메모를 불러온 뒤 다시 받아 주세요.",
+    downloadFailed: "파일을 만들지 못했어요. 저장된 메모를 복사해 보세요.",
     count: n => `${n} / 240`
   }
 };
@@ -93,9 +99,17 @@ export function mountTripNotes(doc, win) {
     const copyButton = find("copy"), copyTools = find("copy-tools"), copyStatus = find("copy-status");
     const copyManual = find("copy-manual"), copyText = find("copy-text");
     const canCopy = copyButton && copyTools && copyStatus && copyManual && copyText;
+    const downloadButton = find("download");
+    const canDownload = canCopy && downloadButton && typeof win.Blob === "function" &&
+      win.URL?.createObjectURL && win.URL?.revokeObjectURL && "download" in doc.createElement("a");
     let copyBusy = false, copyRevision = 0;
     let baseline, original = "", dirty = false, blocked = false, conflict = false, unprotected = false;
     dirtyChecks.push(() => unprotected);
+    function updateExportButtons() {
+      const disabled = copyBusy || dirty || conflict || blocked || !original;
+      if (canCopy) copyButton.disabled = disabled;
+      if (canDownload) downloadButton.disabled = disabled;
+    }
     function controls() {
       dirty = input.value !== original;
       if (shortcut) {
@@ -109,7 +123,7 @@ export function mountTripNotes(doc, win) {
       if (canCopy) {
         copyRevision++;
         copyTools.hidden = !original || blocked;
-        copyButton.disabled = copyBusy || dirty || conflict || blocked || !original;
+        updateExportButtons();
         copyManual.hidden = true; copyText.value = ""; copyStatus.textContent = "";
       }
       updateGuard();
@@ -231,23 +245,25 @@ export function mountTripNotes(doc, win) {
       load(true);
       if (!blocked) input.focus();
     });
+    function exportMatches(saved, changed) {
+      try {
+        const raw = win.localStorage.getItem(NOTE_KEYS[city]);
+        parseNote(raw);
+        if (raw === saved) return true;
+        copyStatus.textContent = changed;
+      } catch { copyStatus.textContent = text.copyUnavailable; }
+      copyManual.hidden = true; copyText.value = "";
+      return false;
+    }
     if (canCopy) copyButton.addEventListener("click", async () => {
       if (copyButton.disabled || !original) return;
       const revision = copyRevision, saved = baseline, note = original;
       // Never export a draft or silently substitute an unseen newer saved value.
       function current() {
-        if (revision !== copyRevision) return false;
-        try {
-          const raw = win.localStorage.getItem(NOTE_KEYS[city]);
-          parseNote(raw);
-          if (raw === saved) return true;
-          copyStatus.textContent = text.copyChanged;
-        } catch { copyStatus.textContent = text.copyUnavailable; }
-        copyManual.hidden = true; copyText.value = "";
-        return false;
+        return revision === copyRevision && exportMatches(saved, text.copyChanged);
       }
       if (!current()) return;
-      copyBusy = true; copyButton.disabled = true;
+      copyBusy = true; updateExportButtons();
       copyManual.hidden = true; copyText.value = ""; copyStatus.textContent = "";
       try {
         await win.navigator.clipboard.writeText(note);
@@ -260,9 +276,31 @@ export function mountTripNotes(doc, win) {
         }
       } finally {
         copyBusy = false;
-        copyButton.disabled = dirty || conflict || blocked || !original;
+        updateExportButtons();
       }
     });
+    if (canDownload) {
+      downloadButton.hidden = false;
+      downloadButton.addEventListener("click", () => {
+        if (downloadButton.disabled || !original || !exportMatches(baseline, text.downloadChanged)) return;
+        copyManual.hidden = true; copyText.value = "";
+        const link = doc.createElement("a");
+        let url;
+        try {
+          url = win.URL.createObjectURL(new win.Blob([original], { type: "text/plain;charset=utf-8" }));
+          link.href = url;
+          link.download = `tripcompass-${city}-note.txt`;
+          link.hidden = true;
+          doc.body.append(link);
+          link.click();
+          copyStatus.textContent = text.downloadReady;
+        } catch { copyStatus.textContent = text.downloadFailed; }
+        finally {
+          link.remove();
+          if (url) win.setTimeout(() => win.URL.revokeObjectURL(url), 30_000);
+        }
+      });
+    }
     load(); root.hidden = false;
     win.addEventListener("storage", event => { if (event.key === null || event.key === NOTE_KEYS[city]) refresh(); });
     win.addEventListener("pageshow", () => {
