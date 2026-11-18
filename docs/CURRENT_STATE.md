@@ -1,8 +1,13 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (ITINERARY-FILTER-RETURN; bilingual saved-view continuity and production deployment; main/current worktree; 2026-11-18)
 
 ## Current Task
+
+- WORK-ID: ITINERARY-FILTER-RETURN. Phase: implementation. Started clean on main at 2674cb7; owner authorized a return-visit improvement, validation and production deployment. Restore the saved-only view for the same itinerary visit on Back and reload; no new UI, personal record or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit tests cover per-entry history, invalid/cross-language snapshots, blocked history and existing explorer behavior. Chromium passed six EN/KO flows at 320/390/1440px: guide round trip, reload, fresh locale, Back to the prior filter, explicit off, unrelated history fields and exact saved-record preservation. Both no-JS and blocked history cases passed; mobile screenshot inspected. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and repeat on production. BLOCKER: none.
+
+## Previous Saved Itinerary View Release
 
 - Last AI: CODEX; WORK-ID: SAVED-ITINERARY-VIEW; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean on main at c44fd08; owner authorized choosing a small return-visit improvement, validation and production deployment. Saved-only view on both itinerary hubs reuses existing bookmarks, shows a count and distinguishes empty from unavailable. No new storage, homepage UI or infrastructure changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Chromium passed six EN/KO flows at 320/390/1440px, including read-only toggling, counts and empty groups, other-tab removal/undo, focus recovery and exact unrelated fixture preservation. Blocked storage, no-JS fallback and the existing homepage Saved filter passed in both languages. Mobile screenshot inspected.

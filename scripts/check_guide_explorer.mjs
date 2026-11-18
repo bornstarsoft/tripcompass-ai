@@ -81,7 +81,7 @@ function harness({ language = "en", stored = "[]", blocked = false, readBlocked 
     document: { querySelector: () => absent ? null : root, documentElement: { lang: language }, get activeElement() { return active; } },
     window: {
       addEventListener: (type, handler) => { events[type] = handler; },
-      location: { pathname: language === "ko" ? "/ko/" : "/" },
+      location: { pathname: (language === "ko" ? "/ko/" : "/") + (library ? "itinerary/" : "") },
       history: {
         get state() { if (historyReadBlocked) throw Error("private history detail"); return state.historyState; },
         replaceState(value, title, ...url) {
@@ -124,16 +124,34 @@ function harness({ language = "en", stored = "[]", blocked = false, readBlocked 
 }
 
 for (const language of ["en", "ko"]) {
-  const ui = harness({ language, library: true, stored: '["osaka","stay"]' });
+  const stored = '["osaka","stay"]';
+  const path = language === "ko" ? "/ko/itinerary/" : "/itinerary/";
+  const ui = harness({ language, library: true, stored, historyState: { keep: "unrelated" } });
   const visible = () => ui.libraryRows.filter(row => !row.hidden).map(row => row.button?.dataset.saveGuide);
   assert.equal(ui.filterLabel.hidden, false);
   assert.equal(ui.libraryCount.hidden, true);
   assert.deepEqual(visible(), [...ids, undefined]);
+  assert.equal(ui.state.historyWrites, 0, "Opening the library is read-only");
   ui.filterLibrary(true);
   assert.deepEqual(visible(), ["osaka", "stay"]);
   assert.equal(ui.libraryCount.textContent, language === "ko" ? "저장한 가이드 2개" : "2 saved guides");
   assert.equal(ui.state.writes, 0);
-  assert.equal(ui.state.historyWrites, 0);
+  assert.deepEqual(ui.state.historyState, { keep: "unrelated", tripcompassItineraryView: { version: 1, path, savedOnly: true } });
+  assert.equal(ui.state.historyWrites, 1);
+  const restored = harness({ language, library: true, stored, historyState: ui.state.historyState });
+  assert.equal(restored.savedOnly.checked, true);
+  restored.savedOnly.checked = false;
+  restored.events.pageshow({ persisted: false });
+  assert.equal(restored.savedOnly.checked, true, "Reconcile a restored browser checkbox");
+  assert.equal(restored.state.historyWrites, 0);
+  restored.state.historyState = null;
+  restored.events.popstate({});
+  assert.equal(restored.savedOnly.checked, false);
+  for (const view of [{version: 2, path, savedOnly: true}, {version: 1, path, savedOnly: "true"},
+    {version: 1, path: language === "ko" ? "/itinerary/" : "/ko/itinerary/", savedOnly: true}]) {
+    const invalid = harness({ language, library: true, stored, historyState: {tripcompassItineraryView: view} });
+    assert.equal(invalid.savedOnly.checked, false);
+  }
   ui.focusGuide("stay");
   ui.events.storage({ key, newValue: '["osaka"]' });
   assert.deepEqual(visible(), ["osaka"]);
@@ -145,6 +163,16 @@ for (const language of ["en", "ko"]) {
   ui.filterLibrary(false);
   assert.deepEqual(visible(), [...ids, undefined]);
   assert.equal(ui.state.writes, 0);
+  assert.equal(ui.state.historyWrites, 2, "Only deliberate toggles write history");
+  assert.equal(ui.state.historyState.tripcompassItineraryView.savedOnly, false);
+  const failedHistory = harness({ language, library: true, stored, historyBlocked: true });
+  failedHistory.filterLibrary(true);
+  failedHistory.events.pageshow({ persisted: true });
+  assert.equal(failedHistory.savedOnly.checked, true, "BFCache preserves live selection if history write failed");
+  assert.equal(failedHistory.state.historyWrites, 0);
+  const blockedHistory = harness({ language, library: true, stored, historyReadBlocked: true });
+  blockedHistory.filterLibrary(true);
+  assert.equal(blockedHistory.libraryCount.hidden, false);
   const unavailable = harness({ language, library: true, readBlocked: true });
   unavailable.filterLibrary(true);
   assert.equal(unavailable.libraryCount.textContent, language === "ko" ? "저장한 가이드 목록을 읽을 수 없어요." : "Your saved guides could not be read.");

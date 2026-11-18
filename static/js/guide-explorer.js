@@ -41,6 +41,7 @@
   loadSaved(() => localStorage.getItem(key));
   let interest = "all";
   const viewKey = "tripcompassExplorerView";
+  const libraryViewKey = "tripcompassItineraryView";
 
   function restoreView() {
     if (!controls) return;
@@ -55,16 +56,25 @@
     } catch { /* History is optional; current filtering remains usable. */ }
   }
 
-  function rememberView() {
-    if (!controls) return;
+  function rememberEntryView(key, view) {
     try {
       const state = window.history.state;
       if (state !== null && (typeof state !== "object" || Array.isArray(state))) return;
-      // Keep search text out of URLs and preserve unrelated history-entry state.
-      window.history.replaceState({ ...state, [viewKey]: {
-        version: 1, path: window.location.pathname, interest, search: search.value.slice(0, 100)
-      } }, "");
+      window.history.replaceState({ ...state, [key]: view }, "");
     } catch { /* A blocked or rate-limited history write must not stop filtering. */ }
+  }
+
+  function rememberView() {
+    rememberEntryView(viewKey, {
+      version: 1, path: window.location.pathname, interest, search: search.value.slice(0, 100)
+    });
+  }
+
+  function restoreLibraryView() {
+    try {
+      const view = window.history.state?.[libraryViewKey];
+      libraryOnly.checked = view?.version === 1 && view.path === window.location.pathname && view.savedOnly === true;
+    } catch { /* Leave the current checkbox usable if the browser blocks history. */ }
   }
 
   function render() {
@@ -165,7 +175,12 @@
     controls.hidden = false;
   }
   if (libraryOnly) {
-    libraryOnly.addEventListener("change", renderLibrary);
+    restoreLibraryView();
+    libraryOnly.addEventListener("change", () => {
+      renderLibrary();
+      rememberEntryView(libraryViewKey, { version: 1, path: window.location.pathname, savedOnly: libraryOnly.checked });
+    });
+    window.addEventListener("popstate", () => { restoreLibraryView(); renderLibrary(); });
     root.querySelector("[data-library-filter]").hidden = false;
   }
   window.addEventListener("storage", event => {
@@ -174,7 +189,10 @@
     if (loadSaved(() => event.key === null ? null : event.newValue) || libraryOnly) render();
   });
   window.addEventListener("pageshow", event => {
-    if (!event.persisted) restoreView();
+    if (!event.persisted) {
+      restoreView();
+      if (libraryOnly) restoreLibraryView();
+    }
     if (event.persisted && !memoryOnly) {
       loadSaved(() => localStorage.getItem(key));
     }
