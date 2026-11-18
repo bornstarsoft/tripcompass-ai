@@ -101,6 +101,20 @@ export function mountMyTrips(doc, win) {
         catch { error = "invalid"; }
       }
       const find = name => card.querySelector(`[data-trip-${name}]`);
+      const prepared = state ? progress(state) : null;
+      const next = prepared?.next;
+      const nextLink = find("next-link");
+      if (nextLink) {
+        if (next) {
+          nextLink.href = `#trip-${id}-${next}`;
+          nextLink.textContent = tasks[next];
+        } else {
+          if (doc.activeElement === nextLink) find("action").focus({ preventScroll: true });
+          nextLink.removeAttribute("href");
+          nextLink.textContent = "";
+        }
+        nextLink.hidden = !next;
+      }
       for (const [kind, labels] of [["course", courses], ["alternative", alternatives]]) {
         const selected = state?.[kind];
         const link = selected ? find(`${kind}-${selected}`) : null;
@@ -159,12 +173,12 @@ export function mountMyTrips(doc, win) {
         continue;
       }
       saved++;
-      const { done, next } = progress(state);
+      const { done } = prepared;
       quick.textContent = text.quick(done);
       find("status").textContent = text[next ? "saved" : "complete"];
       find("count").textContent = text.count(done);
       find("progress").value = done;
-      find("next").textContent = next ? tasks[next] : text.final;
+      find("next").textContent = next ? (nextLink ? "" : tasks[next]) : text.final;
       find("action-label").textContent = text[next ? "resume" : "review"];
     }
     root.querySelector("[data-trips-summary]").textContent = text.summary(saved, unreadable);

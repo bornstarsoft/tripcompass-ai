@@ -49,7 +49,7 @@
 .my-trip-card dd { margin: .2rem 0 0; line-height: 1.5; }
 .my-trip-card dd a:not([hidden]) { display: inline-flex; align-items: center; min-height: 44px; padding: .4rem 0; }
 .my-trip-card dd a:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
-.my-trip-card [data-trip-next] { font-weight: 700; }
+.my-trip-next, .my-trip-card [data-trip-next] { font-weight: 700; }
 .my-trip-checklist { min-width: 0; margin: 1rem 0 0; padding: .5rem 0 0; border: 0; border-top: 1px solid var(--line); }
 .my-trip-checklist legend { padding: 0 .5rem 0 0; font-weight: 700; }
 .my-trip-checklist label { display: grid; grid-template-columns: 20px minmax(0, 1fr); align-items: center; gap: .75rem; min-height: 44px; padding: .5rem 0; cursor: pointer; line-height: 1.5; }
@@ -57,6 +57,7 @@
 .my-trip-checklist input:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
 .my-trip-checklist input:checked + span { color: var(--muted); }
 .my-trip-check-row + .my-trip-check-row { border-top: 1px solid var(--line); }
+.my-trip-check-row:target { background: var(--green-soft); }
 .my-trip-check-row label { margin: 0; }
 .my-trip-task-guide { display: flex; align-items: center; min-height: 44px; margin-left: 2rem; padding: .5rem 0; font-size: .9rem; line-height: 1.5; }
 .my-trip-card [data-trip-check-feedback]:empty { margin: 0; }

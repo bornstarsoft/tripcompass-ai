@@ -54,6 +54,39 @@ function harness(language = "en", records = new Map(), blocked = [], oldMarkup =
 }
 
 for (const language of ["en", "ko"]) {
+  const records = new Map(ids.map(city => [TRIPS[city].storageKey, JSON.stringify(initialState(city))]));
+  const ui = harness(language, records);
+  for (const { fields } of ui.cards) fields["next-link"] = { hidden: true, removeAttribute(name) { delete this[name]; } };
+  ui.events.pageshow({ persisted: true });
+  for (const [i, city] of ids.entries()) {
+    const key = TRIPS[city].storageKey;
+    const { fields } = ui.cards[i];
+    const link = fields["next-link"];
+    const state = initialState(city);
+    assert.equal(link.href, `#trip-${city}-flights`);
+    assert.equal(link.hidden, false);
+    assert.equal(fields.next.textContent, "");
+    for (const [index, task] of TASKS.entries()) {
+      state.checks[task] = true;
+      records.set(key, JSON.stringify(state));
+      ui.events.storage({ key });
+      if (index < TASKS.length - 1) {
+        assert.equal(link.href, `#trip-${city}-${TASKS[index + 1]}`);
+        assert.equal(link.textContent, `${language}:${city}:${TASKS[index + 1]}`);
+      }
+    }
+    assert.equal(link.hidden, true);
+    assert.equal(link.href, undefined);
+    assert.match(fields.next.textContent, /Recheck|다시 확인/);
+    records.set(key, "invalid");
+    ui.events.storage({ key });
+    assert.equal(link.hidden, true);
+    assert.equal(fields.next.textContent, "");
+  }
+  assert.equal(ui.writes(), 0);
+}
+
+for (const language of ["en", "ko"]) {
   const state = initialState("fukuoka"), key = TRIPS.fukuoka.storageKey;
   const records = new Map([[key, JSON.stringify(state)]]);
   const ui = harness(language, records);
@@ -198,6 +231,10 @@ assert.doesNotMatch(source, /removeItem|\.clear\(|fetch\(|innerHTML/);
 assert.match(source, /setItem\(SAVED_GUIDES_KEY, serialized\)/);
 for (const prefix of ["", "/ko"]) {
   const html = await readFile(resolve(root, `.${prefix}/my-trips/index.html`), "utf8");
+  assert.equal((html.match(/data-trip-next-link hidden/g) || []).length, ids.length);
+  for (const city of ids) for (const task of TASKS) {
+    assert.ok(html.includes(`id=trip-${city}-${task} data-trip-task-row`));
+  }
   for (const city of ids) {
     for (const [kind, choices] of [["course", TRIPS[city].courses], ["alternative", TRIPS[city].alternatives.filter(id => id !== "none")]]) {
       for (const id of choices) {

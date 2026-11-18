@@ -15,7 +15,7 @@ takeaways:
   - "Leave one short note for the next time you open your trip"
 reviewed: "2026-10-23"
 date: "2026-10-23T00:00:00+09:00"
-lastmod: "2026-10-23T22:00:00+09:00"
+lastmod: "2026-11-18T21:01:00+09:00"
 alternateKo: "/ko/itinerary/japan-plan-b/"
 weight: 58
 ---
@@ -37,7 +37,7 @@ This is for short Japan trips from Korea, especially when traveling together at 
 - **Low energy:** keep food and rest, drop the second district, and agree on the return plan together.
 - **Late start:** keep the main purpose, drop the bonus stop, and recheck booking terms and your end time.
 - **A long queue or no table:** [decide what makes waiting worthwhile](#waiting) before trying another neighborhood.
-- **Different interests:** [keep one shared part of the day](#together) without combining everyone's entire wish list.
+- **Different interests:** [keep one shared part of the day](#together) without combining everyone's entire wish list. Once you agree, [send one short update](#companion-update).
 
 ## Rain: change the route, not just the destination {#rain}
 
@@ -81,6 +81,14 @@ Try finishing two sentences each: **“The one thing I would miss is…”** and
 Example: “One person wants kitchenware, another wants a relaxed meal” can become one browsing stop followed by a meal if conditions suit, with the second shopping district removed. It does not require adding a workshop or making a booking.
 
 Note to adapt: **“Together: one meal. Optional: one shop. Decide the rest after eating.”** Keep only the next unresolved choice in your city note, not private details about other travelers.
+
+### Tell your companions what changed {#companion-update}
+
+When an itinerary changes, send the update in the same group conversation as the original plan. Say what stays, what drops, and when the group will decide again. If a booking might be affected, say who will check it and leave its status unconfirmed until you hear back.
+
+**Example:** “Keep lunch in the area we picked. Skip the second shopping stop. I'll check whether the afternoon booking can be moved. Let's decide after lunch, once we know.”
+
+Ask the group to acknowledge the change before relying on it. Keep booking references and other private details out of the shared message. In [My trips](/my-trips/#trip-selector), keep only the unresolved question in your city note, such as “Can we move the afternoon booking?” Reading this example does not send a message or change a reservation.
 
 ## Fukuoka: keep one area {#fukuoka}
 

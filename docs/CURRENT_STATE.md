@@ -1,8 +1,13 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (NEXT-CHECK-HANDOFF; bilingual navigation and editorial update through production deployment; main/current worktree; 2026-11-18)
 
 ## Current Task
+
+- WORK-ID: NEXT-CHECK-HANDOFF. Phase: implementation. Started clean on main at d299098; owner authorized content, return-visit improvement and production deployment. Link the next unchecked preparation item to its existing row and add a companion handoff example to Plan B. Keep homepages, storage and infrastructure unchanged.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical homepages. Unit cases cover all task transitions, completed/invalid fallback and built anchors. Chromium passed six EN/KO city flows and four widths (320/390/768/1440px), including checkbox focus, Tab to the guide, fully visible row, targets at least 44px, advance/rewind, guide return and exact fixture preservation. Production QA: NOT_RUN. NEXT_SINGLE_TASK: deploy and verify live build and interactions. BLOCKER: none.
+
+## Previous Return Route Release
 
 - Last AI: CODEX; WORK-ID: RETURN-ROUTE-LINKS; DONE on 2026-11-18. Phase: deployed and production-validated. Started clean at bf71158 on main; owner authorized content, return-visit improvements and deployment. Selected course/alternative labels link to built-in guides in My trips. Each city flagship has a bilingual second-visit suggestion without new provider facts. Homepages, storage format and infrastructure unchanged.
 - Local QA PASS: Phase 1-5, strict Hugo and whitespace; EN/KO homepages byte-identical. Unit checks cover built localized links, plain-text fallback, cross-tab change/reset and read-only rendering. Chromium passed six EN/KO city cases, live cross-tab focus, guide navigation and Back, and exact fixture-record preservation. Layout checked at 320/390/768/1440px with inspected screenshots and 44px link targets.

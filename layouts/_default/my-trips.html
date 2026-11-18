@@ -68,7 +68,8 @@
             {{ partial "my-trip-plan-choice.html" (dict "kind" "course" "options" $trip.courses "lang" $lang "prefix" $prefix) }}
             <dt>{{ cond $ko "상황이 바뀌면" "Alternative" }}</dt>
             {{ partial "my-trip-plan-choice.html" (dict "kind" "alternative" "options" $trip.alternatives "lang" $lang "prefix" $prefix) }}
-            <dt>{{ cond $ko "다음 확인" "Next step" }}</dt><dd data-trip-next></dd>
+            <dt>{{ cond $ko "다음 확인" "Next step" }}</dt>
+            <dd class="my-trip-next"><a data-trip-next-link hidden></a><span data-trip-next></span></dd>
           </dl>
           <fieldset class="my-trip-checklist" data-trip-checklist>
             <legend>{{ cond $ko "준비 체크" "Preparation checklist" }}</legend>

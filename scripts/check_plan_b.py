@@ -69,6 +69,9 @@ def check(root):
         assert [key for key in page.sections if key in sections] == sections
         for anchor in ["#waiting", "#together"]:
             assert page.links.count(anchor) >= 2, "New scenarios need both contents and quick-reset links"
+        assert "companion-update" in page.ids and page.links.count("#companion-update") >= 2
+        assert prefix + "/my-trips/#trip-selector" in page.links
+        assert ("메시지가 전송되거나 예약이 바뀌지는 않습니다" if prefix else "does not send a message or change a reservation") in text
         for anchor in ["#fukuoka", "#osaka", "#tokyo"]:
             assert anchor in page.links
         assert ("줄이 길거나 만석이라면" if prefix else "A long queue or no table:") in text
