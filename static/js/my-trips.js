@@ -58,6 +58,7 @@ export function mountMyTrips(doc, win) {
   const root = doc.querySelector("[data-my-trips]");
   if (!root) return;
   const text = copy[doc.documentElement.lang === "ko" ? "ko" : "en"];
+  const guideShortcuts = root.querySelector("[data-saved-guide-shortcuts]");
   const cards = [...root.querySelectorAll("[data-trip-summary]")].map(card => ({
     card, id: card.dataset.tripSummary,
     courses: JSON.parse(card.dataset.courseLabels),
@@ -163,6 +164,11 @@ export function mountMyTrips(doc, win) {
         : guideCount ? text.guidesCount(guideCount) : text.guidesEmpty;
       const guideJump = find("guides-jump");
       if (guideJump) guideJump.textContent = guideError ? text.guidesJump : text.guidesCount(guideCount);
+      const shortcut = guideShortcuts?.querySelector(`[data-saved-guide-city="${id}"]`);
+      if (shortcut) {
+        if (!guideCount && shortcut === doc.activeElement) root.querySelector("#trip-selector")?.focus();
+        shortcut.hidden = !guideCount;
+      }
       const quick = root.querySelector(`[data-trip-quick="${id}"]`);
       find("details").hidden = !state;
       if (!state) {
@@ -184,6 +190,7 @@ export function mountMyTrips(doc, win) {
       find("next").textContent = nextLink && nextHref ? "" : next ? tasks[next] : text.final;
       find("action-label").textContent = text[next ? "resume" : "review"];
     }
+    if (guideShortcuts) guideShortcuts.hidden = !guideShortcuts.querySelector("a:not([hidden])");
     root.querySelector("[data-trips-summary]").textContent = text.summary(saved, unreadable);
   }
 

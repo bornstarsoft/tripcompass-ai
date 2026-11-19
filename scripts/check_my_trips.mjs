@@ -39,7 +39,17 @@ function harness(language = "en", records = new Map(), blocked = [], oldMarkup =
       querySelectorAll: selector => selector === "[data-trip-check]" ? checks : guides,
       querySelector: selector => fields[selector.slice(11, -1)] };
   });
-  const page = { querySelector: selector => selector === "[data-trips-summary]" ? summary : quick[selector.split('"')[1]], querySelectorAll: () => cards };
+  const citySelector = { focus() { doc.activeElement = this; } };
+  const shortcuts = Object.fromEntries(ids.map(city => [city, { hidden: true }]));
+  const shortcutNav = {
+    hidden: true,
+    querySelector(selector) {
+      if (selector === "a:not([hidden])") return Object.values(shortcuts).find(link => !link.hidden);
+      return shortcuts[selector.split('"')[1]];
+    }
+  };
+  const page = { querySelector: selector => selector === "[data-trips-summary]" ? summary : selector === "#trip-selector" ? citySelector
+    : selector === "[data-saved-guide-shortcuts]" ? (oldMarkup ? null : shortcutNav) : quick[selector.split('"')[1]], querySelectorAll: () => cards };
   let writes = 0;
   let failWrites = false;
   const win = {
@@ -52,7 +62,7 @@ function harness(language = "en", records = new Map(), blocked = [], oldMarkup =
   };
   doc.querySelector = () => page;
   mountMyTrips(doc, win);
-  return { cards, summary, quick, events, doc, failWrites: value => { failWrites = value; }, writes: () => writes, render: () => mountMyTrips(doc, win) };
+  return { cards, summary, quick, events, doc, shortcuts, shortcutNav, citySelector, failWrites: value => { failWrites = value; }, writes: () => writes, render: () => mountMyTrips(doc, win) };
 }
 
 for (const language of ["en", "ko"]) {
@@ -226,13 +236,18 @@ for (const language of ["en", "ko"]) {
   const ui = harness(language, records);
   const visible = () => ui.cards.map(card => card.guides.filter(guide => !guide.hidden).map(guide => guide.dataset.tripSavedGuide));
   assert.deepEqual(visible(), [["stay", "travel-days"], ["osaka-nara", "travel-days"], ["tokyo-jimbocho", "travel-days"]]);
+  assert.deepEqual(Object.values(ui.shortcuts).map(link => link.hidden), [false, false, false], "Shared saved guides appear in their existing city lists");
+  assert.equal(ui.shortcutNav.hidden, false);
   assert.ok(ui.cards[1].fields.details.hidden, "Bookmarks must work without starting a trip");
   assert.ok(ui.cards.every(card => /2/.test(card.fields["guides-status"].textContent)));
   assert.ok(ui.cards.every(card => card.fields["guides-jump"].textContent === (language === "ko" ? "저장한 가이드 2개" : "2 saved guides")));
   assert.deepEqual([...records], before, "Unknown and duplicate IDs must remain byte-equivalent");
   records.set(bookmarkKey, '["tokyo-kiyosumi"]');
+  ui.doc.activeElement = ui.shortcuts.fukuoka;
   ui.events.storage({ key: bookmarkKey, newValue: records.get(bookmarkKey) });
   assert.deepEqual(visible(), [[], [], ["tokyo-kiyosumi"]]);
+  assert.deepEqual(Object.values(ui.shortcuts).map(link => link.hidden), [true, true, false]);
+  assert.equal(ui.doc.activeElement, ui.citySelector, "Keep keyboard focus when a cross-tab change hides a shortcut");
   assert.equal(ui.cards[0].fields["guides-jump"].textContent, language === "ko" ? "저장한 가이드 0개" : "0 saved guides");
   assert.equal(ui.cards[2].fields["guides-jump"].textContent, language === "ko" ? "저장한 가이드 1개" : "1 saved guide");
   assert.match(ui.cards[0].fields["guides-status"].textContent, /No guides|아직/);
@@ -245,6 +260,7 @@ for (const language of ["en", "ko"]) {
     records.set(bookmarkKey, bad);
     ui.events.storage({ key: bookmarkKey });
     assert.deepEqual(visible(), [[], [], []]);
+    assert.equal(ui.shortcutNav.hidden, true);
     assert.ok(ui.cards.every(card => card.fields["guides-jump"].textContent === (language === "ko" ? "저장한 가이드" : "Saved guides")), "Unreadable is not zero");
     assert.ok(ui.cards.every(card => /could not be read|읽지 못/.test(card.fields["guides-status"].textContent)));
     assert.doesNotMatch(JSON.stringify(ui.cards), /PRIVATE/);
@@ -256,6 +272,7 @@ for (const language of ["en", "ko"]) {
   assert.ok(ui.cards.every(card => /No guides|아직/.test(card.fields["guides-status"].textContent)));
   records.set(bookmarkKey, raw);
   const blocked = harness(language, records, [bookmarkKey]);
+  assert.equal(blocked.shortcutNav.hidden, true);
   assert.ok(blocked.cards.every(card => card.fields["guides-list"].hidden));
   assert.ok(blocked.cards.every(card => /unavailable|사용할 수 없어/.test(card.fields["guides-status"].textContent)));
   assert.ok(blocked.cards.every(card => card.fields["guides-jump"].textContent === (language === "ko" ? "저장한 가이드" : "Saved guides")));
@@ -263,6 +280,21 @@ for (const language of ["en", "ko"]) {
   assert.equal(blocked.writes(), 0);
   assert.equal(ui.writes(), 0);
   assert.equal(records.get(bookmarkKey), raw);
+}
+
+for (const language of ["en", "ko"]) {
+  const records = new Map([[bookmarkKey, '["stay","unknown"]']]);
+  const ui = harness(language, records);
+  assert.equal(ui.shortcuts.fukuoka.hidden, false);
+  assert.equal(ui.writes(), 0);
+  const guide = ui.cards[0].guides.find(guide => guide.dataset.tripSavedGuide === "stay");
+  guide.querySelector("[data-guide-remove]").click();
+  assert.equal(ui.shortcutNav.hidden, true, "An undo-only row is not counted as saved");
+  assert.equal(guide.querySelector("[data-guide-undo]").hidden, false, "Undo remains available in the city list");
+  guide.querySelector("[data-guide-undo]").click();
+  assert.equal(ui.shortcutNav.hidden, false);
+  assert.equal(ui.shortcuts.fukuoka.hidden, false);
+  assert.deepEqual(JSON.parse(records.get(bookmarkKey)).sort(), ["stay", "unknown"]);
 }
 
 const source = await readFile(resolve(root, "js/my-trips.js"), "utf8");
@@ -300,11 +332,14 @@ for (const prefix of ["", "/ko"]) {
   assert.equal((html.match(/data-trip-saved-guide=/g) || []).length, 18);
   assert.equal((html.match(/data-trip-guides-status/g) || []).length, 3);
   assert.equal((html.match(/data-trip-guides-jump/g) || []).length, 3);
+  assert.ok(html.includes("data-saved-guide-shortcuts aria-labelledby=trip-saved-guides-title hidden"));
+  assert.equal((html.match(/data-saved-guide-city=/g) || []).length, ids.length);
   assert.equal((html.match(/id=trip-selector\b/g) || []).length, 1);
   assert.ok(html.includes('id=trip-selector tabindex=-1'));
   assert.equal((html.match(/class=my-trip-city-return href=#trip-selector/g) || []).length, 3);
   assert.match(html, prefix ? /도시 선택으로 돌아가기/ : /Back to trip selection/);
   for (const city of ids) {
+    assert.ok(html.includes(`href=#saved-guides-${city} data-saved-guide-city=${city}`));
     assert.ok(html.includes(`href=#saved-guides-${city}`));
     assert.ok(html.includes(`aria-labelledby="trip-title-${city} saved-jump-${city}"`));
     assert.ok(html.includes(`id=saved-guides-${city} tabindex=-1`));
@@ -329,6 +364,7 @@ for (const prefix of ["", "/ko"]) {
   }
   const home = await readFile(resolve(root, `.${prefix}/index.html`), "utf8");
   assert.ok(!home.includes("data-trip-guides-jump"));
+  assert.ok(!home.includes("data-saved-guide-shortcuts"));
   assert.ok(!home.includes("my-trip-city-return"));
   assert.ok(home.includes(`href=${prefix}/my-trips/`));
   const sitemap = await readFile(resolve(root, "sitemap.xml"), "utf8");
