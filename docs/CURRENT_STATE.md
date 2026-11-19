@@ -1,8 +1,16 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (BOOKMARK-TO-MY-TRIPS; guide bookmark navigation, validation and production deployment approved by owner; main at d423c68; 2026-11-19 KST)
+ACTIVE_WRITER = NONE
 
 ## Current Task
+
+- Last AI: CODEX; WORK-ID: BOOKMARK-TO-MY-TRIPS; DONE on 2026-11-19 KST. Phase: deployed and production-validated. Started clean on main at d423c68; owner authorized a return-visit improvement, validation and production deployment. Saved articles link directly to the existing city saved list, or to city selection for a shared guide. Planning guides already listed in a city workspace now use the same bookmark ID in the article. No homepage, storage format or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit checks cover correct built destinations, persisted saves, malformed/blocked storage, BFCache and focus after sync. Browser QA identified a missing inline save button and a tooltip collision; fixed and reran. Chromium passed eight EN/KO flows at 320/390/1440px, including two shared-guide flows, 44px targets, no tooltip overlap, round trip and record isolation. Both blocked-storage and both no-JS cases passed.
+- HEAD/WIP: application commit 4391362 pushed to main. This document records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44430427528 and Cloudflare Pages check 135246295219 succeeded. Fifteen responses matched the verified build, including both homepages, both overviews, four guide pairs, sitemap and versioned JS/CSS. All eight live flows plus two blocked-storage and two no-JS cases passed. Screenshots inspected; no application errors, private fixture data in requests, or API/booking calls.
+- QA NOT_RUN: physical devices/Safari, paid AI, D1 and retention measurement. NEXT_SINGLE_TASK: observe whether readers who save a new guide can find it again from My trips, without collecting saved records. BLOCKER: none.
+
+## Previous Saved Guide City Shortcuts Release
 
 - Last AI: CODEX; WORK-ID: SAVED-GUIDE-CITY-SHORTCUTS; DONE on 2026-11-19 KST. Phase: deployed and production-validated. Started clean on main at 4fcccb2; owner authorized a return-visit improvement, validation and production deployment. My trips shows direct links to city lists with saved guides, even without saved preparation. The row stays hidden with no readable matching bookmarks and updates after removal, Undo or cross-tab edits. No homepage, storage format or infrastructure changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit tests cover shared, unknown and unreadable records, removal/Undo, cross-tab focus, and cached markup compatibility. Chromium passed six EN/KO flows at 320/390/1440px: 44px targets, guide and Back, fixed section on language switch, last removal/Undo, focus after cross-tab removal and exact unrelated record preservation. Both no-JS cases passed; mobile screenshots inspected.
