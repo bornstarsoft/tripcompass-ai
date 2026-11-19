@@ -44,7 +44,7 @@
 .prep-calendar { margin-bottom: 1.25rem; }
 .prep-calendar form { display: flex; gap: .5rem; align-items: flex-end; flex-wrap: wrap; }
 .prep-calendar label { width: 100%; font-weight: 650; }
-.prep-calendar input { min-height: 44px; max-width: 100%; padding: .35rem .5rem; font: inherit; color: var(--ink); border: 1px solid var(--line); border-radius: 4px; background: var(--panel); }
+.prep-calendar input, .prep-calendar select { min-height: 44px; max-width: 100%; padding: .35rem .5rem; font: inherit; color: var(--ink); border: 1px solid var(--line); border-radius: 4px; background: var(--panel); }
 .prep-calendar button { margin: 0; min-height: 44px; max-width: 100%; }
 .trip-prep :focus-visible { outline: 3px solid #a6402b; outline-offset: 3px; }
 @media (max-width: 620px) {

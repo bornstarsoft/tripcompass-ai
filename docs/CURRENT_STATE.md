@@ -1,6 +1,6 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (REVIEW-CALENDAR-TOPIC; calendar export improvement, validation and production deployment approved by owner; main at 43a5bf8; 2026-11-19 KST)
 
 ## Current Task
 

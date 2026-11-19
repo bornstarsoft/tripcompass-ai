@@ -1,3 +1,16 @@
+const REVIEW_TOPICS = {
+  flights: ["Flights", "항공편"],
+  hotel: ["Hotel", "숙소"],
+  transport: ["Transport", "교통"],
+  outing: ["Choose an outing", "일정 후보 고르기"],
+  weather: ["Weather and venue notices", "날씨·방문지 공지"],
+  departure: ["Bags and return flight", "짐 회수·귀국편"]
+};
+
+function reviewTopic(id, language) {
+  return Object.hasOwn(REVIEW_TOPICS, id) ? REVIEW_TOPICS[id][language === "ko" ? 1 : 0] : "";
+}
+
 function localDay(now) {
   return [now.getFullYear(), String(now.getMonth() + 1).padStart(2, "0"), String(now.getDate()).padStart(2, "0")].join("-");
 }
@@ -24,15 +37,17 @@ function foldLine(line) {
   return folded;
 }
 
-export function reviewCalendar({ date, title, workspace, uid, now = new Date() }) {
+export function reviewCalendar({ date, title, workspace, uid, topic = "", language = "en", now = new Date() }) {
   if (!validReviewDay(date, now) || !/^[a-z0-9-]+$/i.test(uid)) throw new Error("Invalid calendar event");
   const url = new URL(workspace);
   if (!/^https?:$/.test(url.protocol)) throw new Error("Invalid workspace URL");
   const link = url.origin + url.pathname + "#prep-review";
   const stamp = now.toISOString().replace(/[-:]|\.\d{3}/g, "");
+  const label = reviewTopic(topic, language);
+  const summary = label ? `${title}: ${label}` : title;
   return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//TripCompass AI//Trip Review//EN",
     "BEGIN:VEVENT", `UID:${uid}`, `DTSTAMP:${stamp}`, `DTSTART;VALUE=DATE:${date.replace(/-/g, "")}`,
-    `SUMMARY:${calendarText(title)}`, `URL:${link}`, `DESCRIPTION:${calendarText(link)}`, "TRANSP:TRANSPARENT",
+    `SUMMARY:${calendarText(summary)}`, `URL:${link}`, `DESCRIPTION:${calendarText(link)}`, "TRANSP:TRANSPARENT",
     "END:VEVENT", "END:VCALENDAR", ""].map(foldLine).join("\r\n");
 }
 
@@ -45,7 +60,15 @@ export function mountCalendar(doc, win) {
   if (!win.crypto?.randomUUID || !win.URL.createObjectURL || !("download" in doc.createElement("a"))) return;
   const form = root.querySelector("form"), date = form.querySelector("input"), status = root.querySelector("[data-review-calendar-status]");
   if (date.type !== "date") return;
-  const ko = doc.documentElement.lang === "ko";
+  const language = doc.documentElement.lang;
+  const ko = language === "ko";
+  const topic = form.querySelector("[data-review-calendar-topic]");
+  if (topic) for (const id of Object.keys(REVIEW_TOPICS)) {
+    const option = doc.createElement("option");
+    option.value = id;
+    option.textContent = reviewTopic(id, language);
+    topic.append(option);
+  }
   date.min = localDay(new Date());
   form.addEventListener("submit", event => {
     event.preventDefault();
@@ -58,7 +81,10 @@ export function mountCalendar(doc, win) {
     let objectURL;
     const link = doc.createElement("a");
     try {
-      const data = reviewCalendar({ date: date.value, title: root.dataset.title, workspace: root.dataset.workspace, uid: win.crypto.randomUUID(), now });
+      const data = reviewCalendar({
+        date: date.value, title: root.dataset.title, workspace: root.dataset.workspace,
+        uid: win.crypto.randomUUID(), topic: topic?.value, language, now
+      });
       objectURL = win.URL.createObjectURL(new win.Blob([data], { type: "text/calendar;charset=utf-8" }));
       link.href = objectURL;
       link.download = "tripcompass-review.ics";

@@ -13,6 +13,19 @@ for (const line of ["BEGIN:VCALENDAR", "VERSION:2.0", "BEGIN:VEVENT", "UID:revie
 }
 assert.doesNotMatch(calendar, /VALARM|DTEND|ORGANIZER|ATTENDEE|RRULE/);
 assert.doesNotMatch(calendar, /(?<!\r)\n/);
+for (const [topic, english, korean] of [
+  ["flights", "Flights", "항공편"], ["hotel", "Hotel", "숙소"], ["transport", "Transport", "교통"],
+  ["outing", "Choose an outing", "일정 후보 고르기"], ["weather", "Weather and venue notices", "날씨·방문지 공지"],
+  ["departure", "Bags and return flight", "짐 회수·귀국편"]
+]) {
+  for (const [language, label] of [["en", english], ["ko", korean]]) {
+    const file = reviewCalendar({ ...base, topic, language });
+    assert.equal(file.replace(/\r\n /g, "").replace(`: ${label}\r\n`, "\r\n"), calendar, "Only the event summary changes");
+  }
+}
+for (const topic of ["", "unknown", "constructor", "outing\r\nATTENDEE:PRIVATE"]) {
+  assert.equal(reviewCalendar({ ...base, topic }), calendar, "An unknown choice cannot affect the calendar");
+}
 for (const date of ["2026-11-16", "2026-11-31", "2027-02-29", "2026-1-02", "", "20261212", "2026-12-01\r\nVALARM"]) {
   assert.throws(() => reviewCalendar({ ...base, date }));
 }
@@ -57,9 +70,11 @@ for (const prefix of ["", "ko/"]) {
     assert.ok(workspace.includes(`href=/${prefix}itinerary/japan-arrival-departure-day-plan/#missed-review-day`));
     assert.ok(workspace.includes("id=prep-calendar data-review-calendar"));
     assert.ok(workspace.includes("id=review-calendar-date type=date required"));
+    assert.ok(workspace.includes("id=review-calendar-topic data-review-calendar-topic"));
+    assert.ok(workspace.includes(prefix ? "다시 확인할 주제 (선택)" : "Review topic (optional)"));
     assert.ok(workspace.includes(`/js/trip-review-calendar.js?v=${version}`));
   }
-  assert.doesNotMatch(readFileSync(join(root, prefix, "index.html"), "utf8"), /trip-review-calendar|prep-calendar/);
+  assert.doesNotMatch(readFileSync(join(root, prefix, "index.html"), "utf8"), /trip-review-calendar|prep-calendar|review-calendar-topic/);
 }
 assert.doesNotMatch(script, /localStorage|sessionStorage|fetch\(|sendBeacon|XMLHttpRequest/);
 console.log("Trip review calendar passed: EN/KO workspaces, date handling, iCalendar output and no storage or network calls.");

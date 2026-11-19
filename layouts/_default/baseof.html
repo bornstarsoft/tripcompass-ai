@@ -38,7 +38,7 @@
     {{ if or .IsHome (eq .RelPermalink "/ko/") .Params.course .Params.itineraryLibrary .Params.planningGuide .Params.tripPrep }}
     <link rel="stylesheet" href="{{ "css/courses.css" | relURL }}{{ if or .Params.itineraryLibrary .Params.course .Params.planningGuide }}?v={{ substr (sha256 (readFile "static/css/courses.css")) 0 12 }}{{ end }}">
     {{ end }}
-    {{ if .Params.tripPrep }}<link rel="stylesheet" href="{{ "css/trip-prep.css" | relURL }}">{{ end }}
+    {{ if .Params.tripPrep }}<link rel="stylesheet" href="{{ "css/trip-prep.css" | relURL }}?v={{ substr (sha256 (readFile "static/css/trip-prep.css")) 0 12 }}">{{ end }}
     {{ if .Params.myTrips }}<link rel="stylesheet" href="{{ "css/my-trips.css" | relURL }}?v={{ substr (sha256 (readFile "static/css/my-trips.css")) 0 12 }}">{{ end }}
     {{ if or .Params.myTrips .Params.tripPrep }}<link rel="stylesheet" href="{{ "css/trip-note.css" | relURL }}?v={{ substr (sha256 (readFile "static/css/trip-note.css")) 0 12 }}">{{ end }}
     {{ if or .Params.course .Params.planningGuide }}<link rel="stylesheet" href="{{ "css/trip-guide-return.css" | relURL }}">{{ end }}

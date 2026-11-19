@@ -4,6 +4,10 @@
   <form hidden data-review-calendar-form>
     <label for="review-calendar-date">{{ cond $ko "다시 확인할 날짜" "Review date" }}</label>
     <input id="review-calendar-date" type="date" required max="9999-12-31" aria-describedby="review-calendar-help">
+    <label for="review-calendar-topic">{{ cond $ko "다시 확인할 주제 (선택)" "Review topic (optional)" }}</label>
+    <select id="review-calendar-topic" data-review-calendar-topic>
+      <option value="">{{ cond $ko "여행 준비 전체" "General trip review" }}</option>
+    </select>
     <button type="submit">{{ cond $ko "캘린더 파일 받기 (.ics)" "Download calendar file (.ics)" }}</button>
   </form>
   <p data-review-calendar-fallback>{{ cond $ko "캘린더에 점검일을 직접 추가할 수 있습니다." "You can also add the review date manually in your calendar." }}</p>
