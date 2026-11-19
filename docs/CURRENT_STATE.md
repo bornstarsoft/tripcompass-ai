@@ -1,8 +1,16 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (SAVED-GUIDE-CITY-SHORTCUTS; My trips saved-guide navigation, validation and production deployment approved by owner; main at 4fcccb2; 2026-11-19 KST)
+ACTIVE_WRITER = NONE
 
 ## Current Task
+
+- Last AI: CODEX; WORK-ID: SAVED-GUIDE-CITY-SHORTCUTS; DONE on 2026-11-19 KST. Phase: deployed and production-validated. Started clean on main at 4fcccb2; owner authorized a return-visit improvement, validation and production deployment. My trips shows direct links to city lists with saved guides, even without saved preparation. The row stays hidden with no readable matching bookmarks and updates after removal, Undo or cross-tab edits. No homepage, storage format or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit tests cover shared, unknown and unreadable records, removal/Undo, cross-tab focus, and cached markup compatibility. Chromium passed six EN/KO flows at 320/390/1440px: 44px targets, guide and Back, fixed section on language switch, last removal/Undo, focus after cross-tab removal and exact unrelated record preservation. Both no-JS cases passed; mobile screenshots inspected.
+- HEAD/WIP: application commit f07ab12 pushed to main. This document records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44429171434 and Cloudflare Pages check 135242055364 succeeded. Both homepages, both overview pages, sitemap and versioned JS/CSS matched the verified build. Six live Chromium flows and both no-JS cases passed. Mobile screenshots inspected; no app errors, test note text in requests or API/booking calls.
+- QA NOT_RUN: physical devices/Safari, paid AI, D1 and retention measurement. NEXT_SINGLE_TASK: observe whether travelers returning with saved guides use the city shortcut and find the intended guide, without collecting personal records. BLOCKER: none.
+
+## Previous Return Or New City Release
 
 - Last AI: CODEX; WORK-ID: RETURN-OR-NEW-CITY; DONE on 2026-11-19 KST. Phase: deployed and production-validated. Started clean on main at 16bdefa; owner authorized content, validation and production deployment. The bilingual travel-day guide now helps a returning traveler decide between one familiar city and one new candidate. The after-trip reflection links to the section, which uses existing comparisons and city notes. No homepage, storage, server or affiliate behavior changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Build tests cover the section and pair links; a Korean emphasis issue was fixed before release. Chromium passed six EN/KO city flows at 320/390/1440px, including guide entry, related comparison/course, Back, note return and exact fixture/draft preservation. Both no-JS cases passed; mobile screenshots inspected.
