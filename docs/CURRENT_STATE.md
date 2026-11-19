@@ -1,8 +1,16 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (OFFLINE-REGROUP-PLAN; bilingual guide and offline worksheet, validation and production deployment approved by owner; main at f6e2a61; 2026-11-19 KST)
+ACTIVE_WRITER = NONE
 
 ## Current Task
+
+- Last AI: CODEX; WORK-ID: OFFLINE-REGROUP-PLAN; DONE on 2026-11-19 KST. Phase: deployed and production-validated. Started clean on main at f6e2a61; owner authorized content, validation and production deployment. The bilingual Plan B guides add a no-signal meetup example; the existing blank travel-day TXT templates add optional exact-place, waiting-cutoff and fallback fields. Existing completed copies should not be replaced with a blank. No homepage, storage or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Tests cover anchor pairs, template versioning and preservation of existing fields. Chromium passed all six EN/KO flows at 320/390/1440px, including two no-JS cases, native downloads, local reopening offline, layout, return links and exact unrelated records. All six downloaded files matched the sources; mobile screenshot inspected.
+- HEAD/WIP: application commit 2d3f17c pushed to main. This document records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44434722397 and Cloudflare Pages check 135260745644 succeeded. Eleven live responses matched the verified build, including both homepages, both overviews, both guide pairs, sitemap and versioned TXT files. All six live browser flows and file comparisons passed, including two no-JS cases. Screenshots inspected; no app errors, private fixture text in downloads, or API/booking calls.
+- QA NOT_RUN: physical devices/Safari, native Files/editor flow, paid AI, D1 and retention measurement. NEXT_SINGLE_TASK: observe whether companions can locate the agreed time and fallback in an offline copy, without asking to see their filled file. BLOCKER: none.
+
+## Previous Calendar Review Destination Release
 
 - Last AI: CODEX; WORK-ID: CALENDAR-REVIEW-DESTINATION; DONE on 2026-11-19 KST. Phase: deployed and production-validated. Started clean on main at fb2a84e; owner authorized a return-visit improvement, validation and production deployment. New calendar exports with a topic link to the existing localized checklist item or saved-guide list. General review keeps the previous workspace URL. Existing files, homepage, storage and infrastructure are unchanged.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit tests cover 36 city/language/topic combinations, built anchors, exact general export, unknown inputs, query/fragment stripping and iCalendar fields. Chromium passed six EN/KO flows at 320/390/1440px: four offline downloads, targeted and default returns, checkbox focus, saved lists and unchanged records. Two no-record and two no-JS fallbacks passed; mobile screenshots inspected.
