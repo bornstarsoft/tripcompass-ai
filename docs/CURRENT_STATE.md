@@ -1,8 +1,16 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (SAVED-DAY-CHOICE; conditional guide navigation, validation and production deployment approved by owner; main at 17f3472; 2026-11-19 KST)
+ACTIVE_WRITER = NONE
 
 ## Current Task
+
+- Last AI: CODEX; WORK-ID: SAVED-DAY-CHOICE; DONE on 2026-11-19 KST. Phase: deployed and production-validated. Started clean on main at 17f3472; owner authorized a return-visit improvement, validation and production deployment. A city saved list with at least two saved day options now links to the existing same-time-block guide, which links back to all three city lists. General planning and hotel guides do not count as options. No homepage, storage format or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit checks cover localized links, the curated IDs, duplicate/unknown/common guides, corrupt storage, removal/Undo and focus fallback. Chromium passed six EN/KO flows at 320/390/1440px, including 44px targets, round trip, cross-tab count/focus and exact record preservation. Both no-JS checks passed; screenshots inspected.
+- HEAD/WIP: application commit f1b1a67 pushed to main. This document records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44431186984 and Cloudflare Pages check 135248958199 succeeded. Eight responses matched the verified build, including both homepages, both overviews, both Plan B guides, sitemap and versioned JS. Six live Chromium flows plus both no-JS cases passed. Screenshots inspected; no application errors, private fixture text in requests or API/booking calls.
+- QA NOT_RUN: physical devices/Safari, paid AI, D1 and retention measurement. NEXT_SINGLE_TASK: observe whether travelers with two saved outings can use the comparison guide to choose one for a specific time block, without collecting saved lists. BLOCKER: none.
+
+## Previous Bookmark To My Trips Release
 
 - Last AI: CODEX; WORK-ID: BOOKMARK-TO-MY-TRIPS; DONE on 2026-11-19 KST. Phase: deployed and production-validated. Started clean on main at d423c68; owner authorized a return-visit improvement, validation and production deployment. Saved articles link directly to the existing city saved list, or to city selection for a shared guide. Planning guides already listed in a city workspace now use the same bookmark ID in the article. No homepage, storage format or infrastructure changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit checks cover correct built destinations, persisted saves, malformed/blocked storage, BFCache and focus after sync. Browser QA identified a missing inline save button and a tooltip collision; fixed and reran. Chromium passed eight EN/KO flows at 320/390/1440px, including two shared-guide flows, 44px targets, no tooltip overlap, round trip and record isolation. Both blocked-storage and both no-JS cases passed.
