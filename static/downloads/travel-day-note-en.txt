@@ -26,6 +26,11 @@ Next fixed commitment, place and local cutoff:
 Confirmed return option, or what still needs checking:
 Smaller outing near the confirmed route, or skip the outing:
 
+MEETING UP AGAIN (optional)
+Named meeting place, including exit or landmark:
+Meeting time and last time to wait (local time):
+Agreed fallback place and time if messages do not go through:
+
 BEFORE YOU LEAVE
 Open this copy with internet access turned off. If the accommodation, bags or
 terminal changed, update this copy and remove the old one to avoid confusion.

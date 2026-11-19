@@ -270,6 +270,18 @@ def check(root):
                 lines = template_text.splitlines()
                 start = lines.index(transport[0])
                 assert lines[start:start + len(transport)] == transport
+                meet = ([
+                    "MEETING UP AGAIN (optional)", "Named meeting place, including exit or landmark:",
+                    "Meeting time and last time to wait (local time):",
+                    "Agreed fallback place and time if messages do not go through:",
+                ] if language == "en" else [
+                    "다시 만날 약속 (선택)", "만날 곳의 정확한 이름과 출구 또는 표지:",
+                    "만날 시각과 기다리기로 한 시각 (현지 시각):",
+                    "메시지가 안 될 때 가기로 한 장소와 시각:",
+                ])
+                start = lines.index(meet[0])
+                assert lines[start:start + len(meet)] == meet
+                assert prefix + "/itinerary/japan-plan-b/#meet-without-messages" in page.links
                 assert prefix + "/itinerary/japan-plan-b/#transport-change" in page.links
                 assert ("blank template" if language == "en" else "빈 양식입니다") in text
                 assert all(urlsplit(link).path != template for link in read(prefix + "/").links)

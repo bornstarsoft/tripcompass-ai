@@ -15,7 +15,7 @@ takeaways:
   - "Leave one short note for the next time you open your trip"
 reviewed: "2026-10-23"
 date: "2026-10-23T00:00:00+09:00"
-lastmod: "2026-11-19T10:00:00+09:00"
+lastmod: "2026-11-19T10:07:00+09:00"
 alternateKo: "/ko/itinerary/japan-plan-b/"
 weight: 58
 ---
@@ -100,6 +100,16 @@ Try finishing two sentences each: **“The one thing I would miss is…”** and
 Example: “One person wants kitchenware, another wants a relaxed meal” can become one browsing stop followed by a meal if conditions suit, with the second shopping district removed. It does not require adding a workshop or making a booking.
 
 Note to adapt: **“Together: one meal. Optional: one shop. Decide the rest after eating.”** Keep only the next unresolved choice in your city note, not private details about other travelers.
+
+[Agree on how to meet without messages](#meet-without-messages) before anyone goes a separate way.
+
+### Meet again even if messages do not go through {#meet-without-messages}
+
+If everyone is comfortable taking a short separate outing, make **one agreement you can follow without a signal**. Agree on a specific exit or landmark, when to meet there, and the local time after which everyone should use the fallback. Avoid a name like “the station” if it could mean more than one place.
+
+**Example to adapt:** “Meet at the agreed exit at 18:00. Wait there until 18:15. If we have not met and cannot reach each other, meet at the agreed fallback at 18:30.” Those are example times, not travel estimates. Check that everyone can independently find and reach both places under your actual conditions. If you cannot agree on a workable plan, stay together or choose the smaller outing.
+
+Put the same agreement in each traveler's [offline travel-day note](/itinerary/japan-arrival-departure-day-plan/#offline-travel-note) and open that copy with the connection turned off before you leave. If you change the plan, make sure everyone has the updated agreement before separating. These are planning prompts, not live navigation or emergency instructions.
 
 ### Tell your companions what changed {#companion-update}
 

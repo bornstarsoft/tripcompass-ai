@@ -12,7 +12,7 @@ takeaways:
   - "Work backward from the correct airport and terminal"
   - "Keep one optional treat, with permission to skip it"
 reviewed: "2026-09-22"
-lastmod: "2026-11-19T09:20:00+09:00"
+lastmod: "2026-11-19T10:07:00+09:00"
 alternateKo: "/ko/itinerary/japan-arrival-departure-day-plan/"
 weight: 57
 ---
@@ -195,6 +195,8 @@ Fill this in with confirmed details and keep a separate personal copy you can ac
 The file is a blank template, not a copy of your saved trip or private notes. Fill it in on your device with the details you confirmed. Start with the accommodation address in its local spelling, where you will collect your bags, and the airport and terminal on your return booking. If a leg is still uncertain, write down what to check rather than putting in a guessed route or time.
 
 The optional transport-change section keeps the next fixed commitment beside your return options. For example: “Return leg not confirmed; bag pickup stays fixed; skip the outing until transport is confirmed.” If you already filled an older copy, add these lines to it rather than replacing your notes with a blank file. The [return-first checklist](/itinerary/japan-plan-b/#transport-change) explains how to choose a smaller plan.
+
+If your group may split up briefly, use the optional meeting section to record the same place, waiting cutoff and fallback in each person's copy. See [how to agree on a fallback without messages](/itinerary/japan-plan-b/#meet-without-messages). Add just these lines to a copy you already filled rather than replacing it with a blank file.
 
 **Before leaving, try opening your completed copy with internet access turned off.** Check that you can read the address and find the bag-collection and terminal details quickly. After a change, replace the older copy so you do not follow old directions. A saved file does not update itself or make the full guide available offline.
 

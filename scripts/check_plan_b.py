@@ -78,6 +78,9 @@ def check(root):
         assert ("실시간 운행 정보를 제공하거나 우회 경로를 검증하지 않습니다" if prefix
                 else "does not track service or verify a detour") in text
         assert prefix + "/itinerary/japan-arrival-departure-day-plan/#offline-travel-note" in page.links
+        assert "meet-without-messages" in page.ids and "#meet-without-messages" in page.links
+        assert ("이 글은 계획을 위한 예시이지 실시간 길 안내나 긴급 상황 지침이 아닙니다" if prefix
+                else "not live navigation or emergency instructions") in text
         assert "companion-update" in page.ids and page.links.count("#companion-update") >= 2
         assert prefix + "/my-trips/#trip-selector" in page.links
         assert ("메시지가 전송되거나 예약이 바뀌지는 않습니다" if prefix else "does not send a message or change a reservation") in text

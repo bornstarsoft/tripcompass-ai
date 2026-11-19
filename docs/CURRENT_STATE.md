@@ -1,6 +1,6 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (OFFLINE-REGROUP-PLAN; bilingual guide and offline worksheet, validation and production deployment approved by owner; main at f6e2a61; 2026-11-19 KST)
 
 ## Current Task
 
