@@ -83,9 +83,11 @@ path = "/from-seoul/fukuoka-hakata-vs-tenjin-hotels/"
 [[guides]]
 id = "fukuoka-rain"
 path = "/itinerary/fukuoka-rainy-day-plan/"
+dayOption = true
 [[guides]]
 id = "fukuoka-dazaifu"
 path = "/itinerary/fukuoka-dazaifu-shrine-museum-day/"
+dayOption = true
 [[guides]]
 id = "travel-days"
 path = "/itinerary/japan-arrival-departure-day-plan/"

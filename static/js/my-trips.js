@@ -143,12 +143,15 @@ export function mountMyTrips(doc, win) {
       if (!state && focusedCheck) find("action").focus({ preventScroll: true });
       find("guides-feedback").textContent = "";
       // Only prebuilt localized links can be shown; stored IDs never become URLs or HTML.
-      let guideCount = 0;
+      let guideCount = 0, dayCount = 0;
       for (const guide of guides) {
         const guideId = guide.dataset.tripSavedGuide;
         const pending = removed.has(guideId);
         guide.hidden = !!guideError || (!guideIds.has(guideId) && !pending);
-        if (!guideError && guideIds.has(guideId)) guideCount++;
+        if (!guideError && guideIds.has(guideId)) {
+          guideCount++;
+          if (Object.hasOwn(guide.dataset, "dayOption")) dayCount++;
+        }
         const remove = guide.querySelector("[data-guide-remove]");
         const undo = guide.querySelector("[data-guide-undo]");
         const focused = doc.activeElement === remove || doc.activeElement === undo;
@@ -160,6 +163,11 @@ export function mountMyTrips(doc, win) {
         }
       }
       find("guides-list").hidden = guides.every(guide => guide.hidden);
+      const compare = find("guides-compare");
+      if (compare) {
+        if (dayCount < 2 && doc.activeElement === compare) compare.parentElement?.focus({ preventScroll: true });
+        compare.hidden = dayCount < 2;
+      }
       find("guides-status").textContent = guideError ? text[guideError]
         : guideCount ? text.guidesCount(guideCount) : text.guidesEmpty;
       const guideJump = find("guides-jump");

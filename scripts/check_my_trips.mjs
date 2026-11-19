@@ -10,6 +10,12 @@ const { mountMyTrips } = await import(pathToFileURL(resolve(root, "js/my-trips.j
 const ids = Object.keys(TRIPS);
 const handoff = "/itinerary/japan-arrival-departure-day-plan/#travel-day-handoff";
 const bookmarkKey = "tripcompass.saved-guides.v1";
+const dayOptions = {
+  fukuoka: ["fukuoka-rain", "fukuoka-dazaifu"],
+  osaka: ["osaka-kyoto", "osaka-nara", "osaka-doguyasuji"],
+  tokyo: ["tokyo-jimbocho", "tokyo-kiyosumi"]
+};
+const dayChoice = "/itinerary/japan-plan-b/#same-time-block";
 const cityGuides = {
   fukuoka: ["fukuoka", "parents", "stay", "fukuoka-rain", "fukuoka-dazaifu", "travel-days", "plan-b"],
   osaka: ["osaka", "osaka-kyoto", "osaka-nara", "osaka-doguyasuji", "travel-days", "plan-b"],
@@ -25,6 +31,7 @@ function harness(language = "en", records = new Map(), blocked = [], oldMarkup =
     const labels = values => JSON.stringify(Object.fromEntries(values.map(value => [value, `${language}:${id}:${value}`])));
     const fields = Object.fromEntries(["status", "details", "count", "progress", "course", "alternative", "next", "action", "action-label", "guides-status", "guides-jump", "guides-list", "guides-feedback", "check-feedback"].map(name => [name, { textContent: "", hidden: true, value: 0, focus() { doc.activeElement = this; } }]));
     if (oldMarkup) delete fields["guides-jump"];
+    else fields["guides-compare"] = { hidden: true, parentElement: { focus() { doc.activeElement = this; } } };
     const checks = TASKS.map(task => ({ dataset: { tripCheck: task }, checked: false, disabled: true,
       addEventListener(type, fn) { this[type] = fn; }, focus() { doc.activeElement = this; } }));
     const guides = cityGuides[id].map(id => {
@@ -33,7 +40,8 @@ function harness(language = "en", records = new Map(), blocked = [], oldMarkup =
         return [`[data-guide-${action}]`, node];
       }));
       controls.a = { textContent: `${language}:${id}` };
-      return { dataset: { tripSavedGuide: id }, hidden: true, controls, querySelector: selector => controls[selector] };
+      const dayOption = Object.values(dayOptions).flat().includes(id) ? { dayOption: "" } : {};
+      return { dataset: { tripSavedGuide: id, ...dayOption }, hidden: true, controls, querySelector: selector => controls[selector] };
     });
     return { fields, guides, checks, dataset: { tripSummary: id, courseLabels: labels(TRIPS[id].courses), alternativeLabels: labels(TRIPS[id].alternatives), taskLabels: labels(TASKS) },
       querySelectorAll: selector => selector === "[data-trip-check]" ? checks : guides,
@@ -332,6 +340,8 @@ for (const prefix of ["", "/ko"]) {
   assert.equal((html.match(/data-trip-saved-guide=/g) || []).length, 18);
   assert.equal((html.match(/data-trip-guides-status/g) || []).length, 3);
   assert.equal((html.match(/data-trip-guides-jump/g) || []).length, 3);
+  assert.equal(html.split(`data-trip-guides-compare href=${prefix+dayChoice} hidden`).length - 1, ids.length);
+  assert.deepEqual([...html.matchAll(/data-trip-saved-guide=([^ ]+) data-day-option hidden/g)].map(match => match[1]).sort(), Object.values(dayOptions).flat().sort());
   assert.ok(html.includes("data-saved-guide-shortcuts aria-labelledby=trip-saved-guides-title hidden"));
   assert.equal((html.match(/data-saved-guide-city=/g) || []).length, ids.length);
   assert.equal((html.match(/id=trip-selector\b/g) || []).length, 1);
@@ -364,11 +374,42 @@ for (const prefix of ["", "/ko"]) {
   }
   const home = await readFile(resolve(root, `.${prefix}/index.html`), "utf8");
   assert.ok(!home.includes("data-trip-guides-jump"));
+  assert.ok(!home.includes("data-trip-guides-compare"));
   assert.ok(!home.includes("data-saved-guide-shortcuts"));
   assert.ok(!home.includes("my-trip-city-return"));
   assert.ok(home.includes(`href=${prefix}/my-trips/`));
   const sitemap = await readFile(resolve(root, "sitemap.xml"), "utf8");
   assert.ok(sitemap.includes(`<loc>https://tripcompass.ai${prefix}/my-trips/</loc>`));
+}
+
+for (const language of ["en", "ko"]) {
+  const shared = ["travel-days", "plan-b", "stay", "unknown"];
+  const records = new Map([[bookmarkKey, JSON.stringify(shared)]]);
+  const ui = harness(language, records);
+  assert.ok(ui.cards.every(card => card.fields["guides-compare"].hidden), "General and lodging guides aren't outings");
+  for (const [index, city] of ids.entries()) {
+    const [first, second] = dayOptions[city], card = ui.cards[index], link = card.fields["guides-compare"];
+    records.set(bookmarkKey, JSON.stringify([...shared, first, first]));
+    ui.events.storage({ key: bookmarkKey });
+    assert.equal(link.hidden, true, "A duplicate saved ID is still one candidate");
+    records.set(bookmarkKey, JSON.stringify([...shared, first, second]));
+    ui.events.storage({ key: bookmarkKey });
+    assert.equal(link.hidden, false, "Two candidates from the same city reveal the guide");
+    assert.ok(ui.cards.filter(entry => entry !== card).every(entry => entry.fields["guides-compare"].hidden));
+    ui.doc.activeElement = link;
+    records.set(bookmarkKey, "malformed");
+    ui.events.storage({ key: bookmarkKey });
+    assert.equal(link.hidden, true);
+    assert.equal(ui.doc.activeElement, link.parentElement);
+    records.set(bookmarkKey, JSON.stringify([...shared, first, second]));
+    ui.events.storage({ key: bookmarkKey });
+    const guide = card.guides.find(guide => guide.dataset.tripSavedGuide === first);
+    guide.querySelector("[data-guide-remove]").click();
+    assert.equal(link.hidden, true, "An undo-only row is not counted");
+    guide.querySelector("[data-guide-undo]").click();
+    assert.equal(link.hidden, false);
+  }
+  assert.equal(ui.writes(), 2 * ids.length, "Only explicit remove and undo write");
 }
 for (const language of ["en", "ko"]) {
   const records = new Map(ids.map(id => [TRIPS[id].storageKey, JSON.stringify(initialState(id))]));

@@ -79,9 +79,11 @@ path = "/itinerary/seoul-to-tokyo-4-day-itinerary/"
 [[guides]]
 id = "tokyo-jimbocho"
 path = "/itinerary/tokyo-jimbocho-books-cafes/"
+dayOption = true
 [[guides]]
 id = "tokyo-kiyosumi"
 path = "/itinerary/tokyo-kiyosumi-shirakawa-garden-art-coffee/"
+dayOption = true
 [[guides]]
 id = "travel-days"
 path = "/itinerary/japan-arrival-departure-day-plan/"

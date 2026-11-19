@@ -79,12 +79,15 @@ path = "/itinerary/seoul-to-osaka-4-day-itinerary/"
 [[guides]]
 id = "osaka-kyoto"
 path = "/itinerary/osaka-or-kyoto-day-trip/"
+dayOption = true
 [[guides]]
 id = "osaka-nara"
 path = "/itinerary/osaka-to-nara-temple-park-day/"
+dayOption = true
 [[guides]]
 id = "osaka-doguyasuji"
 path = "/itinerary/osaka-doguyasuji-kitchenware-walk/"
+dayOption = true
 [[guides]]
 id = "travel-days"
 path = "/itinerary/japan-arrival-departure-day-plan/"

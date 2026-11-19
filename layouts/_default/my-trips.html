@@ -111,7 +111,7 @@
           <ul data-trip-guides-list hidden>
             {{ range $trip.guides }}
             {{ $guide := $.Site.GetPage (printf "%s%s" $prefix .path) }}
-            <li data-trip-saved-guide="{{ .id }}" hidden>
+            <li data-trip-saved-guide="{{ .id }}"{{ if .dayOption }} data-day-option{{ end }} hidden>
               <div class="my-trip-guide-row">
                 <a href="{{ $guide.RelPermalink }}">{{ $guide.Title }}</a>
                 <button type="button" class="my-trip-guide-tool" data-guide-remove aria-label="{{ cond $ko "저장 해제" "Remove saved guide" }}: {{ $guide.Title }}" title="{{ cond $ko "저장 해제" "Remove saved guide" }}">{{ partial "icons/bookmark.html" }}<span class="my-trip-guide-tooltip" aria-hidden="true">{{ cond $ko "저장 해제" "Remove" }}</span></button>
@@ -123,6 +123,7 @@
             {{ end }}
           </ul>
           <p class="fine-print" data-trip-guides-feedback role="status" aria-live="polite" aria-atomic="true"></p>
+          <a class="my-trip-browse" data-trip-guides-compare href="{{ printf "%s/itinerary/japan-plan-b/#same-time-block" $prefix | relURL }}" hidden>{{ cond $ko "같은 시간대에 맞는 후보 고르기" "Choose a guide that fits the time you have" }}</a>
           <a class="my-trip-browse" href="{{ printf "%s%s#prep-reading-title" $prefix $trip.path | relURL }}">{{ cond $ko "이 도시 가이드 둘러보기" "Browse this city's guides" }}</a>
         </section>
         <a class="my-trip-city-return" href="#trip-selector">{{ cond $ko "도시 선택으로 돌아가기" "Back to trip selection" }} <span aria-hidden="true">&uarr;</span></a>
