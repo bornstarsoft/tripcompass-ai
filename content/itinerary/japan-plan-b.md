@@ -15,7 +15,7 @@ takeaways:
   - "Leave one short note for the next time you open your trip"
 reviewed: "2026-10-23"
 date: "2026-10-23T00:00:00+09:00"
-lastmod: "2026-11-19T09:47:00+09:00"
+lastmod: "2026-11-19T10:00:00+09:00"
 alternateKo: "/ko/itinerary/japan-plan-b/"
 weight: 58
 ---
@@ -205,7 +205,7 @@ If both ideas still appeal, name the one answer that would let you choose. In Fu
 
 Pick a day to check the answer. Put it before any confirmed booking or cancellation deadline, with time to follow up. If you only need to decide on the day, use the [morning review](#morning) instead.
 
-Open the review calendar in your [Fukuoka workspace](/my-trip/#prep-calendar), [Osaka workspace](/my-trip/osaka/#prep-calendar) or [Tokyo workspace](/my-trip/tokyo/#prep-calendar). Add the downloaded event to your own calendar to keep a link back to your preparation. The date is your own review day, not the provider's deadline. TripCompass does not store that date, send an alert or hold either outing.
+Open the review calendar in your [Fukuoka workspace](/my-trip/#prep-calendar), [Osaka workspace](/my-trip/osaka/#prep-calendar) or [Tokyo workspace](/my-trip/tokyo/#prep-calendar). Select the **Choose an outing** topic, then add the downloaded file to your calendar. The event links directly to that city's saved guides. The date is your own review day, not the provider's deadline. TripCompass does not store that date, send an alert or hold either outing.
 
 ### Keep only the next unresolved choice
 

@@ -41,9 +41,15 @@ export function reviewCalendar({ date, title, workspace, uid, topic = "", langua
   if (!validReviewDay(date, now) || !/^[a-z0-9-]+$/i.test(uid)) throw new Error("Invalid calendar event");
   const url = new URL(workspace);
   if (!/^https?:$/.test(url.protocol)) throw new Error("Invalid workspace URL");
-  const link = url.origin + url.pathname + "#prep-review";
-  const stamp = now.toISOString().replace(/[-:]|\.\d{3}/g, "");
   const label = reviewTopic(topic, language);
+  const trip = label && /^\/(ko\/)?my-trip\/(?:(osaka|tokyo)\/)?$/.exec(url.pathname);
+  let link = url.origin + url.pathname + "#prep-review";
+  if (trip) {
+    const city = trip[2] || "fukuoka";
+    const anchor = topic === "outing" ? `saved-guides-${city}` : `trip-${city}-${topic}`;
+    link = `${url.origin}/${trip[1] || ""}my-trips/#${anchor}`;
+  }
+  const stamp = now.toISOString().replace(/[-:]|\.\d{3}/g, "");
   const summary = label ? `${title}: ${label}` : title;
   return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//TripCompass AI//Trip Review//EN",
     "BEGIN:VEVENT", `UID:${uid}`, `DTSTAMP:${stamp}`, `DTSTART;VALUE=DATE:${date.replace(/-/g, "")}`,

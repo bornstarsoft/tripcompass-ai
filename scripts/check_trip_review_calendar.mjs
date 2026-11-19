@@ -13,16 +13,27 @@ for (const line of ["BEGIN:VCALENDAR", "VERSION:2.0", "BEGIN:VEVENT", "UID:revie
 }
 assert.doesNotMatch(calendar, /VALARM|DTEND|ORGANIZER|ATTENDEE|RRULE/);
 assert.doesNotMatch(calendar, /(?<!\r)\n/);
-for (const [topic, english, korean] of [
+const topics = [
   ["flights", "Flights", "항공편"], ["hotel", "Hotel", "숙소"], ["transport", "Transport", "교통"],
   ["outing", "Choose an outing", "일정 후보 고르기"], ["weather", "Weather and venue notices", "날씨·방문지 공지"],
   ["departure", "Bags and return flight", "짐 회수·귀국편"]
-]) {
+];
+for (const [topic, english, korean] of topics) {
   for (const [language, label] of [["en", english], ["ko", korean]]) {
-    const file = reviewCalendar({ ...base, topic, language });
-    assert.equal(file.replace(/\r\n /g, "").replace(`: ${label}\r\n`, "\r\n"), calendar, "Only the event summary changes");
+    const prefix = language === "ko" ? "/ko" : "";
+    for (const [city, slug] of [["fukuoka", ""], ["osaka", "osaka/"], ["tokyo", "tokyo/"]]) {
+      const workspace = `https://tripcompass.ai${prefix}/my-trip/${slug}`;
+      const anchor = topic === "outing" ? `saved-guides-${city}` : `trip-${city}-${topic}`;
+      const link = `https://tripcompass.ai${prefix}/my-trips/#${anchor}`;
+      const file = reviewCalendar({ ...base, workspace: workspace+"?private=value#draft", topic, language }).replace(/\r\n /g, "");
+      assert.ok(file.includes(`URL:${link}\r\nDESCRIPTION:${link}\r\n`));
+      assert.equal(file.replace(`: ${label}\r\n`, "\r\n").replaceAll(link, workspace+"#prep-review"),
+        reviewCalendar({ ...base, workspace }).replace(/\r\n /g, ""), "Only the event summary and return links change");
+    }
   }
 }
+const unrecognized = reviewCalendar({ ...base, workspace: "https://tripcompass.ai/my-trip/unknown/", topic: "hotel" });
+assert.ok(unrecognized.includes("URL:https://tripcompass.ai/my-trip/unknown/#prep-review\r\n"));
 for (const topic of ["", "unknown", "constructor", "outing\r\nATTENDEE:PRIVATE"]) {
   assert.equal(reviewCalendar({ ...base, topic }), calendar, "An unknown choice cannot affect the calendar");
 }
@@ -58,9 +69,11 @@ const script = readFileSync(join(root, "js/trip-review-calendar.js"), "utf8");
 const version = createHash("sha256").update(script).digest("hex").slice(0, 12);
 for (const prefix of ["", "ko/"]) {
   const guide = readFileSync(join(root, prefix, "itinerary/japan-arrival-departure-day-plan/index.html"), "utf8");
+  const overview = readFileSync(join(root, prefix, "my-trips/index.html"), "utf8");
   assert.ok(guide.includes("id=missed-review-day"));
   assert.ok(guide.includes(prefix ? "점검일을 놓쳤다면" : "Missed your review day?"));
   for (const slug of ["", "osaka/", "tokyo/"]) {
+    const city = slug === "" ? "fukuoka" : slug.slice(0, -1);
     const path = `${prefix}my-trip/${slug}`;
     const workspace = readFileSync(join(root, path, "index.html"), "utf8");
     assert.ok(guide.includes(`href=/${path}#prep-calendar`));
@@ -73,6 +86,10 @@ for (const prefix of ["", "ko/"]) {
     assert.ok(workspace.includes("id=review-calendar-topic data-review-calendar-topic"));
     assert.ok(workspace.includes(prefix ? "다시 확인할 주제 (선택)" : "Review topic (optional)"));
     assert.ok(workspace.includes(`/js/trip-review-calendar.js?v=${version}`));
+    for (const [topic] of topics) {
+      const id = topic === "outing" ? `saved-guides-${city}` : `trip-${city}-${topic}`;
+      assert.ok(overview.includes(`id=${id} `), "Every generated URL has a published target");
+    }
   }
   assert.doesNotMatch(readFileSync(join(root, prefix, "index.html"), "utf8"), /trip-review-calendar|prep-calendar|review-calendar-topic/);
 }
