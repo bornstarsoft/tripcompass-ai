@@ -1,8 +1,16 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (RETURN-OR-NEW-CITY; bilingual editorial guidance, validation and production deployment approved by owner; main at 16bdefa; 2026-11-19 KST)
+ACTIVE_WRITER = NONE
 
 ## Current Task
+
+- Last AI: CODEX; WORK-ID: RETURN-OR-NEW-CITY; DONE on 2026-11-19 KST. Phase: deployed and production-validated. Started clean on main at 16bdefa; owner authorized content, validation and production deployment. The bilingual travel-day guide now helps a returning traveler decide between one familiar city and one new candidate. The after-trip reflection links to the section, which uses existing comparisons and city notes. No homepage, storage, server or affiliate behavior changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Build tests cover the section and pair links; a Korean emphasis issue was fixed before release. Chromium passed six EN/KO city flows at 320/390/1440px, including guide entry, related comparison/course, Back, note return and exact fixture/draft preservation. Both no-JS cases passed; mobile screenshots inspected.
+- HEAD/WIP: application commit 1303f30 pushed to main. This document records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44428473767 and Cloudflare Pages check 135239614536 succeeded. Thirteen live responses matched the verified build, including both homepages, overviews, both comparison pairs, the Jimbocho and travel-day guide pairs, and sitemap. All six live Chromium flows and both no-JS cases passed. No app errors, test note text in requests, or API/booking calls.
+- QA NOT_RUN: physical devices/Safari, paid AI, D1 and retention measurement. NEXT_SINGLE_TASK: ask whether travelers can name one condition that would make the new city a better fit, without collecting the note. BLOCKER: none.
+
+## Previous My Trips Language Position Release
 
 - Last AI: CODEX; WORK-ID: MY-TRIPS-LANGUAGE-POSITION; DONE on 2026-11-19 KST. Phase: deployed and production-validated. Started clean on main at 641593d; owner authorized return-visit improvement, validation and production deployment. My trips preserves supported city, note, saved-guide and checklist anchors across EN/KO links without passing queries or private content. Existing reading-position undo also works on supported anchored switches. No homepage, storage format or infrastructure changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit checks cover exact paths, allowed and hidden anchors, history, existing guide return, reading undo expiry and replay protection. Initial browser QA found competing language-link rewrites; merged the logic into the existing module and reran. Chromium passed six EN/KO flows at 320/390/1440px, including Back, reload, unknown-anchor fallback, draft preservation and reading undo. Both no-JS fallbacks passed; mobile screenshots inspected.
