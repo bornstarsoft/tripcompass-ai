@@ -89,6 +89,12 @@ def check(root):
         assert ("예시를 읽기만 해서는 메모가 저장되지" if prefix else "reading this example does not save it") in text
         assert "saved-shortlist" in page.ids and "#saved-shortlist" in page.links
         assert "same-time-block" in page.ids
+        assert "outing-review-date" in page.ids and "#outing-review-date" in page.links
+        assert ("다시 볼 날 정하기" if prefix else "One answer missing? Pick a day to decide") in text
+        assert ("날짜를 저장하거나 알림을 보내거나 후보를 예약하지 않습니다" if prefix else "does not store that date, send an alert or hold either outing") in text
+        for workspace_path in ["/my-trip/", "/my-trip/osaka/", "/my-trip/tokyo/"]:
+            assert prefix + workspace_path + "#prep-calendar" in page.links
+            assert "prep-calendar" in read(prefix + workspace_path).ids
         assert ("실제로 비어 있는 시간에 맞춰 비교하기" if prefix else "Compare the time you actually have") in text
         assert prefix + "/itinerary/#itinerary-library-title" in page.links
         assert read(prefix + "/itinerary/").library_compare == [url + "#same-time-block"]

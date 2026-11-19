@@ -36,9 +36,13 @@ export function reviewCalendar({ date, title, workspace, uid, now = new Date() }
     "END:VEVENT", "END:VCALENDAR", ""].map(foldLine).join("\r\n");
 }
 
-function mountCalendar(doc, win) {
+export function mountCalendar(doc, win) {
   const root = doc.querySelector("[data-review-calendar]");
-  if (!root || !win.crypto?.randomUUID || !win.URL.createObjectURL || !("download" in doc.createElement("a"))) return;
+  if (!root) return;
+  const reveal = () => { if (win.location.hash === "#prep-calendar") root.open = true; };
+  reveal();
+  win.addEventListener("hashchange", reveal);
+  if (!win.crypto?.randomUUID || !win.URL.createObjectURL || !("download" in doc.createElement("a"))) return;
   const form = root.querySelector("form"), date = form.querySelector("input"), status = root.querySelector("[data-review-calendar-status]");
   if (date.type !== "date") return;
   const ko = doc.documentElement.lang === "ko";

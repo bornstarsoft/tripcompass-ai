@@ -15,7 +15,7 @@ takeaways:
   - "Leave one short note for the next time you open your trip"
 reviewed: "2026-10-23"
 date: "2026-10-23T00:00:00+09:00"
-lastmod: "2026-11-19T09:41:00+09:00"
+lastmod: "2026-11-19T09:47:00+09:00"
 alternateKo: "/ko/itinerary/japan-plan-b/"
 weight: 58
 ---
@@ -196,6 +196,16 @@ A lodging guide, a long outing and a neighborhood walk are not interchangeable. 
 Leave a decision you can use later: **“Keep: one main stop. Alternative: stay near the hotel. Recheck: the return journey before leaving.”** The [Fukuoka note](/my-trips/#next-visit-note-fukuoka), [Osaka note](/my-trips/#next-visit-note-osaka) and [Tokyo note](/my-trips/#next-visit-note-tokyo) each have those three prompts available in the editor. Keep any earlier note that still helps. Use the [itinerary library](/itinerary/#itinerary-library-title) to reopen candidates. These examples do not verify travel times, opening hours or availability.
 
 Return to your saved [Fukuoka guides](/my-trips/#saved-guides-fukuoka), [Osaka guides](/my-trips/#saved-guides-osaka) or [Tokyo guides](/my-trips/#saved-guides-tokyo). Keep both candidates bookmarked if they are useful on different days.
+
+[Set a review day](#outing-review-date) if you need one more answer before choosing.
+
+#### One answer missing? Pick a day to decide {#outing-review-date}
+
+If both ideas still appeal, name the one answer that would let you choose. In Fukuoka it might be when you can collect your bags; in Osaka, when and where the group will meet after the outing; in Tokyo, whether the one main stop suits your actual date. Until you have that answer, keep the smaller option available rather than booking both.
+
+Pick a day to check the answer. Put it before any confirmed booking or cancellation deadline, with time to follow up. If you only need to decide on the day, use the [morning review](#morning) instead.
+
+Open the review calendar in your [Fukuoka workspace](/my-trip/#prep-calendar), [Osaka workspace](/my-trip/osaka/#prep-calendar) or [Tokyo workspace](/my-trip/tokyo/#prep-calendar). Add the downloaded event to your own calendar to keep a link back to your preparation. The date is your own review day, not the provider's deadline. TripCompass does not store that date, send an alert or hold either outing.
 
 ### Keep only the next unresolved choice
 

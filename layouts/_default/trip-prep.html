@@ -119,5 +119,5 @@
 </article>
 <script src="{{ "js/guide-explorer.js" | relURL }}" defer></script>
 <script type="module" src="{{ "js/trip-note.js" | relURL }}?v={{ substr (sha256 (readFile "static/js/trip-note.js")) 0 12 }}"></script>
-<script type="module" src="{{ "js/trip-review-calendar.js" | relURL }}"></script>
+<script type="module" src="{{ "js/trip-review-calendar.js" | relURL }}?v={{ substr (sha256 (readFile "static/js/trip-review-calendar.js")) 0 12 }}"></script>
 {{ end }}
