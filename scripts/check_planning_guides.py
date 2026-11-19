@@ -213,7 +213,12 @@ def check(root):
                 assert "/js/guide-explorer.js" in page.scripts
                 checkpoints = {"booking-review", "before-leaving-home", "night-before-return", "before-checkout", "after-trip", "offline-travel-note", "hotel-change", "travel-day-handoff"}
                 assert checkpoints <= page.ids
-                assert {"use-the-note", "different-companions"} <= page.ids
+                assert {"use-the-note", "different-companions", "return-or-new-city"} <= page.ids
+                assert "#return-or-new-city" in page.links
+                for pair in ["fukuoka-vs-osaka", "tokyo-vs-osaka"]:
+                    assert f"{prefix}/compare/{pair}/" in page.links
+                for term in (["Go back to the same city or try a new one?", "Test just one new city", "or transfer old checks"] if language == "en" else ["같은 도시에 다시 갈까, 새 도시로 갈까?", "새 도시는 한 곳만 비교", "지난 체크를 다른 도시로 옮기지 않습니다"]):
+                    assert term in text, f"{url}: missing return-city guidance: {term}"
                 assert "shorter-trip" in page.ids
                 assert "#shorter-trip" in page.links
                 for term in (["When your trip gets shorter", "Drop a whole outing", "does not change check marks"] if language == "en" else ["여행 시간이 줄었다면", "외출 하나를 통째로 빼요", "체크, 메모, 예약은 바뀌지 않습니다"]):

@@ -12,7 +12,7 @@ takeaways:
   - "Work backward from the correct airport and terminal"
   - "Keep one optional treat, with permission to skip it"
 reviewed: "2026-09-22"
-lastmod: "2026-11-18T23:45:00+09:00"
+lastmod: "2026-11-19T09:20:00+09:00"
 alternateKo: "/ko/itinerary/japan-arrival-departure-day-plan/"
 weight: 57
 ---
@@ -222,6 +222,8 @@ A short note to adapt: **“Repeat: an unhurried meal. Less: a second district. 
 
 If a cost surprised you, [keep one lesson for next time](/from-seoul/japan-travel-budget/#budget-after-trip). Separate an expense you might repeat from a one-off before using it to plan again.
 
+Still choosing where to go next? [Decide whether to return or try a new city](#return-or-new-city) before opening another shortlist.
+
 #### Use the note before choosing a new course {#use-the-note}
 
 When you plan again, read your old note before opening a fresh list of places. Turn one memory into a decision about **what you will make room for**. It can carry over to a different city, even when the old route does not.
@@ -233,6 +235,20 @@ When you plan again, read your old note before opening a fresh list of places. T
 Open your [Fukuoka note](/my-trips/#next-visit-note-fukuoka), [Osaka note](/my-trips/#next-visit-note-osaka) or [Tokyo note](/my-trips/#next-visit-note-tokyo). Read what is already there and keep it if it still helps. If you opened this guide while editing, return to your previous tab to continue the draft; these links open the city note in this tab.
 
 Old checklist marks describe what you checked for the earlier trip, not confirmation for a new departure. Recheck flights, accommodation, transport and other relevant conditions for the new dates yourself. Past prices or a pleasant visit do not establish future prices, availability or suitability. If you later compare cities, start the [decision board](/decision-board/) with newly checked inputs; do not treat an old saved comparison as a current quote.
+
+#### Go back to the same city or try a new one? {#return-or-new-city}
+
+Read your old note and finish this sentence: **“I would go again for ___.”** A place and a kind of experience are different answers. A particular shop or a familiar route might be a reason to go back. An unhurried morning or a good meal together can work in another city, if the new trip makes room for it.
+
+1. **Give the return trip a purpose.** Keep the part you would happily repeat, leave out something that took too much effort, and name one new thing you want to try. Do not count a place you skipped as something you now owe the itinerary.
+2. **Test just one new city against it.** Compare what you can actually do in the same number of usable days. Include room setup, the return to your accommodation and any extra travel. Familiarity is useful, but the old route or room may not suit this trip; novelty alone does not make the new trip worth the extra effort.
+3. **Write down what could change your mind.** For example: “Go back for a slow day near our old base. Try the new city if we can see the exhibition we want without giving up that slow day.” If neither fits your confirmed dates and budget, leave the choice open.
+
+- **After Fukuoka:** if the best part was a meal without watching the clock, compare [Fukuoka and Osaka](/compare/fukuoka-vs-osaka/) on whether you can keep that pace, not on the number of food stops.
+- **After Osaka:** if you liked changing plans without losing the whole day, compare [Osaka and Tokyo](/compare/tokyo-vs-osaka/) using one neighborhood and one main interest in each.
+- **After Tokyo:** if one small bookshop made the trip, consider a [Jimbocho half-day](/itinerary/tokyo-jimbocho-books-cafes/) before deciding you need a different city. If the search for something new was the fun part, take that criterion to your new option instead.
+
+Reopen the note for your last [Fukuoka](/my-trips/#next-visit-note-fukuoka), [Osaka](/my-trips/#next-visit-note-osaka) or [Tokyo](/my-trips/#next-visit-note-tokyo) trip. Keep the old note if it still helps; save a change only if you want to. These links do not change your selected course or transfer old checks to another city.
 
 #### Same city, different travel companions {#different-companions}
 

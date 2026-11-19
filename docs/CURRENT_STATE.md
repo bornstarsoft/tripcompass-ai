@@ -1,6 +1,6 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (RETURN-OR-NEW-CITY; bilingual editorial guidance, validation and production deployment approved by owner; main at 16bdefa; 2026-11-19 KST)
 
 ## Current Task
 
