@@ -1,12 +1,13 @@
 import { TRIPS } from "./trip-prep-core.js";
 import { parseReading } from "./trip-reading.js";
+import { MY_TRIPS_PATHS, isMyTripsAnchor } from "./my-trips-location.js";
 
 export const UNDO_TTL = 120000;
 export const UNDO_KEYS = Object.fromEntries(Object.keys(TRIPS).map(city => [city, `tripcompass.reading-undo.${city}.v1`]));
 const ENTRY = "tripcompassReadingUndoEntry";
-const PATHS = ["/my-trips/", "/ko/my-trips/"];
-const counterpart = (from, to) => from.origin === to.origin && PATHS.includes(from.pathname) &&
-  PATHS.includes(to.pathname) && from.pathname !== to.pathname && !to.search && !to.hash;
+const counterpart = (from, to) => from.origin === to.origin && MY_TRIPS_PATHS.includes(from.pathname) &&
+  MY_TRIPS_PATHS.includes(to.pathname) && from.pathname !== to.pathname && !to.search &&
+  (!to.hash || isMyTripsAnchor(to.hash));
 export const undoFresh = at => Number.isFinite(at) && Date.now() >= at && Date.now() - at < UNDO_TTL;
 
 // Reload uses an entry marker; explicit language navigation uses a checked referrer.
@@ -25,7 +26,7 @@ export function readingUndoReload(win, doc) {
   }
   try {
     const state = win.history.state;
-    if (!PATHS.includes(path) ||
+    if (!MY_TRIPS_PATHS.includes(path) ||
         (state !== null && (typeof state !== "object" || Array.isArray(state)))) throw Error("invalid");
     previous = state?.[ENTRY];
     navigation = win.performance.getEntriesByType("navigation")[0]?.type;

@@ -26,7 +26,7 @@ function fixture(language = "en", prior = null, navigation = "navigate", options
   const blocked = { read: false, write: false, remove: false, ...options };
   const history = { state: prior?.win.history.state || { unrelated: "keep" }, replaceState(state) { if (blocked.history) throw Error("PRIVATE"); this.state = state; } };
   let sequence = 0;
-  const win = { location: new URL(`https://tripcompass.ai/${language === "ko" ? "ko/" : ""}my-trips/`), history,
+  const win = { location: new URL(`https://tripcompass.ai/${language === "ko" ? "ko/" : ""}my-trips/${options.hash || ""}`), history,
     performance: { getEntriesByType: () => [{ type: navigation }] }, crypto: { randomUUID: () => `${Math.random()}` },
     setTimeout(fn) { timers.set(++sequence, fn); return sequence; }, clearTimeout(id) { timers.delete(id); },
     sessionStorage: {
@@ -171,14 +171,16 @@ try {
   for (const language of ["en", "ko"]) {
     const f = fixture(language), before=[...f.map].sort(), deletedAt=now;
     for (const city of Object.keys(TRIPS)) f.click(city,"clear");
-    let current=f, lang=language;
+    let current=f, lang=language, hash="";
     for (let i=0;i<3;i++) {
-      current.languageClick(); current.emit("pagehide"); now+=15000;
+      hash = ["", "#note-title-osaka", "#trip-tokyo-hotel"][i];
+      const href = `https://tripcompass.ai/${lang === "en" ? "ko/" : ""}my-trips/${hash}`;
+      current.languageClick({href}); current.emit("pagehide"); now+=15000;
       for(const city of Object.keys(TRIPS)) assert.equal(JSON.parse(current.session.get(UNDO_KEYS[city])).at,deletedAt);
-      lang=lang==="en"?"ko":"en";current=fixture(lang,current,"navigate");
+      lang=lang==="en"?"ko":"en";current=fixture(lang,current,"navigate",{hash});
       for(const city of Object.keys(TRIPS)) assert.equal(current.control(city,"undo").hidden,false);
       assert.equal(current.doc.activeElement,null,"Language arrival does not steal focus");
-      current.emit("pagehide"); current=fixture(lang,current,"reload");
+      current.emit("pagehide"); current=fixture(lang,current,"reload",{hash});
     }
     for(const city of ["tokyo","fukuoka","osaka"]) current.click(city,"undo");
     assert.deepEqual([...current.map].sort(),before,"Language switching preserves exact reading and other records");
