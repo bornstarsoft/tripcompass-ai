@@ -1,8 +1,16 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (CALENDAR-REVIEW-DESTINATION; targeted return links, validation and production deployment approved by owner; main at fb2a84e; 2026-11-19 KST)
+ACTIVE_WRITER = NONE
 
 ## Current Task
+
+- Last AI: CODEX; WORK-ID: CALENDAR-REVIEW-DESTINATION; DONE on 2026-11-19 KST. Phase: deployed and production-validated. Started clean on main at fb2a84e; owner authorized a return-visit improvement, validation and production deployment. New calendar exports with a topic link to the existing localized checklist item or saved-guide list. General review keeps the previous workspace URL. Existing files, homepage, storage and infrastructure are unchanged.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit tests cover 36 city/language/topic combinations, built anchors, exact general export, unknown inputs, query/fragment stripping and iCalendar fields. Chromium passed six EN/KO flows at 320/390/1440px: four offline downloads, targeted and default returns, checkbox focus, saved lists and unchanged records. Two no-record and two no-JS fallbacks passed; mobile screenshots inspected.
+- HEAD/WIP: application commit 3397aef pushed to main. This document records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44433800195 and Cloudflare Pages check 135257641030 succeeded. Fourteen responses matched the verified build, including both homepages, overviews, Plan B pages, six workspaces, versioned calendar JS and sitemap. Six live flows, four offline exports, two no-record and two no-JS cases passed. No app errors, API/booking calls or private fixture text in requests or files.
+- QA NOT_RUN: native calendar import/alerts, physical devices/Safari, paid AI, D1 and retention measurement. NEXT_SINGLE_TASK: observe whether the calendar link takes travelers to the expected action without a second search, without collecting their calendar contents. BLOCKER: none.
+
+## Previous Review Calendar Topic Release
 
 - Last AI: CODEX; WORK-ID: REVIEW-CALENDAR-TOPIC; DONE on 2026-11-19 KST. Phase: deployed and production-validated. Started clean on main at 43a5bf8; owner authorized a return-visit improvement, validation and production deployment. City review calendars offer one optional topic from a fixed bilingual list. Only the event title changes; the default, review link and private records remain unchanged. No homepage, storage, server or affiliate behavior changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Tests cover localized labels, exact default output, unknown choices, folding, links and date validation. Chromium passed six EN/KO flows at 320/390/1440px, including four offline exports, six inspected files, correct return, 44px targets, no overflow and exact fixture preservation. Both no-JS cases passed; mobile screenshots inspected.
