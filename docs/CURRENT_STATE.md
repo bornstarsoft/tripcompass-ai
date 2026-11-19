@@ -1,8 +1,16 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = CODEX (OUTING-REVIEW-DATE; bilingual guidance and existing calendar navigation approved for validation and production deployment; main at bc9c373; 2026-11-19 KST)
+ACTIVE_WRITER = NONE
 
 ## Current Task
+
+- Last AI: CODEX; WORK-ID: OUTING-REVIEW-DATE; DONE on 2026-11-19 KST. Phase: deployed and production-validated. Started clean on main at bc9c373; owner authorized content, validation and production deployment. Plan B adds guidance for an unresolved choice and links to the three existing calendar disclosures. Exact calendar anchors open the disclosure; ordinary review visits remain unchanged. No homepage, storage format or infrastructure changes.
+- Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Tests cover guide links, exact-anchor behavior, date validation, iCalendar contents and no storage/network calls. Chromium passed six EN/KO flows at 320/390/1440px, including six verified downloads, four offline downloads, correct return, 44px controls, no overflow and exact record preservation. Both no-JS cases passed; screenshots inspected.
+- HEAD/WIP: application commit ee00a87 pushed to main. This document records release evidence; no owner WIP discarded.
+- Production QA PASS: same-SHA GitHub CI run 44432150298 and Cloudflare Pages check 135252137191 succeeded. Twelve responses matched the verified build, including both homepages, both Plan B guides, six workspaces, versioned calendar JS and sitemap. All six live flows, four offline downloads and both no-JS cases passed. Mobile screenshots inspected; no application errors, private fixture text in requests or API/booking calls.
+- QA NOT_RUN: native calendar import/alerts, physical devices/Safari, paid AI, D1 and retention measurement. NEXT_SINGLE_TASK: observe whether a traveler can set a review date for one unresolved choice and return to the intended workspace, without collecting dates or notes. BLOCKER: none.
+
+## Previous Saved Day Choice Release
 
 - Last AI: CODEX; WORK-ID: SAVED-DAY-CHOICE; DONE on 2026-11-19 KST. Phase: deployed and production-validated. Started clean on main at 17f3472; owner authorized a return-visit improvement, validation and production deployment. A city saved list with at least two saved day options now links to the existing same-time-block guide, which links back to all three city lists. General planning and hotel guides do not count as options. No homepage, storage format or infrastructure changes.
 - Local QA PASS: Phase 1-5, strict Hugo, whitespace and byte-identical EN/KO homepages. Unit checks cover localized links, the curated IDs, duplicate/unknown/common guides, corrupt storage, removal/Undo and focus fallback. Chromium passed six EN/KO flows at 320/390/1440px, including 44px targets, round trip, cross-tab count/focus and exact record preservation. Both no-JS checks passed; screenshots inspected.
