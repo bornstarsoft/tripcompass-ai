@@ -11,6 +11,18 @@
     </button>
     <p class="course-tools__status" role="status" aria-live="polite" aria-atomic="true" data-course-status></p>
   </div>
+  {{ with .entry }}
+  {{ $id := .id }}
+  {{ $cities := slice }}
+  {{ range $city, $trip := $.page.Site.Data.trip_prep }}
+    {{ range $trip.guides }}{{ if eq .id $id }}{{ $cities = $cities | append $city }}{{ end }}{{ end }}
+  {{ end }}
+  {{ if $cities }}
+  {{ $target := "trip-selector" }}
+  {{ if eq (len $cities) 1 }}{{ $target = printf "saved-guides-%s" (index $cities 0) }}{{ end }}
+  <a class="course-tools__saved" data-saved-guide-return="{{ $id }}" href="{{ printf "%s/my-trips/#%s" (cond $.ko "/ko" "") $target | relURL }}" hidden>{{ cond $.ko "내 여행에서 저장한 가이드 보기" "View saved guides in My trips" }} <span aria-hidden="true">&rarr;</span></a>
+  {{ end }}
+  {{ end }}
   <div class="course-tools__manual" data-course-manual hidden>
     <label for="course-link">{{ cond .ko "가이드 링크" "Guide link" }}</label>
     <input id="course-link" type="url" readonly data-course-link spellcheck="false" autocomplete="off">

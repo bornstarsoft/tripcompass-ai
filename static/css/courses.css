@@ -85,6 +85,8 @@
 .course-tools { margin-top: 1.25rem; }
 .course-tools [hidden], .course-tools[hidden] { display: none !important; }
 .course-tools__buttons { display: flex; align-items: center; flex-wrap: wrap; gap: 0.65rem; }
+.course-tools .save-guide__tooltip { left: 0; right: auto; }
+.course-tools__saved { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; margin-top: 2.25rem; }
 .course-tools .course-tool { position: relative; flex: 0 0 44px; width: 44px; height: 44px; min-height: 44px; padding: 0; border: 1px solid var(--line); border-radius: 6px; color: var(--teal-dark); background: var(--panel); }
 .course-tool svg { width: 21px; height: 21px; }
 .course-tool:hover { border-color: var(--teal); }

@@ -1,6 +1,6 @@
 # TripCompass AI Current State
 
-ACTIVE_WRITER = NONE
+ACTIVE_WRITER = CODEX (BOOKMARK-TO-MY-TRIPS; guide bookmark navigation, validation and production deployment approved by owner; main at d423c68; 2026-11-19 KST)
 
 ## Current Task
 

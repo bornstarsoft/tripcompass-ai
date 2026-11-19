@@ -3,6 +3,7 @@
 
 import sys
 import re
+from hashlib import sha256
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 from xml.etree import ElementTree
@@ -24,6 +25,7 @@ class CoursePage(Page):
         self.explorer_cards = []
         self.explorer_controls = []
         self.save_buttons = []
+        self.saved_returns = []
         self.interests = []
         self.searches = []
         super().__init__(source)
@@ -41,6 +43,8 @@ class CoursePage(Page):
             self.explorer_controls.append(attrs)
         if "data-save-guide" in attrs:
             self.save_buttons.append(attrs)
+        if tag == "a" and "data-saved-guide-return" in attrs:
+            self.saved_returns.append(attrs)
         if attrs.get("name") == "guide-interest":
             self.interests.append(attrs)
         if "data-guide-search" in attrs:
@@ -205,7 +209,8 @@ def check(root):
         assert len(hero) == 1 and hero[0]["fetchpriority"] == "high" and "AI" in hero[0]["alt"]
         for variant in hero[0]["srcset"].split(","):
             assert (root / variant.strip().split()[0].lstrip("/")).stat().st_size < 350_000
-    for path, days in zip([*paths, parent_path, hotel_path], [3, 4, 4, 3, 0]):
+    version = sha256((root / "js/guide-explorer.js").read_bytes()).hexdigest()[:12]
+    for path, days, city in zip([*paths, parent_path, hotel_path], [3, 4, 4, 3, 0], ["fukuoka", "osaka", "tokyo", "fukuoka", "fukuoka"]):
         en_path = path.removeprefix("/ko")
         page, korean = read(en_path), read(path)
         for localized, url, labels in [(page, en_path, ["Copy link", "Print guide"]),
@@ -219,8 +224,13 @@ def check(root):
                 assert localized.buttons[action]["type"] == "button"
             assert localized.print_styles == ["/css/course-print.css"]
             assert localized.scripts.count("/js/course-tools.js") == 1
-            assert localized.scripts.count("/js/guide-explorer.js") == 1
+            assert localized.scripts.count(f"/js/guide-explorer.js?v={version}") == 1
             assert len(localized.save_buttons) == 1 and "hidden" in localized.save_buttons[0]
+            assert len(localized.saved_returns) == 1
+            jump = localized.saved_returns[0]
+            assert "hidden" in jump and jump["data-saved-guide-return"] == localized.save_buttons[0]["data-save-guide"]
+            prefix = "/ko" if url.startswith("/ko/") else ""
+            assert jump["href"] == f"{prefix}/my-trips/#saved-guides-{city}"
         text = " ".join(page.text)
         assert page.language == "en" and not re.search("[가-힣]", page.title + page.description)
         assert en_path in english_home.links

@@ -208,9 +208,23 @@ def check(root):
             assert "/js/course-tools.js" in page.scripts and not page.finder_forms
             assert len(page.tools) == 1 and "hidden" in page.tools[0]
             assert page.tools[0]["data-canonical-url"] == origin + url
+            for guide_path, guide_id, city in [
+                ("/itinerary/osaka-doguyasuji-kitchenware-walk/", "osaka-doguyasuji", "osaka"),
+                ("/itinerary/tokyo-jimbocho-books-cafes/", "tokyo-jimbocho", "tokyo"),
+            ]:
+                if path == guide_path:
+                    assert page.save_ids == [guide_id]
+                    assert len(page.saved_returns) == 1 and "hidden" in page.saved_returns[0]
+                    assert page.saved_returns[0]["data-saved-guide-return"] == guide_id
+                    assert page.saved_returns[0]["href"] == f"{prefix}/my-trips/#saved-guides-{city}"
             if path == "/itinerary/japan-arrival-departure-day-plan/":
                 assert page.save_ids == ["travel-days"]
-                assert "/js/guide-explorer.js" in page.scripts
+                version = sha256((root / "js/guide-explorer.js").read_bytes()).hexdigest()[:12]
+                assert f"/js/guide-explorer.js?v={version}" in page.scripts
+                assert len(page.saved_returns) == 1
+                assert "hidden" in page.saved_returns[0]
+                assert page.saved_returns[0]["data-saved-guide-return"] == "travel-days"
+                assert page.saved_returns[0]["href"] == prefix + "/my-trips/#trip-selector"
                 checkpoints = {"booking-review", "before-leaving-home", "night-before-return", "before-checkout", "after-trip", "offline-travel-note", "hotel-change", "travel-day-handoff"}
                 assert checkpoints <= page.ids
                 assert {"use-the-note", "different-companions", "return-or-new-city"} <= page.ids

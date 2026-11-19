@@ -3,6 +3,7 @@
 import json
 import sys
 from pathlib import Path
+from urllib.parse import urlsplit
 
 sys.dont_write_bytecode = True
 from check_content import Page
@@ -97,7 +98,7 @@ def check(root):
         assert ("오늘 일정의 실행 가능성을 확인해 주지는" if prefix else "do not establish today’s feasibility") in text
         assert not page.finder_forms and not any(link.startswith("/go/") for link in page.links)
         assert "/js/course-tools.js" in page.scripts
-        assert "/js/guide-explorer.js" in page.scripts
+        assert any(urlsplit(src).path == "/js/guide-explorer.js" for src in page.scripts if src)
         assert page.saves == ["plan-b"] and "plan-b" in page.guide_ids
         assert ("오늘 저녁" if prefix else "Tonight:") in text
         assert ("내일 아침" if prefix else "Tomorrow morning:") in text

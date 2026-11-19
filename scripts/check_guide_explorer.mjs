@@ -40,6 +40,7 @@ function harness({ language = "en", stored = "[]", blocked = false, readBlocked 
   const empty = node();
   const reset = node();
   const savedContext = node();
+  const savedReturn = { ...node({ savedGuideReturn: singleId }), hidden: true };
   savedContext.hidden = true;
   const emptyTitle = node({ default: language === "ko" ? "아직 맞는 글이 없네요" : "No guides here yet", saved: language === "ko" ? "이 목록에 맞는 저장 코스가 없어요" : "No saved featured guides match" });
   const emptyDescription = node({ default: "default description", saved: "saved description" });
@@ -62,6 +63,7 @@ function harness({ language = "en", stored = "[]", blocked = false, readBlocked 
   }));
   const selectors = {
     "[data-guide-feedback]": feedback, "[data-explore-controls]": controls,
+    "[data-saved-guide-return]": single && !legacy ? savedReturn : null,
     "[data-guide-search]": search, "[data-explore-count]": count,
     "[data-explore-empty]": empty, "[data-explore-reset]": reset,
     "[data-explore-saved-context]": legacy || single ? null : savedContext,
@@ -110,12 +112,13 @@ function harness({ language = "en", stored = "[]", blocked = false, readBlocked 
     }
   });
   return {
-    state, feedback, buttons, cards, controls, count, empty, reset, events, filters, searchNode: search, savedContext, emptyTitle, emptyDescription,
+    state, feedback, buttons, cards, controls, count, empty, reset, events, filters, searchNode: search, savedContext, emptyTitle, emptyDescription, savedReturn,
     visible: () => cards.filter(card => !card.hidden).map(card => card.dataset.exploreCard),
     save: id => buttons.find(button => button.dataset.saveGuide === id).events.click(),
     filterLabel, libraryCount, libraryCompare, savedOnly, libraryRows, libraryGroups,
     active: () => active,
     focusGuide: id => { active = buttons.find(button => button.dataset.saveGuide === id); },
+    focusReturn: () => { active = savedReturn; },
     filterLibrary: checked => { savedOnly.checked = checked; savedOnly.events.change(); },
     choose: id => {
       filters.forEach(filter => { filter.checked = filter.value === id; });
@@ -123,6 +126,29 @@ function harness({ language = "en", stored = "[]", blocked = false, readBlocked 
     },
     search: value => { search.value = value; search.events.input(); }
   };
+}
+
+for (const language of ["en", "ko"]) {
+  const page = harness({ language, single: true, stored: '["stay"]' });
+  assert.equal(page.savedReturn.hidden, true, "Saving another guide does not show this link");
+  page.save("parents");
+  assert.equal(page.savedReturn.hidden, false, "Successful save shows the localized link");
+  page.save("parents");
+  assert.equal(page.savedReturn.hidden, true);
+  page.events.storage({ key, newValue: '["parents"]' });
+  assert.equal(page.savedReturn.hidden, false);
+  page.focusReturn();
+  page.events.storage({ key, newValue: "malformed" });
+  assert.equal(page.savedReturn.hidden, true);
+  assert.ok(page.buttons[0].focused, "Storage changes do not strand focus on a hidden link");
+  page.state.stored = '["parents"]';
+  page.events.pageshow({ persisted: true });
+  assert.equal(page.savedReturn.hidden, false);
+  assert.equal(page.state.writes, 2, "Only explicit bookmark toggles write");
+  const blocked = harness({ language, single: true, blocked: true });
+  blocked.save("parents");
+  assert.equal(blocked.buttons[0].attributes["aria-pressed"], "true");
+  assert.equal(blocked.savedReturn.hidden, true, "Memory-only bookmarks never imply a saved list");
 }
 
 for (const language of ["en", "ko"]) {

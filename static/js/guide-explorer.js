@@ -6,6 +6,7 @@
   const ko = document.documentElement.lang === "ko";
   const feedback = root.querySelector("[data-guide-feedback]");
   const buttons = [...root.querySelectorAll("[data-save-guide]")];
+  const savedReturn = root.querySelector("[data-saved-guide-return]");
   const cards = [...root.querySelectorAll("[data-explore-card]")];
   const controls = root.querySelector("[data-explore-controls]");
   const search = root.querySelector("[data-guide-search]");
@@ -85,6 +86,12 @@
       button.setAttribute("aria-pressed", String(selected));
       button.setAttribute("aria-label", `${label}: ${button.dataset.guideTitle}`);
       button.querySelector("[data-save-label]").textContent = label;
+    }
+    if (savedReturn) {
+      const id = savedReturn.dataset.savedGuideReturn;
+      const show = saved.has(id) && !memoryOnly && !savedUnavailable;
+      if (!show && document.activeElement === savedReturn) buttons.find(button => button.dataset.saveGuide === id)?.focus();
+      savedReturn.hidden = !show;
     }
     renderLibrary();
     if (!cards.length) return;
@@ -192,7 +199,7 @@
   window.addEventListener("storage", event => {
     if (memoryOnly) return;
     if (event.key !== key && event.key !== null) return;
-    if (loadSaved(() => event.key === null ? null : event.newValue) || libraryOnly) render();
+    if (loadSaved(() => event.key === null ? null : event.newValue) || libraryOnly || savedReturn) render();
   });
   window.addEventListener("pageshow", event => {
     if (!event.persisted) {
